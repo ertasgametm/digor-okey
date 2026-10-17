@@ -99,3 +99,18 @@ main.doc code{background:#0006;padding:2px 6px;border-radius:5px}
 .shots img{height:auto}
 @media (max-width:560px){.hero .wrap{gap:28px;padding-bottom:48px}.hero p.lead{font-size:16px}.btn{padding:12px 18px;font-size:16px}section{padding:52px 0}.shots{grid-auto-columns:88%}.card .art{height:90px}.card .art img,.card .art svg{max-height:90px;height:90px}}
 @media (max-width:480px){.modes{grid-template-columns:1fr}.mode{padding:14px 16px}}
+/* v4.18: lig ve oyun salonu */
+.card .art.lg3{gap:2px}.card .art.lg3 img{max-height:92px;margin-right:-14px}
+.card .art img.ph{max-height:110px;border-radius:16px;box-shadow:0 0 0 3px rgba(232,192,106,.7),0 10px 20px rgba(0,0,0,.4);filter:none}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:980px;margin:0 auto}
+.rung{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 12px 20px;border-radius:20px;background:linear-gradient(160deg,var(--card),#0f2150);box-shadow:inset 0 0 0 1px var(--line),0 12px 26px rgba(0,0,0,.25)}
+.rung img{width:min(120px,90%);filter:drop-shadow(0 8px 12px rgba(0,0,0,.45))}
+.rung b{font:900 19px/1.2 G,P;color:#fff}
+.rung span{color:var(--gold);font-weight:700;font-size:14px;line-height:1.35}
+.rung:first-child{box-shadow:inset 0 0 0 1px rgba(255,210,87,.55),0 0 26px rgba(170,90,255,.25),0 12px 26px rgba(0,0,0,.3)}
+.ln{max-width:780px;margin:26px auto 0;text-align:center;color:var(--mut)}
+.ln b{color:#fff}
+@media (max-width:900px){.ladder{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.ladder{grid-template-columns:repeat(2,1fr)}.rung:first-child{grid-column:1/-1}}
+.modes{grid-template-columns:repeat(5,1fr)}
+@media (max-width:900px){.modes{grid-template-columns:repeat(2,1fr)}}

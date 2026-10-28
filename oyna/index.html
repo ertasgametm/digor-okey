@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Digor Okey">
+<meta name="theme-color" content="#0b1a45">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>DİGOR OKEY 101</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#0b1a45;overflow:hidden;touch-action:none;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;font-family:system-ui,-apple-system,sans-serif}
+#sa{position:fixed;inset:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);visibility:hidden;pointer-events:none}
+#g{position:fixed;left:0;top:0;border:0;margin:0;padding:0;transform-origin:0 0;background:#12306c;display:block}
+#ins{position:fixed;inset:0;z-index:5;display:none;align-items:center;justify-content:center;background:rgba(5,12,35,.92);color:#fff;text-align:center;padding:24px}
+#ins.on{display:flex}
+#ins .c{max-width:340px}
+#ins img{width:96px;height:96px;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#ins h1{font-size:20px;margin:16px 0 8px}
+#ins p{font-size:15px;line-height:1.45;margin:0 0 14px;color:#dbe6ff}
+#ins b{color:#ffd34d}
+#ins button{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:99px;padding:11px 22px;margin:4px;background:#ffc21a;color:#3a2300}
+#ins button.w{background:rgba(255,255,255,.14);color:#fff}
+#ins .sh{display:inline-block;width:18px;height:18px;vertical-align:-3px}
+</style>
+</head>
+<body>
+<div id="sa"></div>
+<iframe id="g" src="oyun.html?web=1" allow="autoplay; fullscreen" title="DİGOR OKEY 101"></iframe>
+<div id="ins"><div class="c">
+ <img src="icon-180.png" alt="">
+ <h1>DİGOR OKEY 101</h1>
+ <p>Uygulama gibi tam ekran oynamak için: alttaki <b>Paylaş</b> <svg class="sh" viewBox="0 0 24 24" fill="none" stroke="#ffd34d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg> düğmesine dokun, sonra <b>Ana Ekrana Ekle</b>’yi seç. Oyunu ana ekrandaki simgeden aç.</p>
+ <button onclick="insOff()">Tamam</button><button class="w" onclick="insOff(1)">Tarayıcıda oyna</button>
+</div></div>
+<script>
+// Oyun her zaman YATAY bir çerçevede çalışır. Telefon dik tutuluyorsa (ya da ekran döndürme kilitliyse) çerçeve 90° çevrilir:
+// telefonu yan çevirince oyun düz görünür. Dokunmalar tarayıcı tarafından çevrilmiş çerçeveye doğru iletilir.
+const f=document.getElementById('g'),sa=document.getElementById('sa');
+let flip=0;try{flip=+localStorage.getItem('dg_flip')||0}catch(e){}
+function fit(){const W=innerWidth,H=innerHeight,c=getComputedStyle(sa),t=parseFloat(c.paddingTop)||0,r=parseFloat(c.paddingRight)||0,b=parseFloat(c.paddingBottom)||0,l=parseFloat(c.paddingLeft)||0;
+ if(W>=H){f.style.width=(W-l-r)+'px';f.style.height=H+'px';f.style.transform=`translate(${l}px,0px)`}
+ else{const cw=H-t-b,ch=W;f.style.width=cw+'px';f.style.height=ch+'px';
+  f.style.transform=flip?`translate(0px,${H-b}px) rotate(-90deg)`:`translate(${W}px,${t}px) rotate(90deg)`}}
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,120));
+try{screen.orientation&&screen.orientation.addEventListener('change',()=>setTimeout(fit,120))}catch(e){}
+fit();setTimeout(fit,300);
+addEventListener('message',e=>{if(e.data&&e.data.dg=='flip'){flip=flip?0:1;try{localStorage.setItem('dg_flip',flip)}catch(x){}fit()}});
+// Android/Chrome: ilk dokunuşta tam ekran + yatay kilit dener (iPhone desteklemez; çevrilmiş çerçeve devreye girer)
+let tried=0;function tryLock(){if(tried)return;tried=1;try{const d=document.documentElement;if(document.fullscreenEnabled&&!document.fullscreenElement&&!navigator.standalone)d.requestFullscreen().then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{})}catch(e){}}
+f.addEventListener('load',()=>{try{f.contentWindow.addEventListener('pointerdown',tryLock,{once:true,capture:true})}catch(e){}});
+// iPhone Safari'de (ana ekrandan açılmadıysa) ana ekrana ekleme yardımı
+const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform=='MacIntel'&&navigator.maxTouchPoints>1),standalone=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
+let seen=0;try{seen=+localStorage.getItem('dg_ins')||0}catch(e){}
+if(ios&&!standalone&&!seen)document.getElementById('ins').classList.add('on');
+function insOff(k){document.getElementById('ins').classList.remove('on');if(k)try{localStorage.setItem('dg_ins',1)}catch(e){}}
+</script>
+</body>
+</html>

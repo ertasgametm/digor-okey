@@ -2679,6 +2679,24 @@ body.tut #clk{display:none!important}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* web sürümünde uygulamadan çıkış düğmesi yok (tarayıcı sekmesi kapatılamaz) */
 body.web .vb3.c-rd{display:none!important}
+.adiag{margin:0 0 1.2vh;padding:1.2vh 1.4vh;border-radius:1.4vh;background:#fff1ef;box-shadow:inset 0 0 0 max(.2vh,1px) #ef8a7e;color:#5a1a12}
+.adiag b{display:block;font-family:G,P;font-weight:900;color:#c62d1f;font-size:clamp(11px,3vh,15px)}
+.adiag p{margin:.6vh 0;font-size:clamp(10px,2.7vh,14px);line-height:1.35;font-weight:600}
+.adiag small{display:block;font-size:clamp(8px,2.2vh,11px);color:#7a4a44;word-break:break-word}
+#pfC .avg .avgg small{display:block}
+/* ===== v4.22 · masada Kaptan koç balonu (ampul 💡) ===== */
+#kco{position:fixed;inset:0;z-index:58;pointer-events:none}
+#kco .kcob{position:absolute;left:50%;bottom:34vh;translate:-50% 0;width:min(64vw,560px);display:flex;align-items:center;gap:1.2vh;padding:1vh 1.6vh 1vh 1vh;border-radius:1.8vh;pointer-events:auto;
+ background:linear-gradient(#fffaf0,#fff0cc);color:#3a2a10;box-shadow:inset 0 0 0 max(.25vh,1px) #e0a83a,0 .8vh 2vh rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s .2s}
+#kco.on .kcob{opacity:1;visibility:visible;transition:opacity .2s;animation:kcoIn .3s cubic-bezier(.2,1.3,.4,1)}
+@keyframes kcoIn{from{transform:translateY(1.2vh) scale(.96)}}
+#kco .kcob img{width:max(8vh,34px);height:max(8vh,34px);flex:none;border-radius:50%;object-fit:cover;box-shadow:0 0 0 max(.3vh,1px) #e0a83a}
+#kco .kcob p{margin:0;font-size:clamp(10px,2.75vh,15px);line-height:1.35;font-weight:600}
+#kco .kcob p b{color:#c2410c}
+#kco .kcohi{position:fixed;display:none;border-radius:1.4vh;box-shadow:0 0 0 .4vh #ffd34d,0 0 2vh .5vh rgba(255,211,77,.8);pointer-events:none;opacity:0}
+#kco.on .kcohi{animation:kcoHi .9s ease-in-out infinite alternate}
+@keyframes kcoHi{from{opacity:.35}to{opacity:1}}
+#kco:not(.on) .kcohi{display:none!important}
 /* ===== v4.19 · pencere süsleri: gerçek çerçeve + köşe süsleri, dalga deseni, kanatlı levha (örnek görselden) ===== */
 :root{--fw:13.5vh;--wvw:36vh}
 /* eski halka gölgeleri kalkar; çerçeveyi görsel çizer */
@@ -8262,6 +8280,701 @@ const WEB=/[?&]web=1/.test(location.search);
 if(WEB){document.body.classList.add('web');
  renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='ekr')$('#stC').insertAdjacentHTML('beforeend',`<div class="srow"><span><b>${L_('Yan ekran yönünü çevir')}</b><small>${L_('Telefon kilitliyken oyun ters duruyorsa 180° çevirir')}</small></span><button class="btn sm b" onclick="try{parent.postMessage({dg:'flip'},'*')}catch(e){}">${L_('Çevir')}</button></div>`)}catch(e){}return r})(renderSettings);
  Object.assign(DICT,{'Yan ekran yönünü çevir':['Flip landscape side','Girar el lado horizontal','Aliyê berfireh biguherîne'],'Telefon kilitliyken oyun ters duruyorsa 180° çevirir':['Turns the game 180° if it’s upside down while rotation is locked','Gira el juego 180° si se ve al revés con la rotación bloqueada','Ger lîstik serberjêr be, 180° dizivirîne']})}
+
+// ===== v4.21 · Yönetici "Durum": sayılar alınamazsa nedeni yazılır (tire yerine açıklama) =====
+let ADE={};
+admStats=(o=>async function(){if(isViewer())return o.apply(this,arguments);ADE={};ADS=null;admRender();const day=new Date();day.setHours(0,0,0,0);const now=Date.now(),S={};
+ const q=[['on','players',[['seen','>',now-150000]]],['today','players',[['seen','>',day.getTime()]]],['tot','players',[]],['saves','saves',[]],
+  ['rep','reports',[]],['repc','reports',[['st','==','closed']]],['bans','bans',[]],['codes','codes',[]]];
+ const msg=e=>String(e&&e.message||e||'?').slice(0,220);
+ await Promise.all(q.map(([k,c,w])=>fsCount(c,w).then(n=>S[k]=n).catch(e=>{S[k]=null;ADE[k]=c+': '+msg(e)})).concat(fsQuery('rooms',[['ts','>',now-72e5]],'',400).then(r=>{r=r||[];S.wait=r.filter(x=>x.st=='wait'&&now-(+x.hb||0)<30000).length;S.play=r.filter(x=>x.st=='play').length}).catch(e=>{S.wait=S.play=null;ADE.rooms='rooms: '+msg(e)})));
+ S.ts=Date.now();ADS=S;admRender()})(admStats);
+function admDiag(){const E=Object.values(ADE);let fsOk=0,cnt=0,uid='',mail='',pj='';try{fsOk=!!window.FS;cnt=!!(window.FS&&FS.count);uid=FS.uid()||'';mail=FS.email?FS.email():'';pj=FS.proj?FS.proj():''}catch(e){}
+ const M={};E.forEach(x=>{const i=x.indexOf(': ');const c=x.slice(0,i),m=x.slice(i+2);(M[m]=M[m]||[]).push(c)});const all=Object.keys(M).map(m=>[...new Set(M[m])].join(', ')+' → '+m).join(' | ');let hint='';
+ if(!fsOk)hint=L_('Firebase köprüsü yok: oyun Android uygulamasında açılmalı.');
+ else if(!uid)hint=L_('Firebase’e giriş yapılmamış: Profil → Hesabı bağla ile Google hesabınla yeniden giriş yap.');
+ else if(pj&&pj!='digor-okey-101')hint=L_('Uygulama başka bir Firebase projesine bağlı (#). Android Studio’daki app/google-services.json dosyası digor-okey-101 projesinden indirilmiş olmalı.').replace('#',pj);
+ else if(/PERMISSION_DENIED|insufficient permissions|permission/i.test(all))hint=L_('Firestore kuralları izin vermiyor. Firebase konsolu → Firestore Database → Kurallar sekmesine firestore_kurallari.txt dosyasının TAMAMINI yapıştırıp “Yayınla”ya bas. Yönetici e-postanın kurallardaki listede olduğundan emin ol.');
+ else if(/FAILED_PRECONDITION|index/i.test(all))hint=L_('Firestore bir dizin (index) istiyor: hata mesajındaki bağlantıyı Firebase konsolunda açıp dizini oluştur.');
+ else if(/UNAVAILABLE|offline|network|DEADLINE/i.test(all))hint=L_('Sunucuya ulaşılamadı: internet bağlantını kontrol et.');
+ else if(!cnt)hint=L_('FsBridge.kt eski: paketteki java/FsBridge.kt ile değiştir.');
+ return`<div class="adiag"><b>⚠️ ${L_('Bazı bilgiler alınamadı')}</b><p>${hint}</p><small>${L_('Teknik ayrıntı')}: ${esc(all)}<br>FS:${fsOk?'✓':'✗'} · count:${cnt?'✓':'✗'} · uid:${uid?'✓':'✗'} · ${esc(mail)}${pj?' · proje: '+esc(pj):''}</small></div>`}
+statsHTML=(o=>function(){let h=o.apply(this,arguments);try{if(ADS&&Object.keys(ADE).length)h=admDiag()+h}catch(e){}return h})(statsHTML);
+Object.assign(DICT,{'Bazı bilgiler alınamadı':['Some data could not be loaded','No se pudieron cargar algunos datos','Hin agahî nehatin wergirtin'],'Teknik ayrıntı':['Technical detail','Detalle técnico','Hûrguliya teknîkî']});
+
+// ===== v4.21 · Google profil fotoğrafı =====
+// Google hesabının fotoğrafı (Firebase'den) alınır; oyuncu kendi fotoğrafını ya da avatar seçmediyse profil fotoğrafı olur.
+// Profil → Avatar'da "Google fotoğrafım" olarak her zaman seçilebilir.
+function gPhoto(){let u=(P.acc&&P.acc.photo)||'';try{if(!u&&window.FS&&FS.photo)u=FS.photo()||''}catch(e){}
+ if(u&&/googleusercontent\.com/.test(u))u=u.replace(/=s\d+(-c)?$/,'=s256-c').replace(/\/s\d+(-c)?\//,'/s256-c/');return u}
+function gPhotoSync(){try{if(!P.acc||!P.acc.uid)return;const u=gPhoto();if(!u)return;let ch=0;if(P.acc.photo!==u){P.acc.photo=u;ch=1}
+ if(!P.photo&&!P.avPick){P.photo=u;ch=1}if(ch){save();try{refM()}catch(e){}try{if($('#profile.on'))renderProfile()}catch(e){}try{onPublish&&onPublish(1)}catch(e){}}}catch(e){}}
+window.onAccountLinked=(o=>function(j){const r=o&&o.apply(this,arguments);setTimeout(gPhotoSync,600);setTimeout(gPhotoSync,4000);return r})(window.onAccountLinked);
+setTimeout(gPhotoSync,3000);
+// avatar seçimi elle yapılırsa Google fotoğrafı kendiliğinden geri gelmez
+pset=(o=>function(k,v){if(k=='av'||(k=='photo'&&!v))P.avPick=1;return o.apply(this,arguments)})(pset);
+renderProfile=(o=>function(){const r=o.apply(this,arguments);try{if(PTAB=='avatar'){const g=gPhoto(),c=$('#pfC .avg');if(g&&c&&!c.querySelector('.avgg')){
+  const on=P.photo===g;c.insertAdjacentHTML('afterbegin',`<button class="avgg ${on?'on':''}" onclick="P.avPick=0;pset('photo','${g.replace(/'/g,'%27')}')"><span class="avb"><i style="background-image:url('${g.replace(/'/g,'%27')}')"></i></span><small>${L_('Google fotoğrafım')}</small></button>`);
+  if(on){const u=c.querySelector('.avu');if(u)u.classList.remove('on')}}}}catch(e){}return r})(renderProfile);
+Object.assign(DICT,{'Google fotoğrafım':['My Google photo','Mi foto de Google','Wêneyê min ê Google']});
+
+// ===== v4.21 · Satın alma: ürün listesi alınamadıysa (ör. internet kapalıyken) tekrar sorulur ve satın alma yeniden denenir;
+// olmazsa hatanın nedeni açıkça yazılır =====
+let BLAST=null,BRETRY=0;
+const BILL_IDS=()=>{let a=[];try{a=CPK.map(p=>p[0]).concat(CAMP.id,'ilk_paket')}catch(e){}try{if(typeof VIP_IDS!='undefined')a=a.concat(VIP_IDS)}catch(e){}return[...new Set(a)]};
+buyPack=(o=>function(id){if(!navigator.onLine){billFail('net');return}BLAST=id;BRETRY=0;return o.apply(this,arguments)})(buyPack);
+window.onBillingProducts=(o=>function(j){const r=o&&o.apply(this,arguments);try{const a=(typeof j=='string'?JSON.parse(j):j)||[];
+ if(!a.length){BQ=0;try{VBQ=0}catch(e){}}
+ if(BRETRY==1&&BLAST){BRETRY=2;if(a.some(p=>p.id==BLAST)){try{Billing.buy(BLAST)}catch(e){billFail('x')}}else billFail('no_product')}}catch(e){}return r})(window.onBillingProducts);
+window.onBillingError=(o=>function(j){let x={};try{x=typeof j=='string'?JSON.parse(j):j||{}}catch(e){}
+ if(x.code=='cancel')return;
+ if(x.code=='no_product'&&BRETRY==0&&window.Billing&&Billing.query){BRETRY=1;try{Billing.query(JSON.stringify(BILL_IDS()))}catch(e){billFail('no_product')}return}
+ billFail(x.code,x.msg)})(window.onBillingError);
+function billFail(code,msg){const c=String(code||'');let t;
+ if(c=='net'||c=='-1'||c=='-3'||c=='2'||c=='12'||!navigator.onLine)t=L_('İnternet bağlantısı yok ya da Google Play’e ulaşılamadı. Bağlantını kontrol edip tekrar dene.');
+ else if(c=='3')t=L_('Bu telefonda Google Play ödemeleri kullanılamıyor. Play Store’a giriş yaptığından ve Play Store’un güncel olduğundan emin ol.');
+ else if(c=='no_product'||c=='4'||c=='5')t=L_('Ürün Google Play’den alınamadı. Uygulama Google Play’den (test bağlantısından) yüklenmiş olmalı; Android Studio’dan doğrudan kurulan sürümde satın alma çalışmaz.');
+ else t=L_('Satın alma tamamlanamadı. Biraz sonra tekrar dene.');
+ modal(`<h3>${L_('Satın alma yapılamadı')}</h3><p>${t}</p><small class="hsn">${L_('Kod')}: ${esc(c||'?')}${msg?' · '+esc(String(msg).slice(0,60)):''}</small><div class="mrow"><button class="btn b" onclick="closeM()">${L_('Tamam')}</button></div>`)}
+Object.assign(DICT,{'Satın alma yapılamadı':['Purchase failed','No se pudo comprar','Kirîn nehat kirin'],'Kod':['Code','Código','Kod'],
+ 'İnternet bağlantısı yok ya da Google Play’e ulaşılamadı. Bağlantını kontrol edip tekrar dene.':['No internet or Google Play can’t be reached. Check your connection and try again.','Sin internet o no se puede conectar con Google Play. Revisa tu conexión e inténtalo de nuevo.','Înternet tune an Google Play nayê gihîştin. Girêdanê kontrol bike û dîsa biceribîne.'],
+ 'Bu telefonda Google Play ödemeleri kullanılamıyor. Play Store’a giriş yaptığından ve Play Store’un güncel olduğundan emin ol.':['Google Play payments aren’t available on this phone. Make sure you’re signed in to the Play Store and it’s up to date.','Los pagos de Google Play no están disponibles en este teléfono. Inicia sesión en Play Store y actualízala.','Li vê telefonê dravdana Google Play tune. Pê ewle be ku tu ketî Play Store û ew nûkirî ye.'],
+ 'Ürün Google Play’den alınamadı. Uygulama Google Play’den (test bağlantısından) yüklenmiş olmalı; Android Studio’dan doğrudan kurulan sürümde satın alma çalışmaz.':['The product couldn’t be loaded from Google Play. The app must be installed from Google Play (test link); purchases don’t work in a build installed directly from Android Studio.','No se pudo cargar el producto de Google Play. La app debe instalarse desde Google Play (enlace de prueba); las compras no funcionan en una versión instalada desde Android Studio.','Berhem ji Google Play nehat wergirtin. Divê sepan ji Google Play (lînka testê) were sazkirin; di guhertoya ku rasterast ji Android Studio hatiye sazkirin de kirîn naxebite.'],
+ 'Satın alma tamamlanamadı. Biraz sonra tekrar dene.':['The purchase couldn’t be completed. Please try again later.','No se pudo completar la compra. Inténtalo más tarde.','Kirîn temam nebû. Paşê dîsa biceribîne.']});
+
+/* ===== v4.22 · KAPTAN DİGOR 3: daha iyi anlama + oyuna özel akıl + masada koçluk =====
+   - Kısaltma, argo, yazım hatası: "slm", "nbr", "napıyosun", "nasl", "oynanıyo", "olurmu" ...
+   - Çok kelimeli anahtarlarda yazım hatası toleransı ve "peki eşlide?" gibi konu değiştiren takip soruları
+   - Strateji, kural ve özellik konuları (4 dil), oyuncunun istatistiklerine ve son maçına göre cevaplar
+   - Masadaki ampul 💡 artık koç: ıstakaya bakıp ne yapacağını ve nedenini söyler
+   Tamamen çevrimdışı, sadece soru sorulunca çalışır (soru başına birkaç milisaniye). */
+
+/* ===================== KAPTAN SÜRPRİZLERİ (easter egg) =====================
+   Yeni sürpriz eklemek için bu listeye bir satır ekle:
+   ['kimlik', ['Soru TR','Soru EN','Soru ES','Soru KU'], ['anahtar kelime','başka anahtar'], ['Cevap TR','Cevap EN','Cevap ES','Cevap KU']],
+   - Anahtarlar Türkçe karaktersiz yazılır (ş→s, ı→i, ğ→g ...). Başına ! koyarsan o anahtar daha güçlü sayılır,
+     = koyarsan sadece tam o kelime yazılınca eşleşir.
+   - Cevap bir fonksiyon da olabilir: i=>[...][i] (i: 0 TR, 1 EN, 2 ES, 3 KU)
+   - Sorunun ilk hali '—' olursa soru önerilerinde görünmez (gizli sürpriz). */
+const KEGG=[
+ ['egg_goat',['Kaptan, sen keçi misin?','Captain, are you a goat?','Capitán, ¿eres una cabra?','Kaptan, tu bizin î?'],['!keci misin','sen keci','=keci','dag kecisi','!kecimisin','are you a goat','=goat','eres una cabra','=cabra','bizin'],
+  ['Dağ keçisiyim, hem de Kars dağlarından! 🐐 Boynuzlarım kıvrık, atkım el örgüsü, ıstakam her zaman düzgün. Kayalıklarda zıplamayı da, 101’den açmayı da iyi bilirim.','I’m a mountain goat — from the mountains of Kars! 🐐 Curly horns, a hand‑knitted scarf and a tidy rack. I’m good at leaping over rocks and at opening with 101.','¡Soy una cabra montés de las montañas de Kars! 🐐 Cuernos rizados, bufanda tejida a mano y atril ordenado.','Ez bizinekî çiyayî me, ji çiyayên Qersê! 🐐 Stûrhên min xelek in, şala min bi dest hatiye çêkirin.']],
+ ['egg_mee',['—','—','—','—'],['=mee','=meh','=bee','=meee'],
+  ['Meee! 🐐 Bu benim dilimde “Hadi bir el atalım!” demek.','Meeh! 🐐 In my language that means “Let’s play a hand!”','¡Beee! 🐐 En mi idioma significa “¡Juguemos una mano!”','Meee! 🐐 Bi zimanê min ev tê wateya “Werin em destekê bilîzin!”']],
+ ['egg_horns',['Boynuzların ne işe yarıyor?','What are your horns for?','¿Para qué sirven tus cuernos?','Stûrhên te ji bo çi ne?'],['boynuz','horns','cuernos','sturh','stûrh'],
+  ['Taşları boynuzlarımla sıraya dizdiğimi düşünüyorsan yanılıyorsun 😄 Onlar sadece havalı görünmek için. Taşları SERİ ve ÇİFT butonlarıyla diziyorum, tıpkı senin gibi.','If you think I sort tiles with my horns, you’re wrong 😄 They’re just for looking cool. I use the SERİ and ÇİFT buttons, just like you.','Si crees que ordeno fichas con los cuernos, te equivocas 😄 Solo son para lucir.','Ger tu difikirî ez keviran bi stûrhan rêz dikim, tu şaş î 😄 Ew tenê ji bo xweşikbûnê ne.']],
+ ['egg_scarf',['Atkın çok güzel, kim ördü?','Nice scarf, who knitted it?','Bonita bufanda, ¿quién la tejió?','Şala te xweş e, kê çêkir?'],['atkin','atki','scarf','bufanda','sala te'],
+  ['Teşekkürler! 🧣 Digor yaylasında örüldü, renklerinin her biri bir taş rengi: kırmızı, siyah, mavi, sarı. Okey şansı getirdiğine inanıyorum.','Thank you! 🧣 It was knitted up on the Digor plateau, and every colour is a tile colour: red, black, blue, yellow. I believe it brings okey luck.','¡Gracias! 🧣 Se tejió en la meseta de Digor; cada color es un color de ficha.','Spas! 🧣 Li zozana Digorê hat çêkirin; her reng rengê kevirekî ye.']],
+ ['egg_101',['Neden 101?','Why 101?','¿Por qué 101?','Çima 101?'],['!neden 101','!niye 101','101 neden','101 niye','101 nereden','neden yuz bir','!why 101','por que 101','cima 101'],
+  ['Çünkü elini açmak için seri ve perlerinin toplamı en az 101 olmalı 😄 Oyun adını bu barajdan alır. Bitiren de −101 yazar; yani 101 hem kapı hem ödül.','Because your runs and sets must total at least 101 to open 😄 The game is named after that bar. The finisher also scores −101, so 101 is both the door and the prize.','Porque necesitas al menos 101 puntos para abrir 😄 El juego se llama así por eso; quien termina anota −101.','Ji ber ku ji bo vekirinê herî kêm 101 xal divê 😄 Lîstik navê xwe ji vê digire; yê ku diqedîne −101 dinivîse.']],
+ ['egg_tea',['Çay içer misin?','Do you drink tea?','¿Tomas té?','Tu çayê vedixwî?'],['!cay icer','cay ister','cay koy','bir cay','demli cay','cay icelim','drink tea','some tea','tomas te','caye vedixwi'],
+  ['Tavşan kanı, ince belli bardakta! ☕ Okey masasında çaysız el açılmaz. Sen koy, ben taşları dizeyim.','Strong and dark, in a tulip glass! ☕ No okey table opens without tea. You pour, I’ll sort the tiles.','¡Bien cargado, en vaso de tulipán! ☕ Sin té no hay okey.','Bi rengê xwîna kêvroşkê, di îstîkanê de! ☕ Bê çay okey nabe.']],
+ ['egg_mountain',['En sevdiğin yer neresi?','Where’s your favourite place?','¿Cuál es tu lugar favorito?','Cihê te yê hezkirî kîjan e?'],['sevdigin yer','en sevdigin yer','favori yer','nerede yasiyorsun','nerde yasiyorsun','favourite place','favorite place','lugar favorito','li ku dijî'],
+  ['Digor’un kayalık yamaçları ⛰️ Sabahları sis kalkınca vadiyi seyrederim, akşamları da okey masasına inerim. Bir de senin ıstakanın yanı tabii 😄','The rocky slopes of Digor ⛰️ I watch the valley when the morning mist lifts and come down to the okey table in the evening. And next to your rack, of course 😄','Las laderas rocosas de Digor ⛰️ Y junto a tu atril, claro 😄','Zinarên Digorê ⛰️ Û li kêleka îstakaya te, bê guman 😄']],
+ // ↓↓↓ Fırat'ın sürprizleri buraya ↓↓↓
+ // ===== Çawreş (Fırat’ın anlattığı hikâye) =====
+ ['egg_cw_who',['Çawreş kim?','Who is Çawreş?','¿Quién es Çawreş?','Çawreş kî ye?'],['!cawres','=cawres','!cawres kim*','cawres kimdir','cawres nedir','cawres kim ki','!who is cawres','quien es cawres','cawres ki ye','cawres kiye'],
+  ['Çawreş, Fırat’ın gözdesi 🖤 Oyun Salonu’nun en sevilen atı adını ondan alıyor; ama asıl Çawreş bir at değil, Fırat’ın lise aşkı. Adı Kürtçede “karagözlüm” demek. Hikâyesini merak ediyorsan “Çawreş’in hikâyesi ne?” diye sor.',
+   'Çawreş is Fırat’s darling 🖤 The Game Room’s favourite horse is named after Çawreş — but the real Çawreş isn’t a horse, it’s Fırat’s high‑school love. In Kurdish the name means “my dark‑eyed one”. Curious? Ask “What is Çawreş’s story?”',
+   'Çawreş es el gran amor de Fırat 🖤 El caballo favorito del Salón lleva ese nombre, pero el verdadero Çawreş es el amor de instituto de Fırat. En kurdo significa “mi ojos negros”.',
+   'Çawreş evîna Fırat e 🖤 Hespê herî hezkirî yê Salonê navê xwe ji Çawreş digire; lê Çawreşê rastîn ne hesp e, evîna Fırat a dema lîseyê ye. Bi kurdî tê wateya “çavreşê min”.'],{f:['egg_cw_story','egg_cw_mean','egg_cw_race']}],
+ ['egg_cw_fav',['Çawreş neden favori?','Why is Çawreş the favourite?','¿Por qué Çawreş es el favorito?','Çima Çawreş hezkirî ye?'],['!cawres neden favori','!cawres neden gozde','!cawres* neden','!neden cawres','!niye cawres','cawres favori','cawres gozde','cawres en sevilen','!why is cawres','cawres favourite','cawres favorite','por que cawres','cima cawres'],
+  i=>kPick([['Çünkü Çawreş Fırat’ın gözdesi 🖤 Kalbinde ne kadar özelse salonda da o kadar özel. Bu yüzden şansı her yarışta biraz (%1) fazla; oranı da buna göre düşük, yani her yarışı o kazanmaz.','Because Çawreş is Fırat’s darling 🖤 As special in the Game Room as in his heart — that’s why the chance is a little higher (1%) each race. The odds are lower to match, so Çawreş doesn’t win every time.','Porque Çawreş es el favorito de Fırat 🖤 Por eso tiene un poco más de suerte (1%), pero no siempre gana.','Ji ber ku Çawreş evîna Fırat e 🖤 Lewma şansa wî di her pêşbaziyê de hinekî (%1) zêdetir e; lê her car qezenc nake.'],
+   ['Çawreş Fırat’ın yârı, aşkı 💘 Bir oyun yapıp içine onun adını koymadan olur mu? Salonda şansı bu yüzden biraz fazla (%1), ama sonuç yine şansa bağlı.','Çawreş is Fırat’s beloved 💘 How could he make a game without that name in it? So the Game Room gives Çawreş a slightly better chance (1%) — but the result is still luck.','Çawreş es el amor de Fırat 💘 ¿Cómo no ponerle su nombre al juego? Tiene un 1% más de suerte, pero sigue siendo azar.','Çawreş yara Fırat e 💘 Ma dibe ku lîstikekê çêke û navê Çawreş tê de nebe? Şansa wî %1 zêdetir e, lê encam dîsa bi şansê ye.'],
+   ['Çawreş Fırat’ın kalbi, gönlü, her şeyi ❤️ Salonun gözdesi olması tesadüf değil. Şansı biraz yüksek (%1) ama kazanmak garanti değil; oranı da düşük.','Çawreş is Fırat’s heart, soul, everything ❤️ Being the Game Room’s darling is no accident. A slightly higher chance (1%), but no guaranteed win — and lower odds.','Çawreş es el corazón y el alma de Fırat ❤️ Un poco más de suerte (1%), pero ganar no está garantizado.','Çawreş dil, can û her tiştê Fırat e ❤️ Şansa wî hinekî bilind e (%1), lê qezenc ne garantî ye.']])[i],{f:['egg_cw_story','egg_cw_race','egg_cw_mean']}],
+ ['egg_cw_mean',['Çawreş ne demek?','What does Çawreş mean?','¿Qué significa Çawreş?','Çawreş tê çi wateyê?'],['!cawres ne demek','!cawres* anlam*','!cawres* mana*','cawres ne anlama','!cawres kurtce','!cawres hangi dil','!what does cawres mean','cawres meaning','que significa cawres','cawres te ci wate','cawres wate'],
+  ['Çawreş Kürtçe bir kelime 🖤 “Çaw” göz, “reş” kara demek; yani kara gözlü. Fırat’ın dilinde “karagözlüm”. Bu adı lise aşkına vermiş.',
+   'Çawreş is a Kurdish word 🖤 “Çaw” means eye and “reş” means black — dark‑eyed. In Fırat’s words: “my dark‑eyed one”. It’s the name he gave his high‑school love.',
+   'Çawreş es una palabra kurda 🖤 “Çaw” es ojo y “reş” negro: ojos negros. Para Fırat, “mi ojos negros”.',
+   'Çawreş peyveke kurdî ye 🖤 “Çaw” çav e, “reş” jî reş; yanî çavreş. Bi gotina Fırat: “çavreşê min”.'],{f:['egg_cw_story','egg_cw_who','egg_cw_name']}],
+ ['egg_cw_name',['Çawreş’in asıl adı ne?','What is Çawreş’s real name?','¿Cuál es el nombre real de Çawreş?','Navê rastî yê Çawreş çi ye?'],['!cawres* asil ad*','!cawres* gercek ad*','!cawres* adi ne','cawres* ismi ne','cawres* gercek ismi','cawres* real name','nombre real de cawres','nave rasti cawres'],
+  ['Asıl adı “G” harfiyle başlıyor 🤫 Gerisi Fırat’ın kalbinde saklı kalsın.','The real name starts with “G” 🤫 The rest stays hidden in Fırat’s heart.','Su nombre real empieza por “G” 🤫 El resto se queda en el corazón de Fırat.','Navê rastîn bi tîpa “G” dest pê dike 🤫 Yê mayî bila di dilê Fırat de veşartî bimîne.'],{f:['egg_cw_story','egg_cw_mean']}],
+ ['egg_cw_story',['Çawreş’in hikâyesi ne?','What is Çawreş’s story?','¿Cuál es la historia de Çawreş?','Çîroka Çawreş çi ye?'],['!cawres* hikaye*','!cawres* hikayesi','!cawres ve firat','!firat ve cawres','!cawres* ask*','!cawres* masal*','!cawres* olay*','!cawres story','story of cawres','historia de cawres','ciroka cawres'],
+  ['Dillere destan değil belki, ama Fırat’ın kalbine destan bir aşk hikâyesi 📖\nÇawreş, Fırat’ın lise aşkı; kalbi, gönlü, her şeyi. Bir gün ikisi de birbirinin kalbini kırdı. Fırat buna rağmen tek suçlunun kendisi olduğunu düşünüyor. Şimdi onu uzaktan sevmeye mahkûm, ama Çawreş’in aşkıyla hâlâ yanıp tutuşuyor 🔥\nSalondaki at da bu yüzden onun adını taşıyor.',
+   'Maybe not a legendary tale, but a legend in Fırat’s heart 📖\nÇawreş was Fırat’s high‑school love — his heart, his soul, everything. One day they broke each other’s hearts. Even so, Fırat sees himself as the only one to blame. Now he can only love Çawreş from afar, yet he still burns with that love 🔥\nThat’s why the horse in the Game Room carries the name.',
+   'Quizá no sea una leyenda famosa, pero lo es en el corazón de Fırat 📖 Çawreş fue su amor de instituto. Un día se rompieron el corazón el uno al otro; aun así, Fırat se ve como el único culpable. Hoy solo puede amar a Çawreş desde lejos, pero ese amor sigue ardiendo 🔥',
+   'Dibe ku ne destaneke navdar be, lê ji bo dilê Fırat destanek e 📖 Çawreş evîna Fırat a dema lîseyê ye; dil, can û her tiştê wî. Rojekê her duyan jî dilê hev şikand. Fırat dîsa jî tenê xwe sûcdar dibîne. Niha tenê ji dûr ve jê hez dike, lê hîn jî bi wê evînê dişewite 🔥'],{f:['egg_cw_love','egg_cw_back','egg_cw_mean']}],
+ ['egg_cw_love',['Fırat Çawreş’i seviyor mu?','Does Fırat love Çawreş?','¿Fırat ama a Çawreş?','Fırat ji Çawreş hez dike?'],['!firat* cawres* sev*','!firat* cawres* ask*','!firatin sevgilisi','!firatin aski','!firatin yari','firat kimi sev*','firat kime ask*','firatin kalbi','firat* gonlu','!does firat love','firat love','firat ama a','firat hez dike'],
+  i=>kPick([['Hem de nasıl! ❤️ Çawreş, Fırat’ın kalbi, gönlü, her şeyi. Kendi sözleriyle: “Çawreşimi çok seviyorum.”','More than anything! ❤️ Çawreş is Fırat’s heart, soul, everything. In his own words: “I love my Çawreş so much.”','¡Muchísimo! ❤️ En sus palabras: “Quiero mucho a mi Çawreş.”','Û çawa! ❤️ Bi gotina wî: “Ez ji Çawreşê xwe pir hez dikim.”'],
+   ['Çawreş Fırat’ın yârı, aşkı 💘 Lise aşkı; aradan zaman geçse de kalbindeki yeri hiç değişmedi.','Çawreş is Fırat’s one true love 💘 A high‑school love whose place in his heart never changed.','Çawreş es el amor de Fırat 💘 Un amor de instituto que nunca cambió.','Çawreş yara Fırat e 💘 Evîna lîseyê; cihê wê di dilê wî de qet neguherî.']])[i],{f:['egg_cw_story','egg_cw_back','egg_cw_eyes']}],
+ ['egg_cw_back',['Çawreş Fırat’ı seviyor mu?','Does Çawreş love Fırat?','¿Çawreş ama a Fırat?','Çawreş ji Fırat hez dike?'],['!cawres* firat* sev*','!cawres* geri*','!barisacak*','!barisirlar mi','kavusacak*','!does cawres love','will they get back','volveran juntos','li hev ben'],
+  ['Bunu sadece Çawreş bilir 🤍 Ben bir dağ keçisiyim, gönüllerden anlamam. Bildiğim tek şey: Fırat’ın kalbindeki yer hep onun.','Only Çawreş knows that 🤍 I’m just a mountain goat — hearts aren’t my field. All I know is the place in Fırat’s heart is always Çawreş’s.','Eso solo lo sabe Çawreş 🤍 Lo que sé es que el corazón de Fırat siempre le guarda un sitio.','Vê tenê Çawreş dizane 🤍 Ez bizinekî çiyayî me, ji dilan fêm nakim. Tiştê ku ez dizanim: cihê Çawreş di dilê Fırat de her tim amade ye.'],{f:['egg_cw_story','egg_cw_love']}],
+ ['egg_cw_why',['Neden ayrıldılar?','Why did they break up?','¿Por qué se separaron?','Çima ji hev qetiyan?'],['!neden ayrildilar','!niye ayrildilar','!firat* neden ayril*','!cawres* neden ayril*','!cawres* kalbini kir*','kalbini kim kirdi','firatin kalbini','!why did they break up','por que se separaron','cima ji hev qetiyan'],
+  ['Kalpler bazen ikisi birden kırılır 💔 Çawreş Fırat’ın kalbini kırdı, Fırat da onunkini. Fırat yine de suçu hep kendinde arıyor. Gerisi ikisinin arasında; ben de sır tutmayı bilirim 🤐','Sometimes two hearts break at once 💔 Çawreş broke Fırat’s heart, and Fırat broke Çawreş’s. Still, Fırat only ever blames himself. The rest is between the two of them — and I can keep a secret 🤐','A veces se rompen dos corazones a la vez 💔 Fırat aún se culpa solo a sí mismo. Lo demás es cosa de ellos 🤐','Carinan her du dil bi hev re dişkên 💔 Fırat dîsa jî tenê xwe sûcdar dibîne. Yên mayî di navbera wan de ne 🤐'],{f:['egg_cw_story','egg_cw_back']}],
+ ['egg_cw_eyes',['Çawreş güzel mi?','Is Çawreş beautiful?','¿Cómo es Çawreş?','Çawreş delal e?'],['!cawres* guzel*','cawres nasil biri','!cawres* goz*','cawres* tatli','!is cawres beautiful','what is cawres like','como es cawres','cawres delal'],
+  ['Adı üstünde: kara gözlü 🖤 Fırat’a sorarsan dünyanın en güzel gözleri Çawreş’te.','It’s in the name: dark‑eyed 🖤 Ask Fırat and he’ll tell you the most beautiful eyes in the world belong to Çawreş.','Lo dice su nombre: ojos negros 🖤 Según Fırat, los más bonitos del mundo.','Navê wî bi xwe dibêje: çavreş 🖤 Ji Fırat bipirse, çavên herî xweşik ên dinyayê li cem Çawreş in.'],{f:['egg_cw_mean','egg_cw_love']}],
+ ['egg_cw_race',['Çawreş kazanır mı?','Will Çawreş win?','¿Ganará Çawreş?','Çawreş qezenc dike?'],['!cawres* kazan*','!cawres* yatir*','!cawres* oyna*','!cawres* sans*','cawres* yaris*','cawres* kaybed*','cawres hep','!will cawres win','bet on cawres','apostar a cawres','cawres qezenc'],
+  ['Çawreş’in şansı her yarışta biraz (+%1) fazla, çünkü o Fırat’ın gözdesi 🐎 Ama yarış yine şansa bağlı: her yarışı o kazanmaz, oranı da buna göre düşük. Hangi ata oynayacağın sana kalmış; fişler sadece eğlence için, gerçek para kazandırmaz.',
+   'Çawreş gets a slightly better chance (+1%) each race, being Fırat’s darling 🐎 But it’s still luck: Çawreş doesn’t win every race, and the odds are lower to match. Which horse you pick is up to you — chips are just for fun and never pay real money.',
+   'Çawreş tiene un poco más de suerte (+1%) 🐎 pero sigue siendo azar y su cuota es más baja. Las fichas son solo para divertirse.',
+   'Şansa Çawreş di her pêşbaziyê de hinekî (+%1) zêdetir e 🐎 lê dîsa bi şansê ye û rêjeya wî kêmtir e. Fîş tenê ji bo kêfê ne.'],{f:['salon','egg_cw_fav','salon_chips']}],
+ // ===== Yapımcı ve şirket =====
+ ['egg_firat',['Fırat Ertaş kim?','Who is Fırat Ertaş?','¿Quién es Fırat Ertaş?','Fırat Ertaş kî ye?'],['!firat ertas','!firat kim*','!ertas kim*','firat ertas kimdir','yapimci kim','yapimcisi kim','!who is firat','quien es firat','firat ki ye'],
+  ['Fırat Ertaş, DİGOR OKEY 101’in yapımcısı ve Ertaş Game’in kurucusu 🎮 Oyunu o tasarlayıp geliştirdi; oyundaki şarkılar da onun. Adını Kars’ın Digor ilçesinden verdiği bu oyunda kalbinden de bir parça var: Salon’daki Çawreş 🖤 Görüş ve önerilerin için: ertasgametm@gmail.com',
+   'Fırat Ertaş made DİGOR OKEY 101 and founded Ertaş Game 🎮 He designed and built the game, and the songs are his too. He named it after Digor in Kars — and left a piece of his heart in it: Çawreş in the Game Room 🖤 Feedback: ertasgametm@gmail.com',
+   'Fırat Ertaş creó DİGOR OKEY 101 y fundó Ertaş Game 🎮 Las canciones también son suyas. Contacto: ertasgametm@gmail.com',
+   'Fırat Ertaş çêkerê DİGOR OKEY 101 û damezrînerê Ertaş Game e 🎮 Stranên lîstikê jî yên wî ne. Têkilî: ertasgametm@gmail.com'],{f:['egg_ertasgame','egg_making','egg_cw_who']}],
+ ['egg_ertasgame',['Ertaş Game nedir?','What is Ertaş Game?','¿Qué es Ertaş Game?','Ertaş Game çi ye?'],['!ertas game','ertas game nedir','ertas game kim','!sirket*','yapim sirketi','hangi sirket','oyun sirketi','ertas game logo*','sirket logo*','!what is ertas game','which company','que empresa','sirketa'],
+  ['Ertaş Game, Fırat Ertaş’ın kurduğu oyun şirketi 🏢 DİGOR OKEY 101 onun oyunu; sahte okeyin üzerindeki logo da Ertaş Game’in. İletişim: ertasgametm@gmail.com',
+   'Ertaş Game is the game company founded by Fırat Ertaş 🏢 DİGOR OKEY 101 is its game, and the logo on the fake okey is Ertaş Game’s. Contact: ertasgametm@gmail.com',
+   'Ertaş Game es la empresa de juegos fundada por Fırat Ertaş 🏢 El logo del okey falso es suyo. Contacto: ertasgametm@gmail.com',
+   'Ertaş Game şirketa lîstikan e ku Fırat Ertaş damezrand 🏢 Logoya li ser okeya sexte jî ya Ertaş Game e. Têkilî: ertasgametm@gmail.com'],{f:['egg_firat','egg_making','contact']}],
+ ['egg_making',['Oyun nasıl yapıldı?','How was the game made?','¿Cómo se hizo el juego?','Lîstik çawa hat çêkirin?'],['!oyun nasil yapil*','!oyunu nasil yapti*','!nasil yapildi','oyunun yapimi','oyunun hikayesi','!neden digor','adi neden digor','neden adi digor','!how was the game made','como se hizo','cawa hat cekirin'],
+  ['DİGOR OKEY 101’i Fırat Ertaş tasarlayıp geliştirdi 🛠️ Adını Kars’ın Digor ilçesinden alıyor; şarkıları Fırat’ın, Salon’daki gözde at Çawreş de onun kalbinden geliyor. Oyun her güncellemede oyuncuların önerileriyle büyüyor; senin de bir fikrin varsa “Bir önerim var” de.',
+   'DİGOR OKEY 101 was designed and built by Fırat Ertaş 🛠️ It’s named after Digor in Kars; the songs are his, and Çawreş, the Game Room’s darling, comes straight from his heart. The game grows with players’ ideas every update — got one? Say “I have a suggestion”.',
+   'DİGOR OKEY 101 lo diseñó y creó Fırat Ertaş 🛠️ Su nombre viene de Digor, en Kars.',
+   'DİGOR OKEY 101 ji aliyê Fırat Ertaş ve hat sêwirandin û pêşxistin 🛠️ Navê xwe ji navçeya Digorê ya Qersê digire.'],{f:['egg_firat','digor','suggest']}],
+
+];
+
+(function(){
+const kLG=()=>{try{return lgx()|0}catch(e){return 0}};
+const NM=()=>{try{return P.name||''}catch(e){return''}};
+const has=id=>!!KBI[id];
+const kA=(id,q,k,a,o)=>{if(!has(id))K(id,q,k,a,o)};
+function kAddK(id,keys){const e=KBI[id];if(!e)return;e.k=(e.k||[]).concat(keys);e.rx=null;kRxB(e)}
+function kDelK(id,keys){const e=KBI[id];if(!e)return;e.k=(e.k||[]).filter(x=>!keys.includes(x));e.rx=null;kRxB(e)}
+const R4=a=>i=>a[i]||a[1]||a[0];
+const kFmt=(s,v)=>String(s).replace(/\{(\w+)\}/g,(m,k)=>v&&v[k]!=null?v[k]:'');
+const N=x=>{try{return fmtC(x)}catch(e){return String(x)}};
+
+/* ---------- 1) ANLAMA: kısaltma, argo, yazım hatası ---------- */
+const KSL={slm:'selam',sea:'selam',slmlar:'selamlar',mrb:'merhaba',mrhb:'merhaba',mrhaba:'merhaba',mrba:'merhaba',nbr:'naber',nbr:'naber',nslsn:'nasilsin',naslsn:'nasilsin',nasilsn:'nasilsin',nslsin:'nasilsin',
+ nsl:'nasil',nasl:'nasil',nasi:'nasil',nasıl:'nasil',nasill:'nasil',tsk:'tesekkur',tskler:'tesekkurler',tsklr:'tesekkurler',tesekkr:'tesekkur',saol:'sag ol',sagol:'sag ol',sagolun:'sag olun',eyv:'eyvallah',eyw:'eyvallah',
+ napim:'ne yapayim',napiyim:'ne yapayim',napayim:'ne yapayim',napcam:'ne yapacagim',napcaz:'ne yapacagiz',napiyon:'ne yapiyorsun',napiyosun:'ne yapiyorsun',napiyorsun:'ne yapiyorsun',napiyosunuz:'ne yapiyorsunuz',
+ napiyor:'ne yapiyor',naptin:'ne yaptin',napsam:'ne yapsam',napmali:'ne yapmali',napmaliyim:'ne yapmaliyim',nerde:'nerede',nrde:'nerede',nerdee:'nerede',burda:'burada',orda:'orada',
+ bi:'bir',bisey:'bir sey',bsy:'bir sey',bise:'bir sey',biseyi:'bir seyi',hersey:'her sey',hicbisey:'hicbir sey',tmm:'tamam',tm:'tamam',tmmdir:'tamamdir',evt:'evet',hyr:'hayir',
+ niye:'neden',nie:'neden',nicin:'neden',zman:'zaman',zmn:'zaman',nzmn:'ne zaman',nezaman:'ne zaman',nezmn:'ne zaman',gnydn:'gunaydin',gunaydn:'gunaydin',iyigeceler:'iyi geceler',
+ koin:'coin',koyn:'coin',cion:'coin',coinn:'coin',okei:'okey',okeyy:'okey',taslari:'taslari',bilmiyom:'bilmiyorum',anlamadm:'anlamadim',anlamadim:'anlamadim',
+ slmm:'selam',hlo:'hello',helo:'hello',u:'you',ur:'your',r:'are',pls:'please',plz:'please',thx:'thanks',thnx:'thanks',wat:'what',wut:'what',hw:'how',idk:'i dont know',wanna:'want to',gonna:'going to',
+ xq:'porque',pq:'porque',q:'que'};
+const KFILL=new Set(['knk','kanka','kanki','kanks','abi','abla','abicim','ya','yaa','yav','yaw','lan','la','be','hocam','reis','aga','kardesim','moruk','bro','dude','kaptancim','kaptanim','yahu','acaba','sey','hmm','hm','mm','lutfen','please','pls']);
+let KVOC=null;
+function kVoc(){if(KVOC)return KVOC;KVOC=new Set();KB.forEach(e=>(e.k||[]).forEach(k=>KT(String(k).replace(/^[~!=]/,'').replace(/\*/g,'')).split(' ').forEach(w=>{if(w.length>=5)KVOC.add(w)})));return KVOC}
+const kVocPre=t=>{for(let n=Math.min(t.length,9);n>=5;n--)if(kVoc().has(t.slice(0,n)))return true;return false};
+function kPre(raw){let t=KT(raw);if(!t)return'';t=t.replace(/([a-z])\1{2,}/g,'$1$1');
+ let w=t.split(' ').map(x=>{if(KSL[x])return KSL[x];
+  // -iyo / -uyo → -iyor (oynanıyo, kasıyo, napıyosun, oluyo)
+  let y=x.replace(/^(.{2,}[iu])yo(m|n|sun|z|lar|nuz|sunuz)?$/,(m,a,b)=>a+'yor'+(b=='n'?'sun':b=='z'?'uz':(b||'')));
+  // yumuşama: müziği → müzik, zorluğu → zorluk, kağıdı → kağıt (sözlükte varsa)
+  const sf=y.match(/^(.{3,})([gdb])([aeiou][a-z]{0,4})$/);if(sf){const st=sf[1]+({g:'k',d:'t',b:'p'})[sf[2]];if(kVoc().has(st)||kVocPre(st))y=st+sf[3]}
+  // bitişik soru eki: olurmu, varmı, koyabilirmiyim, almalımıyım
+  const q=y.match(/^(.{3,}?(?:r|z|k|li|ly))(mi|mu|misin|musun|miyim|muyum|miyiz|muyuz|midir|mudur|misiniz)$/)||y.match(/^(.{2,}?)(misin|musun|miyim|muyum|misiniz|musunuz)$/);
+  if(q&&!kVocPre(y))y=q[1]+' '+q[2];
+  return y}).join(' ').split(' ').filter(Boolean);
+ const core=w.filter(x=>!KFILL.has(x));if(core.length)w=core;
+ return w.join(' ')}
+window.kPre=kPre;
+// çok kelimeli anahtarlar için yazım hatası toleransı ("nasl kullanirm", "ne zman")
+function kFz(e){if(e._fz)return e._fz;e._fz=(e.k||[]).map(raw=>{let s=String(raw),w=1;if(s[0]=='~'){w=.7;s=s.slice(1)}else if(s[0]=='!'){w=1.8;s=s.slice(1)}if(s[0]=='=')return null;
+ const ws=KT(s.replace(/\*/g,'')).split(' ').filter(Boolean);if(ws.length<2)return null;return{ws,w:(2+ws.length*1.3)*w}}).filter(Boolean);return e._fz}
+// 2: tam/önek, 1: kök (bulunur~buluyoruz) ya da tek harf hatası, 0: yok
+const kCP=(a,b)=>{let i=0;while(i<a.length&&i<b.length&&a[i]==b[i])i++;return i};
+// sorgu başına kelime → eşleşen token listesi (önbellekli; aynı kelime yüzlerce anahtarda geçiyor)
+function kWM(tk){const C=new Map();return w=>{let r=C.get(w);if(r)return r;r=[];for(let j=0;j<tk.length;j++){const t=tk[j];
+ if(t==w||(w.length>=3&&t.startsWith(w)))r.push(j,2);
+ else if(w.length>=5&&t[0]==w[0]&&t.length>=w.length-1&&((w.length>=6&&kCP(t,w)>=Math.max(4,w.length-3))||kLev(t.slice(0,w.length),w)<=1))r.push(j,1)}C.set(w,r);return r}}
+const kTokOk=(wm,w,u,weak)=>{const r=wm(w);let b1=-1;for(let i=0;i<r.length;i+=2){const j=r[i];if(u.has(j))continue;if(r[i+1]==2){u.add(j);return 2}if(b1<0)b1=j}if(weak&&b1>=0){u.add(b1);return 1}return 0};
+const _ks=kScore;
+kScore=function(text){let res=_ks(text);const t=KT(text),p=kPre(text);
+ if(p&&p!==t){const m=new Map(res.map(x=>[x[0],x[1]]));_ks(p).forEach(([e,s])=>{if(!(m.get(e)>=s))m.set(e,s)});res=[...m.entries()]}
+ // kelime torbası: anahtarın bütün kelimeleri cümlede varsa (aralarında başka kelimeler olsa da) yarım puan.
+ // Hiçbir şey eşleşmediyse yazım hatası/kök benzerliği de kabul edilir.
+ {const tk=(p||t).split(' ').filter(Boolean),weak=!res.length||Math.max(...res.map(x=>x[1]))<1.5;if(tk.length>=2){const m=new Map(res.map(x=>[x[0],x[1]]));
+  const wm=kWM(tk);for(const e of KB){let s=0;for(const f of kFz(e)){let an=false,okk=true;const u=new Set();for(const w of f.ws){const r=kTokOk(wm,w,u,weak);if(!r){okk=false;break}if(r==2&&w.length>=3&&!KSTOP.has(w))an=true}if(okk&&an)s+=f.w*.5}
+   if(s>0){const o=m.get(e)||0;m.set(e,weak?o+s:Math.max(o,s))}}res=[...m.entries()]}}
+ // olumsuz cümle ("olmuyor", "gelmedi", "açılmıyor") → sorun çözme konuları öne
+ if(/[a-z](m[iu]yor|madi|medi|miyo|muyo|amiyor|emiyor)[a-z]*( |$)|(^| )(olmuyor|calismiyor|yok)( |$)/.test(' '+(p||t)+' '))res=res.map(x=>KPROB.has(x[0].id)?[x[0],x[1]+1.5]:x);
+ return res.sort((a,b)=>b[1]-a[1])};
+const KSTOP=new Set(['ne','mi','mu','bir','ve','ile','icin','nasil','kac','var','yok','ben','sen','bu','su','da','de','ki','cok','en','how','what','the','is','do','my','que','el','la','como','can','you','are']);
+const KPROB=new Set(['login_fail','buy_fail','buy_problem','crash','lag','notif','online_bots','coins_lost','screen','sound','offline','gift','banned']);
+const _kp=KB.push;KB.push=function(){KVOC=null;return _kp.apply(this,arguments)};
+// sözlük ve anahtar listeleri açılıştan 6 sn sonra boşta hazırlanır (ilk soru beklemesin)
+setTimeout(()=>{const f=()=>{try{kVoc();KB.forEach(kFz);kScore("merhaba okey nasil acilir")}catch(e){}};window.requestIdleCallback?requestIdleCallback(f,{timeout:4000}):f()},6000);
+
+/* ---------- 2) YARDIMCILAR: oyuncu verisi ---------- */
+const CNL=[['Kırmızı','Red','Rojo','Sor'],['Siyah','Black','Negro','Reş'],['Mavi','Blue','Azul','Şîn'],['Sarı','Yellow','Amarillo','Zer']];
+const tN=(t,i)=>{i=i==null?kLG():i;if(!t)return'';if(isJ(t))return'Okey';const c=CNL[t.c]?CNL[t.c][i]:'';return(t.f?['Sahte okey','Fake okey','Okey falso','Okeya sexte'][i]+' · ':'')+c+' '+t.n};
+const kPN=p=>{try{if(p==0)return P.name;const b=M&&M.bots&&M.bots[p];return b&&b.name||(['','Sağdaki','Karşıdaki','Soldaki'][p])}catch(e){return''}};
+const kLv=()=>{try{return lvInfo(P.xp).l}catch(e){return 1}};
+const kAgo=(ts,i)=>{const d=Math.max(0,Date.now()-ts),m=Math.round(d/6e4),h=Math.round(d/36e5),g=Math.round(d/864e5);
+ if(m<2)return['az önce','just now','hace un momento','niha'][i];if(m<60)return[m+' dk önce',m+' min ago','hace '+m+' min',m+' deq berê'][i];
+ if(h<24)return[h+' saat önce',h+' h ago','hace '+h+' h',h+' saet berê'][i];return[g+' gün önce',g+' days ago','hace '+g+' días',g+' roj berê'][i]};
+const kHash=s=>{let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+const kDay=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const kOnTable=()=>{try{return !!(S&&!S.over&&onTbl())}catch(e){return false}};
+
+/* ---------- 3) YENİ KONULAR ---------- */
+// ----- strateji -----
+kA('st_open_when',['Ne zaman el açmalıyım?','When should I open?','¿Cuándo debo abrir?','Kengê destê xwe vekim?'],
+ ['!ne zaman ac*','!ne zaman el ac*','ne zaman acmali*','acmali miyim','acayim mi','hemen acmali*','hemen mi acayim','acmayi bekle*','beklemeli miyim','bekleyeyim mi','acmak mi beklemek mi','!when should i open','should i open','open or wait','cuando abrir','cuando debo abrir','kenge vekim'],
+ ['101’e ulaştığında çoğu zaman hemen açmak doğrudur ⚓ Açmazsan el sonunda 202 yazarsın; açarsan sadece elinde kalanlar yazılır.\n• Beklemek şu durumlarda mantıklı: elden (kafa) bitişe 1-2 taşın kaldıysa ya da okeyle tüm eli tek turda indirebilecek gibiysen.\n• Rakiplerden biri açtıysa beklemenin riski artar, el her an bitebilir.\n• Katlamalıda her açılış barajı yükseltir; erken açan avantajlıdır.',
+  'Once you reach 101 it’s usually right to open straight away ⚓ If you never open you score 202; if you do, only the tiles left in your hand count.\n• Waiting makes sense only if you’re 1–2 tiles from a hand finish, or the okey lets you lay the whole hand in one turn.\n• If someone has already opened, waiting gets riskier: the hand can end any moment.\n• In progressive mode each opening raises the bar, so opening early pays.',
+  'Cuando llegas a 101, casi siempre conviene abrir enseguida ⚓ Si no abres anotas 202; si abres, solo cuentan las fichas que te quedan. Esperar solo vale si estás a 1–2 fichas de terminar de mano.',
+  'Gava tu gihîştî 101, piranî çêtir e ku tu yekser vekî ⚓ Ger venekî 202 dinivîsî; ger vekî, tenê kevirên di destê te de dimînin têne hesibandin.'],{f:['st_kafa','st_kat','open']});
+kA('st_okey_use',['Okeyi nasıl kullanmalıyım?','How should I use the okey?','¿Cómo uso el okey?','Okeyê çawa bi kar bînim?'],
+ ['!okeyi nasil kullan*','!okey nasil kullan*','okeyi nereye','okeyi nerede kullan*','okeyi ne yapayim','okeyi ne zaman kullan*','okeyi sakla*','okeyi harca*','okey taktik*','!how to use the okey','use the okey','when to use the okey','usar el okey','como uso el okey','okeye cawa'],
+ ['Okey en değerli taşın 🃏\n• Erken harcama: eli toparlamak için en son kullan.\n• Açılışı 101’e taşımak için iyi bir yerdir; okey yerine geçtiği taşın değerini alır (13’ün yerine koyarsan 13 sayılır).\n• Asla atma: okey atmak +101 ceza (bitirirken son taş hariç).\n• Son taşın okeyse onu atarak bitir: okeyle bitiş puanları 2 katlar (−202).\n• Elde kalan okey 101 sayılır; el bitmek üzereyse okeyi bir seride kullan.',
+  'The okey is your most valuable tile 🃏\n• Don’t spend it early: use it last to rescue the hand.\n• It’s a great way to push your opening to 101; it takes the value of the tile it replaces (as a 13 it counts 13).\n• Never throw it: discarding the okey is +101 (except as your final tile).\n• If your last tile is the okey, throw it to finish: an okey finish doubles the score (−202).\n• An okey left in hand counts 101, so use it in a meld when the hand is ending.',
+  'El okey es tu ficha más valiosa 🃏 No lo gastes pronto, nunca lo tires (+101) y si es tu última ficha, termina con él: puntos ×2.',
+  'Okey kevirê te yê herî hêja ye 🃏 Zû xerc neke, qet neavêje (+101); ger kevirê te yê dawî be, pê biqedîne: xal ×2.'],{f:['okey_finish','swap','r_okey_left']});
+kA('st_discard',['Hangi taşı atmalıyım?','Which tile should I discard?','¿Qué ficha debo tirar?','Kîjan kevirî bavêjim?'],
+ ['!hangi tasi at*','!hangi tas at*','!ne atayim','!ne atsam','!hangisini at*','atilacak tas','hangi tasi atmali*','tas atma taktik*','ne atmaliyim','!which tile should i','!what should i discard','what to throw','which tile to throw','que ficha tiro','que ficha debo tirar','kijan kevir bavejim'],
+ i=>{const st=['Atarken sırayla şunlara bak 🎯\n1) Hiçbir taşınla bağı olmayan yalnız taşlar önce gider.\n2) Açtıktan sonra yüksek yalnızları (10-13) önce at: elinde kalırsa puanına eklenir.\n3) Masaya işlenebilecek taşı atma: +101 ceza (yeşil noktalı taşlar).\n4) Sağındaki oyuncu attıklarını alır: yandan aldığı taşlara yakın taş verme.\n5) Okeyi asla atma.\nMasadayken ampul 💡 bunu senin için hesaplar.',
+  'When discarding, check in this order 🎯\n1) Lonely tiles with no link to your others go first.\n2) After opening, dump high loners (10–13) first: they count if left.\n3) Never throw a tile that can be laid off on the table: +101 (green‑dot tiles).\n4) The player on your right picks up your discards: don’t feed tiles close to what they took.\n5) Never throw the okey.\nAt the table, the bulb 💡 works this out for you.',
+  'Para descartar 🎯 1) primero las fichas sueltas; 2) tras abrir, las altas; 3) nunca una ficha colocable (+101); 4) no alimentes al jugador de tu derecha; 5) nunca el okey. En la mesa, la bombilla 💡 lo calcula.',
+  'Ji bo avêtinê 🎯 1) pêşî kevirên tenê; 2) piştî vekirinê yên bilind; 3) kevirê ku dikare were danîn neavêje (+101); 4) tiştê ku yê rastê dixwaze nede; 5) okeyê neavêje. Li ser masê ampûl 💡 hesab dike.'][i];
+  if(kOnTable()&&S.turn==0){const c=kCoach(1);if(c&&c.t)return['Şu an masada: ','At the table right now: ','Ahora en la mesa: ','Niha li ser masê: '][i]+c.t.replace(/<[^>]+>/g,'')+'\n\n'+st}return st},{f:['hint','st_right','r_isle_pen']});
+kA('st_right',['Sağımdaki oyuncu attığımı alıyor','The player on my right takes my discards','El de mi derecha toma mis descartes','Yê rastê kevirên min digire'],
+ ['!sagimdaki','sagdaki oyuncu','sagdaki rakip','sagimdaki rakip','!attigimi aliyor','!attiklarimi aliyor','attigim tasi al*','attigim taslari al*','hep attigimi','!player on my right','right player','takes my discards','jugador de la derecha','toma mis descartes','yê rastê','ye raste'],
+ i=>{let x=['Senin attığın taşları sağındaki oyuncu alabilir 👀 Yandan bir taş aldıysa o renkte bir seri ya da o sayıda bir per topluyordur. Ör. kırmızı 7 aldıysa kırmızı 5-6-8-9’u ve diğer renklerdeki 7’leri ona vermemeye çalış. Zor botlar da aynısını sana yapar!',
+  'The player on your right can pick up your discards 👀 If they took a tile, they’re building a run in that colour or a set of that number. E.g. if they took red 7, avoid giving them red 5‑6‑8‑9 and the other 7s. Hard bots do exactly this to you!',
+  'El jugador de tu derecha puede tomar tus descartes 👀 Si tomó el rojo 7, no le des rojos 5‑6‑8‑9 ni otros 7.',
+  'Yê li rastê te dikare kevirên te bigire 👀 Ger sor 7 girt, sor 5‑6‑8‑9 û 7ên din nede wî.'][i];
+  try{if(kOnTable()){const tk=(S.took[1]||[]).filter(t=>!isJ(t));if(tk.length)x+='\n\n'+kFmt(['Bu elde {n} yandan şunları aldı: {t}.','This hand {n} has taken: {t}.','En esta mano {n} tomó: {t}.','Di vê destê de {n} ev girtin: {t}.'][i],{n:kPN(1),t:tk.map(t=>tN(t,i)).join(', ')})}}catch(e){}
+  return x},{f:['st_watch','st_discard','r_who_next']});
+kA('st_watch',['Rakipleri nasıl takip ederim?','How do I read my opponents?','¿Cómo leo a los rivales?','Ez çawa dijberan dişopînim?'],
+ ['!rakipleri takip','rakibi takip','rakipleri izle*','rakibi izle*','rakip ne topl*','ne topladigini','rakibin elini','rakiplerin elini','rakibi oku*','!read opponents','read my opponents','track opponents','what are they collecting','leer al rival','dijberan bisopin'],
+ R4(['Rakibi okumanın 3 ipucu 🔎\n• Ne atıyor: bir rengi sürekli atıyorsa o rengi toplamıyordur; o rengi ona daha rahat verirsin.\n• Ne alıyor: yandan aldığı taş topladığı şeyi ele verir.\n• Ne zaman açtı: açtıktan sonra elinde az taş kaldıysa bitişe yakındır. O noktada işlek taş atma, yüksek taşlarını erit.',
+  'Three ways to read an opponent 🔎\n• What they throw: if they keep discarding a colour, they aren’t collecting it, so it’s safer to give.\n• What they take: a picked‑up discard reveals what they’re building.\n• When they opened: few tiles left after opening means they’re close to finishing. Then avoid playable tiles and shed your high ones.',
+  'Para leer al rival 🔎 mira qué tira (ese color no lo busca), qué toma (revela su juego) y cuántas fichas le quedan tras abrir.',
+  'Ji bo xwendina dijber 🔎 li tiştê ku diavêje, tiştê ku digire û hejmara kevirên wî ya piştî vekirinê binêre.']),{f:['st_right','st_count','st_discard']});
+kA('st_count',['Taş saymak işe yarar mı?','Is counting tiles useful?','¿Sirve contar fichas?','Jimartina keviran bi kar tê?'],
+ ['!tas say*','!taslari say*','atilan taslari say*','kac tane cikti','cikan taslar','saymak lazim','sayayim mi','!count tiles','counting tiles','count the tiles','contar fichas','kevir bijmer'],
+ R4(['Evet 👍 Her taştan 2 tane var (sahte okey hariç). Bir taşın ikisi de atıldıysa ya da masadaysa onu bekleme: ör. iki mavi 8 de çıktıysa mavi 7-8-9 umudunu bırak, başka yöne dön. Deste azaldıkça bu hesap daha da önemli olur.',
+  'Yes 👍 There are 2 of every tile (plus the fake okeys). If both copies are already thrown or on the table, stop waiting for it: e.g. both blue 8s are out, so give up on blue 7‑8‑9 and switch plans. It matters even more as the deck runs low.',
+  'Sí 👍 Hay 2 de cada ficha. Si ya salieron las dos, no la esperes y cambia de plan.',
+  'Erê 👍 Ji her kevirî 2 hene. Ger her du jî derketin, li benda wê nemîne.']),{f:['st_watch','tiles','st_deck']});
+kA('st_pairs_or_runs',['Çiftten mi açayım, seriden mi?','Pairs or runs?','¿Parejas o series?','Bi cotan an bi rêzan?'],
+ ['!cift mi seri mi','!seri mi cift mi','!ciftten mi','ciftten mi acsam','ciftten mi acayim','cift mi yapsam','cift mi toplasam','cift mi seri','seri mi cift','!pairs or runs','pairs or sets','runs or pairs','parejas o series','cot an rez'],
+ R4(['Elindeki çift sayısına bak ⚖️\n• 4-5 çiftin varsa çifte git: 5 çiftle açarsın, çiftten bitiş 2 kat yazar (−202).\n• 2-3 çiftin ve dağınık bir elin varsa seri/per daha hızlıdır.\n• Dikkat: çiftten açarsan seri/per açamazsın; bitiremezsen elinde kalanlar 2 kat yazılır.\n• Katlamalıda biri 5 çiftle açtıysa sana 6 çift gerekir.\nÇİFT butonu ıstakayı çiftlere göre dizer, sayıyı hemen görürsün.',
+  'Count your pairs ⚖️\n• 4–5 pairs: go for pairs. 5 pairs open, and a pairs finish scores double (−202).\n• 2–3 pairs and a messy hand: runs/sets are faster.\n• Careful: after opening with pairs you can’t open runs/sets, and if you don’t finish, your leftover counts double.\n• In progressive mode, after someone opens with 5 pairs you need 6.\nThe ÇİFT button sorts your rack by pairs so you can count at a glance.',
+  'Cuenta tus parejas ⚖️ Con 4–5, ve por parejas (terminar vale ×2). Con 2–3, las series son más rápidas. Ojo: si no terminas, tu resto cuenta ×2.',
+  'Cotên xwe bijmêre ⚖️ Bi 4–5 cotan here ser cotan (qedandin ×2). Bi 2–3 cotan rêz zûtir e. Ger neqedînî, yên mayî ×2 têne nivîsandin.']),{f:['pairs','r_pair_rules','sort']});
+kA('st_high',['Yüksek taşları ne yapmalıyım?','What do I do with high tiles?','¿Qué hago con las fichas altas?','Bi kevirên bilind çi bikim?'],
+ ['!yuksek tas*','!buyuk tas*','buyuk sayi*','yuksek sayi*','10 11 12 13','13 leri','12 ve 13','!high tiles','big tiles','high numbers','fichas altas','keviren bilind','kevirên mezin'],
+ R4(['Yüksek taşlar (10-13) iki ucu keskin bir bıçak 🔪\n• Açmadan önce: açılış puanını hızla doldurur; 11-12-13 serisi tek başına 36 eder. Açılışa yarayacaklarsa tut.\n• Açmazsan zaten 202 yazarsın, bu yüzden önce açmaya odaklan.\n• Açtıktan sonra: elinde kalan her taş puanına eklenir. Yüksek yalnızları önce işle ya da at.\nKısacası: açılışına yaramayacak bir 13’ü saklama.',
+  'High tiles (10–13) cut both ways 🔪\n• Before opening: they fill your opening fast; 11‑12‑13 alone is 36. Keep them if they help you open.\n• If you never open you score 202 anyway, so focus on opening first.\n• After opening: every tile left counts, so lay off or throw high loners first.\nIn short: don’t hoard a 13 that won’t help you open.',
+  'Las altas (10–13): antes de abrir ayudan a llegar a 101; después de abrir, deshazte primero de las sueltas porque suman.',
+  'Kevirên bilind (10–13): berî vekirinê alîkariya 101ê dikin; piştî vekirinê pêşî yên tenê bavêje.']),{f:['open_points','st_score_low','st_discard']});
+kA('st_kat',['Katlamalıda nasıl kazanırım?','How do I win in progressive?','¿Cómo gano en progresivo?','Di katlamalî de çawa qezenc bikim?'],
+ ['!katlamali taktik','!katlamalida taktik','!katlamalida nasil kazan*','katlamali nasil kazan*','katlamalida ne zaman ac*','katlamali strateji*','katlamalida strateji*','!progressive strategy','win in progressive','estrategia progresiva'],
+ R4(['Katlamalıda hız her şeydir ⏩ Her açılış barajı yükseltir (biri 117 ile açarsa sonraki en az 118 ister).\n• 101’e ulaştıysan hemen aç: beklersen baraj kaçar.\n• Elin barajın çok altındaysa çiftlere bak; çift barajı da 5→6 diye yükselir.\n• Okeyi açılış puanını yükseltmek için kullan.\n• Baraj her elde 101’e döner; bir elde geride kalınca moralini bozma.',
+  'In progressive mode speed is everything ⏩ Every opening raises the bar (after a 117 opening the next needs 118).\n• Reached 101? Open now — wait and the bar runs away.\n• Far below the bar? Look at pairs; the pairs bar rises too (5→6).\n• Use the okey to boost your opening total.\n• The bar resets to 101 each hand, so one bad hand isn’t the end.',
+  'En progresivo la velocidad lo es todo ⏩ Si llegas a 101, abre ya: cada apertura sube el mínimo. Se reinicia a 101 cada mano.',
+  'Di katlamalî de lez her tişt e ⏩ Gava gihîştî 101, yekser veke: her vekirin sînorê bilind dike. Her dest dîsa 101 e.']),{f:['kat','st_open_when','st_pairs_or_runs']});
+kA('st_team',['Eşlide nasıl kazanırım?','How do I win in teams?','¿Cómo gano por parejas?','Bi heval çawa qezenc bikim?'],
+ ['!esli taktik','!eslide nasil kazan*','!esli nasil kazan*','esli strateji*','eslide strateji*','esime yardim','esime nasil yardim','esimle nasil','esli oyunda','eslide taktik','!team strategy','help my partner','win in teams','estrategia por parejas','alikariya heval'],
+ R4(['Eşlide puanlar takımca toplanır 🤝\n• Eşin karşında oturur; sağındaki ve solundaki rakiptir.\n• Sağındaki rakip senin attıklarını alır: ona işine yarayacak taş verme.\n• Eşin açtıysa onun serilerine de işleyebilirsin; eşinin bitişine yardım etmiş olursun.\n• Eşin bitirse bile senin elinde kalanlar takım hanesine yazılır: o yüzden açmak hâlâ çok önemli (açamamak 202).',
+  'In team mode your scores add up together 🤝\n• Your partner sits opposite; left and right are opponents.\n• The opponent on your right takes your discards: don’t feed them.\n• If your partner has opened you can lay off on their melds too, pushing them toward a finish.\n• Even if your partner finishes, your leftover still goes on the team total, so opening still matters (not opening = 202).',
+  'Por parejas sumáis juntos 🤝 Tu pareja está enfrente. No alimentes al rival de tu derecha y abre siempre que puedas: tu resto también cuenta.',
+  'Bi heval xal bi hev re têne berhev kirin 🤝 Hevalê te li hember e. Tiştê ku yê rastê dixwaze nede û heke dikarî veke.']),{f:['team','st_right','partner']});
+kA('st_canak',['Çanağı nasıl kırarım?','How do I win the pot?','¿Cómo gano el bote?','Çanakê çawa bişkînim?'],
+ ['!canak nasil kir*','!canagi kir*','!canagi nasil','canak kirmak','canagi kazan*','canak kirilmiyor','canak kiramiyorum','!win the pot','win the jackpot','how to win the pot','ganar el bote','canake biskin'],
+ R4(['Çanağı sadece elden (kafa) bitiş ya da okeyle bitiş kırar 🏺\n• Okeyin varsa eli, okeyi en son atacak şekilde planla: okeyle bitiş hem çanağı kırar hem puanları 2 katlar.\n• Elden bitiş için hiç açmadan bekleyip tüm eli tek turda indirmen gerekir; riskli ama ödülü büyük.\n• Kırılmazsa çanak sonraki ele devreder ve büyür; maç sonunda kırılmazsa payın iade edilir.',
+  'Only a hand finish (kafa) or an okey finish wins the pot 🏺\n• Holding the okey? Plan to throw it as your very last tile: an okey finish wins the pot and doubles the score.\n• For a hand finish, don’t open; lay your whole hand in one turn. Risky, but big.\n• If nobody wins it, the pot rolls over and grows; if it’s never won, your share is refunded at the end.',
+  'Solo terminar de mano o con okey gana el bote 🏺 Guarda el okey para tirarlo al final. Si nadie lo gana, pasa a la siguiente mano; al final se devuelve tu parte.',
+  'Tenê bi dest an bi okeyê qedandin çanakê dişkêne 🏺 Okeyê ji bo dawiyê bihêle. Ger neşikê, derbasî desta din dibe.']),{f:['canak','st_kafa','okey_finish']});
+kA('st_side',['Yandan almalı mıyım?','Should I take the side tile?','¿Debo tomar la ficha del lado?','Kevirê kêlekê bigirim?'],
+ ['!yandan almali','!yandan alayim mi','yandan almak mantik*','yandan mi ortadan mi','ortadan mi yandan mi','yandan almak iyi','yandan almali miyim','yandan alsam','!should i take the side','side or deck','take the side tile','tomar del lado','kevire kelek bigirim'],
+ R4(['Yandan aldığın taşı o turda kullanmak zorundasın (açarken ya da işlerken) 🤔 Kullanamazsan YERİNE BIRAK ile geri koyup ortadan çekersin. Bu yüzden:\n• Taş seni hemen açtırıyorsa ya da işlenebiliyorsa al.\n• Sadece “ileride işe yarar” diyorsan ortadan çek.\n• Aldığın taş herkesin önünde görünür: rakipler ne topladığını anlar.\nSıran gelince ampul 💡 bunun hesabını yapar.',
+  'A tile you take from the side must be used that same turn (to open or lay off) 🤔 If you can’t, you put it back with YERİNE BIRAK and draw from the middle. So:\n• Take it if it lets you open or lay off right now.\n• If it’s only “useful later”, draw from the middle.\n• Everyone sees what you took, so it reveals your plan.\nOn your turn the bulb 💡 checks this for you.',
+  'La ficha del lado debes usarla ese mismo turno 🤔 Tómala solo si te sirve ya para abrir o colocar; si no, roba del centro.',
+  'Kevirê kêlekê divê di heman gerê de bi kar bînî 🤔 Tenê heke niha bi kar tê bigire; wekî din ji navê bikişîne.']),{f:['side','r_side_return','hint']});
+kA('st_deck',['Deste azaldı, ne yapmalıyım?','The deck is almost empty, what now?','Quedan pocas fichas, ¿qué hago?','Kevir kêm man, çi bikim?'],
+ ['!deste azal*','az tas kaldi','ortada az tas','deste bitmek uzere','deste bitecek','deste bitiyor','!deck almost','deck is almost','few tiles left','quedan pocas','kevir kem man'],
+ R4(['Ortada az taş kaldıysa ⏳\n• Henüz açmadıysan her fırsatı kullan: deste biterse açamayanlar 202 yazar.\n• Açtıysan yüksek taşlarını işle ya da at: deste bitince açanlar elinde kalanları yazar.\n• Deste bitince kimse eksi almaz; bitiremeyeceksen puanını küçültmeye bak.',
+  'When the middle is running low ⏳\n• Not opened yet? Grab every chance: if the deck runs out, non‑openers score 202.\n• Already opened? Lay off or throw your high tiles: openers score what’s left in hand.\n• Nobody gets a minus when the deck runs out, so if you can’t finish, shrink your total.',
+  'Si quedan pocas fichas ⏳ abre como sea (si no, 202) y, si ya abriste, suelta las altas.',
+  'Ger kevir kêm man ⏳ heke venekiriye, veke (wekî din 202); heke vekiriye, yên bilind bavêje.']),{f:['deck_out','st_high','st_score_low']});
+kA('st_kafa',['Elden bitiş için nasıl oynamalıyım?','How do I play for a hand finish?','¿Cómo juego para terminar de mano?','Ji bo qedandina ji dest çawa bilîzim?'],
+ ['!elden bitirmek icin','!elden bitis icin','elden bitir* icin','kafadan bitir*','kafa atmak icin','kafa yapmak','kafa nasil yapilir','elden bitis taktik*','elden nasil biter*','!how to finish from hand','play for a hand finish','terminar de mano como','ji dest qedandin cawa'],
+ R4(['Elden (kafa) bitiş sabır ister 🔥\n• Elin açmaya yetse bile açma; tüm taşlar seri/per olana kadar bekle.\n• Okey burada altın değerinde: eksik taşı okeyle tamamlarsın.\n• Rakiplerden biri açtı ve elinde az taş kaldıysa riski tart: el biterse sen açmamış sayılırsın.\n• Başarırsan −202, okeyle elden bitirirsen −404! Çanak modunda çanağı da kırar.',
+  'A hand finish needs patience 🔥\n• Even if you could open, don’t; wait until every tile fits a run or set.\n• The okey is gold here: it fills the missing tile.\n• If an opponent has opened and is low on tiles, weigh the risk: if the hand ends you count as not opened.\n• Pull it off for −202, or −404 with the okey! It also wins the pot in jackpot mode.',
+  'Terminar de mano pide paciencia 🔥 No abras aunque puedas; espera a tener todo. Vale −202, o −404 con okey.',
+  'Qedandina ji dest sebir dixwaze 🔥 Venake heta ku hemû kevir amade bin. −202, bi okeyê −404.']),{f:['kafa','st_canak','st_open_when']});
+kA('st_isle',['Taş işlemek ne zaman iyi?','When should I lay off tiles?','¿Cuándo coloco fichas?','Kengê kevir deynim?'],
+ ['!ne zaman isle*','islemeli miyim','isleyeyim mi','islemek mantik*','islesem mi','!when to lay off','should i lay off','cuando colocar','kenge deynim'],
+ R4(['Açtıktan sonra işleyebildiğin her taşı işle ✅ Elinden çıkan her taş puanını düşürür ve bitişe yaklaştırır. Tek istisna: o taş elinde yeni bir seri kuruyorsa ve bitişe çok yakınsan tutabilirsin. İşlenebilen taşı atarsan +101 ceza yer, o yüzden yeşil noktalı taşları atma, işle.',
+  'After opening, lay off every tile you can ✅ Each tile that leaves your hand lowers your score and brings you closer to finishing. The only exception: keep it if it builds a new run in your hand and you’re about to finish. Throwing a playable tile costs +101, so lay off green‑dot tiles instead.',
+  'Tras abrir, coloca todo lo que puedas ✅ Tirar una ficha colocable cuesta +101.',
+  'Piştî vekirinê her kevirê ku dikarî deyne ✅ Avêtina kevirê ku dikare were danîn +101 e.']),{f:['layoff','r_isle_pen','last_tile']});
+kA('st_beginner',['Yeni başladım, nereden başlamalıyım?','I’m new, where do I start?','Soy nuevo, ¿por dónde empiezo?','Ez nû me, ji ku dest pê bikim?'],
+ ['!yeni basladim','yeni baslayan','!acemi','ilk defa oynu*','ilk kez oynu*','hic bilmiyorum','okey bilmiyorum','oynamayi bilmiyorum','ogrenmek istiyorum','!beginner','im new','new to the game','first time playing','principiante','soy nuevo','ez nu me'],
+ i=>{const rw=!P.tutRw;return[`Hoş geldin! 🎉 En kolay yol: Ayarlar → Oyun → “Oynayarak öğren”. 1 ellik hazır bir masada seri dizmeyi, el açmayı, taş çekip atmayı ve taş işlemeyi adım adım gösteriyorum${rw?'; sonunda 2.000 coin hediye var':''}. Sonra Zorluk’u Kolay yapıp 1 ya da 3 ellik maçlarla başla. Takıldığın her şeyi bana sor!`,
+  `Welcome! 🎉 Easiest start: Settings → Game → “Learn by playing”. On a ready‑made hand I show you step by step how to sort, open, draw, discard and lay off${rw?', with 2,000 coins at the end':''}. Then set Difficulty to Easy and play 1‑ or 3‑hand matches. Ask me anything!`,
+  `¡Bienvenido! 🎉 Empieza en Ajustes → Juego → “Aprender jugando”${rw?' (regalo de 2.000 monedas al final)':''}. Luego juega en Fácil.`,
+  `Bi xêr hatî! 🎉 Ji Mîheng → Lîstik → “Bi lîstinê fêr bibe” dest pê bike${rw?' (di dawiyê de 2.000 coin)':''}. Paşê li ser Hêsan bilîze.`][i]},{f:['tutorial','rules_basic','st_open_when']});
+kA('st_score_low',['Puanımı nasıl düşük tutarım?','How do I keep my score low?','¿Cómo mantengo pocos puntos?','Xala xwe çawa kêm bihêlim?'],
+ ['!puanimi dusur*','puan dusurmek','puanim cok yuksek','puanim yuksek','cok puan yiyorum','cok puan yazi*','az puan','!lower my score','keep my score low','keep score low','menos puntos','xala kem'],
+ R4(['Maçı en az puan kazanır 📉\n• En büyük kayıp açamamak: 202 (elden ya da çiftten bitişte 404). İlk hedefin her elde açmak.\n• Ceza yeme: okey atma, işlenebilen taşı atma (+101).\n• Açtıktan sonra yüksek taşları önce erit.\n• Bitirmek −101 kazandırır; okeyle ya da elden bitiş −202.',
+  'Lowest total wins the match 📉\n• The biggest loss is not opening: 202 (404 on a hand or pairs finish). Your first goal every hand is to open.\n• Avoid penalties: never throw the okey or a playable tile (+101).\n• After opening, shed high tiles first.\n• Finishing gives −101; an okey or hand finish −202.',
+  'Gana quien tiene menos puntos 📉 Lo peor es no abrir (202). Evita multas (+101) y suelta las altas tras abrir.',
+  'Yê ku xala wî herî kêm be qezenc dike 📉 Ya herî xirab nevekirin e (202). Ji cezayan dûr bisekine (+101).']),{f:['score','penalty','st_high']});
+kA('st_hard',['Zor botları nasıl yenerim?','How do I beat hard bots?','¿Cómo gano a los bots difíciles?','Botên zor çawa têk bibim?'],
+ ['!zor bot*','zor botlari yen*','!zor modda','zorda kazan*','!botlari yenemiyorum','botlara yeniliyorum','botlar cok iyi oynuyor','!beat hard bots','hard bots','beat the bots','ganar a los bots','boten zor'],
+ R4(['Zor botlar dikkatli oynar 🤖 Sağlarındaki oyuncunun yandan aldıklarını takip eder, ona işine yarayacak taş vermezler ve yandaki taşı daha akıllıca alırlar. Onları yenmek için:\n• Sen de sağındakinin aldıklarını izle.\n• 101’e ulaşınca açmayı geciktirme.\n• İşlek taş ve okey cezası yeme.\n• Isınmak istersen birkaç maç Orta’da oyna: Ayarlar → Oyun → Zorluk.',
+  'Hard bots play carefully 🤖 They watch what the player to their right picks up, avoid feeding them, and take side tiles more wisely. To beat them:\n• Watch what your right‑hand player takes, too.\n• Open as soon as you reach 101.\n• Never eat a playable‑tile or okey penalty.\n• Warm up on Medium: Settings → Game → Difficulty.',
+  'Los bots difíciles vigilan lo que toma su vecino 🤖 Haz lo mismo, abre pronto y evita multas.',
+  'Botên zor li tiştê ku cîranê wan digire dinêrin 🤖 Tu jî wisa bike, zû veke û ji cezayan dûr bisekine.']),{f:['difficulty','cheat','st_right']});
+kA('cheat',['Botlar hile yapıyor mu?','Do the bots cheat?','¿Hacen trampa los bots?','Bot hîle dikin?'],
+ ['!hile','!bot hile*','!botlar hile*','hileli','hile var','elimi goruyor','taslarimi goruyor','benim taslarimi','kasten','ayarli mi','ayarlanmis','!bots cheat','!cheat*','rigged','do bots see','trampa','hacen trampa','=hile','hîle'],
+ R4(['Hayır 🙂 Botlar senin taşlarını ya da desteyi göremez; sadece masada herkesin gördüğünü görürler: atılan taşlar, yandan alınanlar ve açılan seriler. Taşlar her elde karılarak dağıtılır. Zor botlar sadece daha dikkatli oynar. Kötü el herkesin başına gelir; birkaç el sonra şans döner ⚓ Online masada hile yaptığını düşündüğün bir oyuncu varsa profilinden şikâyet edebilirsin.',
+  'No 🙂 Bots can’t see your tiles or the deck; they only see what everyone sees: discards, side pick‑ups and laid melds. Tiles are shuffled every hand. Hard bots just play more carefully. Bad hands happen to everyone; luck turns ⚓ If you think a real player cheated online, report them from their profile.',
+  'No 🙂 Los bots no ven tus fichas ni el mazo; solo lo que ve todo el mundo. Las fichas se barajan cada mano.',
+  'Na 🙂 Bot kevirên te û destê nabînin; tenê tiştê ku her kes dibîne. Her dest kevir têne tevlihev kirin.']),{f:['st_hard','difficulty','report']});
+
+// ----- kurallar -----
+kA('r_set4',['Perde aynı renk olur mu?','Can a set have the same colour?','¿Un grupo puede repetir color?','Di perê de heman reng dibe?'],
+ ['!perde ayni renk','!per ayni renk','ayni renk per','perde iki ayni','per kac tas','per 4 tas','5 tas per','per 5 tas','!same colour set','set same color','set with same colour','grupo mismo color','per heman reng'],
+ R4(['Hayır ❌ Per, aynı sayıdan ve farklı renklerde 3 ya da 4 taştır: ör. kırmızı 9 - siyah 9 - mavi 9. Aynı renkten iki taş aynı perde olamaz; bu yüzden bir per en fazla 4 taş olur. Okey perdeki eksik rengin yerine geçebilir.',
+  'No ❌ A set is 3 or 4 tiles of the same number in different colours: e.g. red 9 – black 9 – blue 9. Two tiles of the same colour can’t be in one set, so a set has at most 4 tiles. The okey can stand in for the missing colour.',
+  'No ❌ Un grupo son 3 o 4 fichas del mismo número y de colores distintos; máximo 4.',
+  'Na ❌ Per 3 an 4 kevirên heman hejmarê bi rengên cuda ye; herî zêde 4.']),{f:['set','run','okey_what']});
+kA('r_open_keep',['Açarken elimde taş kalmalı mı?','Must I keep a tile when opening?','¿Debo guardar una ficha al abrir?','Dema vekirinê divê kevirek bimîne?'],
+ ['!acarken tas kal*','atacak tas kal*','tum taslari acabilir','hepsini acabilir miyim','butun elimi ac*','tum elimi ac*','!must keep a tile','keep a tile when opening','guardar una ficha al abrir'],
+ R4(['Evet ☝️ Açarken elinde atacak en az bir taş kalmalı. Elinin tamamını tek turda açıp son taşı atarsan bu elden (kafa) bitiştir ve baraj aranmaz.',
+  'Yes ☝️ When you open you must keep at least one tile to discard. If you lay your whole hand in one turn and throw the last tile, that’s a hand finish (kafa) and no minimum is needed.',
+  'Sí ☝️ Debe quedarte una ficha para tirar. Si bajas todo y tiras la última, es terminar de mano.',
+  'Erê ☝️ Divê kevirek ji bo avêtinê bimîne. Ger hemûyê deynî û ya dawî bavêjî, ew qedandina ji dest e.']),{f:['kafa','open','finish']});
+kA('r_pair_rules',['Çiftten açınca ne yapabilirim?','What can I do after opening with pairs?','¿Qué puedo hacer tras abrir con parejas?','Piştî vekirina bi cotan çi dikarim bikim?'],
+ ['!ciftten acinca','!ciftten actim','ciftten acan','cift actiktan sonra','ciftten actiktan sonra','ciftten sonra','!after opening pairs','opened with pairs','tras abrir con parejas','piste cotan'],
+ R4(['Çiftten açınca 👯\n• Seri/per açamazsın; sadece yeni çift açar ya da taş işlersin.\n• Masadaki seri ve perlere işleyebilirsin ama bir pere aynı elde en fazla 2 taş.\n• Bitirirsen puanlar 2 kat (−202).\n• Bitiremezsen elinde kalanlar 2 kat yazılır.\nSeriyle açan biri de masada çift varsa elindeki çiftleri çift alanına işleyebilir.',
+  'After opening with pairs 👯\n• You can’t open runs/sets; only more pairs or lay‑offs.\n• You can lay off on runs and sets, but at most 2 tiles on one set per hand.\n• If you finish, scores double (−202).\n• If you don’t, your leftover counts double.\nSomeone who opened with runs can also add pairs to the pairs area if pairs are on the table.',
+  'Tras abrir con parejas 👯 no puedes abrir series; puedes colocar (máx. 2 en un grupo). Terminar vale ×2; si no, tu resto cuenta ×2.',
+  'Piştî vekirina bi cotan 👯 rêz venakî; dikarî deynî (herî zêde 2 li perekê). Qedandin ×2; wekî din yên mayî ×2.']),{f:['pairs','st_pairs_or_runs','layoff']});
+kA('r_side_return',['Yandan aldığımı geri koyabilir miyim?','Can I put the side tile back?','¿Puedo devolver la ficha del lado?','Kevirê kêlekê dikarim paşde deynim?'],
+ ['!geri koy*','!yerine birak*','yandan aldigimi','yandan aldim kullanamadim','yandan aldim ama','!put it back','put the side tile back','return the side tile','devolver la ficha','pasde deynim'],
+ R4(['Evet ↩️ Yandan aldığın taşı o turda açarken ya da işlerken kullanamıyorsan YERİNE BIRAK butonuyla geri koyarsın, ardından ortadan çekersin. Bunun bir cezası yok.',
+  'Yes ↩️ If you can’t use the side tile that turn (to open or lay off), tap YERİNE BIRAK to put it back, then draw from the middle. No penalty.',
+  'Sí ↩️ Si no puedes usarla ese turno, pulsa YERİNE BIRAK y roba del centro. Sin multa.',
+  'Erê ↩️ Ger nikarî wê gerê bi kar bînî, YERİNE BIRAK bitikîne û ji navê bikişîne. Ceza nîne.']),{f:['side','st_side','undo']});
+kA('r_okey_left',['Elde okey kalırsa ne olur?','What if the okey is left in my hand?','¿Y si me queda el okey?','Ger okey di destê min de bimîne?'],
+ ['!elde okey kal*','!okey elimde kal*','okey kalirsa','okey elde kal*','elimde okey kal*','okey elimde kaldi','!okey left in hand','okey in my hand at the end','me queda el okey','okey di deste min'],
+ R4(['El bittiğinde elinde kalan okey 101 puan sayılır 😬 Açtıysan bu, kalanlarına eklenir (açmadıysan zaten 202 yazarsın). Bu yüzden el bitmek üzereyken okeyi bir seride ya da perde kullan, ya da son taş olarak atıp okeyle bitir.',
+  'When the hand ends, an okey left in your hand counts 101 😬 If you’ve opened, that’s added to your leftover (if not, you score 202 anyway). So when the hand is ending, use the okey in a meld or throw it last for an okey finish.',
+  'Un okey que te queda al final cuenta 101 😬 Úsalo en una combinación o termina con él.',
+  'Okeyê ku di dawiyê de dimîne 101 tê hesibandin 😬 Wî bi kar bîne an pê biqedîne.']),{f:['st_okey_use','okey_finish','score']});
+kA('r_isle_pen',['İşlek taş nedir?','What is a playable tile?','¿Qué es una ficha colocable?','Kevirê kar çi ye?'],
+ ['!islek tas','!islek ne','islek ceza*','islek taş','islenebilir tas at*','islenebilen tas','yesil nokta*','yesil yuvarlak','!playable tile','green dot','ficha colocable','kevire kar'],
+ R4(['İşlek taş, masadaki bir seriye ya da pere işlenebilecek taştır 🟢 Istakanda yeşil noktayla görünür. Böyle bir taşı atarsan +101 ceza yazar (bitirirken attığın son taş hariç). Bilgisayara karşı oyunda OYNA → Masa kuralları’ndan bu cezayı kapatabilirsin.',
+  'A playable tile is one that could be laid off on a run or set on the table 🟢 It shows a green dot on your rack. Throwing one costs +101 (except your final tile when finishing). Against the computer you can turn this penalty off in OYNA → Table rules.',
+  'Una ficha colocable podría ir a una combinación de la mesa 🟢 (punto verde). Tirarla cuesta +101, salvo la última.',
+  'Kevirê kar dikare li rêzeke masê were danîn 🟢 (xala kesk). Avêtina wî +101 e, ji bilî ya dawî.']),{f:['penalty','layoff','st_isle']});
+kA('r_who_next',['Sıra hangi yöne döner?','Which way does the turn go?','¿Hacia dónde gira el turno?','Dor ber bi kîjan alî ve diçe?'],
+ ['!sira hangi','!hangi yone','saga dogru','sola dogru','sira kimde','kimden sonra','sira kime gecer','saat yonu','!which direction','turn order','who plays next','which way','sentido del turno','dor ber bi'],
+ R4(['Sıra sağa doğru döner ↪️ Sen soldaki oyuncunun attığını alabilirsin; senin attığını da sağındaki alabilir. Eşlide karşındaki eşindir.',
+  'Play passes to the right ↪️ You can take the left player’s discard, and the player on your right can take yours. In teams your partner sits opposite.',
+  'El turno pasa a la derecha ↪️ Tomas el descarte de la izquierda y el de tu derecha toma el tuyo.',
+  'Dor diçe aliyê rastê ↪️ Tu kevirê yê çepê digirî, yê rastê jî yê te digire.']),{f:['st_right','side','starter']});
+kA('r_minus',['Eksi puan ne demek?','What do minus points mean?','¿Qué son los puntos negativos?','Xalên kêm çi ne?'],
+ ['!eksi puan','eksi yaz*','eksi 101','eksi 202','neden eksi','puanim eksi','eksi ne demek','!negative points','minus points','puntos negativos','xalen kem'],
+ R4(['Eksi puan iyidir 😊 Maçı en az puan kazanır. Bitiren oyuncu −101 yazar (elden ya da okeyle −202, okeyle elden −404). Yani eksi yazdıkça toplamın düşer, birinciliğe yaklaşırsın.',
+  'Minus points are good 😊 The lowest total wins. The finisher scores −101 (−202 with a hand or okey finish, −404 for both). The more minus, the closer you are to first place.',
+  'Los negativos son buenos 😊 Gana el total más bajo; quien termina anota −101.',
+  'Xalên kêm baş in 😊 Kêmtirîn qezenc dike; yê ku diqedîne −101 dinivîse.']),{f:['score','match_win','st_score_low']});
+
+// ----- özellikler -----
+kA('tutorial',['Oynayarak öğren nerede?','Where is Learn by playing?','¿Dónde está Aprender jugando?','Bi lîstinê fêr bibe li ku ye?'],
+ ['!oynayarak ogren','!egitim','ogretici','!bana ogret','oyunu ogret*','nasil oynandigini goster','!tutorial','teach me','learn by playing','aprender jugando','fer bibe'],
+ i=>{const rw=!P.tutRw;return[`Ayarlar → Oyun → “Oynayarak öğren” 🎓 1 ellik hazır bir masada her adımı birlikte yapıyoruz: dizmek, açmak, çekip atmak, taş işlemek. ${rw?'İlk tamamlayışta 2.000 coin hediye!':'Hediyeni almıştın ama istediğin kadar tekrar oynayabilirsin.'} Şimdi başlatayım mı?`,
+  `Settings → Game → “Learn by playing” 🎓 On a ready‑made hand we do every step together: sorting, opening, drawing, discarding and laying off. ${rw?'2,000 coins the first time you finish!':'You already got the reward, but you can replay it any time.'} Shall I start it now?`,
+  `Ajustes → Juego → “Aprender jugando” 🎓 ${rw?'¡2.000 monedas la primera vez!':''} ¿Lo empiezo ahora?`,
+  `Mîheng → Lîstik → “Bi lîstinê fêr bibe” 🎓 ${rw?'Cara yekem 2.000 coin!':''} Niha dest pê bikim?`][i]},{f:['st_beginner','rules_basic'],ask:'tut'});
+kA('invite',['Arkadaşımı oyuna nasıl çağırırım?','How do I invite a friend?','¿Cómo invito a un amigo?','Hevalê xwe çawa vexwînim?'],
+ ['davet et','!davet link*','!oyuna cagir*','!oyuna davet','arkadasimi cagir*','arkadasimi davet','arkadaslarimi davet','oyunu paylas','oyunun linki','link gonder','indirme linki','!invite a friend','invite friends','share the game','invitar a un amigo','hevale xwe vexwinim'],
+ R4(['Arkadaşlarını çağırmanın iki yolu var 📨\n• EŞLİ ekranındaki yeşil “Davet et” butonu oyunun indirme bağlantısını WhatsApp ya da istediğin uygulamayla paylaşır.\n• Birlikte oynamak için EŞLİ → Özel oda kur; 5 haneli kodun yanındaki paylaş butonuyla kodu gönder, arkadaşın kodla katılsın.',
+  'Two ways to bring friends 📨\n• The green “Invite” button on the EŞLİ screen shares the download link via WhatsApp or any app.\n• To play together, create EŞLİ → Private room and send the 5‑digit code with the share button next to it.',
+  'Dos formas 📨 el botón verde “Invitar” en EŞLİ comparte el enlace, y en EŞLİ → Sala privada envías el código de 5 dígitos.',
+  'Du rê 📨 bişkoka kesk “Vexwîne” li ser EŞLİ girêdanê parve dike; li EŞLİ → Odeya taybet koda 5 reqemî bişîne.']),{f:['private_room','partner','friends_add']});
+kA('evening_bg',['Arka plan neden değişti?','Why did the background change?','¿Por qué cambió el fondo?','Çima paşxan guherî?'],
+ ['!arka plan degis*','!arka plan neden','!arkaplan degis*','gun batimi','menu karardi','arka plan karardi','menu rengi degisti','aksam manzara*','!background changed','sunset background','el fondo cambio','pasxan guheri'],
+ R4(['Ana menünün manzarası saate göre değişir 🌅 Sabah 9 ile öğleden sonra 2 arasında gündüz, diğer saatlerde gün batımı görünür. Masa örtüsü, taş ve ıstaka görünümlerini Mağaza’dan değiştirebilirsin.',
+  'The main menu scenery follows the clock 🌅 Daytime from 9 am to 2 pm, sunset the rest of the day. You can change tablecloth, tiles and racks in the Shop.',
+  'El paisaje del menú cambia con la hora 🌅 de día de 9 a 14 h y atardecer el resto.',
+  'Dîmena menuyê li gorî saetê diguhere 🌅 ji 9 heta 14 roj, yên din rojava.']),{f:['shop_cloth','table_color','tile_style']});
+kA('salon_chips',['Salon Fişi nasıl alınır?','How do I get Game Room chips?','¿Cómo consigo fichas del salón?','Fîşên salonê çawa bistînim?'],
+ ['!fis nasil','!fis al*','!salon fisi','fis kazan*','fis bitti','fisim bitti','fisim yok','fis satin','coinle fis','fis nereden','!salon chips','get chips','fichas del salon','fise salone'],
+ i=>{let d='10.000';try{d=N(SAL_DAY)}catch(e){}return[`Salon Fişi satın alınamaz 🎟️ Her gün Oyun Salonu’ndaki “Günlük ${d}” butonundan ücretsiz alırsın; okey oynadıkça da fiş kazanırsın. Fişlerle at yarışında oynar, Salon Mağazası’ndan ödül alırsın. Fişler paraya ya da coine çevrilmez, sadece eğlence içindir.`,
+  `Game Room chips can’t be bought 🎟️ Claim ${d} free every day with the “Daily” button in the Game Room, and earn more by playing okey. Use them on the horse race and in the Game Room shop. Chips never turn into money or coins — just for fun.`,
+  `Las fichas del salón no se compran 🎟️ Cada día recibes ${d} gratis en el Salón y ganas más jugando okey.`,
+  `Fîşên salonê nayên kirîn 🎟️ Her roj ${d} belaş li Salonê distînî û bi lîstina okeyê zêdetir qezenc dikî.`][i]},{f:['salon','salon_shop','gambling']});
+kA('frames_lv',['Sıradaki çerçevem ne?','What is my next frame?','¿Cuál es mi siguiente marco?','Çarçoveya min a din çi ye?'],
+ ['!siradaki cerceve','!sonraki cerceve','!cerceve* kacinci','cerceve seviye*','cerceveler kac*','hangi seviyede cerceve','yeni cerceve ne zaman','cerceve ne zaman acil*','!next frame','frame level','frame unlock','siguiente marco','carcoveya din'],
+ i=>{const L=kLv(),fr=(typeof FRAMES!='undefined'?FRAMES:[]).filter(f=>f[2]>0),nx=fr.find(f=>f[2]>L),nm=f=>KX(f[1],i)||f[1];
+  const all=fr.map(f=>nm(f)+' '+f[2]).join(' · ');
+  const n=nx?[`Seviyen ${L}: sıradaki çerçeve ${nm(nx)} (Seviye ${nx[2]}), ${nx[2]-L} seviye kaldı.`,`You’re level ${L}: next is ${nm(nx)} (level ${nx[2]}), ${nx[2]-L} to go.`,`Nivel ${L}: el siguiente es ${nm(nx)} (nivel ${nx[2]}).`,`Asta ${L}: ya din ${nm(nx)} (asta ${nx[2]}).`][i]
+   :[`Seviyen ${L}: bütün seviye çerçevelerini açtın! 👑`,`Level ${L}: you’ve unlocked every level frame! 👑`,`Nivel ${L}: ¡todos los marcos desbloqueados! 👑`,`Asta ${L}: hemû çarçove vekirî ne! 👑`][i];
+  return[`🖼️ Seviye çerçeveleri: ${all}\n${n} Profil → Çerçeve’den seçersin; VIP çerçeveler Mağaza’da.`,`🖼️ Level frames: ${all}\n${n} Pick one in Profile → Frame; VIP frames are in the Shop.`,`🖼️ Marcos: ${all}\n${n}`,`🖼️ Çarçove: ${all}\n${n}`][i]},{f:['level','shop_frames','vip']});
+kA('perf_mode',['Performans modu nedir?','What is performance mode?','¿Qué es el modo rendimiento?','Moda performansê çi ye?'],
+ ['!performans mod*','!grafik kalite*','dusuk grafik','grafik ayar*','pil tasarruf*','!performance mode','graphics quality','low graphics','modo rendimiento','moda performanse'],
+ R4(['Ayarlar → Görünüm → Grafik kalitesi’ndeki Performans seçeneği animasyon ve ışık efektlerini hafifletir ⚡ Düşük RAM’li telefonlarda oyun bunu kendiliğinden seçer. Akıcılık sorunu varsa dene; pil de daha az harcanır.',
+  'Settings → Display → Graphics quality → Performance lightens animations and glow effects ⚡ Phones with little RAM get it automatically. Try it if the game stutters; it also saves battery.',
+  'Ajustes → Pantalla → Calidad gráfica → Rendimiento aligera las animaciones ⚡',
+  'Mîheng → Dîmen → Kalîteya grafîkê → Performans anîmasyonan sivik dike ⚡']),{f:['lag','sound','screen']});
+
+// ----- kişisel: istatistik, tavsiye, son maç -----
+function kEval(i){const s=kStat();if(s.h<3)return[`Henüz ${s.h} el oynadın 🙂 Birkaç maç at, sonra sana gerçek bir değerlendirme yaparım.`,`You’ve only played ${s.h} hands 🙂 Play a few matches and I’ll give you a real assessment.`,`Solo has jugado ${s.h} manos 🙂 Juega un poco más.`,`Te tenê ${s.h} dest lîstine 🙂 Hinekî din bilîze.`][i];
+ const hw=Math.round(s.w/s.h*100),or=Math.min(100,Math.round((s.op+s.po)/s.h*100));
+ const lb=hw>=30?['Usta seviyesindesin 🏆','Master level 🏆','Nivel maestro 🏆','Asta hostayan 🏆']:hw>=24?['Çok iyi oynuyorsun 👏','You play very well 👏','Juegas muy bien 👏','Tu pir baş dilîzî 👏']:hw>=16?['İyi gidiyorsun, gelişmeye açık 👍','Doing well, room to grow 👍','Vas bien 👍','Baş diçe 👍']:['Yolun başındasın, her el seni geliştiriyor 💪','Early days — every hand makes you better 💪','Estás empezando 💪','Tu nû dest pê dikî 💪'];
+ return[`📊 Senin oyunun (${s.h} el):\n• El kazanma: %${hw} (4 kişide ortalama %25)\n• El açma: %${or}\n• Maç galibiyeti: ${s.mw}/${s.g}\n• En yüksek açılış: ${s.bo}\n• Okeyle / elden bitiş: ${s.ok} / ${s.kf}\nDeğerlendirmem: ${lb[0]}`,
+  `📊 Your game (${s.h} hands):\n• Hands won: ${hw}% (25% is average with 4 players)\n• Hands opened: ${or}%\n• Matches won: ${s.mw}/${s.g}\n• Best opening: ${s.bo}\n• Okey / hand finishes: ${s.ok} / ${s.kf}\nMy verdict: ${lb[1]}`,
+  `📊 Tu juego (${s.h} manos): manos ganadas ${hw}%, abiertas ${or}%, partidas ${s.mw}/${s.g}. ${lb[2]}`,
+  `📊 Lîstika te (${s.h} dest): dest qezenc ${hw}%, vekirin ${or}%, maç ${s.mw}/${s.g}. ${lb[3]}`][i]}
+function kAdv(i){const s=kStat(),T=[];if(s.h<3)return[`Önce birkaç el oyna 🙂 Yeni başladıysan Ayarlar → Oyun → “Oynayarak öğren” iyi bir başlangıç.`,`Play a few hands first 🙂 New to 101? Try Settings → Game → “Learn by playing”.`,`Juega unas manos primero 🙂`,`Pêşî çend dest bilîze 🙂`][i];
+ const or=Math.round((s.op+s.po)/s.h*100),hw=Math.round(s.w/s.h*100),pr=s.pen/s.h;
+ if(or<55)T.push([`Ellerin çoğunda açamıyorsun (%${or} açma). Açamamak 202 yazmak demek, en büyük kayıp bu. Okeyini açılış için kullan; 4-5 çiftin varsa çiftten aç.`,`You don’t open in most hands (${or}% opened). Not opening means 202 — your biggest loss. Use the okey to reach 101; with 4–5 pairs, open with pairs.`,`No abres en muchas manos (${or}%). No abrir = 202.`,`Di gelek destan de venakî (${or}%). Nevekirin = 202.`]);
+ if(pr>=.12)T.push([`Sık ceza yiyorsun (${s.pen} kez). Atmadan önce yeşil noktalı (işlenebilir) taş ve okey atmadığından emin ol; ampul 💡 bunu kontrol eder.`,`You take penalties often (${s.pen} times). Before discarding, make sure it isn’t a green‑dot (playable) tile or the okey; the bulb 💡 checks this.`,`Te multan a menudo (${s.pen}). Revisa antes de tirar.`,`Pir caran ceza dixwî (${s.pen}). Berî avêtinê kontrol bike.`]);
+ if(or>=55&&hw<20)T.push([`Açıyorsun ama az bitiriyorsun (%${hw}). Açtıktan sonra işleyebildiğin her taşı işle, yüksek yalnızları önce at.`,`You open but rarely finish (${hw}%). After opening, lay off everything you can and shed high loners first.`,`Abres pero terminas poco (${hw}%). Coloca todo y suelta las altas.`,`Vedikî lê kêm diqedînî (${hw}%). Her tiştî deyne.`]);
+ if(s.po>s.op*1.5&&s.po>=4)T.push([`Çoğunlukla çiftten açıyorsun. Bitiremezsen kalanın 2 kat yazılır; elin uygunsa seri/per seçeneğine de bak.`,`You mostly open with pairs. If you don’t finish, your leftover counts double, so consider runs/sets when the hand allows.`,`Abres mucho con parejas; si no terminas, tu resto ×2.`,`Pir caran bi cotan vedikî; ger neqedînî ×2.`]);
+ if(s.ok==0&&s.h>=10)T.push([`Hiç okeyle bitirmedin. Okeyin varsa son taşın okey olacak şekilde planla: puanlar 2 kat, çanak modunda çanağı da kırar.`,`You’ve never finished with the okey. Plan for the okey to be your last tile: double score, and it wins the pot in jackpot mode.`,`Nunca terminaste con okey: guárdalo para el final.`,`Qet bi okeyê neqedandî: wî ji bo dawiyê bihêle.`]);
+ if(s.kf==0&&s.h>=20)T.push([`Elden (kafa) bitişi hiç denemedin. Elin çok iyiyse açmayı bekle ve hepsini tek turda indir: −202.`,`You haven’t tried a hand finish yet. With a great hand, hold off and lay it all in one turn: −202.`,`Prueba terminar de mano: −202.`,`Qedandina ji dest biceribîne: −202.`]);
+ if(!T.length)T.push([`Çok iyi gidiyorsun! Kendini zorlamak istersen Zorluk’u Zor yap ya da online masalara geç 🏆`,`You’re doing great! For a challenge, set Difficulty to Hard or try the online tables 🏆`,`¡Vas genial! Prueba en Difícil u online 🏆`,`Tu pir baş î! Zor an online biceribîne 🏆`]);
+ const h=[`💡 Sana özel (${s.h} ele göre):`,`💡 Just for you (based on ${s.h} hands):`,`💡 Para ti (${s.h} manos):`,`💡 Ji bo te (${s.h} dest):`][i];
+ return h+'\n'+T.slice(0,3).map((x,j)=>(j+1)+') '+x[i]).join('\n')}
+kA('my_status',['Nasıl oynuyorum?','How am I doing?','¿Cómo juego?','Ez çawa dilîzim?'],
+ ['!nasil oynuyorum','!durumum','!iyi miyim','iyi oynuyor muyum','oyunum nasil','performansim','beni degerlendir','seviyem iyi mi','!how am i doing','rate me','rate my game','am i good','como juego','ez cawa dilizim'],kEval,{f:['advice','last_match','stats']});
+kA('advice',['Bana özel tavsiye ver','Give me personal advice','Dame un consejo personal','Şîreteke taybet bide min'],
+ ['!bana ozel','!kisisel tavsiye','!neyi yanlis yapiyorum','nerede hata yapiyorum','nerde hata','!nasil gelisirim','!nasil daha iyi','daha iyi nasil oyna*','gelistirmem gereken','zayif yonum','!what am i doing wrong','how can i improve','personal advice','personal tip','como mejorar','siretek taybet'],kAdv,{f:['my_status','st_score_low','st_open_when']});
+function kLast(i){const L=P.kLM;if(!L)return[`Henüz kayıtlı bir maçın yok 🙂 Bir maç bitir, sonra sana nasıl geçtiğini anlatırım.`,`No finished match recorded yet 🙂 Finish one and I’ll break it down for you.`,`Aún no hay partidas registradas 🙂`,`Hîn maçeke tomarkirî tune 🙂`][i];
+ const md=[[L.es?'Eşli':'Tekli',L.kt?'Katlamalı':'Düz'],[L.es?'Teams':'Solo',L.kt?'Progressive':'Classic'],[L.es?'Parejas':'Individual',L.kt?'Progresivo':'Clásico'],[L.es?'Bi heval':'Tenê',L.kt?'Katlamalî':'Asayî']][i].join(' · ')+(L.on?' · Online':'');
+ const res=L.es?(L.won?['Takımınız kazandı 🏆','Your team won 🏆','Ganó tu equipo 🏆','Tîma we qezenc kir 🏆'][i]:['Takımınız kaybetti','Your team lost','Perdió tu equipo','Tîma we winda kir'][i])
+  :(L.won?['1. oldun 🏆','You finished 1st 🏆','Quedaste 1º 🏆','Tu bûyî yekem 🏆'][i]:[`${L.pl}. oldun`,`You finished ${L.pl}${['st','nd','rd','th'][Math.min(3,L.pl-1)]}`,`Quedaste ${L.pl}º`,`Tu bûyî ${L.pl}.`][i]);
+ const ln=[];
+ ln.push([`• Sonuç: ${res} — toplam ${L.me} puan`,`• Result: ${res} — ${L.me} points`,`• Resultado: ${res} — ${L.me} puntos`,`• Encam: ${res} — ${L.me} xal`][i]);
+ if(!L.won&&L.wn)ln.push([`• Kazanan: ${L.wn} (${L.wt} puan)`,`• Winner: ${L.wn} (${L.wt} points)`,`• Ganador: ${L.wn} (${L.wt})`,`• Qezenckar: ${L.wn} (${L.wt})`][i]);
+ ln.push([`• Bitirdiğin el: ${L.fin}/${L.n}${L.fin?` (en iyisi ${L.best})`:''}`,`• Hands you finished: ${L.fin}/${L.n}${L.fin?` (best ${L.best})`:''}`,`• Manos terminadas: ${L.fin}/${L.n}`,`• Destên qedandî: ${L.fin}/${L.n}`][i]);
+ if(L.op!=null)ln.push([`• Açtığın el: ${L.op}/${L.n}`,`• Hands opened: ${L.op}/${L.n}`,`• Manos abiertas: ${L.op}/${L.n}`,`• Destên vekirî: ${L.op}/${L.n}`][i]);
+ if(L.pen)ln.push([`• Ceza: ${L.pen} kez (+101)`,`• Penalties: ${L.pen} (+101)`,`• Multas: ${L.pen}`,`• Ceza: ${L.pen}`][i]);
+ if(L.okf||L.kf)ln.push([`• Okeyle / elden bitiş: ${L.okf|0} / ${L.kf|0} 🔥`,`• Okey / hand finishes: ${L.okf|0} / ${L.kf|0} 🔥`,`• Con okey / de mano: ${L.okf|0} / ${L.kf|0} 🔥`,`• Bi okey / ji dest: ${L.okf|0} / ${L.kf|0} 🔥`][i]);
+ if(L.coin>0)ln.push([`• Kazanç: ${N(L.coin)} coin 🪙`,`• Won: ${N(L.coin)} coins 🪙`,`• Ganancia: ${N(L.coin)} monedas 🪙`,`• Qezenc: ${N(L.coin)} coin 🪙`][i]);
+ let tip;if(L.op!=null&&L.op<L.n)tip=[`💡 ${L.n-L.op} elde açamadın; puanını en çok yükselten bu. Bir dahaki maçta önce açmaya odaklan.`,`💡 You didn’t open in ${L.n-L.op} hand(s) — that’s what hurt most. Focus on opening first next time.`,`💡 No abriste en ${L.n-L.op} mano(s): eso es lo que más suma.`,`💡 Di ${L.n-L.op} destan de venekir: ya herî giran ev e.`][i];
+ else if(L.pen)tip=[`💡 Cezalar pahalıya patladı; atmadan önce ampule 💡 sor.`,`💡 Penalties were costly; ask the bulb 💡 before discarding.`,`💡 Las multas salieron caras.`,`💡 Ceza biha bûn.`][i];
+ else if(L.won)tip=[`Harika maç, böyle devam! ⚓`,`Great match, keep it up! ⚓`,`¡Gran partida! ⚓`,`Maçeke pir baş! ⚓`][i];
+ else tip=[`💡 Her elde açtın, şimdi bitirmeye odaklan: açtıktan sonra yüksek taşları önce erit.`,`💡 You opened every hand; now focus on finishing: shed high tiles after opening.`,`💡 Abriste siempre; ahora céntrate en terminar.`,`💡 Te her dest vekir; niha li ser qedandinê bisekine.`][i];
+ return[`🏁 Son maçın (${kAgo(L.ts,i)} · ${md} · ${L.n} el):`,`🏁 Your last match (${kAgo(L.ts,i)} · ${md} · ${L.n} hands):`,`🏁 Tu última partida (${kAgo(L.ts,i)} · ${md} · ${L.n} manos):`,`🏁 Maça te ya dawî (${kAgo(L.ts,i)} · ${md} · ${L.n} dest):`][i]+'\n'+ln.join('\n')+'\n'+tip}
+kA('last_match',['Son maçım nasıldı?','How was my last match?','¿Cómo fue mi última partida?','Maça min a dawî çawa bû?'],
+ ['!son mac*','!son oyun*','onceki mac*','gecen mac*','az onceki mac*','son macta','!last match','last game','previous match','my last game','ultima partida','maca dawi'],kLast,{f:['advice','my_status','stats']});
+
+// ----- sohbet ve sürprizler -----
+const kGM=(slot,i)=>{const h=new Date().getHours(),hm=String(h).padStart(2,'0')+':'+String(new Date().getMinutes()).padStart(2,'0'),nm=NM();
+ const real=h>=5&&h<11?'m':h>=11&&h<17?'d':h>=17&&h<22?'e':'n';
+ if(slot=='m'){if(real=='m')return[`Günaydın ${nm}! ☕ Çay demlendi, taşlar dizildi. Güne bir elle başlayalım mı?`,`Good morning ${nm}! ☕ Tea’s brewed and the tiles are sorted. Start the day with a hand?`,`¡Buenos días ${nm}! ☕ ¿Una mano para empezar?`,`Sibe baş ${nm}! ☕ Em bi destekê dest pê bikin?`][i];
+  return[`Günaydın mı? 😄 Saat ${hm}! Neyse, okeyin saati olmaz, sana da günaydın ${nm}.`,`Good morning? 😄 It’s ${hm}! Well, okey has no clock — good morning to you too, ${nm}.`,`¿Buenos días? 😄 ¡Son las ${hm}!`,`Sibe baş? 😄 Saet ${hm} e!`][i]}
+ if(slot=='e')return real=='e'||real=='d'?[`İyi akşamlar ${nm}! 🌆 Akşam masası en keyiflisidir. Bugün kaç el attın?`,`Good evening ${nm}! 🌆 Evening tables are the best. How many hands today?`,`¡Buenas tardes ${nm}! 🌆`,`Êvar baş ${nm}! 🌆`][i]:[`İyi akşamlar ${nm}! Gerçi saat ${hm} 😄 Yine de hoş geldin.`,`Good evening ${nm}! Though it’s ${hm} 😄 Welcome anyway.`,`¡Buenas! Aunque son las ${hm} 😄`,`Êvar baş! Saet ${hm} e 😄`][i];
+ return real=='n'||real=='e'?[`İyi geceler ${nm}! 🌙 Tatlı rüyalar; rüyanda bol okey gör. Yarın günlük hediyen yenilenecek.`,`Good night ${nm}! 🌙 Sweet dreams full of okeys. Your daily gift resets tomorrow.`,`¡Buenas noches ${nm}! 🌙 Sueña con okeys.`,`Şev baş ${nm}! 🌙 Xewnên xweş.`][i]:[`İyi geceler mi? Saat daha ${hm} 😄 Ama dinlenmek istersen, sonra görüşürüz ${nm}! 🌙`,`Good night? It’s only ${hm} 😄 But rest well, see you later ${nm}! 🌙`,`¿Buenas noches? Son las ${hm} 😄`,`Şev baş? Saet hîn ${hm} e 😄`][i]};
+kA('morning',['Günaydın','Good morning','Buenos días','Sibe baş'],['!gunaydin','!good morning','!buenos dias','!sibe bas','!sibax'],i=>kGM('m',i),{f:['gift','tasks','tip']});
+kA('evening',['İyi akşamlar','Good evening','Buenas tardes','Êvar baş'],['!iyi aksamlar','!good evening','!buenas tardes','!evar bas'],i=>kGM('e',i),{f:['gift','tasks','tip']});
+kA('night',['İyi geceler','Good night','Buenas noches','Şev baş'],['!iyi geceler','!good night','!buenas noches','!sev bas','!iyi uykular'],i=>kGM('n',i),{f:['gift','wheel']});
+const KWD=[['Masayı siliyorum, taşları diziyorum 🧽 Sen bir el atmaya ne dersin?','Wiping the table and sorting tiles 🧽 Fancy a hand?','Limpio la mesa y ordeno fichas 🧽','Masê paqij dikim 🧽'],
+ ['Sağdaki rakibin yandan ne aldığını not ediyordum 📝 Eski alışkanlık.','Noting what the right‑hand player picked up 📝 Old habit.','Anotaba lo que tomó el rival 📝','Min not dikir ka dijber çi girt 📝'],
+ ['Çayımı tazeledim ☕ Sen ne yapıyorsun?','Just topped up my tea ☕ What about you?','Rellené mi té ☕','Min çaya xwe nû kir ☕'],
+ ['Digor’un kayalıklarında biraz zıpladım 🐐 Şimdi buradayım, sorunu bekliyorum!','Did a bit of rock‑hopping in Digor 🐐 Now I’m here, ask away!','Salté un poco por las rocas 🐐','Li zinaran hinekî bazdam 🐐'],
+ ['Okeyi bulmaya çalışıyordum; göstergenin bir fazlasıymış, hep unutuyorum 😄','Looking for the okey — it’s one above the indicator, I always forget 😄','Buscaba el okey 😄','Li okeyê digeriyam 😄']];
+kA('whatdoing',['Ne yapıyorsun?','What are you doing?','¿Qué haces?','Tu çi dikî?'],['!ne yapiyorsun','!ne yapiyon','!ne yapiyorsunuz','!what are you doing','!what r you doing','!que haces','!tu ci diki'],i=>kPick(KWD)[i],{f:['joke','tip','riddle']});
+kA('fav_tile',['En sevdiğin taş hangisi?','What’s your favourite tile?','¿Tu ficha favorita?','Kevirê te yê hezkirî?'],['!en sevdigin tas','!sevdigin tas','favori tas*','en sevdigin tasi','!favorite tile','favourite tile','ficha favorita','kevire hezkiri'],
+ R4(['Okey tabii ki! 🃏 Her şeye dönüşebilen bir taş… Ama gizli favorim sarı 7: elime geldiğinde hep bir seri çıkar.','The okey, obviously! 🃏 A tile that can become anything… My secret favourite is yellow 7 though: it always ends up in a run.','¡El okey, claro! 🃏 Aunque mi favorita secreta es el amarillo 7.','Bê guman okey! 🃏 Lê ya min a veşartî zer 7 e.']),{f:['fav_color','okey_what','lucky_num']});
+kA('fav_color',['En sevdiğin renk ne?','What’s your favourite colour?','¿Tu color favorito?','Rengê te yê hezkirî?'],['!en sevdigin renk','!sevdigin renk','favori renk*','!favorite colour','!favorite color','color favorito','renge hezkiri'],
+ R4(['Atkımdaki bütün renkler! 🧣 Ama taşlardan seçmem gerekirse mavi: Digor göğü gibi.','All the colours of my scarf! 🧣 But among the tiles, blue — like the Digor sky.','¡Todos los de mi bufanda! 🧣 Entre las fichas, el azul.','Hemû rengên şala min! 🧣 Ji keviran, şîn.']),{f:['fav_tile','tile_style','table_color']});
+kA('lucky_today',['Bugün şanslı mıyım?','Am I lucky today?','¿Tengo suerte hoy?','Ez îro bextewar im?'],['!sansli miyim','!bugun sansli','!sansim nasil','sans durumu','gunun sansi','!am i lucky','lucky today','tengo suerte','bexte min'],
+ i=>{const v=kHash(kDay()+'|'+(P.id||P.name||''))%100,b=v>=80?0:v>=50?1:v>=20?2:3;
+  return[[`Bugün şans göstergen %${v} 🍀 Okeyler seni seviyor! Hemen bir maç aç.`,`Okey‑luck today: ${v}% 🍀 The okeys love you! Start a match.`,`Suerte de hoy: ${v}% 🍀 ¡A jugar!`,`Bextê îro: ${v}% 🍀`],
+   [`Bugün şans göstergen %${v} 🙂 Gayet iyi; biraz taktikle çok iyi olur.`,`Okey‑luck today: ${v}% 🙂 Pretty good; add some tactics and it’s great.`,`Suerte de hoy: ${v}% 🙂`,`Bextê îro: ${v}% 🙂`],
+   [`Bugün şans göstergen %${v} 🤔 Şansa değil taktiğe güven: önce açmaya odaklan.`,`Okey‑luck today: ${v}% 🤔 Trust tactics over luck: focus on opening.`,`Suerte de hoy: ${v}% 🤔`,`Bextê îro: ${v}% 🤔`],
+   [`Bugün şans göstergen %${v} 😅 Ama gerçek ustalar şansı kendileri yaratır. Çarkı bir çevir, belki döner!`,`Okey‑luck today: ${v}% 😅 Real masters make their own luck. Spin the wheel, maybe it turns!`,`Suerte de hoy: ${v}% 😅`,`Bextê îro: ${v}% 😅`]][b][i]+[' (Bu tamamen eğlence; oyunun taşlarını etkilemez.)',' (Just for fun — it doesn’t affect the tiles.)',' (Solo es diversión.)',' (Tenê ji bo kêfê ye.)'][i]},{f:['lucky_num','wheel','luck']});
+kA('lucky_num',['Şanslı taşım ne?','What’s my lucky tile?','¿Cuál es mi ficha de la suerte?','Kevirê min ê bextewar çi ye?'],['!sansli sayi*','!sansli tas*','sans sayisi','sans tasi','!lucky number','!lucky tile','numero de la suerte','ficha de la suerte','kevire bextewar'],
+ i=>{const h=kHash('n'+kDay()+'|'+(P.id||P.name||'')),c=h%4,n=1+((h>>3)%13);return[`Bugünkü şanslı taşın: ${CNL[c][0]} ${n} 🍀 Istakana gelirse bana haber ver!`,`Today’s lucky tile: ${CNL[c][1]} ${n} 🍀 Tell me if it lands on your rack!`,`Tu ficha de la suerte hoy: ${CNL[c][2]} ${n} 🍀`,`Kevirê te yê bextewar îro: ${CNL[c][3]} ${n} 🍀`][i]},{f:['lucky_today','fav_tile']});
+kA('okey_history',['Okeyin tarihi ne?','What’s the history of okey?','¿Cuál es la historia del okey?','Dîroka okeyê çi ye?'],['!okeyin tarihi','!okey tarihi','okey* tarih*','okey nereden cik*','okeyi kim bul*','okey nasil cikti','!history of okey','okey history','historia del okey','diroka okeye'],
+ R4(['Okey, rummy ailesinden bir taş oyunudur 📜 Türkiye’de kahvehanelerin ve ev sohbetlerinin vazgeçilmezi olmuş, kuşaktan kuşağa öğrenilmiştir. 101 Okey de el açma barajı 101 olan, puanların çeteleye yazıldığı çeşididir. Biz de Digor’dan bu geleneği telefonuna taşıdık ⚓',
+  'Okey is a tile game from the rummy family 📜 In Türkiye it became a staple of tea houses and family evenings, passed down through generations. 101 Okey is the variant with a 101‑point opening bar and a running score sheet. We brought that tradition from Digor to your phone ⚓',
+  'El okey es un juego de fichas de la familia del rummy 📜 muy popular en Turquía. El 101 es la variante con apertura de 101 puntos.',
+  'Okey lîstikeke keviran e ji malbata rummy 📜 li Tirkiyeyê pir belav e. 101 guhertoya bi sînorê vekirinê 101 e.']),{f:['rules_basic','digor','egg_101']});
+kA('tavla',['Tavla var mı?','Is there backgammon?','¿Hay backgammon?','Tavla heye?'],['=tavla','tavla var','tavla oyna*','=batak','=pisti','!king oyunu','baska oyun','baska oyunlar','!backgammon','other games','otros juegos','lîstikên din'],
+ R4(['Şimdilik sadece 101 Okey ve Oyun Salonu’ndaki at yarışı var 🎲 Ama zar atmamı istersen “zar at” yaz! Yeni oyun önerin varsa Fırat’a iletebilirim: “Bir önerim var” de.','For now there’s 101 Okey and the horse race in the Game Room 🎲 Want dice? Type “roll the dice”! Got an idea for a new game? Say “I have a suggestion”.','Por ahora solo 101 Okey y las carreras del Salón 🎲','Niha tenê 101 Okey û pêşbaziya hespan heye 🎲']),{f:['salon','joke','suggest']});
+kA('dance',['Dans eder misin?','Can you dance?','¿Bailas?','Tu direqisî?'],['!dans','!oyna bakalim','halay','!dance','baila','bailar','direqis','govend'],
+ R4(['💃🐐 Sağ ayak, sol ayak, boynuzlar havaya! Digor halayında en önde ben dururum. Hadi sen de bir el aç, birlikte kutlayalım!','💃🐐 Right hoof, left hoof, horns up! I always lead the Digor line dance. Open a hand and let’s celebrate!','💃🐐 ¡Pezuña derecha, pezuña izquierda, cuernos arriba!','💃🐐 Lingê rastê, lingê çepê, stûrh bilind! Di govenda Digorê de ez li pêş im.']),{f:['sing','joke','win_happy']});
+const KSNG=[['🎵 Istakam dolu, gönlüm şen,\nokey gelince açarım ben… 🎶 (Bestesi bende, sözleri sende!)','🎵 My rack is full, my heart is light,\nwhen the okey comes I open tonight… 🎶','🎵 Mi atril lleno, mi alma feliz… 🎶','🎵 Îstaka min tije, dilê min şa… 🎶'],
+ ['🎵 Sabah çayı, akşam taşı,\nDigor’un dağı, okeyin başı… 🎶','🎵 Morning tea and evening tiles,\nDigor mountains, okey smiles… 🎶','🎵 Té de mañana, fichas de tarde… 🎶','🎵 Çaya sibê, kevirên êvarê… 🎶']];
+kA('sing',['Şarkı söyler misin?','Can you sing?','¿Cantas?','Tu stranan dibêjî?'],['!sarki soyle','!sarki soyler','bir sarki','!turku soyle','!sing','sing a song','canta','cantar','stranan dibeji'],
+ i=>kPick(KSNG)[i]+['\n\nGerçek şarkılar için müzik açık mı bak: Ayarlar → Ses.','\n\nFor the real songs, check music is on: Settings → Sound.','',''][i],{f:['music','dance','joke']});
+const KSEC=[['Sırrımı sana söylüyorum 🤫 Masada okeyi basılı tutarsan çevirebilirsin; kimse göremez.','Here’s a secret 🤫 Press and hold the okey at the table to flip it face down.','Secreto 🤫 Mantén pulsado el okey para darle la vuelta.','Raz 🤫 Okeyê bitikîne û bigire da ku wî bizivirînî.'],
+ ['Sırrımı sana söylüyorum 🤫 İki taşın arasına bırakırsan taş araya girer; ıstakayı elle dizmek çok kolaylaşır.','Here’s a secret 🤫 Drop a tile between two others and it slides in — hand‑sorting gets much easier.','Secreto 🤫 Suelta una ficha entre dos y se inserta.','Raz 🤫 Kevirekî di navbera duyan de berde, dikeve navê.'],
+ ['Sırrımı sana söylüyorum 🤫 Profilindeki rozetlerden 3 tanesini vitrine koyabilirsin; masadakiler görür.','Here’s a secret 🤫 You can showcase 3 of your badges on your profile for others to see.','Secreto 🤫 Puedes exhibir 3 insignias en tu perfil.','Raz 🤫 Tu dikarî 3 nîşanan li profîla xwe nîşan bidî.'],
+ ['Sırrımı sana söylüyorum 🤫 Bana “son maçım nasıldı” ya da “bana özel tavsiye” diye sorarsan oyununa bakıp konuşurum.','Here’s a secret 🤫 Ask me “how was my last match” or “give me personal advice” and I’ll look at your games.','Secreto 🤫 Pregúntame “¿cómo fue mi última partida?”.','Raz 🤫 Ji min bipirse “maça min a dawî çawa bû?”.']];
+kA('secret',['Bana bir sır ver','Tell me a secret','Cuéntame un secreto','Razekê ji min re bêje'],['!sir ver','!bir sir','!sirrini','sirri ne','gizli ozellik*','gizli bir sey','!easter egg','!tell me a secret','a secret','secreto','=sir','razeke'],i=>kPick(KSEC)[i],{f:['badges','last_match','riddle']});
+kA('superpower',['Süper gücün ne?','What’s your superpower?','¿Cuál es tu superpoder?','Hêza te ya mezin çi ye?'],['!super guc*','!supergucun','ozel gucun','!superpower','super power','superpoder','heza mezin'],
+ R4(['Göstergeye bakar bakmaz okeyi bilirim 🦸 Bir de 22 taşı 1 saniyede dizebilirim. Ama hile yok: senin ıstakanı göremem!','I know the okey the moment I see the indicator 🦸 And I can sort 22 tiles in a second. But no cheating: I can’t see your rack!','Sé cuál es el okey con solo ver el indicador 🦸','Gava nîşanderê dibînim okeyê dizanim 🦸']),{f:['okey_what','cheat','who']});
+kA('hobby',['Boş zamanlarında ne yaparsın?','What do you do for fun?','¿Qué haces en tu tiempo libre?','Di wextê vala de çi dikî?'],['!bos zaman*','!hobin','hobilerin','ne yaparsin','!for fun','hobby','hobbies','tiempo libre','wexte vala'],
+ R4(['Kayalıklarda tırmanırım, çay demlerim, bir de at yarışında Çawreş’i tutarım 🐎 Sen?','I climb rocks, brew tea and cheer for Çawreş in the horse race 🐎 You?','Escalo rocas, preparo té y animo a Çawreş 🐎','Li zinaran hildikişim, çay çêdikim û ji Çawreş re dibêjim “bimeşe!” 🐎']),{f:['salon','whatdoing','joke']});
+kA('best_player',['En iyi oyuncu kim?','Who is the best player?','¿Quién es el mejor jugador?','Lîstikvanê herî baş kî ye?'],['!en iyi oyuncu','!en iyi kim','en iyisi kim','en usta','!best player','who is the best','mejor jugador','listikvane heri bas'],
+ i=>{const s=kStat(),nm=NM();return[`Benim için sensin ${nm}! 😄 ${s.g?`${s.g} maçta ${s.mw} galibiyetin var. `:''}Gerçek sıralama için Lig’e bak: her ay en çok yıldız toplayanlar ödül kazanır.`,`To me it’s you, ${nm}! 😄 ${s.g?`${s.mw} wins in ${s.g} matches. `:''}For the real ranking, check the League: top star collectors win monthly rewards.`,`¡Para mí, tú, ${nm}! 😄 Mira la Liga para el ranking.`,`Ji bo min tu yî, ${nm}! 😄 Ji bo rêzê li Lîgê binêre.`][i]},{f:['lig','my_status','stats']});
+const KRID=[[['Her şeye dönüşürüm ama atılırsam ceza yazarım. Neyim? 🤔','I can become anything, but throw me and it’s a penalty. What am I? 🤔','Me convierto en cualquier cosa, pero tirarme es multa. ¿Qué soy? 🤔','Ez dibim her tişt, lê ger min bavêjî ceza ye. Ez çi me? 🤔'],['okey','joker','comodin'],'Okey 🃏'],
+ [['Ortada dururum, okeyi gösteririm, ama ben okey değilim. Neyim? 🤔','I sit in the middle and point to the okey, but I’m not the okey. What am I? 🤔','Estoy en el centro y señalo el okey, pero no soy el okey. ¿Qué soy? 🤔','Ez li navê me, okeyê nîşan didim, lê ez ne okey im. Ez çi me? 🤔'],['gosterge','indicator','indicador','nisander'],'Gösterge 🎯'],
+ [['Üstümde logo var, okeye benzerim ama okey değilim. Neyim? 🤔','I have a logo on me and look like a joker, but I’m not one. What am I? 🤔','Tengo un logo y parezco comodín, pero no lo soy. ¿Qué soy? 🤔','Logo li ser min e, wek okey xuya dikim lê ne okey im. Ez çi me? 🤔'],['sahte','fake','falso','sexte'],'Sahte okey 🏷️'],
+ [['22 taşla başlar, çekmeden atarım. Kimim? 🤔','I start with 22 tiles and throw without drawing. Who am I? 🤔','Empiezo con 22 fichas y tiro sin robar. ¿Quién soy? 🤔','Bi 22 keviran dest pê dikim û bê kişandin diavêjim. Ez kî me? 🤔'],['baslayan','ilk oyuncu','starter','first player','el que empieza','yê destpêkê'],'Başlayan oyuncu 🥇']];
+let KRDL=null,KRP=null;
+kA('riddle',['Bana bilmece sor','Ask me a riddle','Hazme una adivinanza','Mamikekê ji min bipirse'],['!bilmece','!bulmaca','bilmece sor','!riddle','puzzle','adivinanza','mamik','mamike'],
+ i=>{const r=kPick(KRID);KRDL={r,ts:Date.now()};return r[0][i]+['\n(Cevabını yaz ya da “cevap ne” de.)','\n(Type your answer or say “tell me”.)','\n(Escribe tu respuesta o di “dime”.)','\n(Bersiva xwe binivîse an bêje “bersiv”.)'][i]},{f:['riddle_ans','joke']});
+kA('riddle_ans',['Cevap ne?','Tell me the answer','¿Cuál es la respuesta?','Bersiv çi ye?'],['!cevap ne','!cevabi soyle','cevabi ne','bilemedim','bilmiyorum cevap','pes ediyorum','!tell me the answer','i give up','me rindo','bersiv ci ye'],
+ i=>{const r=(KRDL||KRP)&&(KRDL||KRP).r;KRDL=KRP=null;if(!r)return['Önce bir bilmece sorayım mı? “Bilmece sor” de 🙂','Shall I ask you a riddle first? Say “ask me a riddle” 🙂','¿Te hago una adivinanza primero? 🙂','Pêşî mamikekê bipirsim? 🙂'][i];
+  return['Cevap: ','Answer: ','Respuesta: ','Bersiv: '][i]+r[2]+['  Bir tane daha ister misin? “Bilmece sor” de!','  Want another? Say “ask me a riddle”!','  ¿Otra?','  Yeke din?'][i]},{f:['riddle','joke']});
+
+// sürprizler (KEGG)
+try{KEGG.forEach(x=>{if(x&&x[0]&&!has(x[0]))K(x[0],x[1],x[2],typeof x[3]=='function'?x[3]:R4(x[3]),x[4]||{f:['joke','who']})})}catch(e){}
+
+/* ---------- 4) mevcut konuların ince ayarı ---------- */
+kAddK('rules_basic',['nasil oynan*','okey nasil oyna*','oyun nasil oyna*','101 nasil oyna*']);
+kAddK('open',['el nasil acil*','nasil acil*','el acil*','eli nasil ac*','elimi nasil ac*','el nasil ac*']);
+kAddK('buy_fail',['!satin alamiyorum','!coin alamiyorum','!alamiyorum','coin alinmiyor','satin alinmiyor','odeme olmuyor','satin alma olmuyor','paket alamiyorum']);
+kAddK('fake',['!sahte okeyi','!sahte okey*','!sahte okey* nasil kullan*','!sahte okey* ne ise']);
+kAddK('kat',['!katlamali* nasil','!katlamasiz* nasil']);
+kAddK('team',['!esli* nasil oyna*','!esli nasil']);
+kAddK('canak',['!canak* nasil oyna*','canak modu nasil']);
+kAddK('st_okey_use',['okey kullan*','okeyi kullan*','okeyle ne yap*']);
+kAddK('open',['elim acil*','el acilmiyor','eli acamiyorum','!nasil acarim','!101 den nasil','101 ile nasil ac*']);
+kAddK('st_okey_use',['!okey* ne zaman kullan*']);
+kAddK('buy_problem',['!coin gelmedi','!coinler gelmedi','coin yuklenmedi','paket aldim','aldim gelmedi','!gelmedi coin']);
+kAddK('offline',['!internet olmadan','internetsiz oyna*','wifi olmadan','cevrimdisi oyna*','internet yokken']);
+kAddK('private_room',['!arkadas* nasil oyna*','!arkadas* ile nasil oyna*']);
+kAddK('run',['seri kac tas','seri en az','!seri en az kac','seri kac taslik']);
+kAddK('score',['=202','202 yaz*','neden 202','=404','404 yaz*','neden 404']);
+kAddK('sort',['otomatik diz*','!taslari diz*','tas diz*','istakayi diz*']);
+kAddK('okey_finish',['okeyle bitir* kac','okeyle biti* puan','okey ile biti* puan']);
+kAddK('partner',['!esimle','esimle oyna*','esim ile oyna*']);
+kAddK('online_bots',['!oyuncu yok','online kimse','oyuncu gelmiyor','online oyuncu yok','kimse yok online']);
+kAddK('stakes',['!masa parasi','masa ucreti','giris parasi','masaya giris']);
+kAddK('report',['kufur eden','!kufur*','hakaret eden','kotu konusan']);
+kAddK('login_fail',['!giris olmuyor','giris yapilmiyor','!google giris*','google baglanmiyor','hesap baglanmiyor']);
+kAddK('crash',['!coktu','cokme','cokuy*','oyun kapandi','atiyor oyundan','oyundan atiyor']);
+kAddK('discard_okey',['okey* at*','!okey tasini at*','okeyi atsam']);
+kAddK('kafa',['acmadan bitir*','acmadan biter*','hic acmadan']);
+kAddK('buy_fail',['!satin alma hata*','odeme hata*','satin alirken hata']);
+kAddK('chat',['!mesaj gonder*','mesaj atamiyorum','mesaj gitmiyor']);
+kDelK('stakes',['mesa','mase']);kAddK('stakes',['=mesa','=mase']);
+kAddK('compliment',['tatlisin','cok tatli','sevimlisin','guzelsin','komiksin','tatli*','cute','eres lindo']);
+kAddK('flip',['tasi cevir*','!cevirdim','geri cevir*','taslar beyaz','tas beyaz']);
+kAddK('shop_frames',['!cerceve* satin al*','cerceve* almak','cerceve* al*']);
+kAddK('update',['guncelle*','!nasil guncel*','oyunu guncel*','yeni surum*']);
+kAddK('stakes',['!online masa*','masa kac coin','masa kac','masalar kac']);
+kAddK('maker',['!seni kim yap*','seni kim yarat*','kim yaratti','seni kim gelistir*']);
+kAddK('lag',['oyun kasiyor','cok kasiyor','kasma var','takiliyor oyun']);
+kDelK('difficulty',['botlar hile','bot hile','hile yapiyor','bots cheat']);
+try{if(KBI.hint)KBI.hint.a=['Masadaki ampul 💡 artık bir koç: sıran geldiğinde ıstakana bakıp yandan mı ortadan mı çekeceğini, açıp açamayacağını, kaç taş işleyebileceğini ve hangi taşı neden atman gerektiğini söyler. Sağındaki oyuncunun yandan aldıklarını da hesaba katar. Görünmüyorsa Ayarlar → Oyun → İpucu butonu’nu aç.',
+ 'The bulb 💡 at the table is now a coach: on your turn it reads your rack and tells you whether to take the side tile or draw, whether you can open, how many tiles you can lay off, and which tile to discard and why. It also accounts for what the player on your right has picked up. Not visible? Turn on Settings → Game → Hint button.',
+ 'La bombilla 💡 ahora es un entrenador: te dice si tomar del lado, si puedes abrir, qué colocar y qué ficha tirar y por qué.',
+ 'Ampûl 💡 niha rahênerek e: dibêje ka ji kêlekê bigirî an na, dikarî vekî, çi deynî û kîjan kevirî bavêjî.']}catch(e){}
+try{['tip','stats','help'].forEach(id=>{const e=KBI[id];if(e){e.f=(e.f||[]).filter(x=>x!='advice'&&x!='my_status');e.f.unshift(id=='stats'?'my_status':'advice')}})}catch(e){}
+
+/* ---------- 5) kReply: takip soruları, bilmece, keçi sesi ---------- */
+const _kr=kReply;
+kReply=function(raw){const t=KT(raw),fresh=KCTX.ts&&Date.now()-KCTX.ts<6e5;
+ try{
+  if(/^(m+e+h*|b+e+|m+e+ m+e+h*)$/.test(t)&&t.length>=3){KR=Math.random();return kAns(KBI.egg_mee)}
+  const rd=KRDL&&Date.now()-KRDL.ts<6e5?KRDL:null;KRDL=null;KRP=rd;
+  if(rd&&t&&t.split(' ').length<=4){const r=rd.r,p=kPre(raw);
+   if(r[1].some(a=>(' '+p+' ').includes(' '+KT(a)))){KRP=null;KR=Math.random();return kFin('riddle_ok',k4(['Bildin! 🎉 Cevap: '+r[2]+' Bir tane daha?','You got it! 🎉 Answer: '+r[2]+' Another one?','¡Acertaste! 🎉 '+r[2],'Te zanî! 🎉 '+r[2]]),['riddle','joke'])}}
+  const p=kPre(raw);
+  // "12 çarpı 8", "5 artı 3" → hesap makinesi
+  {const cx=KN(raw).replace(/\b(carpi|kere|times)\b/g,'*').replace(/\b(arti|plus|mas)\b/g,'+').replace(/\b(eksi|minus|menos)\b/g,'-').replace(/\b(bolu|divided by)\b/g,'/');
+   if(cx!==KN(raw)&&/\d\s*[-+*/]\s*\d/.test(cx)){const r=kSpecial(cx);if(r){KR=Math.random();return r}}}
+  // "peki eşlide?", "ya katlamalıda?", "what about pairs?"
+  const m=p.match(/^(peki ya|peki|e peki|ya|bes|and|what about|how about|y si|y en|ya da)\s+(.+)$/);
+  if(m&&fresh&&KCTX.last&&KBI[KCTX.last]){const rest=m[2];if(!KFUP.test(rest)){const a=kScore(rest);
+   if(a.length&&a[0][1]>=2){const b=kScore((KBI[KCTX.last].q[0]||'')+' '+rest),pick=b.length&&b[0][0].id!=KCTX.last&&b[0][1]>=a[0][1]?b[0][0]:a[0][0];
+    if(pick.id!=KCTX.last){KR=Math.random();return kAns(pick)}}}}
+  // "peki nasıl kırılır?" → son konunun anahtarıyla birlikte değerlendir (çanak + nasıl kırılır → çanak taktiği)
+  if(fresh&&KCTX.last&&KBI[KCTX.last]&&KFUP.test(p)&&p.split(' ').length>=2){const lk=KT(String((KBI[KCTX.last].k||[])[0]||'').replace(/^[~!=]/,'').replace(/\*/g,''));
+   if(lk){const rest=p.replace(/^(peki ya|peki|e peki|ya)\s+/,''),c=kScore(lk+' '+rest),a=kScore(rest);if(c.length&&c[0][0].id!=KCTX.last&&c[0][1]>=4&&(!a.length||c[0][1]>a[0][1])){KR=Math.random();return kAns(c[0][0])}}}
+  if(p&&p!==t&&KQMAP[p]&&!KQMAP[t]&&!kSpecial(raw)){KR=Math.random();return kAns(KBI[KQMAP[p]])}
+ }catch(e){console.warn('kaptan',e)}
+ return _kr.apply(this,arguments)};
+// "Şimdi başlatayım mı?" → evet: eğitimi aç
+const _ka=kAsk;
+kAsk=function(k,yes){if(k=='tut'){if(yes&&typeof startTut=='function'){setTimeout(()=>{try{ovl('chat',false)}catch(e){}try{startTut()}catch(e){}},1600);
+  return kFin('ack',k4(['Harika! 🎓 Masayı hazırlıyorum…','Great! 🎓 Setting up the table…','¡Genial! 🎓 Preparo la mesa…','Pir baş! 🎓 Masê amade dikim…']),[])}
+ return kFin('ack',k4(['Peki 🙂 İstediğin zaman Ayarlar → Oyun’dan başlatabilirsin.','Okay 🙂 Start it any time from Settings → Game.','Vale 🙂 Cuando quieras, en Ajustes → Juego.','Baş e 🙂 Kengê bixwazî ji Mîheng → Lîstik.']),KDEF)}
+ return _ka.apply(this,arguments)};
+
+/* ---------- 6) son maç kaydı ---------- */
+const kSt=()=>Object.assign({},P.st||{});
+startHand=(o=>function(){try{if(M&&!M.kst0)M.kst0=kSt()}catch(e){}return o.apply(this,arguments)})(startHand);
+matchEnd=(o=>function(){const r=o.apply(this,arguments);try{if(M&&!M._kl&&!(typeof TUT!='undefined'&&TUT.on)){M._kl=1;const t=M.tot||[0,0,0,0],es=!!(M.md&&M.md.esli),sc=(M.sc||[]).map(x=>x[0]|0),a=M.kst0,b=P.st||{};
+  let pl=1,wn='',wt=0;if(es){const me=t[0]+t[2],op=t[1]+t[3];pl=me<=op?1:2}else{t.forEach((x,p)=>{if(p&&x<t[0])pl++})}
+  const won=M.win===0;if(!won){if(es){wn=kPN(1)+' & '+kPN(3);wt=t[1]+t[3]}else{const w=t.indexOf(Math.min(...t));wn=kPN(w);wt=t[w]}}
+  const d=k=>a?Math.max(0,(b[k]|0)-(a[k]|0)):null;
+  P.kLM={ts:Date.now(),es:es?1:0,kt:M.md&&M.md.kat?1:0,on:typeof isOnl=='function'&&isOnl()?1:0,n:sc.length||M.n|0,me:es?t[0]+t[2]:t[0],pl,won:won?1:0,wn,wt,
+   fin:sc.filter(x=>x<0).length,best:sc.length?Math.min(...sc):0,op:a?d('opens')+d('popens'):null,pen:d('pen')|0,okf:d('okeyFin')|0,kf:d('kafaFin')|0,coin:M.coin|0};
+  if(P.kLM.op!=null)P.kLM.op=Math.min(P.kLM.op,P.kLM.n);save()}}catch(e){console.warn('kLM',e)}return r})(matchEnd);
+
+/* ---------- 7) MASADA KOÇ: ampul 💡 ---------- */
+const CT={wait:['Sıra sende değil. Bu arada atılan taşları izle 👀','It’s not your turn. Watch the discards meanwhile 👀','No es tu turno. Mira los descartes 👀','Ne dora te ye. Li kevirên avêtî binêre 👀'],
+ wait_tk:['Sıra sende değil. Sağındaki {n} yandan <b>{t}</b> aldı; ona bunlara yakın taş verme 👀','Not your turn. {n} on your right took <b>{t}</b>; avoid feeding them nearby tiles 👀','No es tu turno. {n}, a tu derecha, tomó <b>{t}</b>; no le des fichas cercanas 👀','Ne dora te ye. {n} li rastê te <b>{t}</b> girt; kevirên nêzîk nede 👀'],
+ side_open:['Soldan gelen <b>{t}</b> elini açmana yarar: yandan al! 👈','<b>{t}</b> from the left helps you open: take it! 👈','La <b>{t}</b> de la izquierda te sirve para abrir: ¡tómala! 👈','<b>{t}</b> ya çepê ji bo vekirinê baş e: bigire! 👈'],
+ side_isle:['Soldan gelen <b>{t}</b> hemen kullanılabilir: yandan al! 👈','<b>{t}</b> from the left can be used right away: take it! 👈','La <b>{t}</b> de la izquierda se puede usar ya: ¡tómala! 👈','<b>{t}</b> ya çepê yekser bi kar tê: bigire! 👈'],
+ draw_no:['Soldaki <b>{t}</b> şu an işine yaramıyor; ortadan çek 🀄','<b>{t}</b> on the left doesn’t help you now; draw from the middle 🀄','La <b>{t}</b> no te sirve ahora; roba del centro 🀄','<b>{t}</b> niha bi kar nayê; ji navê bikişîne 🀄'],
+ draw:['Ortadan taş çek 🀄','Draw from the middle 🀄','Roba del centro 🀄','Ji navê kevir bikişîne 🀄'],
+ deck_end:['Ortada taş kalmadı; soldaki taşı kullanamıyorsan el biter ⏳','The middle is empty; if you can’t use the side tile, the hand ends ⏳','No quedan fichas; si no usas la del lado, la mano termina ⏳','Kevir nemane; ger yê kêlekê bi kar neyînî dest diqede ⏳'],
+ kafa:['Tüm elin hazır: <b>SERİ AÇ</b> ile hepsini indirip bitirebilirsin! 🔥 Elden bitiş!','Your whole hand is ready: tap <b>SERİ AÇ</b> to lay it all and finish! 🔥','¡Tu mano está lista: pulsa <b>SERİ AÇ</b> y termina de mano! 🔥','Hemû dest amade ye: <b>SERİ AÇ</b> bitikîne û biqedîne! 🔥'],
+ open:['Elin <b>{p}</b> puan, baraj {b}: <b>SERİ AÇ</b> ile açabilirsin ✅','Your hand is worth <b>{p}</b>, the bar is {b}: tap <b>SERİ AÇ</b> to open ✅','Tu mano suma <b>{p}</b> (mínimo {b}): pulsa <b>SERİ AÇ</b> ✅','Destê te <b>{p}</b> xal e ({b}): <b>SERİ AÇ</b> bitikîne ✅'],
+ pairs:['<b>{n} çiftin</b> var: <b>ÇİFT AÇ</b> ile çiftten açabilirsin 👯','You have <b>{n} pairs</b>: tap <b>ÇİFT AÇ</b> to open with pairs 👯','Tienes <b>{n} parejas</b>: pulsa <b>ÇİFT AÇ</b> 👯','<b>{n} cotên</b> te hene: <b>ÇİFT AÇ</b> bitikîne 👯'],
+ isle:['<b>{n}</b> taşı masaya işleyebilirsin: <b>TAŞ İŞLE</b> ✅ Elinde kalan her taş puan demek.','You can lay off <b>{n}</b> tile(s): tap <b>TAŞ İŞLE</b> ✅ Every tile left counts against you.','Puedes colocar <b>{n}</b> ficha(s): pulsa <b>TAŞ İŞLE</b> ✅','Tu dikarî <b>{n}</b> kevir deynî: <b>TAŞ İŞLE</b> ✅'],
+ more:['Elinde masaya açabileceğin yeni bir grup var: aç ✅','You have a new group you can lay down: do it ✅','Tienes un grupo nuevo para bajar ✅','Komeke nû ya ji bo danînê heye ✅'],
+ t3_ret:['Yandan aldığın taşı (<b>{t}</b>) bu turda kullanamıyorsun: <b>YERİNE BIRAK</b> ve ortadan çek ↩️','You can’t use the side tile (<b>{t}</b>) this turn: tap <b>YERİNE BIRAK</b> and draw from the middle ↩️','No puedes usar <b>{t}</b> este turno: pulsa <b>YERİNE BIRAK</b> ↩️','Tu nikarî <b>{t}</b> bi kar bînî: <b>YERİNE BIRAK</b> ↩️'],
+ disc:['Bence <b>{t}</b> at 🎯','I’d throw <b>{t}</b> 🎯','Yo tiraría <b>{t}</b> 🎯','Ez ê <b>{t}</b> bavêjim 🎯'],
+ r_iso:[' Hiçbir taşınla bağı yok.',' It doesn’t connect with any of your tiles.',' No conecta con tus fichas.',' Bi kevirên te re têkildar nîne.'],
+ r_low:[' Elindeki en az işe yarayan taş bu.',' It’s your least useful tile.',' Es tu ficha menos útil.',' Kevirê herî kêm bi kar e.'],
+ r_high:[' Yüksek; elinde kalırsa puanına eklenir.',' It’s high and would count against you if left.',' Es alta y sumaría si te queda.',' Bilind e; ger bimîne xala te zêde dike.'],
+ r_avoid:[' Sağındaki oyuncunun topladıklarına yakın taşları elinde tuttum.',' I held back tiles close to what your right‑hand player is collecting.',' Guardé las fichas que busca el rival de tu derecha.',' Min kevirên ku yê rastê berhev dike hiştin.'],
+ r_feed:[' ⚠️ Sağındaki oyuncunun işine yarayabilir ama daha iyisi yok.',' ⚠️ It may help your right‑hand player, but there’s nothing better.',' ⚠️ Puede servirle al de tu derecha, pero no hay nada mejor.',' ⚠️ Dibe ku ji yê rastê re bi kar bê.'],
+ r_isl:[' ⚠️ Dikkat: masaya işlenebilir, atarsan +101 ceza!',' ⚠️ Careful: it’s playable on the table, +101 if you throw it!',' ⚠️ Ojo: es colocable, ¡+101 de multa!',' ⚠️ Hişyar be: dikare were danîn, +101 ceza!'],
+ need:[' Açmak için {d} puan daha lazım ({p}/{b}).',' You need {d} more points to open ({p}/{b}).',' Te faltan {d} puntos para abrir ({p}/{b}).',' Ji bo vekirinê {d} xal din divê ({p}/{b}).'],
+ last:['Son taşın <b>{t}</b>: at ve eli bitir! 🏁','Your last tile is <b>{t}</b>: throw it and finish! 🏁','Tu última ficha es <b>{t}</b>: ¡tírala y termina! 🏁','Kevirê te yê dawî <b>{t}</b> e: bavêje û biqedîne! 🏁'],
+ last_ok:['Son taşın okey: at ve <b>okeyle bitir</b>! Puanlar 2 kat 🃏','Your last tile is the okey: throw it for an <b>okey finish</b>! Double score 🃏','Tu última ficha es el okey: ¡termina con él! ×2 🃏','Kevirê te yê dawî okey e: pê biqedîne! ×2 🃏']};
+const KBTN=['SERİ AÇ','ÇİFT AÇ','TAŞ İŞLE','YERİNE BIRAK','GERİ AL'];
+const ct=(k,v)=>{const i=kLG();let x=kFmt(CT[k][i]||CT[k][1],v);if(i)KBTN.forEach(l=>{const tr=KX(l,i);if(tr&&tr!==l)x=x.split(l).join(tr)});return x};
+function kDisc(){const ts=rackT();if(!ts.length)return null;const r=solve(ts),free=new Set(r.left),
+ pool=ts.filter(t=>t!==S.t3&&free.has(t)),cand=pool.length?pool:ts.filter(t=>t!==S.t3);if(!cand.length)return null;
+ const tk=(S.took[1]||[]).filter(t=>!isJ(t)),op=S.op[0];
+ const rs=cand.map(x=>{const b=sc(x,ts.filter(y=>y!==x)),isl=canAdd(x);let w=0;if(!isJ(x))tk.forEach(y=>{if((y.c==x.c&&Math.abs(y.n-x.n)<=2)||(y.n==x.n&&y.c!=x.c))w++});
+  return{x,b,w,isl,s:b+(isl?60:0)+(isJ(x)?500:0)-x.n*(op?.15:.08)+w*4}});
+ rs.sort((a,b)=>a.s-b.s);const best=rs[0];best.av=best.w==0&&rs.some(o=>o.w>0&&o.s-o.w*4<best.s);best.i=S.rack.indexOf(best.x);return best}
+function kCoach(quiet){if(!S||S.over||S.deal)return null;
+ if(S.turn!=0){const tk=(S.took[1]||[]).filter(t=>!isJ(t));return{t:tk.length?ct('wait_tk',{n:kPN(1),t:tk.slice(-2).map(x=>tN(x)).join(', ')}):ct('wait')}}
+ if(S.busy)return null;
+ if(S.ph=='draw'){const x=S.pile[3][S.pile[3].length-1];let u=false;try{u=!!(x&&sideUsable(x))}catch(e){}
+  if(u)return{t:ct(S.op[0]?'side_isle':'side_open',{t:tN(x)}),hi:'#p3'};
+  if(!S.deck.length)return{t:ct('deck_end'),hi:'#p3'};
+  return{t:x?ct('draw_no',{t:tN(x)}):ct('draw'),hi:'#deck'}}
+ try{footState()}catch(e){}const f=FOOTC||{},op=S.op[0],ts=rackT();
+ if(S.t3&&S.rack.includes(S.t3)){if(!op&&f.can)return{t:ct(f.kafa?'kafa':'open',{p:f.pts,b:S.bar}),hi:'#acts [data-a="open"]'};
+  if(op&&f.acts)return{t:ct('isle',{n:f.acts}),hi:'#acts [data-a="isle"]'};
+  return{t:ct('t3_ret',{t:tN(S.t3)}),hi:'#acts [data-a="ret"]'}}
+ if(!op){if(f.can)return{t:ct(f.kafa?'kafa':'open',{p:f.pts,b:S.bar}),hi:'#acts [data-a="open"]'};
+  if(f.pc>=S.pbar)return{t:ct('pairs',{n:f.pc}),hi:'#acts [data-a="pairs"]'}}
+ else{if(f.acts)return{t:ct('isle',{n:f.acts}),hi:'#acts [data-a="isle"]'};if(f.more>0)return{t:ct('more'),hi:'#acts [data-a="more"]'}}
+ if(op&&ts.length==1){const x=ts[0];return{t:isJ(x)?ct('last_ok'):ct('last',{t:tN(x)}),sel:S.rack.indexOf(x)}}
+ const d=kDisc();if(!d)return null;let t=ct('disc',{t:tN(d.x)});
+ if(d.isl&&(!M||!M.md||M.md.pIs!==0))t+=ct('r_isl');
+ else{t+=d.b==0?ct('r_iso'):op&&d.x.n>=10?ct('r_high'):ct('r_low');if(d.av)t+=ct('r_avoid');else if(d.w)t+=ct('r_feed')}
+ if(!op&&f.pts>0&&f.pts<S.bar)t+=ct('need',{p:f.pts,b:S.bar,d:S.bar-f.pts});
+ return{t,sel:d.i}}
+window.kCoach=kCoach;
+let KCO=0;
+function kcoUI(){let e=document.getElementById('kco');if(!e){e=document.createElement('div');e.id='kco';e.innerHTML='<div class="kcob" onclick="kcoHide()"><img src="img/kaptan/av.webp" alt=""><p id="kcoT"></p></div><i class="kcohi" id="kcoHi"></i>';document.body.appendChild(e)}return e}
+window.kcoHide=function(){clearTimeout(KCO);const e=document.getElementById('kco');if(e)e.classList.remove('on')};
+function kcoShow(c){const e=kcoUI();document.getElementById('kcoT').innerHTML=c.t;
+ const rk=document.querySelector('#rkb')||document.querySelector('#rack'),r=rk&&rk.getBoundingClientRect(),b=e.querySelector('.kcob');
+ if(r&&r.height)b.style.bottom=Math.round(innerHeight-r.top+innerHeight*.012)+'px';else b.style.bottom='';
+ const hi=document.getElementById('kcoHi'),el=c.hi&&document.querySelector(c.hi),q=el&&el.getBoundingClientRect();
+ if(q&&q.width){const p=5;hi.style.cssText=`display:block;left:${q.left-p}px;top:${q.top-p}px;width:${q.width+2*p}px;height:${q.height+2*p}px`}else hi.style.display='none';
+ e.classList.remove('on');void e.offsetWidth;e.classList.add('on');clearTimeout(KCO);KCO=setTimeout(kcoHide,Math.min(11000,4200+String(c.t).replace(/<[^>]+>/g,'').length*45))}
+hint=function(){if(!S||S.over)return;let c=null;try{c=kCoach()}catch(e){console.warn('koç',e)}
+ if(!c||!c.t){try{const i=worst();if(i>=0&&S.turn==0&&S.ph=='discard'){sel=i;render();c={t:ct('disc',{t:tN(S.rack[i])})}}}catch(e){}}
+ if(!c)return;if(c.sel!=null&&c.sel>=0){sel=c.sel;try{render()}catch(e){}}
+ try{snd('pick')}catch(e){}kcoShow(c)};
+// masa kapanınca / sıra değişince balonu kapat
+try{const _r=render;let lt=null;render=function(){const x=_r.apply(this,arguments);try{if(S){const k=S.turn+'|'+S.ph+'|'+S.over;if(lt!==null&&k!==lt)kcoHide();lt=k}}catch(e){}return x}}catch(e){}
+})();
 
 heTitle=function(tone,txt,sub){return`<div class="he-hd ${tone}"><div class="he-rib"><i></i><b class="he-ttl">${txt}</b><i></i></div>${tone=='hw'?`<span class="he-cup">${I('trophy')}</span>`:''}</div>${sub?`<div class="he-sub">${sub}</div>`:''}`};
 

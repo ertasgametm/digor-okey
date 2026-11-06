@@ -3285,6 +3285,26 @@ body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp)!important}
 .tqbn .btn{flex:none;margin:0;min-width:11vh;padding:.6vh 1.6vh}
 .tqbn.ok{color:#a6ff7a}
 .tqbn .tqd{min-width:11vh}
+/* ===== v4.22 · OYNA ekranı: teras arka planı + 3 kemerli kart ===== */
+#setup .op-bg{background-image:url(img/oyna/bg_teras.webp)!important;background-position:center 55%!important}
+#setup .op-bg::after{background:linear-gradient(180deg,rgba(8,14,34,.45),transparent 26%,transparent 80%,rgba(8,8,18,.25))!important}
+#setup:not(.cfg) .op-grid{display:flex!important;align-items:flex-end;justify-content:center;gap:var(--opg2,12px)}
+.opk2{position:relative;flex:none;display:block;height:var(--och);aspect-ratio:393/729;padding:0;margin:0;border:0;background:none;filter:drop-shadow(0 1.2vh 1.2vh rgba(0,0,0,.55));transition:transform .15s,filter .15s;-webkit-tap-highlight-color:transparent}
+.opk2 img{display:block;width:100%;height:100%;pointer-events:none;user-select:none;-webkit-user-drag:none}
+button.opk2:active{transform:scale(.96)}
+.opk2 .opn{position:absolute;left:10%;right:10%;top:71.6%;translate:0 -50%;display:flex;justify-content:center;pointer-events:none}
+.opk2 .opn span{display:block;font-family:P,sans-serif;font-weight:700;font-size:calc(var(--och)*.083);line-height:1.1;letter-spacing:.015em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,#fffbe2 8%,#ffe27a 42%,#d8961f 58%,#ffe7a0 88%);-webkit-background-clip:text;background-clip:text;
+ filter:drop-shadow(0 0 .045em #2a0902) drop-shadow(0 0 .045em #2a0902) drop-shadow(0 .07em .05em rgba(0,0,0,.6));transform:scaleY(1.12)}
+.opk2.last{filter:drop-shadow(0 0 1.8vh rgba(255,214,90,.85)) drop-shadow(0 1.2vh 1.2vh rgba(0,0,0,.5))}
+#setup .opk2 .oplast{position:absolute;z-index:5;left:50%;top:0;transform:translate(-50%,-70%);padding:.5vh 1.8vh;border-radius:99px;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(9px,2.4vh,14px);letter-spacing:.06em;white-space:nowrap;color:#4a2300;background:linear-gradient(#fff3b0,#ffc634 60%,#e08e1c);box-shadow:0 0 0 .3vh #fff6d0,0 .5vh 1vh rgba(0,0,0,.4);pointer-events:none}
+.opk2.in{animation:opk2In .34s cubic-bezier(.2,.8,.3,1.1) both}
+@keyframes opk2In{from{opacity:0;transform:translateY(5vh) scale(.94)}to{opacity:1;transform:none}}
+/* ayar ekranı: solda seçilen kart, ortada kurallar, sağda ayarlar */
+#setup .op-cfg{grid-template-columns:var(--ocw) minmax(0,1fr) minmax(0,1.08fr)!important;gap:var(--opg)}
+#setup .opc-c{display:flex;align-items:center;justify-content:center;min-height:0}
+#setup .opc-c .opk2{height:var(--och)}
+#setup .op-cfg>.op-ru{height:100%;min-height:0}
+#setup .opd.es{color:#bfe9c9}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#f5c542"/><stop offset="1" stop-color="#b07812"/></linearGradient>
@@ -10109,6 +10129,44 @@ try{const e=KB.find(x=>x.id=='tasks');if(e&&typeof e.a=='function'){const o=e.a;
 // VIP ayrıcalıkları listesine VIP görevleri
 vipPerks=(o=>function(k){const r=o.apply(this,arguments);try{r.splice(5,0,['📋',L_('Her gün 4 VIP görevi')])}catch(e){}return r})(vipPerks);
 Object.assign(DICT,{'Her gün 4 VIP görevi':['4 VIP tasks every day','4 misiones VIP al día','Rojê 4 erkên VIP']});
+
+/* ===== v4.22 · OYNA ekranı yeni düzen: terasta 3 kemerli kart (Katlamasız · Katlamalı · Çanak)
+   Eşli kartı kalktı: her modun ayarında "Oyun: Tekli / Eşli" var, seçim hatırlanır. Mod adları koddan (4 dil). */
+(function(){const i=OPM.findIndex(o=>o.k=='esli');if(i>=0)OPM.splice(i,1);OPM.forEach(o=>{if(o.set)delete o.set.esli})})();
+const OPAR=393/729;
+opLastK=function(){const m=P.mode||{};return m.canak?'canak':m.kat?'katlamali':'katlamasiz'};
+const opCard=(i,tag)=>{const o=OPM[i];return`<${tag} class="opk2 ${o.k}" ${tag=='button'?`onclick="opPick(${i})" aria-label="${L_(o.t)}"`:''}><img src="img/oyna/m_${o.k}.webp" alt="" draggable="false"><b class="opn"><span>${L_(o.t)}</span></b></${tag}>`};
+renderSetup=function(){OPV=-1;const sc=$('#setup');sc.classList.remove('cfg');$('#opT').textContent=L_('Oyna');
+ $('#opG').innerHTML=OPM.map((o,i)=>opCard(i,'button')).join('');$('#opC').innerHTML='';
+ const k=(P.st&&(P.st.games|0)>0)?opLastK():'';if(k){const b=$('#opG .opk2.'+k);if(b){b.classList.add('last');b.insertAdjacentHTML('beforeend',`<em class="oplast">${L_('SON SEÇİMİN')}</em>`)}}
+ if(P.set.anim){$$('#opG .opk2').forEach((b,i)=>{b.style.animationDelay=(i*70)+'ms';b.classList.add('in')})}
+ $$('.coinv').forEach(e=>e.textContent=fmtC(P.coins));requestAnimationFrame(opLayout)};
+opLayout=function(){const sc=$('#setup');if(!sc||!sc.classList.contains('on'))return;readSafe();
+ const Wd=innerWidth,H=innerHeight,vh=H/100,ex=SA.ex||0,ey=SA.ey||0,side=Math.max(ex+1.5*vh,4*vh,14),r=document.documentElement.style;
+ const top=ey+Math.max(7.2*vh,28)+Math.max(1.8*vh,7),bot=H-Math.max(3.4*vh,12);
+ if(sc.classList.contains('cfg')){const g=Math.max(2.2*vh,8),W=Wd-2*side,h=Math.min(bot-top,Wd*.46),cw=Math.min(h*OPAR,W*.25),t=top+Math.max(0,(bot-top-h)/2);
+  r.setProperty('--opg',g+'px');r.setProperty('--ocw',cw+'px');r.setProperty('--och',(cw/OPAR)+'px');R2($('#opC'),{left:(Wd-W)/2+'px',top:t+'px',width:W+'px',height:h+'px'})}
+ else{const g=Math.max(3.6*vh,12);let h=Math.min(H*.7,bot-top),w=h*OPAR;const mw=(Math.min(Wd-2*side,Wd*.76)-2*g)/3;if(w>mw){w=mw;h=w/OPAR}
+  const gw=3*w+2*g;r.setProperty('--och',h+'px');r.setProperty('--opg2',g+'px');R2($('#opG'),{left:(Wd-gw)/2+'px',top:(bot-h)+'px',width:gw+'px',height:h+'px'})}
+ opFit()};
+opFit=function(){const L=$$('#setup .opk2 .opn span');L.forEach(e=>{e.style.fontSize='';const b=e.closest('.opk2');if(!b)return;const mw=b.clientWidth*.74;let f=parseFloat(getComputedStyle(e).fontSize),n=0;
+ while(e.scrollWidth>mw&&f>7&&n++<30){f*=.95;e.style.fontSize=f+'px'}});
+ const G=L.filter(e=>e.closest('#opG'));if(G.length>1){const m=Math.min(...G.map(e=>parseFloat(getComputedStyle(e).fontSize)));G.forEach(e=>e.style.fontSize=m+'px')}};
+renderOpC=function(){const o=OPM[OPV],m=P.mode,tt=P.set.tt;if(!o)return;
+ const seg=(lbl,k,cur,opts)=>`<div class="opr"><span class="opk">${L_(lbl)}</span><div class="ops">${opts.map(([v,t,sub])=>`<button class="${cur==v?'on':''}" onclick="opSet('${k}',${v})"><b>${L_(t)}</b>${sub?`<small>${L_(sub)}</small>`:''}</button>`).join('')}</div></div>`;
+ const tg=(k,t,d)=>`<button class="opt ${m[k]===0?'':'on'}" onclick="opSet('${k}',${m[k]===0?1:0})"><span><b>${L_(t)}</b><small>${L_(d)}</small></span><i class="swt ${m[k]===0?'':'on'}"><i></i></i></button>`;
+ let rows=seg('Oyun','esli',m.esli|0,[[0,'Tekli'],[1,'Eşli']]);
+ if(o.k=='canak')rows+=seg('Tür','kat',m.kat|0,[[0,'Katlamasız'],[1,'Katlamalı']]);
+ rows+=seg('El sayısı','hands',m.hands,[[1,'1'],[3,'3'],[5,'5'],[7,'7'],[9,'9']]);
+ rows+=seg('Zorluk','diff',m.diff,[[0,'Kolay'],[1,'Orta'],[2,'Zor']]);
+ rows+=seg('Hamle süresi','tt',tt,[[15,'15 sn'],[30,'30 sn'],[60,'60 sn']]);
+ const xp=60+(m.hands>1?150:0)+m.hands*15,es=m.esli?`<p class="opd es">🤝 ${L_('Eşli: karşında oturan oyuncu senin eşin, puanlarınız toplanır.')}</p>`:'';
+ $('#opC').innerHTML=`<div class="opc-c">${opCard(OPV,'div')}</div><div class="op-pn op-ru"><p class="opd">${L_(o.d)}</p>${es}<div class="opk">${L_('MASA KURALLARI')}</div>${tg('pIs','İşlek taş cezası','Yere işlenebilen taş atana +101')}${tg('pOk','Okey atma cezası','Okeyi yere atana +101')}${tg('kx2','Elden bitiş 2 kat','Elden bitirince cezalar ikiye katlanır')}</div>
+  <div class="opc-r op-pn">${rows}<div class="op-go"><span class="oprw">${I('star')}+${xp} XP<i></i><svg class="ci"><use href="#i-coin"/></svg>${fmtC(aiBase(m))}+${o.k=='canak'?`<i></i>${potSvg()}${fmtC(CANAK_ANTE)}/${L_('el')}`:''}</span><button class="btn y lg" onclick="P.mode.onl=0;newMatch()"><svg class="sv"><use href="#i-play"/></svg><b class="ot">${L_('BAŞLA')}</b></button></div></div>`;
+ requestAnimationFrame(opFit)};
+// Kaptan Digor: eşli nasıl oynanır cevabı yeni yere göre
+try{const e=KB.find(x=>x.id=='team');if(e&&Array.isArray(e.a)){e.a[0]=e.a[0].replace('Bilgisayara karşı Oyna → Eşli','Bilgisayara karşı: OYNA’da modu seç, ayarlarda “Oyun: Eşli”yi işaretle');e.a[1]=e.a[1].replace('Play vs AI via Play → Teams','Vs AI: pick a mode in Play and choose “Game: Teams” in the settings')}}catch(e){}
+Object.assign(DICT,{'Eşli: karşında oturan oyuncu senin eşin, puanlarınız toplanır.':['Teams: the player opposite is your partner; your scores add up.','Parejas: el de enfrente es tu compañero; sumáis puntos.','Bi heval: yê li hember hevalê te ye; xalên we tên berhevkirin.']});
 
 </script>
 </body></html>

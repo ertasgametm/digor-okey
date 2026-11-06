@@ -2591,9 +2591,9 @@ body.noanim .bdm .bsh,body.noanim .bdm .bsp{display:none}
 .lgrt small{font-family:G,P;font-weight:900;letter-spacing:.12em;font-size:clamp(7px,1.9vh,10px);color:var(--c1)!important;opacity:1}
 .lgrt b{font-family:G,P;font-weight:900;font-size:clamp(12px,3.4vh,17px)}
 .lgrm{font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(11px,3vh,15px);white-space:nowrap;color:#cfe0ff;animation:lgUp .45s .4s backwards}
-.lgr.up .lgrm,.lgr.win .lgrm{color:#7dffb0}.lgr.dn .lgrm,.lgr.los .lgrm{color:#ff9a8a}
-.lgr.up{box-shadow:inset 0 0 0 .3vh #7dffb0}
-.lgr.up .lgrm{animation:lgUp .45s .4s backwards,lgBeat 1.2s 1s ease-in-out 3}
+.lgr.lg-up .lgrm,.lgr.lg-win .lgrm{color:#7dffb0}.lgr.lg-dn .lgrm,.lgr.lg-los .lgrm{color:#ff9a8a}
+.lgr.lg-up{box-shadow:inset 0 0 0 .3vh #7dffb0}
+.lgr.lg-up .lgrm{animation:lgUp .45s .4s backwards,lgBeat 1.2s 1s ease-in-out 3}
 @keyframes lgBeat{50%{transform:scale(1.12)}}
 .lgs.res .s.new{animation:lgSNew .7s .55s cubic-bezier(.2,1.6,.4,1) backwards}
 .lgs.res .s.lost{animation:lgSLost .8s .55s ease-in backwards}
@@ -7654,8 +7654,9 @@ fin=(o=>function(w){if(S)S.pfx=null;const go=S&&!S.over&&w>=0&&P.set.anim&&onTbl
   // tür bilgisini sonradan yaz (fin içinde hesaplanır)
   setTimeout(()=>{try{const s=$('#ffx .fx-tt');if(s&&S&&S.ftype&&S.ftype!='Normal'&&!s.querySelector('.fx-s'))s.insertAdjacentHTML('beforeend',`<span class="fx-s">${String(S.ftype).split(' · ').map(x=>L_(x)).join(' · ')}</span>`)}catch(e){}},30)}
  return r})(fin);
-function lvChip(){try{if(LVQ.length){const l=LVQ[LVQ.length-1];LVQ=[];const fr=FRAMES.find(f=>f[2]==l&&!((P.frKeep||[]).includes(f[0]))),mc=$('#mc');
-  if(mc)mc.insertAdjacentHTML('afterbegin',`<div class="he-lv">${I('crown')}<b>${L_('Seviye #!').replace('#',l)}</b><small>${L_(titleOf(l))}${fr?' · '+L_(fr[1])+' '+L_('çerçeve açıldı'):''}</small></div>`);snd('coin')}}catch(e){}}
+// v4.22: seviye atlama sonuç penceresine yazılmaz; ana menüye dönünce "Seviye atladın!" penceresi açılır
+function lvChip(){}
+show=(o=>function(id){const r=o.apply(this,arguments);try{if(id=='menu'&&LVQ.length){const l=Math.max(...LVQ);LVQ=[];setTimeout(()=>{try{if($('#menu.on'))lvUp(l);else LVQ.push(l)}catch(e){}},650)}}catch(e){}return r})(show);
 handModal=(o=>function(w,type,r,over){const a=arguments,th=this;if(S)S.ftype=type;
  if(S&&S.ffxRun){S.ffxQ=()=>{o.apply(th,a);lvChip()};const s=$('#ffx .fx-tt');if(s&&type&&type!='Normal'&&!s.querySelector('.fx-s'))s.insertAdjacentHTML('beforeend',`<span class="fx-s">${String(type).split(' · ').map(x=>L_(x)).join(' · ')}</span>`);return}
  const res=o.apply(th,a);lvChip();return res})(handModal);
@@ -8533,7 +8534,7 @@ function lgClaim(){const g=lgP(),p=g.pend;if(!p){closeM();return}g.pend=null;if(
  toast('🏆 +'+fmtC(p.coin)+' '+L_('coin')+(p.fr?' · '+L_('Efsane Lig çerçevesi'):''));$('#ldot')&&($('#ldot').style.display='none');if($('#lig.on'))lgRender();try{onPublish&&onPublish(1)}catch(e){}}
 menuHooks=(o=>function(){try{const g=lgP();const d=$('#ldot');if(d)d.style.display=g.pend?'':'none';if(g.pend&&freePopup()&&P.legal&&!MSES.lgsm){MSES.lgsm=1;setTimeout(()=>{if(freePopup())lgSeasonModal()},700);return}}catch(e){}return o.apply(this,arguments)})(menuHooks);
 // maç sonu ekranında lig sonucu
-matchModal=(o=>function(){const r=o.apply(this,arguments);try{const x=M&&M.lgR;if(x){const mc=$('#mc'),L=x.a.L,lg=lgL(L);let st=lgStars(L,x.a.st,'res'),cls=x.up?'up':x.dn?'dn':x.d>0?'win':x.d<0?'los':'eq';
+matchModal=(o=>function(){const r=o.apply(this,arguments);try{const x=M&&M.lgR;if(x){const mc=$('#mc'),L=x.a.L,lg=lgL(L);let st=lgStars(L,x.a.st,'res'),cls=x.up?'lg-up':x.dn?'lg-dn':x.d>0?'lg-win':x.d<0?'lg-los':'lg-eq';
   // yıldız animasyonu: aynı basamakta kazanılan/kaybedilen yıldız
   if(!x.up&&!x.dn&&L<LG_TOP){const n=lgNeed(L);let h='';for(let i=0;i<n;i++){const on=i<x.a.st,nw=x.d>0&&i==x.a.st-1,lost=x.d<0&&i==x.a.st&&x.b.st>x.a.st;h+=`<i class="s ${on?'on':''} ${nw?'new':''} ${lost?'lost':''}"></i>`}st=`<span class="lgs res">${h}</span>`}
   const msg=x.up?(x.nl?L_('YENİ LİG!'):L_('YÜKSELDİN!')):x.dn?L_('Bir basamak düştün'):x.d>0?'+1 ★':x.d<0?'−1 ★':L_('Yıldız değişmedi');

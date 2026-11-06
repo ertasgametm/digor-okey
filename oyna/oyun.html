@@ -3310,6 +3310,29 @@ button.opk2:active{transform:scale(.96)}
 .opk2::after{content:'';position:absolute;left:8%;right:8%;bottom:-2.2%;height:5%;border-radius:50%;background:radial-gradient(rgba(0,0,0,.75),rgba(0,0,0,0) 70%);z-index:-1;pointer-events:none}
 .opk2{filter:drop-shadow(0 0 .35vh rgba(255,230,160,.5)) drop-shadow(0 1.4vh 1.6vh rgba(0,0,0,.7))}
 .opk2.last{filter:drop-shadow(0 0 1.8vh rgba(255,214,90,.85)) drop-shadow(0 1.4vh 1.6vh rgba(0,0,0,.7))}
+/* ===== v4.22 · el sonu / maç sonu: sabit pencere ===== */
+#mc.hend{width:min(90vw,max(700px,118vh))!important;height:min(90vh,620px)!important;max-height:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:0 0 max(3.6vh,14px)!important;gap:.9vh!important}
+#mc.hend>*{flex:none}
+#mc.hend>.he-b{flex:1 1 auto!important;min-height:0;display:flex;flex-direction:column;gap:.6vh}
+#mc.hend .he-b>.he-h{flex:none}
+#mc.hend .he-b>.he-rs{flex:1 1 auto;min-height:0;display:grid!important;grid-template-rows:repeat(4,minmax(0,1fr));gap:.6vh}
+#mc.hend .he-b>.he-tm{flex:1 1 0;min-height:0;display:flex;align-items:stretch}
+#mc.hend .he-tm>.he-rs{flex:1;min-height:0;display:grid!important;grid-template-rows:repeat(2,minmax(0,1fr));gap:.6vh}
+#mc.hend .he-rs>.he-r{align-self:center;min-height:0;max-height:max(10.5vh,42px);height:100%;box-sizing:border-box}
+#mc.hend .he-f{flex:none!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:1.6vh!important;margin:0 max(9.5vh,36px)!important;min-height:max(9vh,36px)}
+#mc.hend .he-f.has-i{justify-content:space-between!important}
+#mc.hend .he-f .mrow{flex:none;margin:0!important;flex-wrap:nowrap}
+#mc.hend .he-f .btn{min-width:min(20vw,150px)!important;white-space:nowrap}
+.he-fi{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.5vh;text-align:left}
+.he-fi:empty{display:none}
+.he-fi #hecd{white-space:normal;line-height:1.25}
+#mc.hend .he-fi .lgr{margin:0!important;width:100%!important;max-width:100%;min-height:0!important;height:max(10vh,38px);padding:.3vh 1.4vh .3vh .8vh!important;gap:1vh!important}
+#mc.hend .he-fi .lgrt small{display:none}
+#mc.hend .he-fi .lgrt{gap:.2vh}
+#mc.hend .he-fi .lgr .lgre img{width:max(7vh,28px)}
+#mc.hend .he-fi .lgrt{min-width:0}
+#mc.hend .he-fi .lgrt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mc.hend .he-fi .lgrm{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:clamp(10px,2.7vh,14px)}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#f5c542"/><stop offset="1" stop-color="#b07812"/></linearGradient>
@@ -10173,6 +10196,15 @@ renderOpC=function(){const o=OPM[OPV],m=P.mode,tt=P.set.tt;if(!o)return;
 // Kaptan Digor: eşli nasıl oynanır cevabı yeni yere göre
 try{const e=KB.find(x=>x.id=='team');if(e&&Array.isArray(e.a)){e.a[0]=e.a[0].replace('Bilgisayara karşı Oyna → Eşli','Bilgisayara karşı: OYNA’da modu seç, ayarlarda “Oyun: Eşli”yi işaretle');e.a[1]=e.a[1].replace('Play vs AI via Play → Teams','Vs AI: pick a mode in Play and choose “Game: Teams” in the settings')}}catch(e){}
 Object.assign(DICT,{'Eşli: karşında oturan oyuncu senin eşin, puanlarınız toplanır.':['Teams: the player opposite is your partner; your scores add up.','Parejas: el de enfrente es tu compañero; sumáis puntos.','Bi heval: yê li hember hevalê te ye; xalên we tên berhevkirin.']});
+
+/* ===== v4.22 · el sonu / maç sonu penceresi SABİT: yüksekliği hiç değişmez, içerik eklenirse alta/üste değil yana
+   lig şeridi, XP ve geri sayım düğmelerin yanında (alt sırada) durur; satırlar kalan alana sığar ===== */
+function heFix(){try{const mc=$('#mc');if(!mc||!mc.classList.contains('hend'))return;const f=mc.querySelector('.he-f');if(!f)return;
+ let fi=f.querySelector('.he-fi');if(!fi){fi=document.createElement('div');fi.className='he-fi';f.prepend(fi)}
+ [mc.querySelector('.lgr'),f.querySelector('.he-xp'),f.querySelector('#hecd')].forEach(e=>{if(e&&e.parentElement!==fi)fi.appendChild(e)});
+ f.classList.toggle('has-i',fi.children.length>0)}catch(e){}}
+modal=(o=>function(h,c){const r=o.apply(this,arguments);if(c=='hend')heFix();return r})(modal);
+matchModal=(o=>function(){const r=o.apply(this,arguments);heFix();return r})(matchModal);
 
 </script>
 </body></html>

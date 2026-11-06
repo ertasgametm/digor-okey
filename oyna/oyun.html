@@ -2209,16 +2209,28 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 #hrs{background:#0a1530;z-index:42;overflow:hidden;animation:none}
 #hrs.on{animation:hrIn .34s ease-out both}#hrs.out{opacity:0;transition:opacity .24s ease-in}@keyframes hrIn{from{opacity:0}}
 #hrs .hr-view{position:absolute;left:0;right:0;top:0;height:80vh;overflow:hidden;background:#a8dcff}
-.hr-w{position:absolute;left:0;top:0;width:4957px;height:515px;transform-origin:0 0;will-change:transform}
-.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track.webp) no-repeat;background-size:4957px 515px}
-.hr-bg.a{left:0;width:2480px;background-position:0 0}.hr-bg.b{left:2480px;width:2477px;background-position:-2480px 0}
+.hr-w{position:absolute;left:0;top:0;width:6747px;height:515px;transform-origin:0 0;will-change:transform}
+.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp) no-repeat;background-size:6747px 515px}
+.hr-bg.a{left:0;width:2249px;background-position:0 0}.hr-bg.b{left:2249px;width:2249px;background-position:-2249px 0}.hr-bg.c{left:4498px;width:2249px;background-position:-4498px 0}
 .hr-h{position:absolute;left:0;top:0;width:199.3px;height:150px;will-change:transform}
 .hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
 .hr-h.idl .hr-sp{display:none}
 .hr-id{position:absolute;left:0;bottom:0;width:100%;height:112.676%;background:url(img/salon/idle.webp) no-repeat;background-size:100% 600%;background-position:0 calc(var(--r)*20%);display:none;pointer-events:none}
 .hr-h.idl .hr-id{display:block}
-.hr-g{position:absolute;left:0;top:70px;width:340px;height:370px;background:url(img/salon/gate.webp) no-repeat;background-size:100% 600%;background-position:0 calc(var(--k)*20%);pointer-events:none}
-.hr-fn{position:absolute;left:4660px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
+/* v4.22 başlangıç kapısı · kapılar yarış başlayınca öne açılır, önlerinde toz kabarır */
+.hr-g3{position:absolute;left:0;top:0;width:760px;height:515px;overflow:visible;pointer-events:none}
+.hr-g3 .dl,.hr-g3 .dr{transition:transform .34s cubic-bezier(.25,1.35,.5,1)}
+.hr-g3 .dl{transform:matrix(13.98,-11.96,0,1,0,0)}
+.hr-g3 .dr{transform:matrix(-13.98,11.96,0,1,0,0)}
+#hrs.race .hr-g3 .dl{transform:matrix(14,4,0,1,0,0)}
+#hrs.race .hr-g3 .dr{transform:matrix(14,2,0,1,0,0)}
+.hr-dust .pf{opacity:0;transform-box:fill-box;transform-origin:50% 100%}
+#hrs.race .hr-dust .pf{animation:hgDust 1.5s ease-out both}
+@keyframes hgDust{0%{opacity:0;transform:scale(.4)}25%{opacity:1}100%{opacity:0;transform:scale(1.7) translateX(-6%)}}
+/* koşu karelerinde toynaklar ayak çizgisine (gölgeye) basar: satır başına kaydırma */
+#hrH0 .hr-sp{top:15.5px;bottom:-15.5px}#hrH1 .hr-sp{top:16.6px;bottom:-16.6px}#hrH2 .hr-sp{top:12.4px;bottom:-12.4px}
+#hrH3 .hr-sp{top:14.1px;bottom:-14.1px}#hrH4 .hr-sp{top:19.2px;bottom:-19.2px}#hrH5 .hr-sp{top:20.9px;bottom:-20.9px}
+.hr-fn{position:absolute;left:6450px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
 .hr-hi{display:flex;align-items:center;gap:.5vh;padding:.4vh .9vh;border-radius:99px;background:rgba(5,15,45,.6)}
 .hr-hi small{font-size:clamp(7px,2vh,10px);color:#cfe0ff;font-weight:800;margin-right:.3vh;white-space:nowrap}
 .hr-hi i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:3.4vh;height:3.4vh;min-width:13px;min-height:13px;border-radius:50%;background:var(--c);color:#fff;font-family:G,P;font-weight:900;font-size:clamp(7px,2vh,10px);box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.7)}
@@ -2843,6 +2855,243 @@ body.web .vb3.c-rd{display:none!important}
 .wsc{padding-bottom:calc(var(--os)*.42)!important;scroll-padding-bottom:calc(var(--os)*.42);-webkit-mask-image:linear-gradient(#000 calc(100% - max(3vh,12px)),rgba(0,0,0,.08));mask-image:linear-gradient(#000 calc(100% - max(3vh,12px)),rgba(0,0,0,.08))}
 /* v4.20: akşam/gece saatlerinde gün batımı manzarası */
 body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp)!important}
+/* ===== v4.22 · LİG yeni görünüm (pencere sabit, hiçbir şey kaymaz) ===== */
+#lig .win-b.lgb.lz{display:flex;flex-direction:column;gap:1.2vh;overflow:hidden;padding:1.4vh 1.8vh 1.8vh}
+.lz *{box-sizing:border-box}
+.lz .lzpn,.lzroad,.lzhero,.lzpane{border-radius:1.8vh;background:linear-gradient(180deg,rgba(26,48,112,.8),rgba(12,24,64,.84));box-shadow:inset 0 0 0 .2vh rgba(255,214,120,.28),0 .5vh 1.4vh rgba(0,0,0,.25)}
+/* lig yolu */
+.lzroad{flex:none;padding:1vh 2vh .9vh;color:#fff}
+.lzims,.lzlbs{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;justify-items:center}
+.lzims{position:relative;height:10.6vh}
+.lzln{position:absolute;left:10%;right:10%;top:50%;height:.8vh;margin-top:-.4vh;border-radius:.4vh;background:rgba(255,255,255,.13);overflow:hidden}
+.lzln b{display:block;height:100%;border-radius:.4vh;background:linear-gradient(90deg,#d48a52,#c9d8ea 30%,#f2c264 55%,#64cdfc 78%,#c08cff);background-size:calc(100% / var(--f,1)) 100%;box-shadow:0 0 1vh rgba(255,230,160,.5)}
+.lznd{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;height:100%}
+.lznd img{height:7.6vh;filter:drop-shadow(0 .5vh .7vh rgba(0,0,0,.5))}
+.lznd.cur img{height:10.4vh;filter:drop-shadow(0 0 1.4vh var(--c)) drop-shadow(0 .6vh .8vh rgba(0,0,0,.5))}
+.lznd.lock img{filter:grayscale(.85) brightness(.55) drop-shadow(0 .5vh .7vh rgba(0,0,0,.5))}
+.lzsen{position:absolute;z-index:3;top:-.6vh;left:50%;transform:translateX(-50%);padding:.15vh 1vh;border-radius:1vh;background:linear-gradient(#ffe58f,#f7b733);color:#4a2300;font-family:G,P;font-weight:900;font-size:clamp(8px,1.7vh,11px);line-height:1.4;white-space:nowrap;box-shadow:0 .3vh 0 #9c5a0e}
+.lzlb{display:flex;flex-direction:column;align-items:center;gap:.4vh;min-width:0}
+.lzlb b{font-family:G,P;font-weight:900;font-size:clamp(9px,2.2vh,13px);color:#fff;white-space:nowrap}
+.lzlb.lock b{color:#8d9ac0}.lzlb.cur b{color:var(--c)}
+.lzdots{display:flex;gap:.55vh}
+.lzdots i{width:1.35vh;height:1.35vh;min-width:5px;min-height:5px;border-radius:50%;background:rgba(255,255,255,.18)}
+.lzdots i.f{background:var(--c)}
+.lzdots i.me{background:#fff;box-shadow:0 0 0 .3vh var(--c),0 0 1vh var(--c)}
+/* alt bölüm */
+.lzlow{flex:1;min-height:0;display:grid;grid-template-columns:34% 1fr;gap:1.4vh}
+/* sol: büyük arma */
+.lzhero{position:relative;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:1.2vh 1.6vh 1.6vh;text-align:center;color:#fff;overflow:hidden;
+ background:radial-gradient(80% 50% at 50% 30%,var(--g),rgba(0,0,0,0) 70%),linear-gradient(180deg,rgba(26,48,112,.88),rgba(10,20,58,.92))}
+.lzem{position:relative;flex:none;height:27vh;aspect-ratio:720/573;max-width:90%}
+.lzem img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;animation:lgFloat 3.4s ease-in-out infinite;will-change:transform}
+.lzrib{position:absolute;z-index:3;left:50%;bottom:-1vh;transform:translateX(-50%);height:4.4vh;min-width:8vh;padding:0 2.2vh;display:flex;align-items:center;justify-content:center;font-family:G,P;font-weight:900;font-size:clamp(12px,2.9vh,17px);color:#3a1c05;
+ background:linear-gradient(180deg,#fff0c2,var(--c) 55%,#8a5a26);clip-path:polygon(0 0,100% 0,92% 50%,100% 100%,0 100%,8% 50%);filter:drop-shadow(0 .4vh 0 rgba(0,0,0,.3))}
+.lzinfo{width:100%;display:flex;flex-direction:column;align-items:center;gap:.9vh;margin-top:1.4vh}
+.lznm{font-family:G,P;font-weight:900;font-size:clamp(15px,4.2vh,24px);line-height:1;color:var(--c1);text-shadow:0 .3vh 0 rgba(0,0,0,.5)}
+.lznm em{font-style:normal;color:#fff}
+.lzpr{width:100%;display:flex;flex-direction:column;gap:.6vh}
+.lzpr small{font-weight:700;font-size:clamp(8px,1.9vh,11px);line-height:1.25;color:#dfe7ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lzbar{height:1.5vh;min-height:6px;border-radius:99px;background:rgba(0,0,0,.38);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
+.lzbar b{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ffe28a,#f2a83a);transition:width .6s}
+.lzhero .lggo{margin-top:.2vh}
+.lzhero.in .lzem{animation:lgPop .6s cubic-bezier(.2,1.35,.4,1) .08s backwards}
+.lzhero.in .lzinfo{animation:lgUp .45s cubic-bezier(.2,.85,.25,1) .18s backwards}
+/* sağ: sekmeler */
+.lzside{min-width:0;min-height:0;display:flex;flex-direction:column;gap:1vh}
+.lzseg{flex:none;display:flex;gap:.6vh;padding:.5vh;border-radius:99px;background:rgba(5,14,40,.6);box-shadow:inset 0 0 0 .2vh rgba(255,214,110,.35)}
+.lzseg button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:.6vh;height:5vh;min-height:22px;padding:0 .6vh;border-radius:99px;font-family:G,P;font-weight:900;font-size:clamp(8px,2.2vh,13px);color:#cfe0ff;white-space:nowrap;transition:background .2s,color .2s}
+.lzseg button span{overflow:hidden;text-overflow:ellipsis}
+.lzseg button .sv{flex:none;width:1.1em;height:1.1em}
+.lzseg button.on{background:linear-gradient(180deg,#ffe58f,#f7b733);color:#4a2300;box-shadow:0 .3vh 0 #9c5a0e}
+.lzpane{flex:1;min-height:0;display:flex;flex-direction:column;padding:1.1vh;overflow:hidden;color:#fff;background:rgba(5,14,40,.45)}
+.lzpane.sw>*{animation:lgUp .3s cubic-bezier(.2,.85,.25,1)}
+.lzpane>*{flex:1;min-height:0}
+/* Özet */
+.lzsum{display:flex;flex-direction:column;gap:1vh}
+.lztl{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:1vh}
+.lztl div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2vh;padding:.9vh .4vh;border-radius:1.4vh;background:rgba(0,0,0,.26);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);min-width:0}
+.lztl svg{width:2.8vh;height:2.8vh;min-width:12px;min-height:12px}
+.lztl b{font-family:G,P;font-weight:900;font-size:clamp(14px,3.8vh,22px);line-height:1;color:#fff}
+.lztl small{font-weight:700;font-size:clamp(8px,1.8vh,11px);color:#b9c6ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.lzch{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:.9vh 1.2vh .4vh;border-radius:1.4vh;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.lzchh{flex:none;display:flex;align-items:baseline;justify-content:space-between;gap:1vh;min-width:0}
+.lzchh span{font-family:G,P;font-weight:900;font-size:clamp(8px,1.8vh,11px);letter-spacing:.12em;text-transform:uppercase;color:#ffd98a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lzchh small{flex:none;font-weight:700;font-size:clamp(8px,1.8vh,11px);color:#b9c6ea;white-space:nowrap}.lzchh small b{color:#ffd98a}
+.lzsvg{flex:1;min-height:0;position:relative}
+.lzsvg svg{position:absolute;inset:0;display:block}
+.lzhint{position:absolute;left:0;right:0;top:4.6vh;margin:0;text-align:center;font-weight:700;font-size:clamp(8px,1.8vh,11px);color:#8d9ac0;pointer-events:none}
+/* Geçmiş */
+.lzhis{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr);grid-auto-flow:column;gap:.7vh 1vh}
+.lzhr{min-width:0;min-height:0;display:flex;align-items:center;gap:1vh;padding:0 1.1vh;border-radius:1.2vh;background:rgba(0,0,0,.26)}
+.lzhr.emp{background:none;box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.06);border-radius:1.2vh}
+.lzhr.cur{box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.22)}
+.lzhr.best{background:rgba(255,210,87,.13);box-shadow:inset 0 0 0 .22vh #ffd257}
+.lzhr img{flex:none;height:min(5.4vh,80%)}
+.lzht{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.1}
+.lzht small{font-weight:700;font-size:clamp(7px,1.6vh,10px);color:#b9c6ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lzht b{font-family:G,P;font-weight:900;font-size:clamp(9px,2.2vh,13px);color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lzhm{flex:none;font-weight:700;font-size:clamp(7px,1.6vh,10px);color:#8d9ac0;white-space:nowrap}
+.lzhr em{flex:none;display:flex;align-items:center;gap:.4vh;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(8px,1.9vh,12px);color:#ffd98a;white-space:nowrap}
+.lzhr.cur em{font-family:P;font-weight:700;font-size:clamp(7px,1.6vh,10px);color:#9fe3a8}
+.lzhr em .ci{width:1.1em;height:1.1em}
+/* Ödüller */
+.lzrw{display:flex;flex-direction:column;gap:1vh}
+.lzrc{flex:1;min-height:0;display:grid;grid-template-columns:repeat(5,1fr);gap:1vh}
+.lzcard{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5vh;padding:1.4vh .5vh 1vh;border-radius:1.6vh;text-align:center;background:rgba(0,0,0,.26);background:radial-gradient(70% 45% at 50% 32%,color-mix(in srgb,var(--c) 28%,transparent),transparent 75%),rgba(0,0,0,.26);box-shadow:inset 0 0 0 1px rgba(255,214,120,.2)}
+.lzcard img{width:86%;max-height:52%;object-fit:contain;filter:drop-shadow(0 .6vh .8vh rgba(0,0,0,.5))}
+.lzcard.lock img{filter:grayscale(.6) brightness(.7) drop-shadow(0 .6vh .8vh rgba(0,0,0,.5))}
+.lzcard b{font-family:G,P;font-weight:900;font-size:clamp(9px,2.3vh,14px);color:var(--c)}
+.lzcard em{display:flex;align-items:center;gap:.4vh;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(9px,2.4vh,14px);color:#ffd98a;white-space:nowrap}
+.lzcard em .ci{width:1.05em;height:1.05em}
+.lzcard small{font-weight:700;font-size:clamp(7px,1.5vh,10px);line-height:1.25;color:#b9c6ea}
+.lzcard.cur{background:rgba(255,210,87,.1);background:radial-gradient(70% 45% at 50% 32%,color-mix(in srgb,var(--c) 40%,transparent),transparent 75%),rgba(255,210,87,.1);box-shadow:inset 0 0 0 .3vh #ffd257,0 0 1.4vh rgba(255,210,87,.4)}
+.lzcard .lzsen{top:-.2vh;transform:translate(-50%,-30%)}
+.lznote{flex:none;margin:0;text-align:center;font-weight:700;font-size:clamp(8px,1.8vh,11px);line-height:1.3;color:#b9c6ea}
+/* Arkadaşlar: yalnız liste kayar, pencere sabit */
+.lzpane .lgfl.lzfl{overflow:auto;touch-action:pan-y;scrollbar-width:none;display:flex;flex-direction:column;gap:.7vh}
+.lzfl::-webkit-scrollbar{display:none}
+.lzfl .lgfr{flex:none;margin:0;min-height:7vh;padding:.6vh 1.2vh;background:rgba(0,0,0,.24)}
+.lzfl .lgfr.me{background:rgba(255,211,77,.14)}
+.lzpane .lgemp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;text-align:center}
+/* Nasıl? */
+.lzhow{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:.8vh}
+.lzhow>div{min-width:0;min-height:0;display:flex;align-items:center;gap:1.1vh;padding:.6vh 1.1vh;border-radius:1.3vh;background:rgba(0,0,0,.24);overflow:hidden}
+.lzhow span{font-weight:600;font-size:clamp(8px,1.85vh,11.5px);line-height:1.3;color:#dfe7ff}
+.lzi{flex:none;display:flex;align-items:center;justify-content:center;min-width:5.6vh;height:4.2vh;padding:0 .7vh;border-radius:99px;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(8px,1.9vh,12px);white-space:nowrap}
+.lzi-up{background:rgba(85,214,110,.22);color:#8af09d}.lzi-dn{background:rgba(255,110,96,.2);color:#ff9d8f}.lzi-eq{background:rgba(255,255,255,.12);color:#dfe7ff}.lzi-li{background:rgba(255,214,110,.16);color:#ffd98a}
+.lzi .sv{width:2.3vh;height:2.3vh;min-width:11px;min-height:11px}
+.lzpane .lgemp p{margin:0;font-weight:800;font-size:clamp(9px,2.4vh,13px);color:#cfe0ff;max-width:80%}
+.lzpane .lgemp>.sv{width:6vh;height:6vh;opacity:.6}
+/* ===== v4.22 · Günlük sandık (takvim) + şans çarkı: sabit pencere, köşede kapat ===== */
+#mc.chmod.dzmod{width:min(172vh,94vw)!important;max-width:none!important;height:min(90vh,660px)!important;min-height:0!important;max-height:none!important;padding:1.2vh 2.4vh 2.2vh!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:0!important}
+.dzm,.wzm{position:static!important;flex:1;min-height:0;width:100%;display:flex!important;flex-direction:column;align-items:stretch!important;gap:1vh!important}
+.dzm *,.wzm *{box-sizing:border-box}
+.dzm>.dxt,.wzm>.dxt{align-self:center;flex:none;margin:0 0 .4vh!important}
+.dzx{position:absolute!important;right:1.4vh;top:1.4vh;z-index:30!important}
+.dzx .sv{width:55%;height:55%}
+.dzb{flex:1;min-height:0;display:grid;grid-template-columns:1.25fr 1fr;gap:1.6vh}
+.dzpn{min-width:0;min-height:0;border-radius:1.8vh;background:linear-gradient(180deg,rgba(26,48,112,.8),rgba(10,22,60,.86));box-shadow:inset 0 0 0 .2vh rgba(255,214,120,.26),0 .5vh 1.4vh rgba(0,0,0,.25)}
+/* sol: 7 günlük takvim */
+.dzl{display:flex;flex-direction:column;gap:1vh;padding:1.3vh}
+.dzcal{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:1.1vh}
+.dzd{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35vh;padding:.6vh .4vh;border-radius:1.4vh;text-align:center;background:rgba(0,0,0,.26);box-shadow:inset 0 0 0 1px rgba(255,214,120,.2)}
+.dzd b{font-family:G,P;font-weight:900;font-size:clamp(9px,2vh,12px);color:#fff}
+.dzd img{width:auto;height:9vh;max-width:90%;object-fit:contain;filter:drop-shadow(0 .5vh .6vh rgba(0,0,0,.45))}
+.dzd span{font-family:G,P;font-weight:900;font-size:clamp(8px,1.75vh,11px);color:#ffd98a;white-space:nowrap}
+.dzd em{font-style:normal;font-weight:800;font-size:clamp(8px,1.6vh,10px);padding:.15vh 1vh;border-radius:99px;white-space:nowrap;background:rgba(255,255,255,.14);color:#dfe7ff}
+.dzd.done em{background:#3fb456;color:#fff}
+.dzd.done img{opacity:.62}
+.dzd.now{background:rgba(255,210,87,.13);box-shadow:inset 0 0 0 .35vh #ffd257,0 0 1.6vh rgba(255,210,87,.5)}
+.dzd.now em{background:linear-gradient(#ffe58f,#f7b733);color:#4a2300}
+.dzd.now img{animation:chB 1.1s ease-in-out infinite}
+.dzd.next{box-shadow:inset 0 0 0 .25vh rgba(140,200,255,.6)}
+.dzd.next em{background:#2f74d8;color:#fff}
+.dzd.lock img{filter:brightness(.55) saturate(.6) drop-shadow(0 .5vh .6vh rgba(0,0,0,.45))}
+.dzd.e7{grid-column:4;grid-row:1/3;background:radial-gradient(ellipse at 50% 42%,rgba(200,120,255,.38),transparent 70%),rgba(0,0,0,.26)}
+.dzd.e7 img{height:17vh}
+.dzd.e7.now{background:radial-gradient(ellipse at 50% 42%,rgba(200,120,255,.45),transparent 70%),rgba(255,210,87,.13)}
+.dzg{flex:none;display:flex;align-items:center;gap:1vh;padding:.6vh 1vh;border-radius:1.2vh;background:rgba(255,190,60,.12);box-shadow:inset 0 0 0 1px rgba(255,214,110,.35)}
+.dzg>.sv{flex:none;width:2.6vh;height:2.6vh;color:#ffd34d}
+.dzg span{flex:1;min-width:0;font-weight:700;font-size:clamp(8px,1.7vh,10.5px);line-height:1.25;color:#fff1cf}
+.dzg .btn{flex:none}
+/* sağ: bugünkü sandık */
+.dzr{overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:.6vh;padding:1.3vh 1.4vh 1.5vh}
+.dzn{flex:none;font-family:G,P;font-weight:900;font-size:clamp(13px,3.4vh,19px);color:#ffd98a;text-shadow:0 .25vh 0 #4a2600;white-space:nowrap}
+.dzr .dxvip,.wzr .whv{flex:none;margin:0!important;height:2.6vh;line-height:2.6vh;font-weight:800;font-size:clamp(8px,1.9vh,11px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dzr .dxvip.up,.wzr .whv.up{cursor:pointer;color:#ffe39a}
+.dzst{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.dzr .dxbig{height:min(100%,35vh);width:auto!important;max-width:100%;aspect-ratio:1/1.08;margin:0!important}
+.dzr .dxbig .dxray{width:200%}
+.dzwin{flex:none;height:5.6vh;min-height:22px;width:100%;display:flex;align-items:center;justify-content:center;gap:1vh;flex-wrap:nowrap;overflow:hidden}
+.dzwin>*{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dzc{display:inline-flex;align-items:center;gap:.6vh;height:4.4vh;min-height:18px;padding:0 1.6vh;border-radius:99px;font-family:G,P;font-weight:900;font-size:clamp(9px,2.3vh,13px)}
+.dzc .ci{width:1.1em;height:1.1em;flex:none}
+.dzc.c{background:rgba(255,214,110,.16);color:#ffe39a;box-shadow:inset 0 0 0 1px rgba(255,214,110,.4)}
+.dzc.x{background:rgba(124,58,237,.35);color:#e6d8ff;box-shadow:inset 0 0 0 1px rgba(170,130,255,.45)}
+.dzc.t{background:#2f74d8;color:#fff}
+.dzwin .dxv{height:5.2vh;min-height:20px;padding:0 1.8vh;font-size:clamp(12px,3.2vh,18px)!important;box-shadow:0 .35vh 0 #a86a06!important}
+.dzwin em{margin:0!important;display:inline-flex;align-items:center;height:4.4vh;min-height:18px;padding:0 1.4vh!important;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(9px,2.3vh,13px);border-radius:99px;background:#7c3aed;color:#fff;box-shadow:0 .3vh 0 #4c1d95}
+.dzwin em.vb{background:linear-gradient(#fff1a8,#e3a512);color:#3a2200;box-shadow:0 .3vh 0 #7a5200}
+.dzwin em.vb.e{background:linear-gradient(#f2fbff,#7ad7ff);color:#0b2a5a;box-shadow:0 .3vh 0 #2a5a8a}
+.dzwin.on>*{animation:chW .6s cubic-bezier(.2,1.5,.4,1) both}
+.dzwin.on>*:nth-child(2){animation-delay:.1s}.dzwin.on>*:nth-child(3){animation-delay:.2s}
+.dzr .dxp,.wzr .dxp{flex:none;margin:0!important;max-width:78%;height:3.4vh;line-height:3.4vh;padding:0 1.6vh!important;font-size:clamp(9px,2.1vh,12px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dzr .dxp .jp,.wzr .dxp .jp{font-size:1.25em}
+.dzbtns{flex:none;width:100%;display:flex;gap:1.2vh}
+.dzbtns .btn{flex:1;min-width:0;margin:0;white-space:nowrap}
+/* çark */
+.wzb{flex:1;min-height:0;display:grid;grid-template-columns:auto 1fr;gap:1.6vh}
+.wzl{overflow:hidden;display:flex;align-items:center;justify-content:center;padding:1vh 2vh}
+.wzl .whw2{height:68vh;width:auto!important;max-width:none;margin:0!important}
+.wzr{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:.8vh;padding:1.3vh 1.6vh 1.5vh}
+.wzh{flex:none;width:100%;display:flex;align-items:center;justify-content:space-between;gap:1vh;padding:.6vh 1.4vh;border-radius:1.2vh;background:rgba(0,0,0,.24)}
+.wzh>span:first-child{font-family:G,P;font-weight:900;font-size:clamp(8px,1.8vh,11px);letter-spacing:.1em;text-transform:uppercase;color:#ffd98a;white-space:nowrap}
+.wzhk{display:flex;align-items:center;gap:1vh}
+.wzhk b{font-family:G,P;font-weight:900;font-size:clamp(11px,2.8vh,16px);color:#fff}
+.wzdots{display:flex;gap:.6vh}
+.wzdots i{width:2vh;height:2vh;min-width:8px;min-height:8px;border-radius:50%;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.wzdots i.on{background:radial-gradient(circle at 35% 30%,#fff3b0,#ffc634 55%,#e08e1c);box-shadow:0 0 .8vh rgba(255,200,60,.7)}
+.wzres{flex:1;min-height:6vh;width:100%;display:flex;align-items:center;justify-content:center;border-radius:1.4vh;background:radial-gradient(60% 80% at 50% 50%,rgba(255,200,60,.16),transparent 75%),rgba(0,0,0,.18);box-shadow:inset 0 0 0 1px rgba(255,214,120,.18)}
+#mc .wzr .dxp .jp{font-size:clamp(16px,5vh,28px)}
+.wzot{flex:none;width:100%;display:flex;justify-content:space-between;padding:0 .4vh;margin-bottom:-.3vh}
+.wzot span,.wzot small{font-family:G,P;font-weight:900;font-size:clamp(8px,1.7vh,10.5px);letter-spacing:.1em;text-transform:uppercase;color:#ffd98a}.wzot small{color:#8d9ac0}
+.wzodds{flex:none;height:min(29vh,100%);width:100%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:.8vh}
+.wzodds>div{min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1vh;border-radius:1.2vh;background:rgba(0,0,0,.26);box-shadow:inset 0 0 0 1px rgba(255,214,120,.18)}
+.wzodds .ci{width:3vh;height:3vh;min-width:11px;min-height:11px}
+.wzodds b{font-family:G,P;font-weight:900;font-size:clamp(10px,2.7vh,15px);color:#fff;white-space:nowrap}
+.wzodds small{font-weight:800;font-size:clamp(8px,1.8vh,11px);color:#b9c6ea}
+.wzodds .big{background:radial-gradient(ellipse at 50% 40%,rgba(255,200,60,.28),transparent 75%),rgba(0,0,0,.26);box-shadow:inset 0 0 0 .2vh rgba(255,214,110,.55)}
+.wzodds .big b{color:#ffe27a}
+.wzx{font-style:normal;display:flex;align-items:center;justify-content:center;height:2.6vh;min-height:11px;padding:0 .7vh;border-radius:99px;background:#7c3aed;color:#fff;font-family:G,P;font-weight:900;font-size:clamp(7px,1.5vh,9px)}
+.wznote{flex:none;font-weight:700;font-size:clamp(7px,1.5vh,9.5px);color:#8d9ac0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#mc .wzr .dxp{font-size:clamp(10px,2.5vh,14px)!important;height:auto!important;line-height:1.3!important;max-width:94%;white-space:normal;text-align:center}
+/* ===== v4.22 · genel düzeltmeler ===== */
+/* avatar: "Google fotoğrafım" yazısı taşmaz, ilk satır uzamaz (aralar açılmaz) */
+#pfC .avg{align-items:start}
+#pfC .avg>button{min-width:0;overflow:hidden}
+#pfC .avg .avgg{gap:.4vh;padding:.6vh}
+#pfC .avg .avgg .avb{--s:max(6.4vh,28px)}
+#pfC .avg .avgg small{font-size:clamp(7px,1.75vh,10px);line-height:1.15;font-weight:700;color:var(--ink);text-align:center;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+/* Kişisel Bilgi: vitrin kısa ekranda da sığar (sekme kaymaz) */
+@media (max-height:430px){#pfC .kb~.vitrin .vt-s .bdm,.kb+.lbl+.vitrin .vt-s .bdm{width:max(15vh,52px)}}
+@media (max-height:380px){#pfC .kb~.vitrin .vt-s .bdm,.kb+.lbl+.vitrin .vt-s .bdm{width:max(12.5vh,42px)}#pfC .kb~.vitrin{padding:1vh;gap:1vh}}
+/* ana menü: HEMEN OYNA kalktı (OYNA son modu hatırlar) */
+#mimg .b-hemen{display:none!important}
+#setup .opb .oplast{position:absolute;z-index:5;left:50%;top:0;transform:translate(-50%,-38%);padding:.5vh 2vh;border-radius:99px;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(10px,2.6vh,15px);letter-spacing:.06em;white-space:nowrap;color:#4a2300;background:linear-gradient(#fff3b0,#ffc634 60%,#e08e1c);box-shadow:0 0 0 .3vh #fff6d0,0 .5vh 1vh rgba(0,0,0,.4);pointer-events:none}
+#setup .opb.last{filter:drop-shadow(0 0 1.4vh rgba(255,214,90,.75))}
+/* ===== v4.22 · At yarışı: mini harita, kenar okları, son 200 m, mesafe tabelaları ===== */
+.hrx-poles{position:absolute;left:0;top:0;z-index:24;overflow:visible;pointer-events:none}
+.hrx-map,.hrx-edge,.hrx-ban{display:none}
+#hrs.race .hrx-map,#hrs.race .hrx-edge{display:block}
+#hrs.res .hrx-edge,#hrs.res .hrx-ban{display:none!important}
+/* mini saha haritası */
+.hrx-map{position:absolute;z-index:4;left:max(1.6vh,var(--sx,0px));bottom:2vh;width:44vh;min-width:150px;padding:1vh 1.2vh 1.4vh;border-radius:2vh;background:linear-gradient(rgba(10,24,70,.86),rgba(5,14,44,.9));box-shadow:inset 0 0 0 .25vh rgba(255,214,110,.55),0 .6vh 1.6vh rgba(0,0,0,.4);pointer-events:none}
+.hrx-map svg{display:block;width:100%;height:auto}
+.hrx-map .o{fill:#3d7f37;stroke:#6b5434;stroke-width:9}
+.hrx-map .r{fill:none;stroke:#f1d29c;stroke-width:9;stroke-linecap:round}
+.hrx-map .st{stroke:#fff;stroke-width:3}
+.hrx-map .fn rect{fill:#fff}.hrx-map .fn rect:nth-child(2n){fill:#1b2333}
+.hrx-map text{font-family:G,P,sans-serif;font-weight:900;font-size:9.5px}
+.hrx-map .me{fill:none;stroke:#ffd34d;stroke-width:2.6;opacity:0}
+.hrx-map .mine .me{opacity:1}
+.hrx-mt{position:absolute;left:1.6vh;top:.8vh;font-family:G,P;font-weight:900;font-size:clamp(8px,1.8vh,11px);letter-spacing:.12em;color:#ffd98a}
+.hrx-map small{position:absolute;right:1.6vh;top:.8vh;font-family:G,P;font-weight:900;font-size:clamp(8px,1.9vh,11px);color:#fff}
+.hrx-ml{position:absolute;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(6px,1.35vh,8px);color:#fff;padding:0 .5vh;border-radius:99px;background:rgba(0,0,0,.45)}
+.hrx-ml.s{left:55%;top:4.2vh}.hrx-ml.f{right:10%;bottom:.4vh}
+/* ekran dışında kalan atlar */
+.hrx-edge{position:absolute;inset:0;z-index:4;pointer-events:none}
+.hrx-edge .t{position:absolute;left:max(1vh,var(--sx,0px));display:none;align-items:center;gap:.8vh;height:8.4vh;min-height:30px;padding:0 1.8vh 0 1.2vh;border-radius:0 99px 99px 0;background:linear-gradient(90deg,rgba(5,15,45,.95),rgba(5,15,45,.78));box-shadow:inset .6vh 0 0 var(--c),0 0 0 .2vh rgba(255,255,255,.35),0 .4vh 1vh rgba(0,0,0,.4)}
+.hrx-edge .t.on{display:flex}
+.hrx-edge i{font-style:normal;color:#fff;font-size:clamp(9px,2.4vh,13px)}
+.hrx-edge b{width:5vh;height:5vh;min-width:18px;min-height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:G,P;font-weight:900;font-size:clamp(10px,2.6vh,14px);background:var(--c);box-shadow:0 0 0 .3vh #fff}
+.hrx-edge small{font-family:G,P;font-weight:900;font-size:clamp(9px,2.3vh,13px);color:#ffe39a;white-space:nowrap}
+/* SON 200 M */
+.hrx-ban{position:absolute;z-index:4;left:50%;top:9vh;translate:-50% 0;align-items:center;gap:1vh;padding:.8vh 2.6vh;border-radius:99px;background:linear-gradient(#ff5a4a,#c81e1e);color:#fff;font-family:G,P;font-weight:900;font-size:clamp(12px,3.4vh,19px);letter-spacing:.06em;box-shadow:0 0 0 .35vh #fff,0 .6vh 1.4vh rgba(0,0,0,.45);white-space:nowrap;pointer-events:none}
+.hrx-ban.on{display:flex;animation:hrxIn .4s cubic-bezier(.2,1.5,.4,1)}
+.hrx-ban small{display:flex;align-items:center;gap:.6vh;font-size:.62em;font-weight:800;letter-spacing:0}
+.hrx-ban small i{font-style:normal;width:2.8vh;height:2.8vh;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--c);box-shadow:0 0 0 .2vh #fff}
+@keyframes hrxIn{from{opacity:0;transform:scale(.6)}}
+.hb-pf{margin:.4vh auto 0;padding:.3vh 1.6vh;border-radius:99px;background:#fff3b0;color:#5a3200;font-family:G,P;font-weight:900;font-size:clamp(9px,2.2vh,12px);width:max-content}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#f5c542"/><stop offset="1" stop-color="#b07812"/></linearGradient>
@@ -5788,7 +6037,7 @@ const kDaysLeft=()=>{const d=new Date();return new Date(d.getFullYear(),d.getMon
 const kPrice=(id,def)=>(typeof priceOf=='function'?priceOf(id,def):def);
 const kFr=()=>(typeof onOK=='function'&&onOK()&&typeof onFriends=='function')?onFriends():[];
 const kMail=()=>(typeof LEGAL!='undefined'?LEGAL.mail:'ertasgametm@gmail.com');
-const APPVER='4.21',kVer=()=>APPVER;
+const APPVER='4.22',kVer=()=>APPVER;
 // ---- bilgi tabanı: id, q (öneri düğmesi metni), k (anahtar kelimeler), a (cevap), m (ayrıntı), f (sonraki öneriler), ask ----
 // anahtar kelime: 4+ harfli kelimeler kök olarak eşleşir (okeyi, coinlerim...). '=' tam kelime, '*' kök, '~' zayıf, '!' güçlü
 const KB=[];
@@ -5800,7 +6049,7 @@ K('greet',['Merhaba!','Hello!','¡Hola!','Silav!'],['selam','merhaba','=slm','=m
 K('how',['Nasılsın?','How are you?','¿Qué tal?','Tu çawa yî?'],['nasilsin','naber','ne haber','napiyon','napiyorsun','ne yapiyorsun','iyi misin','keyifler nasil','how are you','whats up','how r u','que tal','como estas','tu cawa','cawa yi','bas i','ci dikî'],
  i=>kPick([['Harikayım! 😎 Taşları dizdim, göstergeyi açtım. Sen nasılsın?','Great! 😎 Tiles sorted, indicator up. How about you?','¡Genial! 😎 Fichas listas. ¿Y tú?','Ez baş im! 😎 Kevir rêz kirin. Tu çawa yî?'],['Bomba gibiyim ⚓ Masada çay demlendi, sen nasılsın?','Fantastic ⚓ The tea is ready at the table. And you?','¡Estupendo! ⚓ El té está listo. ¿Y tú?','Pir baş ⚓ Çay li ser maseyê amade ye. Tu?']])[i],{f:['tip','rules_basic','coin_have'],ask:'mood'});
 K('fine',['İyiyim','I’m fine','Estoy bien','Ez baş im'],['iyiyim','ben de iyiyim','fena degil','idare eder','cok iyiyim','im fine','im good','not bad','estoy bien','muy bien','ez bas im','bas im','bas e'],
- ['Buna sevindim! 🎉 Bir el atalım mı? Ana menüde HEMEN OYNA seni bekliyor.','Glad to hear it! 🎉 Fancy a hand? HEMEN OYNA on the main menu is waiting.','¡Me alegro! 🎉 ¿Jugamos una mano? Pulsa HEMEN OYNA en el menú.','Kêfa min hat! 🎉 Em destekê bilîzin? Di menuyê de HEMEN OYNA li benda te ye.'],{ask:'play',f:['modes','tip','gift']});
+ ['Buna sevindim! 🎉 Bir el atalım mı? Ana menüde OYNA’ya bas, son oynadığın mod işaretli gelir.','Glad to hear it! 🎉 Fancy a hand? Tap OYNA on the main menu — your last mode is marked.','¡Me alegro! 🎉 ¿Jugamos una mano? Pulsa OYNA en el menú.','Kêfa min hat! 🎉 Em destekê bilîzin? Di menuyê de OYNA bitikîne.'],{ask:'play',f:['modes','tip','gift']});
 K('sad',['Moralim bozuk','I feel down','Estoy triste','Xemgîn im'],['kotuyum','uzgunum','moralim bozuk','canim sikkin','mutsuzum','berbat','kotu hissediyorum','sad','feel bad','feel down','triste','mal dia','xemgin','ne bas im'],
  ['Üzüldüm 😔 Bazen günler böyle geçer. İstersen biraz konuşalım ya da sakin bir el oynayalım; Kolay zorlukta botlar seni yormaz. Yanındayım ⚓','Sorry to hear that 😔 Some days are like that. We can chat, or play a relaxed hand on Easy. I’m here ⚓','Lo siento 😔 Hay días así. Podemos charlar o jugar tranquilo en Fácil. Aquí estoy ⚓','Xemgîn bûm 😔 Hin roj wisa ne. Em dikarin biaxivin an li ser Hêsan bilîzin. Ez li vir im ⚓'],{f:['joke','motiv','difficulty']});
 K('bored',['Sıkıldım','I’m bored','Me aburro','Aciz bûm'],['sikildim','canim sikildi','sikiliyorum','bored','boring','aburrido','me aburro','aciz bum','bêzar'],
@@ -6075,9 +6324,9 @@ K('age_limit',['Yaş sınırı var mı?','Is there an age limit?','¿Hay límite
 K('ads',['Reklam var mı?','Are there ads?','¿Hay anuncios?','Reklam heye?'],['reklam','reklamlar','ads','advert','anuncios','publicidad','reklam'],
  ['Şu an oyunda reklam yok 🎉 Rahatça oynayabilirsin.','There are no ads in the game right now 🎉','Ahora mismo no hay anuncios 🎉','Niha reklam tune 🎉']);
 K('offline',['İnternetsiz oynanır mı?','Can I play offline?','¿Se juega sin internet?','Bê înternet tê lîstin?'],['internetsiz','internet yok','cevrimdisi','baglanti yok','offline','no internet','sin internet','bê internet'],
- ['Evet ✈️ Bilgisayara karşı oyunlar (OYNA ve HEMEN OYNA) internetsiz çalışır. Online masalar, arkadaşlar, sohbet ve özel oda için internet gerekir.','Yes ✈️ Games vs the AI (OYNA and HEMEN OYNA) work offline. Online tables, friends, chat and private rooms need internet.','Sí ✈️ Contra la IA funciona sin internet; lo online necesita conexión.','Erê ✈️ Li dijî YZ bê înternet dixebite; online înternet dixwaze.'],{f:['online_how']});
+ ['Evet ✈️ Bilgisayara karşı oyunlar (OYNA) internetsiz çalışır. Online masalar, arkadaşlar, sohbet ve özel oda için internet gerekir.','Yes ✈️ Games vs the AI (OYNA) work offline. Online tables, friends, chat and private rooms need internet.','Sí ✈️ Contra la IA funciona sin internet; lo online necesita conexión.','Erê ✈️ Li dijî YZ bê înternet dixebite; online înternet dixwaze.'],{f:['online_how']});
 K('quick',['Hemen oyna ne?','What is Quick Play?','¿Qué es Jugar ya?','Yekser bilîze çi ye?'],['hemen oyna','hizli oyun','hemen basla','quick play','play now','jugar ya'],
- ['HEMEN OYNA, son seçtiğin ayarlarla (mod, el sayısı, zorluk) bilgisayara karşı hemen yeni bir maç başlatır ⚡ Ayarları değiştirmek için OYNA’ya gir.','HEMEN OYNA starts a new match vs the AI right away with your last settings ⚡ Use OYNA to change them.','HEMEN OYNA empieza al instante con tus últimos ajustes ⚡','HEMEN OYNA yekser bi mîhengên te yên dawî dest pê dike ⚡'],{f:['modes']});
+ ['OYNA’ya bastığında son seçtiğin mod işaretli gelir; karta dokununca ayarların (el sayısı, zorluk) hatırlanır, BAŞLA ile bilgisayara karşı hemen oynarsın ⚡','Tap OYNA: your last mode is marked and your settings (hands, difficulty) are remembered — start vs the AI right away ⚡','Pulsa OYNA: tu último modo aparece marcado y se recuerdan tus ajustes ⚡','OYNA bitikîne: moda te ya dawî nîşankirî ye û mîhengên te tên bîranîn ⚡'],{f:['modes']});
 K('ack',['Tamam','OK','Vale','Baş e'],['=tamam','=tamamdir','=ok','=okey dokey','=peki','=anladim','=olur','=tabi','=aynen','=evet','=hayir','=yes','=no','=si','=vale','=ere','=na','=bas e'],
  i=>kPick([['Tamamdır 👍 Başka bir şey sormak istersen buradayım.','Got it 👍 I’m here if you need anything else.','¡Vale! 👍 Aquí estoy.','Baş e 👍 Ez li vir im.'],['Süper! ⚓ Aklına takılan olursa yaz.','Great! ⚓ Ask me anytime.','¡Genial! ⚓','Pir baş! ⚓']])[i],{p:-.1});
 K('emoji',['😀','😀','😀','😀'],[],i=>kPick([['😄 Senin enerjin bana da geçti!','😄 Love the energy!','😄 ¡Qué energía!','😄 Enerjiya te xweş e!'],['🙌 Haydi bir el atalım!','🙌 Let’s play a hand!','🙌 ¡Juguemos!','🙌 Werin bilîzin!']])[i],{p:-9});
@@ -6112,7 +6361,7 @@ function kScore(text){const t=KT(text),T=' '+t+' ',toks=t.split(' ').filter(Bool
  return res.sort((a,b)=>b[1]-a[1])}
 let KCTX={last:null,ask:null,ts:0};
 const KDEF=['rules_basic','coin_earn','online_bots','private_room','tip','buy_problem','gift','badges'];
-const KUI=['HEMEN OYNA','SERİ AÇ','ODAYI AÇ','TAŞ İŞLE','GERİ AL','YERİNE BIRAK','HAZIR OL','GÖREVLER','KURALLAR','MAĞAZA','EŞLİ','OYNA','SERİ','ÇİFT'],KUR=KUI.map(l=>new RegExp('(?<![A-Za-zÇĞİÖŞÜçğıöşü])'+l+'(?![A-Za-zÇĞİÖŞÜçğıöşü])','g'));
+const KUI=['SERİ AÇ','ODAYI AÇ','TAŞ İŞLE','GERİ AL','YERİNE BIRAK','HAZIR OL','GÖREVLER','KURALLAR','MAĞAZA','EŞLİ','OYNA','SERİ','ÇİFT'],KUR=KUI.map(l=>new RegExp('(?<![A-Za-zÇĞİÖŞÜçğıöşü])'+l+'(?![A-Za-zÇĞİÖŞÜçğıöşü])','g'));
 const kUI=(s,i)=>i?KUI.reduce((a,l,j)=>a.replace(KUR[j],KX(l,i)),String(s)):s;
 const k4=f=>[0,1,2,3].map(i=>{try{return kUI((typeof f=='function'?f(i):f[i])||(typeof f=='function'?f(1):f[1])||'',i)}catch(e){return''}});
 function kFin(id,v,f,ask){const cur=KBI[id];let ch=(f||[]).filter(x=>KBI[x]&&x!=id&&KBI[x].q&&KBI[x].q[0]!='—');
@@ -6127,7 +6376,7 @@ function kUnk(top){const ids=top.slice(0,3).map(x=>x[0].id);
  return kFin('unk',[`Bunu bilemedim 🤔 Kurallar, coin, satın alma, online, özel oda, rozet, görev ya da ayarlarla ilgili her şeyi sorabilirsin. Çözemediğin bir sorun varsa ${kMail()} adresine yaz.`,`I don’t know that one 🤔 Ask me about rules, coins, purchases, online, private rooms, badges, tasks or settings. For other problems email ${kMail()}.`,`No lo sé 🤔 Pregúntame por reglas, monedas, compras u online. Otros problemas: ${kMail()}.`,`Ez vê nizanim 🤔 Li ser rêzik, coin, kirîn an online bipirse. ${kMail()}`],['help'].concat(KDEF))}
 const KYES=/^(evet|olur|tamam|tabi|tabii|aynen|isterim|hadi|hadi bakalim|yes|yeah|yep|sure|ok|okay|si|claro|vale|ere|bele|bas e)$/,KNO=/^(hayir|yok|istemem|sonra|simdi degil|no|nope|nah|na|ne|naxer)$/;
 const KFUP=/^(peki|peki ya|nasil|nasil yani|neden|niye|nicin|detay|detayli|daha|daha fazla|baska|baska bilgi|devam|devam et|ornek|ornek ver|yani|anlamadim|aciklar misin|acikla|biraz daha|more|tell me more|why|how|example|explain|details|go on|mas|por que|como|ejemplo|explica|zede|cima|cawa|minak)( [a-z]+){0,3}$/;
-function kAsk(k,yes){if(k=='play')return kFin('ack',yes?['Harika! 🎲 Ana menüde HEMEN OYNA’ya bas, masa hazır. Arkadaşlarınla oynamak istersen EŞLİ → Özel oda.','Great! 🎲 Tap HEMEN OYNA on the main menu — the table is ready. With friends: EŞLİ → Private room.','¡Genial! 🎲 Pulsa HEMEN OYNA en el menú.','Pir baş! 🎲 Di menuyê de HEMEN OYNA bitikîne.']:['Peki 🙂 Ben buradayım, ne zaman istersen sor.','Okay 🙂 I’m here whenever you need me.','Vale 🙂 Aquí estaré.','Baş e 🙂 Ez li vir im.'],yes?['modes','private_room']:KDEF);
+function kAsk(k,yes){if(k=='play')return kFin('ack',yes?['Harika! 🎲 Ana menüde OYNA’ya bas, modunu seç, masa hazır. Arkadaşlarınla oynamak istersen EŞLİ → Özel oda.','Great! 🎲 Tap OYNA on the main menu and pick a mode — the table is ready. With friends: EŞLİ → Private room.','¡Genial! 🎲 Pulsa OYNA en el menú y elige un modo.','Pir baş! 🎲 Di menuyê de OYNA bitikîne û modekê hilbijêre.']:['Peki 🙂 Ben buradayım, ne zaman istersen sor.','Okay 🙂 I’m here whenever you need me.','Vale 🙂 Aquí estaré.','Baş e 🙂 Ez li vir im.'],yes?['modes','private_room']:KDEF);
  return kFin('ack',k4(KBI.ack.a),KDEF)}
 const kDate=i=>{const d=new Date(),hm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
  const KUM=['Kanûna paşîn','Sibat','Adar','Nîsan','Gulan','Hezîran','Tîrmeh','Tebax','Îlon','Cotmeh','Mijdar','Kanûna pêşîn'],KUD=['Yekşem','Duşem','Sêşem','Çarşem','Pêncşem','În','Şemî'];
@@ -7414,11 +7663,11 @@ const BX_BASE=50000,BX_ADULT=250000,BX_PKG=[10000,25000,50000,100000],SAL_LOCK=7
 const HR_COL=['#e53935','#8e3fd1','#2b2b2e','#f2c200','#1e63d6','#f57c00'];
 // atlar sabit: 1 Kasırga · 2 Sultan · 3 Çawreş (salonun gözdesi, +%1 şans) · 4 Şimşek · 5 Fırtına · 6 Digor
 const HR_NAMES=['Kasırga','Sultan','Çawreş','Şimşek','Fırtına','Digor'],HR_STAR=2,HR_STARB=.01;
-// pist (track.webp 4957x515) · koşu sprite (horses.webp 4x6, 283x213) · duran at (idle.webp 1x6, 283x240)
-// başlangıç kapısı katmanları (gate.webp 6 kat, 340x370, pistte 0,70) · bitiş takı (finish.webp 297x440, pistte 4660,20)
-const HRT={W:4957,H:515,Y0:48,Y1:470,HH:150,NOSE:.93,FOOT:209/213};
+// pist (v4.22: track3.webp 6747x515 — orta bölüm aynalanarak 1790 px uzatıldı; yarış 1600 m ≈ 16 sn) · koşu sprite (horses.webp 4x6, 283x213) · duran at (idle.webp 1x6, 283x240)
+// v4.22: başlangıç kapısı vektör çizim (her kulvar ayrı katman, kapılar yarış başlayınca öne açılır) · bitiş takı (finish.webp 297x440, pistte 4660,20)
+const HRT={W:6747,E:1790,H:515,Y0:48,Y1:470,HH:150,NOSE:.93,FOOT:209/213};
 HRT.HW=HRT.HH*283/213;
-const hrLaneY=i=>396-26*i,hrStartX=i=>79.8+30.4*(i+1)+20,hrFinX=i=>4687+(hrLaneY(i)-250)*1.126;
+const hrLaneY=i=>396-26*i,hrStartX=i=>79.8+30.4*(i+1)+150,hrFinX=i=>6477+(hrLaneY(i)-250)*1.126;
 function salP(){if(!P.sal||typeof P.sal!='object')P.sal={};const s=P.sal;['f','r','w','big','x','pend','rn','ok','terms','adult','lock','minor'].forEach(k=>{if(typeof s[k]!='number')s[k]=0});
  if(typeof s.d!='string')s.d='';if(!Array.isArray(s.hist))s.hist=[];if(!s.bx||typeof s.bx!='object')s.bx={d:'',n:0};return s}
 try{if(typeof SVK!='undefined'&&!SVK.includes('sal'))SVK.push('sal')}catch(e){}
@@ -7504,9 +7753,44 @@ handModal=(o=>function(w,type,r,over){try{if(S&&!S._salG){S._salG=1;const es=M&&
 
 // ---------- AT YARIŞI ----------
 let HR=null,HRRAF=0;
+// ---------- başlangıç kapısı (v4.22): DİGOR tabelası, 1–6 numaralı bölmeler, parmaklıklı yakın yan duvar, tekerlekler ----------
+// kulvarlar eğik çizilir (derinlik: +30.4, −26). Her parça doğru atın önünde/arkasında kalsın diye kulvar kulvar ayrı katmandır:
+// ön kapı + direk + üst kiriş (z 41−2j) atın önünde · arka kapı + bölme boruları (z 39−2j) atın arkasında · yakın duvar (z 50) hepsinin önünde
+const HG={L:192},hgP=s=>[hrStartX(0)+8+30.4*s,396-26*s],hgB=s=>{const p=hgP(s);return[p[0]-HG.L,p[1]]},hgF=a=>a[0].toFixed(1)+','+a[1].toFixed(1),hgU=(a,h)=>[a[0],a[1]-h];
+const hgSvg=(z,inner,cls)=>`<svg class="hr-g3 ${cls||''}" style="z-index:${z}" viewBox="0 0 760 515" width="760" height="515" aria-hidden="true">${inner}</svg>`;
+const hgTube=(p,q,w)=>`<path d="M${hgF(p)} L${hgF(q)}" stroke="#26304a" stroke-width="${w+3}" stroke-linecap="round"/><path d="M${hgF(p)} L${hgF(q)}" stroke="#f4f7fb" stroke-width="${w}" stroke-linecap="round"/>`;
+const hgPost=(a,h,w)=>{w=w||9;return`<rect x="${(a[0]-w/2).toFixed(1)}" y="${(a[1]-h).toFixed(1)}" width="${w}" height="${h}" rx="2" fill="url(#hgM)" stroke="#26304a" stroke-width="1.6"/>`};
+const hgBand=(a,b,h0,h1)=>`<path d="M${hgF(hgU(a,h0))} L${hgF(hgU(b,h0))} L${hgF(hgU(b,h1))} L${hgF(hgU(a,h1))}Z" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/>`;
+const hgDoor=(cls,p,col)=>`<g transform="translate(${hgF(p)})"><g class="${cls}"><rect x="0" y="-104" width="1" height="84" fill="${col}" stroke="#141c30" stroke-width="1.8" vector-effect="non-scaling-stroke"/><rect x="0" y="-104" width="1" height="16" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2" vector-effect="non-scaling-stroke"/><path d="M.22 -86 V-24 M.44 -86 V-24 M.66 -86 V-24 M.88 -86 V-24 M0 -52 H1" stroke="rgba(255,255,255,.88)" stroke-width="2.2" vector-effect="non-scaling-stroke"/></g></g>`;
+function hrGate(j){const a=hgP(j-.5),b=hgP(j+.5),c=hgP(j),ba=hgB(j-.5),bb=hgB(j+.5),col=HR_COL[j];
+ let bk=`<path d="M${hgF(hgU(ba,20))} L${hgF(hgU(bb,20))} L${hgF(hgU(bb,104))} L${hgF(hgU(ba,104))}Z" fill="${col}" fill-opacity=".55" stroke="#141c30" stroke-width="1.4"/>`;
+ for(let k=1;k<4;k++){const t=k/4,p=[ba[0]+(bb[0]-ba[0])*t,ba[1]+(bb[1]-ba[1])*t];bk+=`<path d="M${hgF(hgU(p,24))} L${hgF(hgU(p,100))}" stroke="rgba(255,255,255,.7)" stroke-width="2"/>`}
+ if(j<5){const dv=hgB(j+.5),dp=hgP(j+.5);bk+=hgTube(hgU(dv,62),hgU(dp,62),3.5)+hgTube(hgU(dv,118),hgU(dp,118),3.5)+`<path d="M${hgF(hgU(dv,20))} L${hgF(hgU(dp,20))} L${hgF(hgU(dp,40))} L${hgF(hgU(dv,40))}Z" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2"/>`}
+ const H=150,C=30,tx=c[0],ty=c[1]-H-C/2;
+ let fr=hgDoor('dl',a,col)+hgDoor('dr',b,col)+hgPost(ba,180,7)+hgPost(a,180,9)+hgBand(a,b,H,H+C)+hgTube(hgU(a,H+C),hgU(b,H+C),4)+hgTube(hgU(a,H),hgU(b,H),3)+
+  `<rect x="${(tx-12).toFixed(1)}" y="${(ty-11).toFixed(1)}" width="24" height="22" rx="4.5" fill="${col}" stroke="#fff" stroke-width="2.2"/><text x="${tx.toFixed(1)}" y="${(ty+6.5).toFixed(1)}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="18" fill="${j==3?'#3a2a00':'#fff'}">${j+1}</text>`;
+ if(j==5)fr+=hgPost(hgP(5.5),180,9);
+ return hgSvg(39-2*j,bk)+hgSvg(41-2*j,fr)}
+function hrGateEnds(){const a0=hgP(-.5),a5=hgP(5.5),b0=hgB(-.5),b5=hgB(5.5);
+ const defs=`<defs><linearGradient id="hgM" x1="0" x2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#d6deea"/><stop offset="1" stop-color="#8e9bb0"/></linearGradient><linearGradient id="hgN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f56c8"/><stop offset="1" stop-color="#16307e"/></linearGradient><linearGradient id="hgG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".55" stop-color="#ffc634"/><stop offset="1" stop-color="#d98a12"/></linearGradient><radialGradient id="hgD" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ead2a6" stop-opacity=".95"/><stop offset=".6" stop-color="#d8b47c" stop-opacity=".5"/><stop offset="1" stop-color="#c9a066" stop-opacity="0"/></radialGradient></defs>`;
+ // zemin: gölge + başlangıç çizgisi
+ let h=hgSvg(2,defs+`<path d="M${hgF([b0[0]-8,b0[1]+8])} L${hgF([a0[0]+26,a0[1]+8])} L${hgF([a5[0]+26,a5[1]+8])} L${hgF([b5[0]-8,b5[1]+8])}Z" fill="rgba(60,34,8,.2)"/><path d="M${hgF([a0[0]+16,a0[1]+3])} L${hgF([a5[0]+16,a5[1]+3])}" stroke="rgba(255,255,255,.92)" stroke-width="5" stroke-linecap="round"/>`);
+ // çıkış tozu (yarış başlayınca kapıların önünde kabarır)
+ let d='';for(let i=0;i<6;i++){const x=hgP(i)[0],y=hrLaneY(i);d+=`<g class="pf" style="animation-delay:${(.28+i*.03).toFixed(2)}s">`;for(let k=0;k<3;k++)d+=`<ellipse cx="${(x-14-k*34).toFixed(1)}" cy="${(y-6-k*5).toFixed(1)}" rx="${26+k*12}" ry="${11+k*5}" fill="url(#hgD)" opacity="${(.95-k*.22).toFixed(2)}"/>`;d+='</g>'}
+ h+=hgSvg(3,d,'hr-dust');
+ // en arka: uzak yan duvar + arka üst borular
+ h+=hgSvg(28,`<path d="M${hgF(b5)} L${hgF(a5)}" stroke="#26304a" stroke-width="5"/>`+hgTube(hgU(b5,178),hgU(a5,178),5)+hgTube(hgU(b5,112),hgU(a5,112),3.5)+hgPost(b5,178,7)+hgPost(a5,178,9)+hgTube(hgU(b0,180),hgU(b5,180),4)+hgTube(hgU(b0,150),hgU(b5,150),2.6));
+ // en ön: yakın yan duvar (parmaklık; atlar aralarından görünür), DİGOR tabelası, tekerlekler
+ const x0=b0[0],x1=a0[0],gy=a0[1];let nw=`<rect x="${x0.toFixed(1)}" y="${gy-30}" width="${(x1-x0).toFixed(1)}" height="22" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/>`;
+ for(let x=x0+14;x<x1-6;x+=15)nw+=`<path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#26304a" stroke-width="4.2"/><path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#eef2f7" stroke-width="2.4"/>`;
+ nw+=hgTube([x0,gy-90],[x1,gy-90],3.2)+hgTube([x0,gy-150],[x1,gy-150],4)+`<rect x="${(x0-2).toFixed(1)}" y="${gy-182}" width="${(x1-x0+4).toFixed(1)}" height="32" rx="3" fill="url(#hgN)" stroke="#141c30" stroke-width="1.8"/><rect x="${(x0+3).toFixed(1)}" y="${gy-178}" width="${(x1-x0-6).toFixed(1)}" height="24" rx="2" fill="none" stroke="#f2c264" stroke-width="1.4"/><text x="${((x0+x1)/2).toFixed(1)}" y="${gy-159}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="17" letter-spacing="1.5" fill="url(#hgG)" stroke="#5a3200" stroke-width=".6">DİGOR OKEY 101</text>`;
+ nw+=hgPost([x0,gy],184,9)+hgPost([x1,gy],184,10);
+ for(const x of [x0+16,x1-14])nw+=`<circle cx="${x.toFixed(1)}" cy="${gy+2}" r="13" fill="#20252e" stroke="#0d1016" stroke-width="2"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="6" fill="#c9d2dd" stroke="#6b7686"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="2" fill="#4b5566"/>`;
+ return h+hgSvg(50,nw)}
 function hrEnsure(){if($('#hrs'))return;let hs='';
- for(let i=0;i<6;i++)hs+=`<i class="hr-h idl" id="hrH${i}" style="--r:${i};--c:${HR_COL[i]};z-index:${40-2*i}"><b class="hr-sp"><s></s></b><b class="hr-id"></b><em>${i+1}</em></i><i class="hr-g" style="--k:${i};z-index:${41-2*i}"></i>`;
- document.body.insertAdjacentHTML('beforeend',`<div id="hrs" class="ovl"><div class="hr-view" id="hrV"><div class="hr-w" id="hrW"><i class="hr-bg a"></i><i class="hr-bg b"></i>${hs}<i class="hr-fn"></i></div><i class="hr-cv" id="hrCv"></i>
+ for(let i=0;i<6;i++)hs+=`<i class="hr-h idl" id="hrH${i}" style="--r:${i};--c:${HR_COL[i]};z-index:${40-2*i}"><b class="hr-sp"><s></s></b><b class="hr-id"></b></i>${hrGate(i)}`;
+ hs+=hrGateEnds();
+ document.body.insertAdjacentHTML('beforeend',`<div id="hrs" class="ovl"><div class="hr-view" id="hrV"><div class="hr-w" id="hrW"><i class="hr-bg a"></i><i class="hr-bg b"></i><i class="hr-bg c"></i>${hs}<i class="hr-fn"></i></div><i class="hr-cv" id="hrCv"></i>
   <div class="hr-hud"><button class="hr-x" onclick="hrClose()" aria-label="${L_('Kapat')}">${I('x')}</button><span class="hr-tt"><b>${L_('AT YARIŞI')}</b><small id="hrNo"></small></span><span class="sp"></span><span class="hr-hi" id="hrHi"></span><span class="slf"><i class="fi"></i><b class="slfv">0</b></span></div>
   <div class="hr-ph" id="hrPh"><b id="hrPhT"></b><i id="hrTm"></i></div><div class="hr-rk" id="hrRk"></div><div class="hr-ban" id="hrBan"></div></div>
   <div class="hr-pan"><div class="hr-cards" id="hrC"></div><div class="hr-ctl" id="hrCtl"></div></div></div>`);
@@ -7554,11 +7838,11 @@ function hrRepeat(){if(!HR||HR.ph!='bet'||!HR.last)return;const s=salP(),need=HR
  s.f-=need;HR.last.forEach((v,i)=>HR.bets[i]+=v);save();salBal();hrCards();sfx13('clink',2)}
 // yarış senaryosu: kazanan, ekrandaki gerçek şanslara göre önceden çekilir; animasyon bu sonuca göre kurulur
 function hrSim(){const w=hrPick(HR.p,[]),ord=[w];while(ord.length<6)ord.push(hrPick(HR.p,ord));
- const Tw=10.6+Math.random()*1.4,T=[];let tt=Tw;ord.forEach((h,k)=>{if(k)tt+=k==1?.05+Math.random()*.4:.1+Math.random()*.42;T[h]=tt});
- const sim=[];for(let i=0;i<6;i++){const c=i==w&&Math.random()<.6?.1+Math.random()*.35:(Math.random()-.5)*.64,b=(Math.random()-.5)*.12,ph=Math.random()*6.28,k=2+Math.floor(Math.random()*2),re=.18+Math.random()*.32;
+ const Tw=15.2+Math.random()*1.8,T=[];let tt=Tw;ord.forEach((h,k)=>{if(k)tt+=k==1?.04+Math.random()*.46:k==2?.15+Math.random()*.75:.4+Math.random()*1.6;T[h]=tt});
+ const sim=[];for(let i=0;i<6;i++){const c=i==w&&Math.random()<.6?.1+Math.random()*.35:(Math.random()-.5)*.8,b=(Math.random()-.5)*.2,ph=Math.random()*6.28,k=2+Math.floor(Math.random()*2),re=.18+Math.random()*.32;
   const n=Math.ceil(T[i]*120),F=new Float32Array(n+1);let acc=0;for(let j=1;j<=n;j++){const t=j/120,u=t/T[i],tr=Math.max(0,t-re),ramp=Math.min(1,Math.pow(tr/.85,1.5)),v=ramp*(1+c*(u-.5)+b*Math.sin(k*Math.PI*u+ph));acc+=Math.max(t<re?0:.05,v)/120;F[j]=acc}
   for(let j=1;j<=n;j++)F[j]/=acc;sim.push({T:T[i],F,n,x0:hrStartX(i),xf:hrFinX(i),vE:(hrFinX(i)-hrStartX(i))/T[i]*1.05})}
- return{w,ord,sim,Tw,Tl:Math.max(...T)}}
+ return{w,ord,sim,Tw,Tl:Math.max(...T),T2:T[ord[1]],T3:T[ord[2]]}}
 function hrCloseBets(){HR.ph='close';HR.tc=performance.now();const tot=HR.bets.reduce((a,b)=>a+b,0);if(tot){HR.last=HR.bets.slice();const s=salP();s.r=(s.r|0)+1;save()}
  HR.sim=hrSim();hrPhase();hrCtl();snd('click');hrSfx('bell')}
 function hrStart(){HR.ph='race';HR.t=0;$('#hrs').classList.add('race');hrPhase();hrSfx('gate');setTimeout(()=>{const e=$('#hrPh');if(e&&HR&&HR.ph=='race')e.classList.add('hide')},1400);
@@ -7587,9 +7871,9 @@ function hrDraw(dt){const W=$('#hrW');if(!W||!HR)return;if(!HRV.h)hrSize();const
  const pn=HR.pn||(HR.pn=$('#hrs .hr-pan')),py=(HRV.h*.28*m).toFixed(1);if(pn&&pn._y!==py){pn._y=py;pn.style.transform=`translate3d(0,${py}px,0)`}
  let tgt=0;if(rc){const lead=Math.max(...HR.x);tgt=lead-vs*.66}tgt=Math.max(0,Math.min(HRT.W-vs,tgt));
  HR.cam+=(tgt-HR.cam)*Math.min(1,dt*5);if(!rc)HR.cam=0;
- W.style.transform=`translate3d(${(-HR.cam*sc).toFixed(1)}px,${(-y0*sc).toFixed(1)}px,0) scale(${sc.toFixed(4)})`;
+ HR.sc=sc;HR.vs=vs;W.style.transform=`translate3d(${(-HR.cam*sc).toFixed(1)}px,${(-y0*sc).toFixed(1)}px,0) scale(${sc.toFixed(4)})`;
  const HE=HR.he||(HR.he=[0,1,2,3,4,5].map(i=>$('#hrH'+i)));for(let i=0;i<6;i++){const e=HE[i],x=HR.x[i]-HRT.HW*HRT.NOSE,y=hrLaneY(i)-HRT.HH*HRT.FOOT;e.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`;
-  const run=!!HR.run[i];if(e._r!==run){e._r=run;e.classList.toggle('idl',!run)}const bo=HR.x[i]>390;if(e._b!==bo){e._b=bo;e.classList.toggle('bo',bo)}
+  const run=!!HR.run[i];if(e._r!==run){e._r=run;e.classList.toggle('idl',!run)}const bo=HR.x[i]>hrStartX(i)+60;if(e._b!==bo){e._b=bo;e.classList.toggle('bo',bo)}
   if(run&&e._f!==HR.fr[i]){e._f=HR.fr[i];const sp=e._s||(e._s=e.querySelector('.hr-sp s'));sp.style.transform=`translate3d(${-HR.fr[i]*(100/14)}%,0,0)`}}}
 function hrMove(dt){HR.t+=dt;let moving=0;for(let i=0;i<6;i++){const nx=hrPos(i,HR.t),dx=nx-HR.x[i];HR.x[i]=nx;HR.ph2[i]+=dx/12;const r=dx>.15;HR.run[i]=r?1:0;HR.fr[i]=r?Math.floor(HR.ph2[i])%14:2;if(r)moving=1}return moving}
 function hrTick(now){if(!HR)return;HRRAF=requestAnimationFrame(hrTick);const dt=Math.min(.05,(now-HR.lt)/1000);HR.lt=now;
@@ -7598,7 +7882,7 @@ function hrTick(now){if(!HR)return;HRRAF=requestAnimationFrame(hrTick);const dt=
  else if(HR.ph=='race'){hrMove(dt);
   if(!HR._rk||now-HR._rk>160){HR._rk=now;const pr=i=>(HR.x[i]-HR.sim.sim[i].x0)/(HR.sim.sim[i].xf-HR.sim.sim[i].x0),o=[0,1,2,3,4,5].sort((a,b)=>pr(b)-pr(a)),key=o.join('');if(key!==HR._rkk){HR._rkk=key;$('#hrRk').innerHTML=o.map((h,k)=>`<i style="--c:${HR_COL[h]}" class="${k==0?'ld':''}">${h+1}</i>`).join('')}}
   if(!HR._fin&&HR.t>=HR.sim.Tw){HR._fin=1;hrSfx('fin')}
-  if(HR.t>=HR.sim.Tl+.25){HR._fin=0;hrResult()}}
+  if(HR.t>=HR.sim.T3+.35){HR._fin=0;hrResult()}}
  else if(HR.ph=='res'){if(!HR.stop){hrMove(dt);if(Math.min(...HR.x)>HRT.W+HRT.HW*1.05){HR.stop=1;clearInterval(HR.gi);HR.run=[0,0,0,0,0,0]}}
   if(now-HR.tr>5600&&!HR._cv){HR._cv=1;const cv=$('#hrCv');if(cv)cv.classList.add('on');setTimeout(()=>{if(!HR)return;hrNew();requestAnimationFrame(()=>requestAnimationFrame(()=>{const c=$('#hrCv');if(c)c.classList.remove('on')}))},360)}}
  hrDraw(dt)}
@@ -7642,10 +7926,10 @@ const SAL_RULE={tr:`<section><h4>Oyun Salonu · At Yarışı</h4><p>Ana menüde 
  try{['en','es','ku'].forEach(l=>{if(RULESL[l]&&!RULESL[l].includes('Horse race')&&!RULESL[l].includes('Carrera de')&&!RULESL[l].includes('Pêşbaziya hespan'))RULESL[l]=add(RULESL[l],SAL_RULE[l])});
   const rb=$('#rulesBody');if(rb){if(rb.__o!=null&&!rb.__o.includes('Oyun Salonu ·'))rb.__o=add(rb.__o,SAL_RULE.tr);const lg=P.set.lang||'tr';if(!rb.innerHTML.includes('<h4>'+(lg=='tr'?'Oyun Salonu ·':lg=='en'?'Game Room ·':lg=='es'?'Salón ·':'Salon ·')))rb.innerHTML=add(rb.innerHTML,SAL_RULE[lg]||SAL_RULE.tr)}}catch(e){}
  // Kullanım Şartları: 7. madde
- const TM={tr:'<p><b>7. Oyun Salonu.</b> Salon Fişi yalnızca Oyun Salonu’nda kullanılan sanal puandır; satın alınamaz, yalnızca ücretsiz verilir ve oyunla kazanılır; coin’e, paraya veya başka bir değere çevrilemez, satılamaz, aktarılamaz. Salonda gerçek para veya ödül kazanılmaz. Fişle Salon Mağazası’ndan alınan eşyalar hesaba aittir; satılamaz, aktarılamaz, fiş iadesi yapılmaz. Günlük coin → fiş sınırı 50.000’dir; yaş onayıyla 250.000 olur. Salon 18 yaş altına kapalıdır; oyuncu salonu kendi isteğiyle 7 gün kapatabilir.</p>',
-  en:'<p><b>7. Game Room.</b> Salon Chips are virtual points used only in the Game Room; they can’t be bought — they are only given free and earned by playing — and cannot be turned into coins, money or anything of value, sold or transferred. No real money or prizes can be won. Items bought with chips in the Salon Shop belong to the account and can’t be sold, transferred or refunded. The daily coin → chip limit is 50,000, or 250,000 after an age check. The Game Room is closed to under-18s; players can close it for themselves for 7 days.</p>',
-  es:'<p><b>7. Salón.</b> Las fichas del salón son puntos virtuales solo para el Salón; no se pueden comprar (solo se regalan y se ganan jugando) y no se cambian por monedas, dinero ni nada de valor, ni se venden o transfieren. No se gana dinero real ni premios. Límite diario monedas → fichas: 50.000, o 250.000 con verificación de edad. Cerrado a menores de 18; puedes cerrarlo 7 días.</p>',
-  ku:'<p><b>7. Salon.</b> Fîşên salonê xalên virtual in ku tenê di Salonê de tên bikaranîn; nayên kirîn (tenê belaş tên dayîn û bi lîstinê tên qezenckirin) û nabin coin, pere an tiştekî bi nirx, nayên firotin an veguhastin. Pereyê rastîn nayê qezenckirin. Sînorê rojane 50.000 e, bi pejirandina temen 250.000. Ji bo kesên di bin 18 salî de girtî ye; tu dikarî 7 rojan bigirî.</p>'};
+ const TM={tr:'<p><b>7. Oyun Salonu.</b> Salon Fişi yalnızca Oyun Salonu’nda kullanılan sanal puandır; satın alınamaz, yalnızca ücretsiz verilir ve oyunla kazanılır; coin’e, paraya veya başka bir değere çevrilemez, satılamaz, aktarılamaz. Salonda gerçek para veya ödül kazanılmaz. Fişle Salon Mağazası’ndan alınan eşyalar hesaba aittir; satılamaz, aktarılamaz, fiş iadesi yapılmaz. Salon 18 yaş altına kapalıdır; oyuncu salonu kendi isteğiyle 7 gün kapatabilir.</p>',
+  en:'<p><b>7. Game Room.</b> Salon Chips are virtual points used only in the Game Room; they can’t be bought — they are only given free and earned by playing — and cannot be turned into coins, money or anything of value, sold or transferred. No real money or prizes can be won. Items bought with chips in the Salon Shop belong to the account and can’t be sold, transferred or refunded. The Game Room is closed to under-18s; players can close it for themselves for 7 days.</p>',
+  es:'<p><b>7. Salón.</b> Las fichas del salón son puntos virtuales solo para el Salón; no se pueden comprar (solo se regalan y se ganan jugando) y no se cambian por monedas, dinero ni nada de valor, ni se venden o transfieren. No se gana dinero real ni premios. Cerrado a menores de 18; puedes cerrarlo 7 días.</p>',
+  ku:'<p><b>7. Salon.</b> Fîşên salonê xalên virtual in ku tenê di Salonê de tên bikaranîn; nayên kirîn (tenê belaş tên dayîn û bi lîstinê tên qezenckirin) û nabin coin, pere an tiştekî bi nirx, nayên firotin an veguhastin. Pereyê rastîn nayê qezenckirin. Ji bo kesên di bin 18 salî de girtî ye; tu dikarî 7 rojan bigirî.</p>'};
  try{if(LG&&LG.terms)Object.keys(TM).forEach(l=>{const t=LG.terms[l];if(typeof t=='string'&&!t.includes('7. ')){const i=t.lastIndexOf('<p>');LG.terms[l]=i<0?t+TM[l]:t.slice(0,i)+TM[l]+t.slice(i)}})}catch(e){}})();
 Object.assign(DICT,{'OYUN SALONU':['GAME ROOM','SALÓN','SALON'],'Oyun Salonu':['Game Room','Salón','Salon'],'Salon Fişin':['Your Salon Chips','Tus fichas','Fîşên te'],'Günlük #':['Daily #','Diario #','Rojane #'],'Günlük fiş alındı':['Daily chips claimed','Fichas diarias recogidas','Fîşên rojane hatin girtin'],
  'Ücretsiz, hemen al!':['Free, claim now!','¡Gratis, recógelas!','Belaş, niha bistîne!'],'Yenilenir:':['Refreshes in:','Se renueva en:','Nû dibe:'],'Yarış':['Races','Carreras','Pêşbazî'],'Kazandın':['Won','Ganadas','Qezenc'],'En büyük':['Best','Mejor','Herî mezin'],
@@ -7859,7 +8143,7 @@ function preRun(){if(PREB>=3||!PREQ.length)return;const [u,im]=PREQ.shift();PREB
  im.onload=()=>{(im.decode?im.decode():Promise.resolve()).then(done,done)};im.onerror=done;im.src=u;preRun()}
 const PRESET={
  th:()=>[].concat(THL.rk.map(i=>`img/th/rk_${i}.webp`),THL.fr.map(i=>`img/th/fr_${i}.webp`),THL.pb.map(i=>`img/th/pb_${i}.webp`)),
- salon:()=>['img/salon/card_at2.webp','img/salon/card_shop2.webp','img/salon/track.webp','img/salon/idle.webp','img/salon/gate.webp','img/salon/horses14.webp','img/salon/finish.webp',
+ salon:()=>['img/salon/card_at2.webp','img/salon/card_shop2.webp','img/salon/track3.webp','img/salon/idle.webp','img/salon/horses14.webp','img/salon/finish.webp',
   'img/th/rk_hipodrom.webp','img/th/rk_altinnal.webp','img/th/rk_cawres.webp','img/th/fr_nal.webp','img/th/fr_kupa.webp','img/th/fr_cawres.webp','img/th/pb_hipodrom.webp','img/th/pb_finis.webp','img/cloth/mcim_s.webp']};
 function preWarm(k){try{PRESET[k]().forEach(preImg)}catch(e){}}
 // salona girince yarış ve mağaza görselleri hazırlanır; menüye ilk gelişten sonra boşta tüm küçük önizlemeler
@@ -8116,8 +8400,8 @@ S('discard_okey',['Okeyi atarsan +101 ceza yazarsın ⚠️ Tek istisna: son ta�
  'Discarding the okey costs +101 ⚠️ The only exception is finishing with it as your last tile — then no penalty and the points double! Against the AI you can turn it off in OYNA → Table rules.',
  'Tirar el okey cuesta +101 ⚠️ Salvo si cierras con él: entonces no hay multa y se duplican los puntos. Contra la IA se desactiva en OYNA → Reglas de mesa.',
  'Avêtina okeyê +101 ceza ye ⚠️ Ji bilî qedandinê bi wê: wê demê ceza tune û xal du qat dibin. Li dijî komputerê ji OYNA → Qaîdeyên masê tê girtin.']);
-S('update',i=>[`Şu anki sürüm ${kVer()} 🚀 Güncellemeler Play Store’dan gelir; otomatik güncellemeyi açık tutarsan yenilikleri hemen alırsın. Son eklenenler: LİG 🏆 (Bronz’dan Efsane’ye, her ay ödül), Oyun Salonu ve at yarışı 🐎, Salon Mağazası, Profil → Öğelerim, yeni ana menü ve rütbe rozetleri ✨`,
- `Current version ${kVer()} 🚀 Updates come from Play Store — keep auto‑update on. Newest: the LEAGUE 🏆 (Bronze to Legend, monthly rewards), the Game Room with horse racing 🐎, the Room Shop, Profile → My Items, a new main menu and rank badges ✨`,
+S('update',i=>[`Şu anki sürüm ${kVer()} 🚀 Güncellemeler Play Store’dan gelir; otomatik güncellemeyi açık tutarsan yenilikleri hemen alırsın. Son eklenenler: yeni LİG ekranı 🏆 (lig yolu, son 10 sezonun geçmişi ve grafiği), 7 günlük sandık takvimi 🎁, yenilenen şans çarkı, at yarışında yeni başlangıç kapısı, daha uzun pist ve mini saha haritası, Oyun Salonu ve at yarışı 🐎, Salon Mağazası, Profil → Öğelerim, yeni ana menü ve rütbe rozetleri ✨`,
+ `Current version ${kVer()} 🚀 Updates come from Play Store — keep auto‑update on. Newest: a new LEAGUE screen 🏆 (league road, last 10 seasons with a chart), a 7‑day chest calendar 🎁, a refreshed lucky wheel, a new starting gate, a longer track and a mini map in horse racing, the Game Room with horse racing 🐎, the Room Shop, Profile → My Items, a new main menu and rank badges ✨`,
  `Versión ${kVer()} 🚀 Las actualizaciones llegan por Play Store. Novedades: la LIGA 🏆 (de Bronce a Leyenda, premios cada mes), el Salón con carreras 🐎, Perfil → Mis objetos y un menú nuevo ✨`,
  `Guherto ${kVer()} 🚀 Nûkirin ji Play Store tên. Nû: LÎG 🏆 (ji Bronz heta Efsane, her meh xelat), Salon û pêşbaziya hespan 🐎, Profîl → Tiştên min û menuya nû ✨`][i]);
 S('help',['Şunlarda yardımcı olurum ⚓\n• Kurallar: el açma, seri/per, çift, okey, ceza, puanlama\n• Coin: kazanma, paketler, satın alma sorunları, Ayın Paketi\n• Online: eşleşme, botla başlama, özel oda, eş daveti\n• Lig, Oyun Salonu, VIP ve Öğelerim\n• Profil: seviye, rozet, görev, günlük hediye, istatistiklerin\n• Ayarlar: dil, ses, müzik, kasma, ekran\nAyrıca saat/tarih söylerim, hesap yaparım (ör. 12*7), zar atarım 🎲',
@@ -9007,6 +9291,181 @@ ovl=(o=>function(id,on){const r=o.apply(this,arguments);if(on!==false)try{wxFix(
 // v4.20: arka plan saate göre: 09:00–14:00 arası gündüz manzarası, diğer saatlerde gün batımı
 function bgTime(){try{const h=new Date().getHours(),ev=h<9||h>=14;document.body.classList.toggle('ev',ev)}catch(e){}}
 bgTime();setInterval(bgTime,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)bgTime()});
+
+/* ===== v4.22 · LİG yeni görünüm: üstte Bronz→Efsane yolu, solda büyük arma, sağda 5 sekme (Özet · Geçmiş · Ödüller · Arkadaşlar · Nasıl?)
+   Yalnız görünüm + yerel seri sayacı (cs: şu anki galibiyet serisi, ms: sezonun en uzun serisi); buluta ek alan gönderilmez */
+const LZ_COL=['#d48a52','#c9d8ea','#f2c264','#64cdfc','#c08cff'];
+// galibiyet serisi
+lgRes=(o=>function(d){const r=o.apply(this,arguments);try{const g=lgP();if(d>0){g.cs=(g.cs|0)+1;g.ms=Math.max(g.ms|0,g.cs)}else g.cs=0;save()}catch(e){}return r})(lgRes);
+lgRoll=(o=>function(g){const s=g.s,ms=g.ms|0;o.apply(this,arguments);try{const h=g.hist&&g.hist[0];if(h&&h.s===s)h.ms=ms;g.cs=0;g.ms=0;save()}catch(e){}})(lgRoll);
+LGTAB='sum';
+const lzMon=s=>{const m=(String(s||'').split('-')[1]|0)-1,A=LG_MON[P.set.lang]||LG_MON.tr;return(A[m]||'').slice(0,3)};
+function lzRoad(g){const L=g.L,cur=lgL(L),need=lgNeed(L);
+ const fr=L>=LG_TOP?1:Math.min(1,(cur+((L%5)+g.st/need)/5)/4);
+ let im='',lb='';for(let i=0;i<5;i++){const st=i<cur?'got':i==cur?'cur':'lock';
+  im+=`<div class="lznd ${st}" style="--c:${LZ_COL[i]}">${i==cur?`<span class="lzsen">${L_('SEN')}</span>`:''}<img src="img/lig/${LG_K[i]}_s.webp" alt=""></div>`;
+  let d='';for(let j=0;j<5;j++){const on=i<cur||(i==cur&&j<L%5),me=i==cur&&j==L%5;d+=`<i class="${me?'me':on?'f':''}"></i>`}
+  lb+=`<div class="lzlb ${st}" style="--c:${LZ_COL[i]}"><b>${L_(LG_N[i])}</b><span class="lzdots">${d}</span></div>`}
+ return`<div class="lzroad"><div class="lzims"><i class="lzln"><b style="width:${(fr*100).toFixed(1)}%;--f:${Math.max(fr,.01).toFixed(3)}"></b></i>${im}</div><div class="lzlbs">${lb}</div></div>`}
+function lzHero(g,first){const L=g.L,lg=lgL(L),need=lgNeed(L),top=L>=LG_TOP;
+ const nx=top?L_('Zirvedesin! Yıldız topladıkça arkadaş sıralamasında yükselirsin.'):L_('Sonraki: #').replace('#',lgNm(L+1))+' · '+L_('# yıldız kaldı').replace('#',need-g.st);
+ return`<div class="lzhero lgc${lg} ${first?'in':''}" style="--c:${LZ_COL[lg]}"><div class="lzem"><i class="lgglow"></i><img src="${lgImg(L)}" alt=""><b class="lzrib">${lgSub(L)}</b></div>
+  <div class="lzinfo"><div class="lznm">${L_(LG_N[lg])} <em>${lgSub(L)}</em></div>${lgStars(L,g.st,'big')}
+  <div class="lzpr"><small>${nx}</small><div class="lzbar"><b style="width:${top?100:Math.round(g.st/need*100)}%"></b></div></div>
+  <button class="btn y lggo" onclick="ovl('lig',false);goSetup()">${I('play')}${L_('OYNA')}</button></div></div>`}
+function lzSeries(g){const a=g.hist.slice(0,9).reverse().map(h=>({s:h.s,v:h.best|0}));a.push({s:g.s,v:g.best|0,cur:1});return a}
+function lzPeak(g){let b=null;[{s:g.s,best:g.best}].concat(g.hist.slice(0,9)).forEach(h=>{if(!b||(h.best|0)>(b.best|0))b=h});return b}
+const LZ_IC={n:'<path d="M5 4h9l5 5v11H5z" fill="none" stroke="#ffd98a" stroke-width="2"/><path d="M9 12h6M9 16h6" stroke="#ffd98a" stroke-width="2"/>',
+ w:'<path d="M7 4h10v5a5 5 0 0 1-10 0z M7 6H4c0 3 1 4 3 4 M17 6h3c0 3-1 4-3 4 M12 14v4 M8 20h8" fill="none" stroke="#ffd98a" stroke-width="2" stroke-linecap="round"/>',
+ r:'<circle cx="12" cy="12" r="8" fill="none" stroke="#ffd98a" stroke-width="2"/><path d="M12 12V4a8 8 0 0 1 8 8z" fill="#ffd98a"/>',
+ s:'<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-7 2 1 3 3 3 5" fill="none" stroke="#ffb25c" stroke-width="2" stroke-linejoin="round"/>'};
+lgRender=function(first){const g=lgP(),b=$('#lgB');if(!b)return;
+ if(!['sum','his','rw','fr','how'].includes(LGTAB))LGTAB='sum';
+ const tabs=[['sum','chart','Özet'],['his','clock','Geçmiş'],['rw','trophy','Ödüller'],['fr','team','Arkadaşlar'],['how','info','Nasıl?']];
+ b.classList.add('lz');
+ b.innerHTML=`${lzRoad(g)}<div class="lzlow">${lzHero(g,first)}<div class="lzside"><div class="lzseg">${tabs.map(([k,ic,t])=>`<button data-k="${k}" class="${LGTAB==k?'on':''}" onclick="lgTab('${k}')">${I(ic)}<span>${L_(t)}</span></button>`).join('')}</div><div class="lzpane" id="lgPane">${lgPane(LGTAB)}</div></div></div>`;
+ const cd=$('#lgCd');if(cd)cd.textContent=lgCd();if(P.set.lang&&P.set.lang!='tr'&&typeof trNode=='function')trNode(b);$('#ldot')&&($('#ldot').style.display=g.pend?'':'none');lzAfter()};
+lgTab=function(k){if(LGTAB==k)return;LGTAB=k;snd('click');$$('#lgB .lzseg button').forEach(b=>b.classList.toggle('on',b.dataset.k==k));
+ const p=$('#lgPane');if(!p)return;p.classList.remove('sw');void p.offsetWidth;p.innerHTML=lgPane(k);p.classList.add('sw');p.scrollTop=0;if(P.set.lang&&P.set.lang!='tr'&&typeof trNode=='function')trNode(p);lzAfter()};
+// grafik: kutunun gerçek boyutunda çizilir (yazılar ezilmez, alan boş kalmaz)
+function lzAfter(){requestAnimationFrame(()=>{const c=$('#lzCh');if(!c)return;const W=Math.max(120,c.clientWidth),H=Math.max(60,c.clientHeight);if(!c.clientWidth)return;
+ const g=lgP(),a=lzSeries(g),top=Math.min(5,Math.max(3,Math.max(...a.map(p=>lgL(p.v)))+2)),VM=top*5,fs=Math.max(9,Math.min(13,H*.085)),ml=Math.max(...LG_N.slice(0,top).map(t=>String(L_(t)).length)),pl=fs*(.66*ml+1.2),pr=fs*2.9,pt=fs*1.1,pb=fs*1.9,iw=W-pl-pr,ih=H-pt-pb,Y=v=>pt+ih*(1-v/VM),n=a.length,X=i=>n<2?pl+iw/2:pl+iw*i/(n-1);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><defs><linearGradient id="lzga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd98a" stop-opacity=".38"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></linearGradient></defs>`;
+ for(let t=0;t<top;t++){const y=Y(t*5+2),y0=Y(t*5);s+=`<line x1="${pl}" x2="${W-pr}" y1="${y0}" y2="${y0}" stroke="rgba(255,255,255,${t?'.08':'.14'})"/><text x="${pl-fs*.6}" y="${y+fs*.35}" text-anchor="end" fill="${LZ_COL[t]}" style="font:800 ${fs*.92}px G,P;opacity:.85">${esc(L_(LG_N[t]))}</text>`}
+ const pts=a.map((p,i)=>[X(i),Y(p.v+.5)]);
+ if(n>1){const pl2=pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');s+=`<polygon points="${pts[0][0].toFixed(1)},${Y(0)} ${pl2} ${pts[n-1][0].toFixed(1)},${Y(0)}" fill="url(#lzga)"/><polyline points="${pl2}" fill="none" stroke="#ffd98a" stroke-width="${Math.max(2,fs*.22)}" stroke-linejoin="round" stroke-linecap="round"/>`}
+ a.forEach((p,i)=>{const[x,y]=pts[i],r=Math.max(4,fs*.42);s+=`<circle cx="${x}" cy="${y}" r="${p.cur?r*1.25:r}" fill="${LZ_COL[lgL(p.v)]}" stroke="${p.cur?'#fff':'#0b1538'}" stroke-width="${p.cur?2.4:2}"/>`;
+  s+=`<text x="${x}" y="${H-fs*.5}" text-anchor="middle" fill="${p.cur?'#ffe27a':'#b9c6ea'}" style="font:800 ${fs}px G,P">${esc(p.cur?L_('Bu ay'):lzMon(p.s))}</text>`;
+  if(p.cur||n<4){const an=x>W-pr-fs*3?'end':x<pl+fs*3?'start':'middle';s+=`<text x="${an=='end'?W-2:an=='start'?x-r:x}" y="${y-r*1.9}" text-anchor="${an}" fill="#fff" style="font:800 ${fs*.9}px G,P">${esc(lgNm(p.v))}</text>`}});
+ c.innerHTML=s+'</svg>'})}
+lgPane=(o=>function(k){const g=lgP();
+ if(k=='sum'){const rt=g.n?Math.round(g.w/g.n*100):0,ms=Math.max(g.ms|0,g.cs|0),pk=lzPeak(g);
+  const T=[['n',g.n,'Maç'],['w',g.w,'Galibiyet'],['r',g.n?'%'+rt:'—','Oran'],['s',ms,'En uzun seri']];
+  return`<div class="lzsum"><div class="lztl">${T.map(([i,v,t])=>`<div><svg viewBox="0 0 24 24" aria-hidden="true">${LZ_IC[i]}</svg><b>${v}</b><small>${L_(t)}</small></div>`).join('')}</div>
+   <div class="lzch"><div class="lzchh"><span>${L_('Lig geçmişi · son 10 sezon')}</span><small>${L_('Zirve')}: <b>${lgNm(pk.best|0)}</b> · ${lgSeasonNm(pk.s)}</small></div><div class="lzsvg" id="lzCh"></div>${g.hist.length?'':`<p class="lzhint">${L_('Sezonlar bittikçe geçmişin burada birikir.')}</p>`}</div></div>`}
+ if(k=='his'){const R=[{s:g.s,best:g.best,n:g.n,w:g.w,cur:1}].concat(g.hist.slice(0,9));let pk=null;R.forEach(h=>{if((h.n|0)>0&&(!pk||(h.best|0)>(pk.best|0)))pk=h});
+  let h='';for(let i=0;i<10;i++){const x=R[i];if(!x){h+='<div class="lzhr emp"></div>';continue}const lg=lgL(x.best|0);
+   h+=`<div class="lzhr ${x.cur?'cur':''} ${x===pk?'best':''}" style="--c:${LZ_COL[lg]}"><img src="img/lig/${LG_K[lg]}_s.webp" alt=""><span class="lzht"><small>${x.cur?L_('Bu sezon'):lgSeasonNm(x.s)}</small><b>${lgNm(x.best|0)}</b></span><span class="lzhm">${L_('# maç').replace('#',x.n|0)}</span><em>${x.cur?L_('devam ediyor'):`<svg class="ci"><use href="#i-coin"/></svg>+${fmtC(LG_RW[lg])}`}</em></div>`}
+  return`<div class="lzhis">${h}</div>`}
+ if(k=='rw'){const cur=lgL(g.L),bs=lgL(g.best);
+  return`<div class="lzrw"><div class="lzrc">${[0,1,2,3,4].map(i=>`<div class="lzcard ${i==cur?'cur':''} ${i<=bs?'got':'lock'}" style="--c:${LZ_COL[i]}">${i==cur?`<span class="lzsen">${L_('SEN')}</span>`:''}<img src="img/lig/${LG_K[i]}.webp" alt=""><b>${L_(LG_N[i])}</b><em><svg class="ci"><use href="#i-coin"/></svg>${fmtC(LG_RW[i])}</em><small>${i==4?'+ '+L_('Efsane Lig çerçevesi'):L_('1–5 · basamak başı # yıldız').replace('#',LG_ST[i])}</small></div>`).join('')}</div>
+   <p class="lznote">${L_('Sezon sonunda bu sezon ulaştığın en yüksek lige göre ödül alırsın. Yeni sezona bir lig aşağıdan başlarsın.')}</p></div>`}
+ if(k=='how'){const UP='<svg class="sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',DW='<svg class="sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',R=[['up','+1 ★','Maçı kazanırsan (eşlide takımın kazanırsa) 1 yıldız kazanırsın.'],['dn','−1 ★','Maçı sonuncu bitirirsen (eşlide takımın kaybederse) 1 yıldız kaybedersin.'],['eq','±0','Ne birinci ne sonuncu olursan yıldızın değişmez.'],['li',UP,'Yıldızlar dolunca bir üst basamağa çıkarsın: Bronz 1’den Efsane 5’e kadar 25 basamak var.'],
+   ['li',I('lock'),'Lig koruması: bir ligin 1. basamağına ulaştıysan o ligden düşmezsin.'],['dn','−1 ★','İlk el bittikten sonra masadan kalkarsan sonuncu sayılırsın.'],['li',I('clock'),'Sezon her ayın 1’inde saat 03:00’te biter; tüm maçlar (bilgisayara karşı, online, tekli, eşli) sayılır.'],['li',DW,'Yeni sezona bir lig aşağıdan başlarsın.']];
+  return`<div class="lzhow">${R.map(([c,i,t])=>`<div><i class="lzi lzi-${c}">${i}</i><span>${L_(t)}</span></div>`).join('')}</div>`}
+ if(k=='fr'){const h=o.call(this,'fr');return h.replace('class="lgfl"','class="lgfl lzfl"')}
+ return o.apply(this,arguments)})(lgPane);
+Object.assign(DICT,{
+ 'Özet':['Summary','Resumen','Kurte'],'Geçmiş':['History','Historial','Dîrok'],'Oran':['Win rate','Porcentaje','Rêje'],'En uzun seri':['Best streak','Mejor racha','Rêza herî dirêj'],
+ 'Lig geçmişi · son 10 sezon':['League history · last 10 seasons','Historial de liga · últimas 10 temporadas','Dîroka lîgê · 10 demsalên dawî'],'Zirve':['Peak','Cima','Lûtke'],
+ 'Bu ay':['This month','Este mes','Vê mehê'],'Bu sezon':['This season','Esta temporada','Vê demsalê'],'devam ediyor':['in progress','en curso','berdewam e'],'# maç':['# matches','# partidas','# maç'],
+ 'Sezonlar bittikçe geçmişin burada birikir.':['Your history builds up here as seasons end.','Tu historial se irá llenando al terminar cada temporada.','Dema demsal biqedin dîroka te li vir kom dibe.'],
+ 'Yeni sezona bir lig aşağıdan başlarsın.':['The new season starts one league lower.','La nueva temporada empieza una liga más abajo.','Demsala nû ji lîgekê jêrtir dest pê dike.']});
+
+/* ===== v4.22 · Günlük sandık (takvim) ve şans çarkı (yan panel): sabit pencere, köşede kapat, ödül çıkınca hiçbir şey kaymaz
+   chestOpen / wheelSpin aynen çalışır: #dxBig .dxs · #dxWin #dxCnt · #dxP · #dxBtn · #whR · #whP · #whB korunur */
+const dzRange=i=>{const r=CHESTS[i][7];return fmtC(r[0][0])+'–'+fmtC(r[r.length-1][1])};
+const dzX=()=>`<button class="xbtn dzx" onclick="closeM()" aria-label="${L_('Kapat')}">${I('x')}</button>`;
+function dzBtn(){if(giftReady()&&!CHO)chestOpen();else closeM()}
+gift=function(auto){const s=chestState(),t=s.day,guest=!onOK(),vt=vipT(),nx=(t+1)%7;CHO=0;
+ const st=i=>i<t||(!s.ready&&i==t)?'done':i==t?'now':(!s.ready&&i==nx)?'next':'lock';
+ const lab={done:L_('Alındı'),now:L_('Bugün'),next:L_('Yarın'),lock:L_('Kilitli')};
+ const cards=CHESTS.map((c,i)=>{const k=st(i);return`<div class="dzd ${k} ${i==6?'e7':''}"><b>${L_('#. gün').replace('#',i+1)}</b><img src="img/chest/c${i+1}${k=='done'?'o':''}.webp" alt=""><span>${dzRange(i)}</span><em>${lab[k]}${k=='done'?' ✓':''}</em></div>`}).join('');
+ const pv=s.ready?`<span class="dzc c"><svg class="ci"><use href="#i-coin"/></svg>${dzRange(t)}</span><span class="dzc x">+${CHESTS[t][6]} XP</span>`
+  :`<span class="dzc t">${L_('Yarın')}</span><span class="dzc c"><svg class="ci"><use href="#i-coin"/></svg>${dzRange(nx)}</span><span class="dzc x">+${CHESTS[nx][6]} XP</span>`;
+ const vip=vt?`<small class="dxvip ${vt}">👑 ${L_(VIPT[vt].nm)}: ${L_('sandık ×#').replace('#',vipNum(VIPT[vt].chest))}${P.vipBon!=today()?' + '+fmtC(VIPT[vt].bonus)+' '+L_('bonus'):''}</small>`
+  :`<small class="dxvip up" onclick="closeM();openShop('vp')">👑 ${L_('VIP ile sandık ödülü ×2’ye kadar')} ›</small>`;
+ modal(`<div class="dzm">${dzX()}<h3 class="dxt">${L_('GÜNLÜK SANDIK')}</h3><div class="dzb">
+  <div class="dzpn dzl"><div class="dzcal">${cards}</div>${guest&&s.ready?`<div class="dzg">${I('link')}<span>${L_('Misafir olarak ödülün yarısını alırsın. Hesabını bağla, tam ödülü al!')}</span><button class="btn sm b" onclick="closeM();linkAcc()">${L_('Bağla')}</button></div>`:''}</div>
+  <div class="dzpn dzr"><b class="dzn">${L_(CHESTS[t][0])}</b>${vip}
+   <div class="dzst"><div class="dxbig ${s.ready?'rdy':''}" id="dxBig" ${s.ready?'onclick="chestOpen()"':''}>${chestSVG(t,s.ready?'':'open')}<div class="dxray"></div></div></div>
+   <div class="dzwin" id="dxWin">${pv}</div>
+   <p class="dxp" id="dxP">${s.ready?L_('Sandığa dokun ve aç!'):L_('Bugünkü sandığını açtın. Yarın daha iyisi seni bekliyor!')}</p>
+   <div class="dzbtns"><button class="btn w" onclick="chestOddsM(${t})">${L_('Olasılıklar')}</button><button class="btn ${s.ready?'y':'b'}" id="dxBtn" onclick="dzBtn()">${L_(s.ready?'Aç':'Kapat')}</button></div></div></div></div>`,'chmod dzmod');
+ if(!s.ready)chestTimer()};
+// ödül satırı açılınca yerinde canlanır (pencere büyümez)
+chestOpen=(o=>function(){const r=o.apply(this,arguments);setTimeout(()=>{const w=$('#mc.dzmod #dxWin');if(w)w.classList.add('on')},660);return r})(chestOpen);
+// geri sayımlar: tek döngü, pencere kapanınca ya da hak gelince durur (eski döngüler yeni pencereye yazmaz)
+let DZT=0,WZT=0;
+chestTimer=function(){const k=++DZT;const f=()=>{if(k!==DZT)return;const p=$('#dxP');if(!p||!mOpen()||giftReady())return;p.textContent=L_('Sonraki sandık:')+' '+giftTxt();setTimeout(f,1000)};f()};
+wheelTimer=function(){const k=++WZT;const f=()=>{if(k!==WZT)return;const p=$('#whP');if(!p||!$('.whm')||!mOpen()||wheelReady())return;p.textContent=L_('Sonraki çevirme:')+' '+giftTxt().replace(L_('Hazır!'),'00:00:00');setTimeout(f,1000)};f()};
+modal=(o=>function(){DZT++;WZT++;return o.apply(this,arguments)})(modal);
+// ---------- şans çarkı ----------
+function wzHak(){const mx=wheelMax(),lf=wheelLeft();return`<span class="wzdots">${Array.from({length:mx},(_,i)=>`<i class="${i<lf?'on':''}"></i>`).join('')}</span><b>${lf}/${mx}</b>`}
+wheelM=function(){const rd=wheelReady(),lf=wheelLeft(),vt=vipT();WSP=0;WROT=0;
+ const ag={};WHEEL.forEach(w=>{const k=w[0]+w[1];ag[k]=ag[k]||[w[0],w[1],0];ag[k][2]+=w[2]});
+ const rows=Object.values(ag).sort((a,b)=>(a[0]=='x')-(b[0]=='x')||a[1]-b[1]);
+ const odds=rows.map(w=>`<div class="${w[0]=='x'?'wzxp':''} ${w[1]>=5000?'big':''}">${w[0]=='x'?'<i class="wzx">XP</i>':'<svg class="ci"><use href="#i-coin"/></svg>'}<b>${w[0]=='x'?'+'+w[1]:fmtC(w[1])}</b><small>%${w[2]}</small></div>`).join('');
+ modal(`<div class="whm wzm">${dzX()}<h3 class="dxt">${L_('ŞANS ÇARKI')}</h3><div class="wzb">
+  <div class="dzpn wzl">${wheelSVG()}</div>
+  <div class="dzpn wzr"><div class="wzh"><span>${L_('Kalan hak')}</span><span class="wzhk" id="whL">${wzHak()}</span></div>
+   <div class="wzres"><p class="dxp" id="whP">${rd?(wheelMax()>1?L_('Bugün # çevirme hakkın var!').replace('#',lf):L_('Günde 1 ücretsiz çevirme hakkın var!')):L_('Bugünkü çevirme hakkını kullandın. Yarın tekrar gel!')}</p></div>
+   <div class="wzot"><span>${L_('Ödüller')}</span><small>${L_('Olasılık')}</small></div><div class="wzodds">${odds}</div>
+   ${vt?`<small class="whv ${vt}">👑 ${L_(VIPT[vt].nm)}: ${L_('günde # çevirme').replace('#',VIPT[vt].spins)}</small>`:`<small class="whv up" onclick="closeM();openShop('vp')">👑 ${L_('VIP ile günde 3 çevirme hakkı')} ›</small>`}
+   <small class="wznote">${L_('Çark ücretsizdir; çevirme hakkı satılmaz.')}</small>
+   <div class="dzbtns">${rd?`<button class="btn y" id="whB" onclick="wheelSpin()">${L_('ÇEVİR')}</button>`:`<button class="btn b" onclick="closeM()">${L_('Kapat')}</button>`}</div></div></div></div>`,'chmod dzmod wzmod');
+ if(!rd)wheelTimer()};
+wheelSpin=(o=>function(){const was=WSP;const r=o.apply(this,arguments);try{if(!was&&WSP){const e=$('#whL');if(e)e.innerHTML=wzHak()}}catch(e){}return r})(wheelSpin);
+// ---------- seviye atlama: açık pencerenin içine yazı sokulmaz; pencere kapanınca gösterilir ----------
+let LVD=[];
+lvUp=(o=>function(l){try{const tb=onTbl()&&typeof S!='undefined'&&S;if(mOpen()&&!tb){LVD.push(l);return}}catch(e){}return o.apply(this,arguments)})(lvUp);
+closeM=(o=>function(){const r=o.apply(this,arguments);if(LVD.length){const l=Math.max(...LVD.splice(0));setTimeout(()=>{if(mOpen()){LVD.push(l);return}lvUp(l)},420)}return r})(closeM);
+Object.assign(DICT,{'Bugün':['Today','Hoy','Îro'],'Yarın':['Tomorrow','Mañana','Sibê'],'Aç':['Open','Abrir','Veke'],'Kalan hak':['Spins left','Tiradas restantes','Mafên mayî'],
+ 'VIP ile sandık ödülü ×2’ye kadar':['VIP: chest reward up to ×2','VIP: premio del cofre hasta ×2','VIP: xelata sindoqê heta ×2']});
+
+/* ===== v4.22 · genel düzeltmeler: HEMEN OYNA kalktı, OYNA son modu hatırlar ===== */
+// mod ekranında son seçtiğin mod kartı işaretli gelir (ayarlar zaten P.mode'da saklı)
+function opLastK(){const m=P.mode||{};return m.canak?'canak':m.esli?'esli':m.kat?'katlamali':'katlamasiz'}
+goSetup=(o=>function(){const r=o.apply(this,arguments);try{const k=(P.st&&(P.st.games|0)>0)?opLastK():'';
+ $$('#setup .opb').forEach(b=>{const on=!!k&&b.classList.contains(k);b.classList.toggle('last',on);const t=b.querySelector('.oplast');if(t)t.remove();if(on)b.insertAdjacentHTML('beforeend',`<em class="oplast">${L_('SON SEÇİMİN')}</em>`)})}catch(e){}return r})(goSetup);
+Object.assign(DICT,{'SON SEÇİMİN':['LAST PICK','ÚLTIMA ELECCIÓN','HILBIJARTINA DAWÎ']});
+// Android çentik payı (MainActivity v4.22 → window.__nativeSafe, CSS piksel): env() 0 dönse de masa kenarları çentiğe girmez
+readSafe=(o=>function(){o.apply(this,arguments);try{const n=window.__nativeSafe;if(!n)return;const x=Math.max(n.l|0,n.r|0),t=n.t|0;
+ const nx=Math.max(SA.x,x+6),ne=Math.max(SA.ex,x+6),nt=Math.max(SA.t,t+4),ny=Math.max(SA.ey,t+4);if(nx==SA.x&&ne==SA.ex&&nt==SA.t&&ny==SA.ey)return;
+ SA.x=nx;SA.ex=ne;SA.t=nt;SA.ey=ny;const r=document.documentElement.style;r.setProperty('--st',nt+'px');r.setProperty('--sx',nx+'px');r.setProperty('--ex',ne+'px');r.setProperty('--ey',ny+'px')}catch(e){}})(readSafe);
+window.onNativeSafe=()=>{try{readSafe();if(onTbl()&&typeof layout=='function')layout()}catch(e){}};
+
+/* ===== v4.22 · At yarışı: mini saha haritası (Fırat'ın fikri), ekran dışında kalan atlar için kenar okları,
+   SON 200 M afişi, pist kenarında mesafe tabelaları, foto finiş. Yarış 1600 m; tabelalar pistin kendi 200m/100m tabelalarıyla aynı ölçekte. */
+const HRX={D:1600,PXM:3.93,B100:6163,last:0,ban:0,ord:''};
+const hrxPr=i=>{const m=HR&&HR.sim&&HR.sim.sim[i];if(!m)return 0;return Math.max(0,Math.min(1,(HR.x[i]-m.x0)/(m.xf-m.x0)))};
+function hrxBuild(){const V=$('#hrV'),W=$('#hrW');if(!V||!W||$('#hrxMap'))return;
+ const dots=HR_COL.map((c,i)=>`<g class="d" data-i="${i}"><circle class="me" r="10.5"/><circle r="7.6" fill="${c}" stroke="#fff" stroke-width="1.8"/><text y="3.4" text-anchor="middle" fill="${i==3?'#3a2a00':'#fff'}">${i+1}</text></g>`).join('');
+ V.insertAdjacentHTML('beforeend',`<div class="hrx-map" id="hrxMap"><svg viewBox="0 0 200 104" aria-hidden="true"><path class="o" d="M52 12 H148 A40 40 0 0 1 148 92 H52 A40 40 0 0 1 52 12Z"/><path id="hrxRP" class="r" d="M120 12 H52 A40 40 0 0 0 52 92 H158"/><path class="st" d="M120 4 V20"/><g class="fn"><rect x="157" y="84" width="4" height="4"/><rect x="161" y="88" width="4" height="4"/><rect x="157" y="92" width="4" height="4"/><rect x="161" y="96" width="4" height="4"/></g><g id="hrxDots">${dots}</g></svg>
+  <b class="hrx-mt">${L_('PİST')}</b><small id="hrxRem"></small><i class="hrx-ml s">${L_('START')}</i><i class="hrx-ml f">${L_('BİTİŞ')}</i></div>
+  <div class="hrx-edge" id="hrxEdge">${HR_COL.map((c,i)=>`<div class="t" data-i="${i}" style="--c:${c}"><i>◀</i><b style="color:${i==3?'#3a2a00':'#fff'}">${i+1}</b><small></small></div>`).join('')}</div>
+  <div class="hrx-ban" id="hrxBan"></div>`);
+ // mesafe tabelaları (uzak korkuluğun üstünde, pistin kendi 200m / 100m tabelalarıyla aynı biçim)
+ let t='';[1400,1200,1000,800,600,400,300].forEach(d=>{const x=HRX.B100-(d-100)*HRX.PXM,w=d>=1000?60:52;
+  t+=`<path d="M${(x-w/2+8).toFixed(1)} 196 V214 M${(x+w/2-8).toFixed(1)} 196 V214" stroke="#5b4630" stroke-width="3"/><rect x="${(x-w/2).toFixed(1)}" y="178" width="${w}" height="22" rx="2.5" fill="#f6e7cf" stroke="#5b4630" stroke-width="2"/><text x="${x.toFixed(1)}" y="194.5" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="14" fill="#2a2016">${d}m</text>`});
+ W.insertAdjacentHTML('beforeend',`<svg class="hrx-poles" viewBox="0 0 ${HRT.W} 515" width="${HRT.W}" height="515" aria-hidden="true">${t}</svg>`);
+ if(P.set.lang&&P.set.lang!='tr'&&typeof trNode=='function'){trNode($('#hrxMap'))}}
+hrEnsure=(o=>function(){const r=o.apply(this,arguments);try{hrxBuild()}catch(e){}return r})(hrEnsure);
+hrNew=(o=>function(){const r=o.apply(this,arguments);try{HRX.ban=0;HRX.ord='';const b=$('#hrxBan');if(b)b.className='hrx-ban';$$('#hrxEdge .t').forEach(e=>e.classList.remove('on'));hrxUpd(1)}catch(e){}return r})(hrNew);
+// bahis yapılan at haritada altın halkayla işaretlenir
+hrCloseBets=(o=>function(){const r=o.apply(this,arguments);try{$$('#hrxDots .d').forEach(g=>g.classList.toggle('mine',HR.bets[+g.dataset.i]>0))}catch(e){}return r})(hrCloseBets);
+function hrxUpd(force){if(!HR)return;const now=performance.now();if(!force&&now-HRX.last<70)return;HRX.last=now;
+ const rc=HR.ph=='race'||HR.ph=='res';if(!rc&&!force)return;const pr=[0,1,2,3,4,5].map(hrxPr),ord=[0,1,2,3,4,5].sort((a,b)=>pr[a]-pr[b]),key=ord.join('');
+ // mini harita
+ const p=$('#hrxRP'),g=$('#hrxDots');if(p&&g){const L=HRX.L||(HRX.L=p.getTotalLength());
+  if(key!==HRX.ord){HRX.ord=key;ord.forEach(i=>{const d=g.querySelector(`.d[data-i="${i}"]`);if(d)g.appendChild(d)})}
+  for(let i=0;i<6;i++){const d=g.children[i],k=+d.dataset.i,q=p.getPointAtLength(L*pr[k]);d.setAttribute('transform',`translate(${q.x.toFixed(1)},${q.y.toFixed(1)})`)}
+  const lead=Math.max(...pr),rem=$('#hrxRem');if(rem)rem.textContent=lead>=1?L_('Bitti'):L_('Kalan # m').replace('#',Math.max(0,Math.round((1-lead)*HRX.D/50)*50))}
+ // ekran dışında (geride) kalan atlar
+ if(HR.ph=='race'&&HR.sc){const lead=Math.max(...HR.x);let k=0;[0,1,2,3,4,5].sort((a,b)=>HR.x[b]-HR.x[a]).forEach(i=>{const t=$(`#hrxEdge .t[data-i="${i}"]`);if(!t)return;
+   const off=(HR.x[i]-HR.cam)<HR.vs*.03;t.classList.toggle('on',off);if(off){t.style.top=(11+k*9.2)+'vh';t.querySelector('small').textContent=L_('# boy').replace('#',Math.max(1,Math.round((lead-HR.x[i])/(HRT.HW*.8))));k++}})}
+ else $$('#hrxEdge .t.on').forEach(t=>t.classList.remove('on'));
+ // son 200 m
+ if(HR.ph=='race'&&!HRX.ban&&Math.max(...pr)>=1-200/HRX.D){HRX.ban=now;const l=HR.x.indexOf(Math.max(...HR.x)),b=$('#hrxBan');
+  if(b){b.innerHTML=`${L_('SON 200 M')} <small>· ${L_('Lider')}: <i style="--c:${HR_COL[l]}">${l+1}</i> ${esc(HR.nm[l])}</small>`;b.className='hrx-ban on'}}
+ if(HRX.ban&&now-HRX.ban>2600){const b=$('#hrxBan');if(b&&b.classList.contains('on'))b.className='hrx-ban'}}
+hrDraw=(o=>function(){const r=o.apply(this,arguments);try{hrxUpd()}catch(e){}return r})(hrDraw);
+// foto finiş: ilk iki at arasında çok az fark varsa sonuç afişinde yazar
+hrResult=(o=>function(){const r=o.apply(this,arguments);try{const s=HR.sim;if(s&&s.T2-s.Tw<.12){const w=$('#hrBan .hb-w');if(w)w.insertAdjacentHTML('afterend',`<div class="hb-pf">📸 ${L_('Foto finiş!')}</div>`)}
+ const b=$('#hrxBan');if(b)b.className='hrx-ban';hrxUpd(1)}catch(e){}return r})(hrResult);
+Object.assign(DICT,{'PİST':['TRACK','PISTA','PÎST'],'START':['START','SALIDA','DESTPÊK'],'BİTİŞ':['FINISH','META','DAWÎ'],
+ 'Kalan # m':['# m to go','Faltan # m','# m mayî'],'Bitti':['Finished','Terminada','Qediya'],'# boy':['# lengths','# cuerpos','# bejn'],'SON 200 M':['FINAL 200 M','ÚLTIMOS 200 M','200 M YÊN DAWÎ'],
+ 'Lider':['Leader','Líder','Pêşeng'],'Foto finiş!':['Photo finish!','¡Foto finish!','Wêneya dawîyê!']});
 
 </script>
 </body></html>

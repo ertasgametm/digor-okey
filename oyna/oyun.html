@@ -6816,7 +6816,7 @@ function itDo(k,id){const K=KIND[k],x=K.L.find(y=>y[0]==id);if(!x||P.coins<x[2]|
 function itUse(k,id){const K=KIND[k];if(id&&!P[K.own].includes(id))return;P[K.eq]=id;save();renderShop();if(k=='pb'&&typeof onPublish=='function')onPublish(1);toast(L_(id?'Kullanılıyor':'Varsayılana döndü'))}
 renderShop=function(t){if(t)SHTAB=t;if(!['rk','fr','pb','sh','cn'].includes(SHTAB))SHTAB='rk';
  const tb=[['rk','tile','Istakalar'],['fr','frame','Çerçeveler'],['pb','user','Profil'],['sh','chat','Sohbet'],['cn','coin','Coin']];
- $('#shT').innerHTML=tb.map(([k,ic,lb])=>`<button class="${SHTAB==k?'on':''}" onclick="renderShop('${k}')">${k=='cn'?'<svg class="sv"><use href="#i-coin"/></svg>':I(ic)}<span>${L_(lb)}</span>${(k=='pb'||k=='sh')?'<i class="newb">YENİ</i>':''}</button>`).join('');
+ $('#shT').innerHTML=tb.map(([k,ic,lb])=>`<button class="${SHTAB==k?'on':''}" onclick="renderShop('${k}')">${k=='cn'?'<svg class="sv"><use href="#i-coin"/></svg>':I(ic)}<span>${L_(lb)}</span></button>`).join('');
  if(SHTAB=='cn'){renderCoinShop();return}
  let h='';
  if(SHTAB=='rk')h=tierBlocks(RACKS,'rk',rkCard,'rkg');
@@ -7073,7 +7073,7 @@ itUse=(o=>function(k){const r=o.apply(this,arguments);if(k=='ms')applyCloth();re
 try{const sp=$('#i-tile');if(sp&&!$('#i-cloth'))sp.parentNode.insertAdjacentHTML('beforeend','<symbol id="i-cloth" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><rect x="6" y="8.5" width="12" height="7" rx="1"/><path d="M2.5 9h1.6M2.5 15h1.6M19.9 9h1.6M19.9 15h1.6"/></symbol>')}catch(e){}
 renderShop=function(t){if(t)SHTAB=t;if(!['rk','fr','ms','pb','sh','cn'].includes(SHTAB))SHTAB='rk';
  const tb=[['rk','tile','Istakalar'],['fr','frame','Çerçeveler'],['ms','cloth','Masa'],['pb','user','Profil'],['sh','chat','Sohbet'],['cn','coin','Coin']];
- $('#shT').innerHTML=tb.map(([k,ic,lb])=>`<button class="${SHTAB==k?'on':''}" onclick="renderShop('${k}')">${k=='cn'?'<svg class="sv"><use href="#i-coin"/></svg>':I(ic)}<span>${L_(lb)}</span>${(k=='ms'||k=='pb'||k=='sh')?'<i class="newb">'+L_('YENİ')+'</i>':''}</button>`).join('');
+ $('#shT').innerHTML=tb.map(([k,ic,lb])=>`<button class="${SHTAB==k?'on':''}" onclick="renderShop('${k}')">${k=='cn'?'<svg class="sv"><use href="#i-coin"/></svg>':I(ic)}<span>${L_(lb)}</span></button>`).join('');
  if(SHTAB=='cn'){renderCoinShop();return}
  let h='';
  if(SHTAB=='rk')h=tierBlocks(RACKS,'rk',rkCard,'rkg');

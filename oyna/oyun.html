@@ -3305,6 +3305,11 @@ button.opk2:active{transform:scale(.96)}
 #setup .opc-c .opk2{height:var(--och)}
 #setup .op-cfg>.op-ru{height:100%;min-height:0}
 #setup .opd.es{color:#bfe9c9}
+/* kartlar arka plandan ayrışsın: arka plan resmi hafif bulanık ve koyu (dosyada hazır), kartların arkasında koyu hale, yere düşen gölge, ince ışık kenarı */
+#setup .op-bg::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(44% 60% at 50% 62%,rgba(0,0,0,.45),rgba(0,0,0,.15) 60%,rgba(0,0,0,0) 85%);pointer-events:none}
+.opk2::after{content:'';position:absolute;left:8%;right:8%;bottom:-2.2%;height:5%;border-radius:50%;background:radial-gradient(rgba(0,0,0,.75),rgba(0,0,0,0) 70%);z-index:-1;pointer-events:none}
+.opk2{filter:drop-shadow(0 0 .35vh rgba(255,230,160,.5)) drop-shadow(0 1.4vh 1.6vh rgba(0,0,0,.7))}
+.opk2.last{filter:drop-shadow(0 0 1.8vh rgba(255,214,90,.85)) drop-shadow(0 1.4vh 1.6vh rgba(0,0,0,.7))}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#f5c542"/><stop offset="1" stop-color="#b07812"/></linearGradient>

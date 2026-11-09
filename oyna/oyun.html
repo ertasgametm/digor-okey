@@ -11545,6 +11545,14 @@ body.lo .psc.on,body.noanim .psc.on{animation:none}
 .pst-tx small{font:700 clamp(8px,2.1vh,11px) P;color:#9fc7b2}
 .pst-tx.me b{color:#ffd76a}
 .ps-turn span{all:unset}
+/* yerdeki kart yığını: en fazla 5 kart görünür, her biri kendi açısında */
+.ps-pl .pc.un,.ps-pl .pc.tp{translate:var(--x,0) var(--y,0);rotate:var(--r,0deg)}
+.ps-pl .pc.un{filter:brightness(.95)}
+.ps-pl .pc.tp{filter:none;box-shadow:0 .8vh 1.6vh rgba(0,0,0,.5)}
+.ps-pl .ps-n{z-index:9}
+/* masa: kullanıcının masa görseli, çerçeve köşeleri bozulmadan (9 parçalı) */
+.ps-bg{background:#0b4a1c;border-style:solid;border-color:transparent;border-width:7.6vh;border-image:url(img/pisti/masa.webp) 72 fill / 7.6vh stretch}
+.ps-bg::before,.ps-bg::after{display:none}
 
 </style>
 <script id="j-pisti">
@@ -11567,8 +11575,10 @@ const pst=()=>{P.pst=P.pst||{g:0,w:0,d:0,pis:0,best:0};return P.pst};
 const red=c=>c.s==1||c.s==2;
 const SUN=['maca','kupa','karo','sinek'];
 const cimg=c=>`img/pisti/${SUN[c.s]}_${RK[c.r]}.webp`;
-function face(c,cls){return`<span class="pc im ${red(c)?'rd':'bk'} ${cls||''}" data-r="${c.r}" style="background-image:url(${cimg(c)})"></span>`}
-const back=cls=>`<span class="pc bkc ${cls||''}"></span>`;
+function face(c,cls,st){return`<span class="pc im ${red(c)?'rd':'bk'} ${cls||''}" data-r="${c.r}" style="background-image:url(${cimg(c)});${st||''}"></span>`}
+const back=(cls,st)=>`<span class="pc bkc ${cls||''}" ${st?`style="${st}"`:''}></span>`;
+// yerdeki kartların sabit duruşu: her kart kendi açısıyla durur, yeniden çizilince oynamaz
+const lay=(c,k,tp)=>{const h=(c.s*13+c.r)*7+k*3,al=k%2?1:-1,rot=tp?al*(2+h%3):al*(7+h%6),x=al*(tp?.3:1.2+(h%3)*.5),y=((h*29)%5-2)*.45;return`--r:${rot}deg;--x:${x.toFixed(2)}vh;--y:${y.toFixed(2)}vh`};
 let PRE=0;function preload(){if(PRE)return;PRE=1;try{for(let s=0;s<4;s++)for(let r=1;r<=13;r++){const im=new Image();im.decoding='async';im.src=cimg({s,r})}const b=new Image();b.src='img/pisti/arka.webp'}catch(e){}}
 // ---------- deste ----------
 function deck(){const d=[];for(let s=0;s<4;s++)for(let r=1;r<=13;r++)d.push({s,r});for(let i=d.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[d[i],d[j]]=[d[j],d[i]]}return d}
@@ -11654,7 +11664,8 @@ function render(){if(!PS||!$('#pst'))return;const top=PS.pile[PS.pile.length-1],
  $('#psBot').innerHTML=PS.hand[1].map(()=>back('sm')).join('');
  const dl=PS.d.length;$('#psDk').innerHTML=dl?`${dl>8?back('st s3'):''}${dl>3?back('st s2'):''}${back('st')}<em>${dl}</em><small>${T('Deste')}</small>`:`<span class="ps-emp"></span><small>${T('Deste bitti')}</small>`;
  const L=PS.pile,under=Math.min(L.length-1,4);
- $('#psPile').innerHTML=L.length?(L.slice(-1-under,-1).map((c,i)=>{const k=L.length-1-under+i,rot=((k*37)%17)-8;return k<PS.hid?back('un" style="--r:'+rot+'deg'):face(c,'un" style="--r:'+rot+'deg')}).join('')+face(top,'tp')+(L.length>1?`<em class="ps-n">${L.length}</em>`:'')):`<span class="ps-emp"><small>${T('Yer boş')}</small></span>`;
+ const vis=L.slice(-5),st=L.length-vis.length;
+ $('#psPile').innerHTML=L.length?vis.map((c,i)=>{const k=st+i,tp=k==L.length-1,sty=lay(c,k,tp)+';z-index:'+(i+1);return k<PS.hid?back('un',sty):face(c,tp?'tp':'un',sty)}).join('')+(L.length>1?`<em class="ps-n">${L.length}</em>`:''):`<span class="ps-emp"><small>${T('Yer boş')}</small></span>`;
  const sc=(p)=>{const me=!p,nm=me?(P.name||T('Sen')):PS.bot.name,av=me?avBox({av:P.av,photo:P.photo,frame:P.frame,lv:(()=>{try{return lvInfo(P.xp).l}catch(e){return 0}})()}):avBox({av:PS.bot.av,frame:'gumus'}),on=PS.turn==p&&!PS.over;
   return`${on?`<i class="psc-tag">${T(me?'SIRA SENDE':'SIRADA')}</i>`:''}<span class="psc-av">${av}</span><span class="psc-tx"><b class="psc-nm">${esc(nm)}</b><span class="psc-ch"><span><i class="pci"></i><b>${PS.cap[p].length}</b> ${T('kart')}</span><span class="${PS.np[p]?'hot':''}">${Ic('pstr')}<b>${PS.np[p]}</b> ${T('pişti')}</span></span></span><span class="psc-pt"><b>${livePts(p)}</b><small>${T('PUAN')}</small></span>`};
  $('#psScB').innerHTML=sc(1);$('#psScM').innerHTML=sc(0);$('#psScB').classList.toggle('on',PS.turn==1&&!PS.over);$('#psScM').classList.toggle('on',PS.turn==0&&!PS.over);

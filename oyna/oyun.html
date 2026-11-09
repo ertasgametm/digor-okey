@@ -11501,6 +11501,50 @@ body.lo .ps-pop.on{animation-duration:.9s}
 .pc.im{background-color:transparent;border-radius:calc(var(--h,24vh)*.037)}
 .ps-pl{width:calc(27vh*.732)}
 .ps-dk{width:calc(19vh*.732 + 1.2vh)}
+/* ===== oyuncu bilgi kartları (yeni) ===== */
+.ps-side{display:none}
+.psc{position:absolute;z-index:4;display:flex;align-items:center;gap:1.4vh;height:max(14vh,54px);padding:0 1.2vh 0 1vh;border-radius:2.2vh;color:#fff;
+ background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 40%),linear-gradient(160deg,#1a4a33 0%,#0d2c1f 55%,#081c14 100%);
+ box-shadow:inset 0 0 0 .25vh #e8c46a,inset 0 0 0 .55vh rgba(40,24,6,.85),inset 0 0 0 .75vh rgba(232,196,106,.35),0 .9vh 1.8vh rgba(0,0,0,.55);transition:box-shadow .25s}
+.psc::before{content:'';position:absolute;left:1.6vh;right:1.6vh;top:.75vh;height:1px;background:linear-gradient(90deg,transparent,rgba(255,236,170,.55),transparent)}
+.psc.me{right:3.4vh;bottom:3vh;width:max(52vh,190px)}
+.psc.bt{right:calc(3.4vh + max(7vh,30px));top:2.4vh;width:max(46vh,170px);height:max(12vh,46px)}
+.psc.on{box-shadow:inset 0 0 0 .3vh #ffe08a,inset 0 0 0 .6vh rgba(40,24,6,.85),inset 0 0 0 .8vh rgba(255,224,138,.55),0 0 2.6vh rgba(255,206,90,.75),0 .9vh 1.8vh rgba(0,0,0,.55);animation:pscGlow 1.6s ease-in-out infinite}
+@keyframes pscGlow{50%{box-shadow:inset 0 0 0 .3vh #ffe08a,inset 0 0 0 .6vh rgba(40,24,6,.85),inset 0 0 0 .8vh rgba(255,224,138,.55),0 0 1.2vh rgba(255,206,90,.45),0 .9vh 1.8vh rgba(0,0,0,.55)}}
+body.lo .psc.on,body.noanim .psc.on{animation:none}
+.psc-av{flex:none;display:flex;padding:.35vh;border-radius:50%;background:conic-gradient(from 210deg,#fff2bf,#d9a531,#8a5a12,#e8c46a,#fff2bf);box-shadow:0 .4vh .8vh rgba(0,0,0,.45)}
+.psc-av .avb{--s:max(9vh,34px)}
+.psc.bt .psc-av .avb{--s:max(7.6vh,29px)}
+.psc-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:.6vh}
+.psc-nm{font:900 clamp(11px,3.1vh,16px) G,P;letter-spacing:.02em;color:#fff6dc;text-shadow:0 .25vh 0 rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.psc.bt .psc-nm{font-size:clamp(10px,2.8vh,14px)}
+.psc-ch{display:flex;gap:.7vh;flex-wrap:nowrap}
+.psc-ch>span{display:inline-flex;align-items:center;gap:.5vh;padding:.3vh .9vh .3vh .6vh;border-radius:9vh;font:700 clamp(8px,2vh,10px) P;color:#cfe8da;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 1px rgba(232,196,106,.28);white-space:nowrap}
+.psc-ch b{font:900 clamp(9px,2.3vh,12px) G,P;color:#fff}
+.psc-ch .sv{width:1.25em;height:1.25em;color:#e8c46a;fill:rgba(232,196,106,.35);stroke-width:2}
+.psc-ch .hot{color:#3a2600;background:linear-gradient(#ffe48a,#ffb020);box-shadow:0 .2vh 0 #a06a00}.psc-ch .hot b{color:#3a2600}.psc-ch .hot .sv{color:#7a4a00;fill:#fff3c4}
+.pci{display:inline-block;width:1.1em;height:1.45em;border-radius:.2em;background:url(img/pisti/arka.webp) center/100% 100%;box-shadow:.25em -.15em 0 -.05em rgba(232,196,106,.45)}
+.psc-pt{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:max(11vh,42px);height:max(11vh,42px);border-radius:50%;
+ background:radial-gradient(circle at 35% 28%,#fffbe6,#ffd76a 38%,#d39a22 70%,#8f5d0e 100%);box-shadow:inset 0 0 0 .3vh rgba(255,255,255,.55),inset 0 -.6vh 1vh rgba(120,70,0,.5),0 .4vh .9vh rgba(0,0,0,.5);color:#3a2400}
+.psc.bt .psc-pt{width:max(9.4vh,36px);height:max(9.4vh,36px)}
+.psc-pt b{font:900 clamp(14px,4.6vh,24px)/1 G,P;text-shadow:0 .15vh 0 rgba(255,255,255,.6)}
+.psc.bt .psc-pt b{font-size:clamp(12px,3.8vh,20px)}
+.psc-pt small{font:900 clamp(6px,1.5vh,8px) G,P;letter-spacing:.12em;opacity:.8}
+.psc-tag{position:absolute;left:50%;top:-1.5vh;translate:-50% 0;z-index:2;padding:.35vh 1.8vh;border-radius:9vh;font:900 clamp(7px,1.9vh,10px) G,P;font-style:normal;letter-spacing:.08em;color:#3a2600;white-space:nowrap;background:linear-gradient(#fff0b0,#ffc634);box-shadow:0 .3vh 0 #a06a00,0 0 0 .2vh rgba(40,24,6,.6)}
+.psc.bt .psc-tag{top:auto;bottom:-1.5vh}
+/* sol alt: el ve sıra bilgisi */
+.ps-turn{left:3.4vh;bottom:3vh;translate:none;display:flex;align-items:stretch;gap:0;height:max(14vh,54px);width:max(44vh,160px);border-radius:2.2vh;overflow:hidden;
+ background:linear-gradient(160deg,#1a4a33,#0b2419);box-shadow:inset 0 0 0 .25vh #e8c46a,inset 0 0 0 .55vh rgba(40,24,6,.85),0 .9vh 1.8vh rgba(0,0,0,.5)}
+.ps-turn::before{display:none}
+.pst-el{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4vh;width:max(13vh,50px);background:rgba(0,0,0,.28);box-shadow:inset -1px 0 0 rgba(232,196,106,.3)}
+.pst-el small{font:900 clamp(7px,1.7vh,9px) G,P;letter-spacing:.14em;color:#e8c46a}
+.pst-el b{font:900 clamp(14px,4.4vh,22px)/1 G,P;color:#fff}.pst-el b em{font-style:normal;font-size:.55em;color:#9fc7b2}
+.pst-el .dots{display:flex;gap:.45vh}.pst-el .dots i{width:.9vh;height:.9vh;min-width:4px;min-height:4px;border-radius:50%;background:rgba(255,255,255,.18)}.pst-el .dots i.d{background:#9fc7b2}.pst-el .dots i.c{background:#ffd76a;box-shadow:0 0 .6vh #ffd76a}
+.pst-tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:.4vh;padding:0 1.6vh}
+.pst-tx b{font:900 clamp(11px,3vh,15px) G,P;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pst-tx small{font:700 clamp(8px,2.1vh,11px) P;color:#9fc7b2}
+.pst-tx.me b{color:#ffd76a}
+.ps-turn span{all:unset}
 
 </style>
 <script id="j-pisti">
@@ -11604,19 +11648,18 @@ function finish(){if(PS.pile.length&&PS.last>=0){PS.cap[PS.last].push(...PS.pile
 function ensure(){if($('#pst'))return;document.body.insertAdjacentHTML('beforeend',`<div id="pst" class="ovl"><div class="ps-bg"></div><div class="ps-w">
  <div class="ps-top"><button class="gbtn b sq" onclick="pstRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><span class="ps-tt"><b>${T('PİŞTİ')}</b></span><button class="xbtn" onclick="pstClose()" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
  <div class="ps-bot" id="psBot"></div>
- <div class="ps-mid"><div class="ps-dk" id="psDk"></div><div class="ps-pl" id="psPile"></div><div class="ps-side"><div class="ps-scb" id="psScB"></div><div class="ps-scb me" id="psScM"></div></div></div>
+ <div class="ps-mid"><div class="ps-dk" id="psDk"></div><div class="ps-pl" id="psPile"></div></div><div class="psc bt" id="psScB"></div><div class="psc me" id="psScM"></div>
  <div class="ps-turn" id="psTurn"></div><div class="ps-me" id="psMe"></div><div class="ps-pop" id="psPop"></div></div></div>`);try{new MutationObserver(()=>{try{musicSync()}catch(e){}}).observe($('#pst'),{attributes:true,attributeFilter:['class']})}catch(e){}}
 function render(){if(!PS||!$('#pst'))return;const top=PS.pile[PS.pile.length-1],canJ=!!top;
  $('#psBot').innerHTML=PS.hand[1].map(()=>back('sm')).join('');
  const dl=PS.d.length;$('#psDk').innerHTML=dl?`${dl>8?back('st s3'):''}${dl>3?back('st s2'):''}${back('st')}<em>${dl}</em><small>${T('Deste')}</small>`:`<span class="ps-emp"></span><small>${T('Deste bitti')}</small>`;
  const L=PS.pile,under=Math.min(L.length-1,4);
  $('#psPile').innerHTML=L.length?(L.slice(-1-under,-1).map((c,i)=>{const k=L.length-1-under+i,rot=((k*37)%17)-8;return k<PS.hid?back('un" style="--r:'+rot+'deg'):face(c,'un" style="--r:'+rot+'deg')}).join('')+face(top,'tp')+(L.length>1?`<em class="ps-n">${L.length}</em>`:'')):`<span class="ps-emp"><small>${T('Yer boş')}</small></span>`;
- const sc=(p)=>{const me=!p,nm=me?(P.name||T('Sen')):PS.bot.name,av=me?avBox({av:P.av,photo:P.photo,frame:P.frame}):avBox({av:PS.bot.av,frame:'bronz'});
-  return`${av}<span class="tx"><b>${esc(nm)}</b><small>${PS.cap[p].length} ${T('kart')}${PS.np[p]?` · ${PS.np[p]} ${T('pişti')}`:''}</small></span><strong>${livePts(p)}</strong>`};
+ const sc=(p)=>{const me=!p,nm=me?(P.name||T('Sen')):PS.bot.name,av=me?avBox({av:P.av,photo:P.photo,frame:P.frame,lv:(()=>{try{return lvInfo(P.xp).l}catch(e){return 0}})()}):avBox({av:PS.bot.av,frame:'gumus'}),on=PS.turn==p&&!PS.over;
+  return`${on?`<i class="psc-tag">${T(me?'SIRA SENDE':'SIRADA')}</i>`:''}<span class="psc-av">${av}</span><span class="psc-tx"><b class="psc-nm">${esc(nm)}</b><span class="psc-ch"><span><i class="pci"></i><b>${PS.cap[p].length}</b> ${T('kart')}</span><span class="${PS.np[p]?'hot':''}">${Ic('pstr')}<b>${PS.np[p]}</b> ${T('pişti')}</span></span></span><span class="psc-pt"><b>${livePts(p)}</b><small>${T('PUAN')}</small></span>`};
  $('#psScB').innerHTML=sc(1);$('#psScM').innerHTML=sc(0);$('#psScB').classList.toggle('on',PS.turn==1&&!PS.over);$('#psScM').classList.toggle('on',PS.turn==0&&!PS.over);
  $('#psMe').innerHTML=PS.hand[0].map((c,i)=>{const can=top&&(c.r==top.r||(c.r==11&&canJ));return`<button class="ps-hc ${can?'can':''}" onclick="pstPlay(${i})" ${PS.turn||PS.busy||PS.over?'disabled':''}>${face(c)}</button>`}).join('');
- $('#psTurn').innerHTML=PS.over?'':PS.turn==0?`<span class="me">${T('Sıra sende')} · ${T('bir kart seç')}</span>`:`<span>${esc(PS.bot.name)} ${T('düşünüyor…')}</span>`;
- $('#psTurn').dataset.d=`${T('El')} ${PS.deal}/6`}
+ $('#psTurn').innerHTML=`<div class="pst-el"><small>${T('EL')}</small><b>${PS.deal}<em>/6</em></b><span class="dots">${[1,2,3,4,5,6].map(i=>`<i class="${i<PS.deal?'d':i==PS.deal?'c':''}"></i>`).join('')}</span></div><div class="pst-tx ${PS.turn==0&&!PS.over?'me':''}">${PS.over?`<b>${T('Oyun bitti')}</b>`:PS.turn==0?`<b>${T('Sıra sende')}</b><small>${T('bir kart seç')}</small>`:`<b>${esc(PS.bot.name)}</b><small>${T('düşünüyor…')}</small>`}</div>`}
 window.pstPlay=i=>play(0,i);
 window.pstNew=function(){newGame();render();if(PS.turn==1)botTurn()};
 window.pstOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}ensure();preload();ovl('pst');try{musicSync()}catch(e){}if(!PS||PS.over){newGame()}render();if(PS.turn==1&&!PS.busy)botTurn()};
@@ -11636,7 +11679,7 @@ salRender=(o=>function(){const r=o.apply(this,arguments);try{const c=document.qu
 try{if(typeof K=='function'&&typeof KBI=='object'&&!KBI['pisti'])K('pisti',['Pişti nasıl oynanır?','How do I play Pişti?','¿Cómo se juega Pişti?','Piştî çawa tê lîstin?'],['pisti','pişti','pisti nasil','pişti nasıl','kart oyunu','mini oyun','pisti oyna'],['Pişti, Oyun Salonu’nda 🎴 Herkese 4 kart, ortaya 4 kart açılır. Yerdeki üst kartla aynı kartı ya da Vale’yi atarsan yerdekileri alırsın. Yerde tek kart varken aynısını atarsan PİŞTİ (+10), Vale’ye Vale +20. As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kart +3.','Pişti is in the Game Room 🎴 Match the top card or play a Jack to take the pile. Matching a single card is a PİŞTİ (+10), Jack on Jack +20.','Pişti está en la Sala de Juegos 🎴 Iguala la carta de arriba o juega una J para llevarte el montón. PİŞTİ +10, J sobre J +20.','Piştî di Salona Lîstikê de ye 🎴 Karta jorîn wekhev bike an Vale bavêje û hemûyan bigire. PİŞTÎ +10, Vale li ser Vale +20.'])}catch(e){}
 Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['PİŞTİ!','¡PİŞTİ!','PİŞTÎ!'],'VALE PİŞTİ!':['JACK PİŞTİ!','¡PİŞTİ DE J!','PİŞTÎYA VALE!'],'Aldın':['You took it','Te lo llevas','Te girt'],'Rakip aldı':['Opponent took it','El rival se lo lleva','Hevrik girt'],'kart':['cards','cartas','kart'],'pişti':['pişti','pişti','piştî'],
  'KAZANDIN!':['YOU WIN!','¡GANASTE!','TE QEZENC KIR!'],'KAYBETTİN':['YOU LOST','PERDISTE','TE WINDA KIR'],'BERABERE':['DRAW','EMPATE','WEKHEV'],'Sen':['You','Tú','Tu'],'Kart sayısı':['Cards','Cartas','Hejmara kartan'],'çok olan +3':['most +3','más cartas +3','yê zêde +3'],'As':['Aces','Ases','As'],'Vale':['Jacks','Jotas','Vale'],'Pişti':['Pişti','Pişti','Piştî'],'Sinek 2 · Karo 10':['2 of clubs · 10 of diamonds','2 de tréboles · 10 de diamantes','2 sinek · 10 karo'],'Toplam':['Total','Total','Giştî'],'galibiyet':['wins','victorias','serkeftin'],'oyun':['games','partidas','lîstik'],
- 'Salona dön':['Back to room','Volver a la sala','Vegere salonê'],'Tekrar oyna':['Play again','Jugar otra vez','Dîsa bilîze'],'Nasıl oynanır?':['How to play','Cómo jugar','Çawa tê lîstin?'],'Deste':['Deck','Mazo','Deste'],'Deste bitti':['Deck empty','Mazo vacío','Deste qediya'],'Yer boş':['Empty','Vacío','Vala'],'Sıra sende':['Your turn','Tu turno','Dora te ye'],'bir kart seç':['pick a card','elige una carta','kartekê hilbijêre'],'düşünüyor…':['is thinking…','está pensando…','difikire…'],'El':['Deal','Reparto','Dest'],
+ 'Salona dön':['Back to room','Volver a la sala','Vegere salonê'],'Tekrar oyna':['Play again','Jugar otra vez','Dîsa bilîze'],'Nasıl oynanır?':['How to play','Cómo jugar','Çawa tê lîstin?'],'Deste':['Deck','Mazo','Deste'],'Deste bitti':['Deck empty','Mazo vacío','Deste qediya'],'Yer boş':['Empty','Vacío','Vala'],'SIRA SENDE':['YOUR TURN','TU TURNO','DORA TE'],'SIRADA':['PLAYING','JUGANDO','DOR'],'PUAN':['PTS','PTS','PUAN'],'EL':['DEAL','REPARTO','DEST'],'Oyun bitti':['Game over','Fin de la partida','Lîstik qediya'],'Sıra sende':['Your turn','Tu turno','Dora te ye'],'bir kart seç':['pick a card','elige una carta','kartekê hilbijêre'],'düşünüyor…':['is thinking…','está pensando…','difikire…'],'El':['Deal','Reparto','Dest'],
  'Pişti nasıl oynanır?':['How to play Pişti','Cómo se juega Pişti','Piştî çawa tê lîstin?'],'Herkese 4 kart dağıtılır, ortaya 4 kart açılır. Sırayla birer kart atılır.':['Each player gets 4 cards and 4 go to the table. Take turns playing one card.','Cada uno recibe 4 cartas y se ponen 4 en la mesa. Se juega una carta por turno.','Her kes 4 kart digire, 4 kart li ser maseyê ne. Bi dorê kartek tê avêtin.'],
  'Attığın kart yerdeki en üst kartla aynıysa ya da <b>Vale</b> ise yerdeki bütün kartları alırsın.':['If your card matches the top card or is a <b>Jack</b>, you take the whole pile.','Si tu carta iguala la de arriba o es una <b>J</b>, te llevas todo el montón.','Heke karta te wek ya jorîn be an <b>Vale</b> be, tu hemûyan digirî.'],
  'Yerde tek kart varken aynısını atarsan <b>PİŞTİ</b>: +10. Tek Vale’nin üstüne Vale atarsan +20.':['Matching a single card on the table is a <b>PİŞTİ</b>: +10. Jack on a single Jack: +20.','Igualar una sola carta es <b>PİŞTİ</b>: +10. J sobre una sola J: +20.','Li ser karta tenê heman kartê bavêjî <b>PİŞTÎ</b>: +10. Vale li ser Vale: +20.'],

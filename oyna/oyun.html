@@ -11553,6 +11553,9 @@ body.lo .psc.on,body.noanim .psc.on{animation:none}
 /* masa: kullanıcının masa görseli, çerçeve köşeleri bozulmadan (9 parçalı) */
 .ps-bg{background:#0b4a1c;border-style:solid;border-color:transparent;border-width:7.6vh;border-image:url(img/pisti/masa.webp) 72 fill / 7.6vh stretch}
 .ps-bg::before,.ps-bg::after{display:none}
+/* dağıtma öncesi kartlar gizli (uçan kopyalar gelince görünür) */
+#pst.pre #psMe .pc,#pst.pre #psBot .pc,#pst.pre #psPile .pc{visibility:hidden}
+.ps-fly{will-change:transform}
 
 </style>
 <script id="j-pisti">
@@ -11609,7 +11612,7 @@ function csnd(k){if(!P.set.snd)return;try{acInit();if(AC.state=='suspended')AC.r
  if(!NZ){NZ=AC.createBuffer(1,AC.sampleRate*.4|0,AC.sampleRate);const d=NZ.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
  const nz=(at,dur,f0,f1,q,v)=>{const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain(),t=T+at;s.buffer=NZ;f.type='bandpass';f.Q.value=q;f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(f1,t+dur);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*V,t+.006);g.gain.exponentialRampToValueAtTime(.001,t+dur);s.connect(f).connect(g).connect(MB);s.start(t,Math.random()*.2);s.stop(t+dur+.02)};
  const bell=(f,v,at,d)=>{const o=AC.createOscillator(),g=AC.createGain(),t=T+at;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*V,t+.015);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g).connect(MB);o.start(t);o.stop(t+d+.03)};
- ({card:()=>{nz(0,.06,3200,1800,1.2,.55);nz(.012,.05,900,500,.9,.25)},
+ ({card:()=>{nz(0,.06,3200,1800,1.2,.55);nz(.012,.05,900,500,.9,.25)},deal:()=>{nz(0,.045,4200,2600,1.4,.32)},flip:()=>{nz(0,.05,2600,1400,1.1,.35)},
    take:()=>{nz(0,.22,800,3000,.8,.32);nz(.05,.18,1200,4000,.8,.22)},
    pisti:()=>[988,1319,1760].forEach((f,i)=>bell(f,.07,i*.08,.5)),
    win:()=>[784,988,1175,1568].forEach((f,i)=>bell(f,.07,i*.1,.6)),
@@ -11623,16 +11626,40 @@ async function play(p,i){if(!PS||PS.over||PS.busy||PS.turn!=p)return;const c=PS.
  if(cap){await wait(380);const n=PS.pile.length;PS.cap[p].push(...PS.pile);PS.pile=[];PS.hid=0;PS.last=p;if(pis){PS.pp[p]+=pis;PS.np[p]++}
   await sweep(p);csnd(pis?'pisti':'take');if(pis){pop(`${T(pis==20?'VALE PİŞTİ!':'PİŞTİ!')}<small>+${pis}</small>`,p);try{vib(pis==20?[40,40,90]:[30,30,60])}catch(e){}}else pop(`${T(p?'Rakip aldı':'Aldın')} <small>${n} ${T('kart')}</small>`,p,1)}
  PS.turn=1-p;
- if(!PS.hand[0].length&&!PS.hand[1].length){if(PS.d.length){await wait(400);dealHands()}else{await wait(500);return finish()}}
+ if(!PS.hand[0].length&&!PS.hand[1].length){if(PS.d.length){await wait(400);dealHands();PS.busy=0;await dealAnim(0);if(PS.turn==1)botTurn();return}else{await wait(500);return finish()}}
  PS.busy=0;render();if(PS.turn==1)botTurn()}
 async function botTurn(){await wait(650+Math.random()*450);if(!PS||PS.over||PS.turn!=1||!$('#pst.on'))return;play(1,botPick())}
-function fly(src,dst,html,p){return new Promise(res=>{try{if(!src||!dst||P.set.anim===0||document.body.classList.contains('lo')){res();return}
+function fly(src,dst,html,p){return new Promise(res=>{try{if(!src||!dst||!animOn()){res();return}
  const a=src.getBoundingClientRect(),b=dst.getBoundingClientRect(),e=document.createElement('div');e.className='ps-fly';e.innerHTML=html;
  const w=b.width,h=b.height;e.style.cssText=`left:${b.left}px;top:${b.top}px;width:${w}px;height:${h}px`;document.body.appendChild(e);if(src)src.style.visibility='hidden';
  const dx=a.left+a.width/2-(b.left+w/2),dy=a.top+a.height/2-(b.top+h/2),sc=a.width/w,rot=(Math.random()*16-8).toFixed(1);
  const an=e.animate([{transform:`translate(${dx}px,${dy}px) scale(${sc}) rotate(${p?180:0}deg)`},{transform:`translate(0,0) scale(1) rotate(${rot}deg)`}],{duration:330,easing:'cubic-bezier(.2,.8,.3,1)'});
  an.onfinish=()=>{e.remove();res()}}catch(x){res()}})}
-function sweep(p){return new Promise(res=>{try{const pl=document.querySelector('#psPile'),to=document.querySelector(p?'#psScB':'#psScM');if(!pl||!to||P.set.anim===0||document.body.classList.contains('lo')){render();res();return}
+const animOn=()=>P.set.anim!==0&&P.set.anim!==false;
+const rotOf=el=>{try{return parseFloat(getComputedStyle(el).rotate)||0}catch(e){return 0}};
+// desteden hedef karta uçan kopya: hedef kart varınca görünür olur
+function flyIn(el,from,html,delay,r0,dur,hold){return new Promise(res=>{try{const b=el.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight,r1=rotOf(el);el.style.visibility='hidden';
+ setTimeout(()=>{try{const e=document.createElement('div');e.className='ps-fly';e.innerHTML=html;const L=b.left+b.width/2-w/2,Tp=b.top+b.height/2-h/2;e.style.cssText=`left:${L}px;top:${Tp}px;width:${w}px;height:${h}px`;document.body.appendChild(e);
+  const dx=from.left+from.width/2-(L+w/2),dy=from.top+from.height/2-(Tp+h/2),sc=from.width/w;csnd('deal');
+  const an=e.animate([{transform:`translate(${dx}px,${dy}px) scale(${sc}) rotate(${r0}deg)`},{transform:`translate(0,0) scale(1) rotate(${r1}deg)`}],{duration:dur||300,easing:'cubic-bezier(.2,.8,.3,1)'});
+  an.onfinish=()=>{if(!hold){el.style.visibility='';e.remove()}res(e)}}catch(x){el.style.visibility='';res()}},delay)}catch(x){res()}})}
+// yerdeki açık kartı çevir: arkası incelir, yüzü açılır
+function flipIn(el,e){return new Promise(res=>{try{const b=el.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight,r=rotOf(el);el.style.visibility='hidden';if(!e){e=document.createElement('div');e.className='ps-fly';e.innerHTML=back('');
+ e.style.cssText=`left:${b.left+b.width/2-w/2}px;top:${b.top+b.height/2-h/2}px;width:${w}px;height:${h}px`;document.body.appendChild(e)}csnd('flip');
+ const a1=e.animate([{transform:`rotate(${r}deg) scaleX(1)`},{transform:`rotate(${r}deg) scaleX(0)`}],{duration:170,easing:'ease-in',fill:'forwards'});
+ a1.onfinish=()=>{e.remove();el.style.visibility='';const a2=el.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:190,easing:'ease-out'});a2.onfinish=()=>res();a2.oncancel=()=>res()}}catch(x){el.style.visibility='';res()}})}
+async function dealAnim(first){if(!PS||!$('#pst'))return;PS.busy=1;render();
+ const dk=document.querySelector('#psDk .pc:not(.s2):not(.s3)')||document.getElementById('psDk');
+ if(!animOn()||!dk){$('#pst').classList.remove('pre');PS.busy=0;render();return}
+ const from=dk.getBoundingClientRect(),jobs=[],ST=first?95:85;let t=0;
+ let tpJob=null;if(first){[...document.querySelectorAll('#psPile .pc')].forEach(e=>{const j=flyIn(e,from,back(''),t,0,300,e.classList.contains('tp'));if(e.classList.contains('tp'))tpJob=j;jobs.push(j);t+=ST})}
+ const me=[...document.querySelectorAll('#psMe .ps-hc .pc')],bt=[...document.querySelectorAll('#psBot .pc')],fs=PS.turn;
+ for(let i=0;i<4;i++){const order=fs==0?[[me,0],[bt,1]]:[[bt,1],[me,0]];
+  for(const [L,isB] of order){const e=L[i];if(!e)continue;jobs.push(flyIn(e,from,isB?back(''):face(PS.hand[0][i]),t,isB?180:-8,isB?280:340));t+=ST}}
+ $('#pst').classList.remove('pre');await Promise.all(jobs);
+ if(first){const tp=document.querySelector('#psPile .pc.tp');if(tp)await flipIn(tp,tpJob?await tpJob:null)}
+ if(!PS)return;PS.busy=0;render()}
+function sweep(p){return new Promise(res=>{try{const pl=document.querySelector('#psPile'),to=document.querySelector(p?'#psScB':'#psScM');if(!pl||!to||!animOn()){render();res();return}
  const a=pl.getBoundingClientRect(),b=to.getBoundingClientRect(),dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
  const an=pl.animate([{transform:'none',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(.35)`,opacity:.2}],{duration:420,easing:'cubic-bezier(.4,0,.6,1)'});an.onfinish=()=>{render();res()}}catch(x){render();res()}})}
 function pop(h,p,sm){const e=$('#psPop');if(!e)return;e.innerHTML=h;e.className='ps-pop '+(sm?'sm ':'')+(p?'bt':'me');void e.offsetWidth;e.classList.add('on');clearTimeout(pop.t);pop.t=setTimeout(()=>e.classList.remove('on'),sm?900:1500)}
@@ -11672,8 +11699,8 @@ function render(){if(!PS||!$('#pst'))return;const top=PS.pile[PS.pile.length-1],
  $('#psMe').innerHTML=PS.hand[0].map((c,i)=>{const can=top&&(c.r==top.r||(c.r==11&&canJ));return`<button class="ps-hc ${can?'can':''}" onclick="pstPlay(${i})" ${PS.turn||PS.busy||PS.over?'disabled':''}>${face(c)}</button>`}).join('');
  $('#psTurn').innerHTML=`<div class="pst-el"><small>${T('EL')}</small><b>${PS.deal}<em>/6</em></b><span class="dots">${[1,2,3,4,5,6].map(i=>`<i class="${i<PS.deal?'d':i==PS.deal?'c':''}"></i>`).join('')}</span></div><div class="pst-tx ${PS.turn==0&&!PS.over?'me':''}">${PS.over?`<b>${T('Oyun bitti')}</b>`:PS.turn==0?`<b>${T('Sıra sende')}</b><small>${T('bir kart seç')}</small>`:`<b>${esc(PS.bot.name)}</b><small>${T('düşünüyor…')}</small>`}</div>`}
 window.pstPlay=i=>play(0,i);
-window.pstNew=function(){newGame();render();if(PS.turn==1)botTurn()};
-window.pstOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}ensure();preload();ovl('pst');try{musicSync()}catch(e){}if(!PS||PS.over){newGame()}render();if(PS.turn==1&&!PS.busy)botTurn()};
+window.pstNew=async function(){newGame();await dealAnim(1);if(PS&&PS.turn==1)botTurn()};
+window.pstOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}ensure();preload();ovl('pst');try{musicSync()}catch(e){}if(!PS||PS.over){newGame();PS.busy=1;$('#pst').classList.add('pre');render();setTimeout(async()=>{await dealAnim(1);if(PS&&PS.turn==1)botTurn()},300);return}render();if(PS.turn==1&&!PS.busy)botTurn()};
 window.pstClose=function(){ovl('pst',false);setTimeout(()=>{try{musicSync()}catch(e){}},50);try{if($('#salon')&&typeof salRender=='function')salRender()}catch(e){}};
 window.pstRules=function(){modal(`<h3>${T('Pişti nasıl oynanır?')}</h3><ul class="ps-ru">
  <li>${T('Herkese 4 kart dağıtılır, ortaya 4 kart açılır. Sırayla birer kart atılır.')}</li>

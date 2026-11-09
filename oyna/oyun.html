@@ -11490,6 +11490,12 @@ body.lo .ps-pop.on{animation-duration:.9s}
 .sl-c.pst::after{opacity:.55}
 .sl-c.pst .sl-tt b.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .sl-c.pst .sl-tt small{text-shadow:0 .2vh .4vh rgba(0,0,0,.9)}
+/* Ertaş Game kart görselleri */
+.pc.im{background:#f7f2e6 center/100% 100% no-repeat;border-radius:calc(var(--h,24vh)*.045);box-shadow:0 .5vh 1vh rgba(0,0,0,.38)}
+.pc.bkc{background:url(img/pisti/arka.webp) center/100% 100% no-repeat;border-radius:calc(var(--h,24vh)*.05);box-shadow:0 .5vh 1vh rgba(0,0,0,.45)}
+.ps-pl .pc.tp{box-shadow:0 .8vh 1.6vh rgba(0,0,0,.5)}
+.ps-hc{border-radius:calc(27vh*.05)}
+.ps-hc.can:not([disabled]) .pc{box-shadow:0 0 0 .4vh #ffd76a,0 0 2.4vh rgba(255,215,106,.85),0 .5vh 1vh rgba(0,0,0,.35)}
 
 </style>
 <script id="j-pisti">
@@ -11510,9 +11516,11 @@ let PS=null;
 const pst=()=>{P.pst=P.pst||{g:0,w:0,d:0,pis:0,best:0};return P.pst};
 // ---------- kart görünümü ----------
 const red=c=>c.s==1||c.s==2;
-function face(c,cls){const fc=c.r>10?`<span class="pf-f"><i class="pf-ic">${Ic(['pshd','pstr','pcrn'][c.r-11])}</i><b>${RK[c.r]}</b>${su(c.s)}</span>`:c.r==1?`<span class="pf-a">${su(c.s)}</span>`:`<span class="pf-n">${su(c.s)}</span>`;
- return`<span class="pc ${red(c)?'rd':'bk'} ${cls||''}" data-r="${c.r}"><span class="pf-c tl"><b>${RK[c.r]}</b>${su(c.s)}</span>${fc}<span class="pf-c br"><b>${RK[c.r]}</b>${su(c.s)}</span></span>`}
-const back=cls=>`<span class="pc bkc ${cls||''}"><i></i></span>`;
+const SUN=['maca','kupa','karo','sinek'];
+const cimg=c=>`img/pisti/${SUN[c.s]}_${RK[c.r]}.webp`;
+function face(c,cls){return`<span class="pc im ${red(c)?'rd':'bk'} ${cls||''}" data-r="${c.r}" style="background-image:url(${cimg(c)})"></span>`}
+const back=cls=>`<span class="pc bkc ${cls||''}"></span>`;
+let PRE=0;function preload(){if(PRE)return;PRE=1;try{for(let s=0;s<4;s++)for(let r=1;r<=13;r++){const im=new Image();im.decoding='async';im.src=cimg({s,r})}const b=new Image();b.src='img/pisti/arka.webp'}catch(e){}}
 // ---------- deste ----------
 function deck(){const d=[];for(let s=0;s<4;s++)for(let r=1;r<=13;r++)d.push({s,r});for(let i=d.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[d[i],d[j]]=[d[j],d[i]]}return d}
 const val=c=>(c.r==1?1:0)+(c.r==11?1:0)+(c.r==2&&c.s==3?2:0)+(c.r==10&&c.s==2?3:0);
@@ -11524,7 +11532,7 @@ function newGame(){const n=PS?PS.n+1:0,d=deck();let pile=d.splice(0,4);
  PS={n,d,pile,hid:3,hand:[[],[]],cap:[[],[]],pp:[0,0],np:[0,0],last:-1,turn:n%2,busy:0,over:0,seen:{},bot:{name:bot[0],av:bot[1]},deal:0,msg:''};
  seen(pile[3]);dealHands();}
 function seen(c){PS.seen[c.r]=(PS.seen[c.r]||0)+1}
-function dealHands(){for(let k=0;k<4;k++){PS.hand[0].push(PS.d.shift());PS.hand[1].push(PS.d.shift())}PS.deal++;try{snd('deal')}catch(e){}}
+function dealHands(){for(let k=0;k<4;k++){PS.hand[0].push(PS.d.shift());PS.hand[1].push(PS.d.shift())}PS.deal++}
 // ---------- bilgisayar ----------
 function botPick(){const h=PS.hand[1],pile=PS.pile,top=pile[pile.length-1],pv=cardPts(pile),cnt=pile.length,endg=!PS.d.length;
  if(top){const m=h.findIndex(c=>c.r==top.r);if(m>=0)return m;
@@ -11536,13 +11544,25 @@ function botPick(){const h=PS.hand[1],pile=PS.pile,top=pile[pile.length-1],pv=ca
   if(s<bs){bs=s;best=i}});return best}
 // ---------- oyun akışı ----------
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
+// ---------- kart sesleri (okey taş sesleri kullanılmaz) ----------
+let NZ=null;
+function csnd(k){if(!P.set.snd)return;try{acInit();if(AC.state=='suspended')AC.resume();const V=[0,.45,.8,1.15][P.set.vol]||.8,T=AC.currentTime;
+ if(!NZ){NZ=AC.createBuffer(1,AC.sampleRate*.4|0,AC.sampleRate);const d=NZ.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+ const nz=(at,dur,f0,f1,q,v)=>{const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain(),t=T+at;s.buffer=NZ;f.type='bandpass';f.Q.value=q;f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(f1,t+dur);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*V,t+.006);g.gain.exponentialRampToValueAtTime(.001,t+dur);s.connect(f).connect(g).connect(MB);s.start(t,Math.random()*.2);s.stop(t+dur+.02)};
+ const bell=(f,v,at,d)=>{const o=AC.createOscillator(),g=AC.createGain(),t=T+at;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*V,t+.015);g.gain.exponentialRampToValueAtTime(.0008,t+d);o.connect(g).connect(MB);o.start(t);o.stop(t+d+.03)};
+ ({card:()=>{nz(0,.06,3200,1800,1.2,.55);nz(.012,.05,900,500,.9,.25)},
+   take:()=>{nz(0,.22,800,3000,.8,.32);nz(.05,.18,1200,4000,.8,.22)},
+   pisti:()=>[988,1319,1760].forEach((f,i)=>bell(f,.07,i*.08,.5)),
+   win:()=>[784,988,1175,1568].forEach((f,i)=>bell(f,.07,i*.1,.6)),
+   lose:()=>[523,440,349].forEach((f,i)=>bell(f,.05,i*.14,.5)),
+   draw:()=>[659,784].forEach((f,i)=>bell(f,.05,i*.12,.45))})[k]?.()}catch(e){}}
 async function play(p,i){if(!PS||PS.over||PS.busy||PS.turn!=p)return;const c=PS.hand[p][i];if(!c)return;PS.busy=1;
  const src=document.querySelector(p?`#psBot .pc:nth-child(${i+1})`:`#psMe .ps-hc:nth-child(${i+1}) .pc`),dst=document.querySelector('#psPile');
  PS.hand[p].splice(i,1);seen(c);const top=PS.pile[PS.pile.length-1];let cap=0,pis=0;
  if(top&&(c.r==top.r||c.r==11)){cap=1;if(PS.pile.length==1&&c.r==top.r)pis=c.r==11?20:10}
- await fly(src,dst,face(c),p);PS.pile.push(c);try{snd('throw')}catch(e){}render();
+ await fly(src,dst,face(c),p);PS.pile.push(c);csnd('card');render();
  if(cap){await wait(380);const n=PS.pile.length;PS.cap[p].push(...PS.pile);PS.pile=[];PS.hid=0;PS.last=p;if(pis){PS.pp[p]+=pis;PS.np[p]++}
-  await sweep(p);try{snd(pis?'win':'pick')}catch(e){}if(pis){pop(`${T(pis==20?'VALE PİŞTİ!':'PİŞTİ!')}<small>+${pis}</small>`,p);try{vib(pis==20?[40,40,90]:[30,30,60])}catch(e){}}else pop(`${T(p?'Rakip aldı':'Aldın')} <small>${n} ${T('kart')}</small>`,p,1)}
+  await sweep(p);csnd(pis?'pisti':'take');if(pis){pop(`${T(pis==20?'VALE PİŞTİ!':'PİŞTİ!')}<small>+${pis}</small>`,p);try{vib(pis==20?[40,40,90]:[30,30,60])}catch(e){}}else pop(`${T(p?'Rakip aldı':'Aldın')} <small>${n} ${T('kart')}</small>`,p,1)}
  PS.turn=1-p;
  if(!PS.hand[0].length&&!PS.hand[1].length){if(PS.d.length){await wait(400);dealHands()}else{await wait(500);return finish()}}
  PS.busy=0;render();if(PS.turn==1)botTurn()}
@@ -11562,7 +11582,7 @@ function finish(){if(PS.pile.length&&PS.last>=0){PS.cap[PS.last].push(...PS.pile
  const c0=PS.cap[0].length,c1=PS.cap[1].length,mj=c0>c1?0:c1>c0?1:-1;
  const tot=p=>livePts(p)+(mj==p?3:0),a=tot(0),b=tot(1),res=a>b?'w':a<b?'l':'d';PS.over=1;PS.busy=0;render();
  const s=pst();s.g++;if(res=='w')s.w++;if(res=='d')s.d++;s.pis+=PS.np[0];s.best=Math.max(s.best|0,a);save();
- const xp={w:30,d:15,l:10}[res];try{addXP(xp,'pisti')}catch(e){}try{snd(res=='w'?'win':res=='l'?'lose':'fin')}catch(e){}
+ const xp={w:30,d:15,l:10}[res];try{addXP(xp,'pisti')}catch(e){}csnd(res=='w'?'win':res=='l'?'lose':'draw');
  const cnt=(L,f)=>L.filter(f).length;
  const row=(l,x,y)=>`<div class="ps-rr"><span>${l}</span><b>${x}</b><b>${y}</b></div>`;
  const pt=(p,f,v)=>{const n=cnt(PS.cap[p],f);return n?`${n} · <em>+${n*v}</em>`:'—'};
@@ -11580,7 +11600,7 @@ function ensure(){if($('#pst'))return;document.body.insertAdjacentHTML('beforeen
  <div class="ps-top"><button class="gbtn b sq" onclick="pstRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><span class="ps-tt"><b>${T('PİŞTİ')}</b></span><button class="xbtn" onclick="pstClose()" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
  <div class="ps-bot" id="psBot"></div>
  <div class="ps-mid"><div class="ps-dk" id="psDk"></div><div class="ps-pl" id="psPile"></div><div class="ps-side"><div class="ps-scb" id="psScB"></div><div class="ps-scb me" id="psScM"></div></div></div>
- <div class="ps-turn" id="psTurn"></div><div class="ps-me" id="psMe"></div><div class="ps-pop" id="psPop"></div></div></div>`)}
+ <div class="ps-turn" id="psTurn"></div><div class="ps-me" id="psMe"></div><div class="ps-pop" id="psPop"></div></div></div>`);try{new MutationObserver(()=>{try{musicSync()}catch(e){}}).observe($('#pst'),{attributes:true,attributeFilter:['class']})}catch(e){}}
 function render(){if(!PS||!$('#pst'))return;const top=PS.pile[PS.pile.length-1],canJ=!!top;
  $('#psBot').innerHTML=PS.hand[1].map(()=>back('sm')).join('');
  const dl=PS.d.length;$('#psDk').innerHTML=dl?`${dl>8?back('st s3'):''}${dl>3?back('st s2'):''}${back('st')}<em>${dl}</em><small>${T('Deste')}</small>`:`<span class="ps-emp"></span><small>${T('Deste bitti')}</small>`;
@@ -11594,8 +11614,8 @@ function render(){if(!PS||!$('#pst'))return;const top=PS.pile[PS.pile.length-1],
  $('#psTurn').dataset.d=`${T('El')} ${PS.deal}/6`}
 window.pstPlay=i=>play(0,i);
 window.pstNew=function(){newGame();render();if(PS.turn==1)botTurn()};
-window.pstOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}ensure();ovl('pst');try{snd('click')}catch(e){}if(!PS||PS.over){newGame()}render();if(PS.turn==1&&!PS.busy)botTurn()};
-window.pstClose=function(){ovl('pst',false);try{if($('#salon')&&typeof salRender=='function')salRender()}catch(e){}};
+window.pstOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}ensure();preload();ovl('pst');try{musicSync()}catch(e){}if(!PS||PS.over){newGame()}render();if(PS.turn==1&&!PS.busy)botTurn()};
+window.pstClose=function(){ovl('pst',false);setTimeout(()=>{try{musicSync()}catch(e){}},50);try{if($('#salon')&&typeof salRender=='function')salRender()}catch(e){}};
 window.pstRules=function(){modal(`<h3>${T('Pişti nasıl oynanır?')}</h3><ul class="ps-ru">
  <li>${T('Herkese 4 kart dağıtılır, ortaya 4 kart açılır. Sırayla birer kart atılır.')}</li>
  <li>${T('Attığın kart yerdeki en üst kartla aynıysa ya da <b>Vale</b> ise yerdeki bütün kartları alırsın.')}</li>
@@ -11603,6 +11623,9 @@ window.pstRules=function(){modal(`<h3>${T('Pişti nasıl oynanır?')}</h3><ul cl
  <li>${T('Puanlar: her As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kartı alan +3.')}</li>
  <li>${T('Deste bitince yerde kalan kartlar son alan oyuncuya gider. Çok puanı olan kazanır.')}</li></ul>
  <div class="mrow"><button class="btn b" onclick="closeM()">${T('Anladım')}</button></div>`,'dkm ps-m')};
+// ---------- müzik: Pişti açıkken çalmaz ----------
+const pstOn=()=>{const e=document.getElementById('pst');return!!(e&&e.classList.contains('on'))};
+musicSync=(o=>function(){if(pstOn()){try{if(MUS)MUS.pause()}catch(e){}return}return o.apply(this,arguments)})(musicSync);
 // ---------- Oyun Salonu kartı ----------
 salRender=(o=>function(){const r=o.apply(this,arguments);try{const c=document.querySelector('#slB .sl-c.soon2');if(c){const s=pst();c.outerHTML=`<button class="sl-c pst" onclick="pstOpen()"><i class="sl-art"></i><i class="ps-new">${T('YENİ')}</i><span class="sl-tt"><b class="sr">${T('PİŞTİ')}</b><small>${s.g?`${s.w} ${T('galibiyet')} · ${s.pis} ${T('pişti')}`:T('Rakibine karşı klasik pişti')}</small></span><em class="sl-go">${T('OYNA')} ›</em></button>`}const g=document.querySelector('#slB .sl-g'),at=g&&g.querySelector('.sl-c.at'),pc=g&&g.querySelector('.sl-c.pst');if(at&&pc&&at.nextElementSibling!==pc)at.after(pc)}catch(e){console.warn('pst',e)}return r})(salRender);
 try{if(typeof K=='function'&&typeof KBI=='object'&&!KBI['pisti'])K('pisti',['Pişti nasıl oynanır?','How do I play Pişti?','¿Cómo se juega Pişti?','Piştî çawa tê lîstin?'],['pisti','pişti','pisti nasil','pişti nasıl','kart oyunu','mini oyun','pisti oyna'],['Pişti, Oyun Salonu’nda 🎴 Herkese 4 kart, ortaya 4 kart açılır. Yerdeki üst kartla aynı kartı ya da Vale’yi atarsan yerdekileri alırsın. Yerde tek kart varken aynısını atarsan PİŞTİ (+10), Vale’ye Vale +20. As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kart +3.','Pişti is in the Game Room 🎴 Match the top card or play a Jack to take the pile. Matching a single card is a PİŞTİ (+10), Jack on Jack +20.','Pişti está en la Sala de Juegos 🎴 Iguala la carta de arriba o juega una J para llevarte el montón. PİŞTİ +10, J sobre J +20.','Piştî di Salona Lîstikê de ye 🎴 Karta jorîn wekhev bike an Vale bavêje û hemûyan bigire. PİŞTÎ +10, Vale li ser Vale +20.'])}catch(e){}

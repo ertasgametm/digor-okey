@@ -11355,6 +11355,44 @@ body:not(.vipc) .seat .cnt{display:none!important}
 .shsw .nw{font-style:normal;padding:.2vh .8vh;border-radius:.7vh;font:900 clamp(7px,1.8vh,9px) G,P;color:#fff;background:linear-gradient(#ff6a5a,#d8291b);text-shadow:none;box-shadow:0 0 0 .2vh rgba(255,255,255,.7)}
 #shC.cbg-b [data-cg="g"],#shC.cbg-g [data-cg="b"]{display:none!important}
 :root{color-scheme:only light}
+/* At yarışı tahmin kartları (tahmin aşaması) */
+#hrs:not(.race) #hrC .hc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:.9vh 1vh;padding:1.5vh 1vh 1vh;align-items:center}
+#hrs:not(.race) #hrC .hc-i{grid-column:1/3;grid-row:1}
+#hrs:not(.race) #hrC .hc-h{display:block;position:relative!important;left:auto!important;top:auto!important;bottom:auto!important;grid-column:1;grid-row:2;width:100%!important;align-self:center;border-radius:1.3vh;box-shadow:inset 0 0 0 .3vh var(--c),0 .4vh .9vh rgba(0,0,0,.5)}
+#hrs:not(.race) #hrC .hc-o{grid-column:2;grid-row:2;align-self:center;text-align:right;gap:.35vh;min-width:0}
+#hrs:not(.race) #hrC .hc-o b{font-size:clamp(13px,4.6vh,23px)}
+#hrs:not(.race) #hrC .hc-f2{display:flex;flex-direction:column;align-items:flex-end;gap:.35vh;margin-top:.5vh;opacity:1}
+.hc-f2 .hf{display:flex;gap:.28vh;justify-content:flex-end}
+.hc-f2 .hf u{width:.85vh;height:1.5vh;min-width:3px;min-height:5px;border-radius:.3vh;background:rgba(255,255,255,.16);text-decoration:none}
+.hc-f2 .hf u.on{background:linear-gradient(#ffe27a,#f0a81c);box-shadow:0 0 .5vh rgba(255,200,80,.6)}
+.hc-f2 em{font-style:normal;font-size:clamp(6px,1.75vh,9px);font-weight:800;color:#9db5da;white-space:nowrap}
+#hrs:not(.race) #hrC .hc-b{grid-column:1/3;grid-row:3;display:flex;justify-content:space-between;gap:.6vh;padding:.55vh 1.2vh;border-radius:1.1vh;background:rgba(0,0,0,.32);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+#hrs:not(.race) #hrC .hc-b small{font-size:clamp(6px,1.7vh,9px);font-weight:900;letter-spacing:.1em;color:#9db5da;margin-right:auto}
+#hrs:not(.race) #hrC .hc-b em{font-style:normal;font-size:clamp(7px,2vh,10px);font-weight:800;color:#7f97bd}
+#hrs:not(.race) #hrC .hc:not(.has) .hc-b .fi,#hrs:not(.race) #hrC .hc:not(.has) .hc-b b{display:none}
+#hrs:not(.race) #hrC .hc.has .hc-b em{display:none}
+#hrs:not(.race) #hrC .hc.has .hc-b{background:linear-gradient(#ffe066,#ffb21a);box-shadow:0 .25vh 0 #a06a00}
+#hrs:not(.race) #hrC .hc.has .hc-b small{color:#6a4200}
+#hrs.race #hrC .hc-b small,#hrs.race #hrC .hc-b em,#hrs.race #hrC .hc-f2{display:none}
+/* Profil → Avatar */
+#pfC.av2w{display:flex;overflow:hidden}
+.av2{flex:1;min-width:0;min-height:0;display:flex;gap:1.6vh}
+.av2-p{flex:0 0 25%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1vh;padding:1.2vh;border-radius:2vh;background:radial-gradient(90% 60% at 50% 30%,rgba(90,150,255,.28),transparent 70%),rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.av2-big{display:flex;align-items:center;justify-content:center;height:max(38vh,146px);flex:none}
+.av2-big .avb{--s:max(21vh,80px)}
+.av2-p>b{font:900 clamp(11px,3.2vh,16px) G,P;color:#fff;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av2-p>small{font:800 clamp(8px,2.2vh,11px) P;color:#ffd76a;margin-top:-.6vh}
+.av2-p>em{font-style:normal;font:700 clamp(7px,2vh,10px) P;color:#8ea8cf}
+.av2-p .btn{display:inline-flex;align-items:center;gap:.6vh;white-space:nowrap}
+.av2-p .btn .sv{width:1.2em;height:1.2em}
+.av2-g{flex:1;min-width:0;min-height:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(var(--n,3),minmax(0,1fr));gap:1.1vh}
+.av2-g button{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;border-radius:2vh;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);transition:transform .12s}
+.av2-g button:active{transform:scale(.95)}
+.av2-g button i{height:84%;aspect-ratio:1;max-width:84%;border-radius:50%;background:#123 center/cover no-repeat;box-shadow:0 0 0 .35vh rgba(255,255,255,.85),0 .5vh 1vh rgba(0,0,0,.45)}
+.av2-g button.on{background:linear-gradient(rgba(255,214,110,.28),rgba(255,160,30,.14));box-shadow:inset 0 0 0 .35vh #ffc94a,0 0 1.6vh rgba(255,200,80,.4)}
+.av2-g button.on i{box-shadow:0 0 0 .45vh #ffd76a,0 .5vh 1vh rgba(0,0,0,.45)}
+.av2-g button u{position:absolute;right:6%;top:6%;width:3.6vh;height:3.6vh;min-width:14px;min-height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;background:linear-gradient(#5ee38c,#1f9a4a);box-shadow:0 0 0 .25vh #fff}
+.av2-g button u .sv{width:64%;height:64%;stroke-width:3.4}
 
 </style>
 <script id="j-v23">
@@ -11379,6 +11417,24 @@ renderShop=(o=>function(){const r=o.apply(this,arguments);try{if(SHTAB!='sh')ret
  const v=c.querySelector('.vdisc');(v||c.firstChild)&&(v?v.insertAdjacentHTML('afterend',sw):c.insertAdjacentHTML('afterbegin',sw));
  shCb(SHCB)}catch(e){console.warn('shcb',e)}return r})(renderShop);
 Object.assign(DICT,{'Balonlar':['Bubbles','Burbujas','Balon'],'Arka planlar':['Backgrounds','Fondos','Paşxane'],'YENİ':['NEW','NUEVO','NÛ']});
+})();
+/* ===== v4.23 · At yarışı tahmin kartları: boş alan yerine büyük portre, son 10 yarış çizelgesi, tahmin yuvası ===== */
+(function(){
+hrCards=(o=>function(){const r=o.apply(this,arguments);try{if(!HR)return r;const f=HR.form||[0,0,0,0,0,0];
+ document.querySelectorAll('#hrC .hc').forEach(c=>{const i=+c.dataset.i,w=Math.max(0,Math.min(10,f[i]|0));
+  const hf=c.querySelector('.hc-f');if(hf){hf.className='hc-f hc-f2';hf.innerHTML=`<i class="hf">${'<u class="on"></u>'.repeat(w)}${'<u></u>'.repeat(10-w)}</i><em>${L_('Son 10 yarış')} · ${w}</em>`}
+  const b=c.querySelector('.hc-b');if(b&&!b.querySelector('small')){b.insertAdjacentHTML('afterbegin',`<small>${L_('TAHMİN')}</small>`);b.insertAdjacentHTML('beforeend',`<em>${L_('yok')}</em>`)}})}catch(e){console.warn('hc2',e)}return r})(hrCards);
+Object.assign(DICT,{'Son 10 yarış':['Last 10 races','Últimas 10 carreras','10 pêşbaziyên dawî'],'TAHMİN':['PICK','ELECCIÓN','HILBIJARTIN'],'yok':['none','ninguna','tune']});
+})();
+/* ===== v4.23 · Profil → Avatar: büyük önizleme + dolu avatar ızgarası ===== */
+(function(){
+renderProfile=(o=>function(){const r=o.apply(this,arguments);try{const c=$('#pfC');if(!c)return r;c.classList.toggle('av2w',PTAB=='avatar');if(PTAB!='avatar')return r;
+ const L=lvInfo(P.xp).l,list=AVIMG.map((a,i)=>i).filter(i=>![13,14].includes(i)||(!P.photo&&P.av==i));
+ c.innerHTML=`<div class="av2"><div class="av2-p"><span class="av2-big">${avBox(me())}</span><b>${esc(P.name||'')}</b><small>Sv ${L} · ${L_(titleOf(L))}</small>
+   <button class="btn b sm" onclick="$('#pfile').click()">${I('camera')}${L_(P.photo?'Fotoğrafı değiştir':'Fotoğraf yükle')}</button>${P.photo?`<button class="btn w sm" onclick="pset('photo','')">${L_('Fotoğrafı kaldır')}</button>`:`<em>${L_('ya da bir avatar seç')}</em>`}</div>
+  <div class="av2-g" style="--n:${Math.ceil(list.length/5)}">${list.map(i=>{const on=!P.photo&&P.av==i;return`<button class="${on?'on':''}" onclick="P.photo='';pset('av',${i})" aria-label="Avatar ${i+1}"><i style="background-image:${avUrl(i)}"></i>${on?`<u>${I('check')}</u>`:''}</button>`}).join('')}</div></div>`;
+ if(P.set.lang&&P.set.lang!='tr'&&typeof trNode=='function')trNode(c)}catch(e){console.warn('av2',e)}return r})(renderProfile);
+Object.assign(DICT,{'Fotoğrafı değiştir':['Change photo','Cambiar foto','Wêneyê biguherîne'],'ya da bir avatar seç':['or pick an avatar','o elige un avatar','an jî avatarekî hilbijêre'],'Fotoğraf yükle':['Upload photo','Subir foto','Wêne bar bike'],'Fotoğrafı kaldır':['Remove photo','Quitar foto','Wêneyê rake']});
 })();
 
 </script>

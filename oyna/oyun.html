@@ -6,7 +6,7 @@
 @font-face{font-family:P;src:url(fonts/poppins-Medium.woff) format('woff');font-weight:400 600;font-display:block}
 @font-face{font-family:P;src:url(fonts/poppins-Bold.woff) format('woff');font-weight:700 900;font-display:block}
 @font-face{font-family:G;src:url(fonts/inter-black.woff) format('woff');font-weight:400 900;font-display:block}
-:root{--gold:#f5c542;--cream:#ffe9b0;--logo:url(img/logo.webp);
+:root{--gold:#f5c542;--cream:#ffe9b0;--logo:url(img/logo.webp?h=ac538f1);
  --tw:min(4.2vw,8.4vh);--th:calc(var(--tw)*1.5);
  /* ıstaka (taş yüksekliği th cinsinden): üst sıra .07–1.07, üst dudak 1.04–1.20, alt sıra 1.20–2.20, ön kenar 2.17–2.50 */
  --rail:calc(var(--th)*.33);--rh:calc(var(--th)*2.5);--bw:calc(var(--rail)*1.07);--pad:calc(var(--tw)*.08);
@@ -28,7 +28,7 @@ p{margin:0}
 
 /* ---------- taş ---------- */
 .t{--w:var(--tw);position:relative;width:var(--w);height:calc(var(--w)*1.5);border-radius:calc(var(--w)*.125);flex:none;
- background-image:url(img/tiles.webp);background-repeat:no-repeat;background-size:1300% 500%;background-color:#efe6cc;box-shadow:inset 0 0 0 1px rgba(96,72,30,.38),inset 0 0 0 2px rgba(255,255,255,.6),inset 0 calc(var(--w)*-.035) calc(var(--w)*.03) rgba(110,80,30,.22),0 1px 0 rgba(0,0,0,.35)}
+ background-image:url(img/tiles.webp?h=f6c41a9);background-repeat:no-repeat;background-size:1300% 500%;background-color:#efe6cc;box-shadow:inset 0 0 0 1px rgba(96,72,30,.38),inset 0 0 0 2px rgba(255,255,255,.6),inset 0 calc(var(--w)*-.035) calc(var(--w)*.03) rgba(110,80,30,.22),0 1px 0 rgba(0,0,0,.35)}
 .t .jv{position:absolute;left:0;right:0;top:28%;text-align:center;font-weight:800;font-size:calc(var(--w)*.46);line-height:1;font-style:normal;opacity:.92}
 .jv.c0{color:#c62828}.jv.c1{color:#222}.jv.c2{color:#1565c0}.jv.c3{color:#d99a00}.jv.c-1{color:#7a5a20}
 .t.hid{visibility:hidden}
@@ -75,11 +75,11 @@ p{margin:0}
 /* ---------- YÜKLEME EKRANI ---------- */
 #ti{position:absolute;inset:0;opacity:0;transition:opacity .8s;pointer-events:none;overflow:hidden;background:#3a2a20}
 #intro.s2 #ti{opacity:1}
-.lbg{position:absolute;inset:-3%;background:url(img/load_bg.webp) center 30%/cover no-repeat;animation:kb 18s ease-in-out infinite alternate}
+.lbg{position:absolute;inset:-3%;background:url(img/load_bg.webp?h=f66999a) center 30%/cover no-repeat;animation:kb 18s ease-in-out infinite alternate}
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.07) translate(-1%,-1%)}}
 .lvig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(255,220,150,.18),transparent 55%),linear-gradient(transparent 60%,rgba(20,10,0,.45))}
 #llogo{position:absolute;left:50%;top:39%;width:min(86vh,58vw);aspect-ratio:700/528;translate:-50% -50%}
-#llogo>i{position:absolute;inset:0;background:url(img/logo_digor.webp) 0 0/100% 100% no-repeat}
+#llogo>i{position:absolute;inset:0;background:url(img/logo_digor.webp?h=70ca929) 0 0/100% 100% no-repeat}
 .lg-top{clip-path:polygon(0 0,37% 0,37% 27.5%,68% 27.5%,68% 0,100% 0,100% 70.5%,0 70.5%)}
 .lg-crown{clip-path:inset(0 32% 72.5% 37%)}
 .lg-bot{clip-path:inset(70.5% 0 0 0)}
@@ -91,7 +91,7 @@ p{margin:0}
 @keyframes lgC{0%{opacity:0;transform:translateY(-120%) rotate(-25deg)}70%{opacity:1}100%{transform:none}}
 @keyframes lgW{0%,100%{transform:rotate(0)}50%{transform:rotate(-3deg) translateY(-2%)}}
 .lg-shine{background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.75) 50%,transparent 60%) no-repeat!important;background-size:60% 100%!important;background-position:-80% 0!important;
- -webkit-mask:url(img/logo_digor.webp) 0 0/100% 100%;mask:url(img/logo_digor.webp) 0 0/100% 100%;mix-blend-mode:screen}
+ -webkit-mask:url(img/logo_digor.webp?h=70ca929) 0 0/100% 100%;mask:url(img/logo_digor.webp?h=70ca929) 0 0/100% 100%;mix-blend-mode:screen}
 #intro.s2 .lg-shine{animation:lgS 3.2s 1.9s ease-in-out infinite}
 @keyframes lgS{0%,55%{background-position:-80% 0}100%{background-position:200% 0}}
 #llogo{filter:drop-shadow(0 1.6vh 1.6vh rgba(40,10,0,.55))}
@@ -136,7 +136,7 @@ body.lo .lsky,body.lo .lrays,body.lo .lsym i,body.lo .fl .t{animation:none}
  text-shadow:0 .07em 0 var(--ol),.05em 0 0 var(--ol),-.05em 0 0 var(--ol),0 .05em 0 var(--ol),0 -.05em 0 var(--ol),.035em .035em 0 var(--ol),-.035em .035em 0 var(--ol),.035em -.035em 0 var(--ol),-.035em -.035em 0 var(--ol),0 .14em .18em rgba(0,0,0,.25)}
 
 /* --- arka plan --- */
-.sky{position:absolute;inset:0;background:url(img/bg.webp) center 60%/cover no-repeat,#9fdcff}
+.sky{position:absolute;inset:0;background:url(img/bg.webp?h=31a5b60) center 60%/cover no-repeat,#9fdcff}
 .sky::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 40%,rgba(255,240,210,.18))}
 .sky.dim::after{background:linear-gradient(180deg,rgba(30,90,170,.38),rgba(20,60,130,.5))}
 
@@ -486,7 +486,7 @@ body.lo #quick::after,body.lo .card.big::after,body.lo .art .flt{animation:none}
 
 /* ===== ANA MENÜ: arka plan + serbest butonlar ===== */
 #menu{background:#8fd0f2}
-.mbg{position:absolute;inset:0;background:url(img/bg.webp) center 60%/cover no-repeat}
+.mbg{position:absolute;inset:0;background:url(img/bg.webp?h=31a5b60) center 60%/cover no-repeat}
 .fresh .mbg{animation:mbgIn 1.2s ease-out both}
 @keyframes mbgIn{from{transform:scale(1.08);filter:brightness(1.15)}}
 #mimg{position:absolute;left:50%;top:50%;translate:-50% -50%;width:var(--mw0,100vw);height:var(--mh0,45vw);--u:var(--mu,.05vw)}
@@ -497,21 +497,21 @@ body.lo #quick::after,body.lo .card.big::after,body.lo .art .flt{animation:none}
 .mb2 .l1,.mb2 .l2,.mb2 em{position:absolute;left:var(--lx,50%);top:var(--ly,50%);translate:-50% -50%;white-space:nowrap;font-family:G,P,sans-serif;font-weight:900;font-style:normal;color:#fff;pointer-events:none;line-height:1}
 .mb2 .l1{font-size:calc(var(--fs)*var(--u));letter-spacing:.01em;--o:var(--ol);text-shadow:0 calc(3*var(--u)) 0 var(--o),calc(2.4*var(--u)) 0 0 var(--o),calc(-2.4*var(--u)) 0 0 var(--o),0 calc(-2.4*var(--u)) 0 var(--o),calc(1.7*var(--u)) calc(1.7*var(--u)) 0 var(--o),calc(-1.7*var(--u)) calc(1.7*var(--u)) 0 var(--o),calc(1.7*var(--u)) calc(-1.7*var(--u)) 0 var(--o),calc(-1.7*var(--u)) calc(-1.7*var(--u)) 0 var(--o),0 calc(6*var(--u)) calc(8*var(--u)) rgba(0,0,0,.25)}
 .mb2 .l2{font-family:P;font-weight:700;font-size:calc(var(--fs2)*var(--u));color:var(--c2,#ffe6a3);text-shadow:0 calc(2*var(--u)) calc(2*var(--u)) rgba(0,0,0,.45)}
-.b-oyna .im{background-image:url(img/menu/oyna.webp)}.b-oyna{--ar:485/374;--lx:49.0%;--bw:36;--bw2:46;--ly:60.4%;--fs:62;--fs2:22;--ol:#5a1d08}
+.b-oyna .im{background-image:url(img/menu/oyna.webp?h=362b6e4)}.b-oyna{--ar:485/374;--lx:49.0%;--bw:36;--bw2:46;--ly:60.4%;--fs:62;--fs2:22;--ol:#5a1d08}
 .b-oyna .l1{background:linear-gradient(#fff9e6,#ffe3a6 55%,#f6c46e);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 calc(3*var(--u)) 0 #4a1606) drop-shadow(0 0 calc(2*var(--u)) #4a1606);text-shadow:none}
 .b-oyna .l2{--ly:75%}
-.b-esli .im{background-image:url(img/menu/esli.webp)}.b-esli{--ar:305/207;--lx:54.5%;--bw:49;--ly:75%;--fs:30;--ol:#0b4d1f}
-.b-kat .im{background-image:url(img/menu/kat.webp)}.b-kat{--ar:304/163;--lx:51.5%;--bw:57;--ly:73.2%;--fs:28;--ol:#3c1477}
-.b-shop .im{background-image:url(img/menu/shopc.webp)}.b-shop{--ar:315/158;--lx:52.0%;--bw:54;--ly:69.8%;--fs:30;--ol:#0b3a7a}
-.b-gorev .im{background-image:url(img/menu/gorevler.webp)}.b-gorev{--ar:315/103;--lx:63.5%;--bw:47;--ly:46.5%;--fs:28;--ol:#8c1747}
-.b-kural .im{background-image:url(img/menu/kural.webp)}.b-kural{--ar:315/113;--lx:63.0%;--bw:48;--ly:46.5%;--fs:28;--ol:#0a5a66}
-.b-hemen .im{background-image:url(img/menu/hemen.webp)}.b-hemen{--ar:504/131;--lx:56.5%;--bw:47;--bw2:47;--ly:38.5%;--fs:34;--ol:#3a2200;--fs2:17;--c2:#ffe3a0}
+.b-esli .im{background-image:url(img/menu/esli.webp?h=13280e5)}.b-esli{--ar:305/207;--lx:54.5%;--bw:49;--ly:75%;--fs:30;--ol:#0b4d1f}
+.b-kat .im{background-image:url(img/menu/kat.webp?h=33f03da)}.b-kat{--ar:304/163;--lx:51.5%;--bw:57;--ly:73.2%;--fs:28;--ol:#3c1477}
+.b-shop .im{background-image:url(img/menu/shopc.webp?h=35e0afd)}.b-shop{--ar:315/158;--lx:52.0%;--bw:54;--ly:69.8%;--fs:30;--ol:#0b3a7a}
+.b-gorev .im{background-image:url(img/menu/gorevler.webp?h=31cc6bf)}.b-gorev{--ar:315/103;--lx:63.5%;--bw:47;--ly:46.5%;--fs:28;--ol:#8c1747}
+.b-kural .im{background-image:url(img/menu/kural.webp?h=8213ec9)}.b-kural{--ar:315/113;--lx:63.0%;--bw:48;--ly:46.5%;--fs:28;--ol:#0a5a66}
+.b-hemen .im{background-image:url(img/menu/hemen.webp?h=1b155df)}.b-hemen{--ar:504/131;--lx:56.5%;--bw:47;--bw2:47;--ly:38.5%;--fs:34;--ol:#3a2200;--fs2:17;--c2:#ffe3a0}
 .b-hemen .l1{background:linear-gradient(#fff7d8,#ffd76a 60%,#f2b01c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 calc(2*var(--u)) 0 #3a2200);text-shadow:none}
 .b-hemen .l2{--ly:64%}
-.b-ic{--ar:106/103}.b-ig .im{background-image:url(img/menu/gorev.webp)}.b-im .im{background-image:url(img/menu/magazai.webp)}.b-im{--ar:109/102}.b-ia .im{background-image:url(img/menu/ayar.webp)}.b-ia{--ar:98/93}
+.b-ic{--ar:106/103}.b-ig .im{background-image:url(img/menu/gorev.webp?h=bb6694d)}.b-im .im{background-image:url(img/menu/magazai.webp?h=4545f03)}.b-im{--ar:109/102}.b-ia .im{background-image:url(img/menu/ayar.webp?h=4cf6b69)}.b-ia{--ar:98/93}
 .b-ic em{top:auto;bottom:calc(-26*var(--u));translate:-50% 0;font-size:calc(17*var(--u));--o:#123c70;text-shadow:0 calc(2*var(--u)) 0 var(--o),calc(1.6*var(--u)) 0 0 var(--o),calc(-1.6*var(--u)) 0 0 var(--o),0 calc(-1.6*var(--u)) 0 var(--o),0 calc(3*var(--u)) calc(4*var(--u)) rgba(0,0,0,.3)}
-.b-exit .im{background-image:url(img/menu/exit.webp)}.b-exit{--ar:85/82}
-.b-coin{--ar:250/76;border-style:solid;border-color:transparent;border-width:0 calc(68*var(--u));border-image:url(img/menu/coin.webp) 0 68 fill / 0 calc(68*var(--u)) stretch}
+.b-exit .im{background-image:url(img/menu/exit.webp?h=d96f558)}.b-exit{--ar:85/82}
+.b-coin{--ar:250/76;border-style:solid;border-color:transparent;border-width:0 calc(68*var(--u));border-image:url(img/menu/coin.webp?h=3d0e064) 0 68 fill / 0 calc(68*var(--u)) stretch}
 .b-coin .im{display:none}
 .b-coin b{position:absolute;left:50%;top:48%;translate:-50% -50%;font-family:G,P;font-weight:900;font-size:calc(25*var(--u));color:#fff;white-space:nowrap;text-shadow:0 calc(2*var(--u)) 0 #0a1a30}
 .mb2 .dot{position:absolute;left:auto;right:calc(-6*var(--u));top:calc(-6*var(--u));width:calc(26*var(--u));height:calc(26*var(--u));min-width:0;min-height:0;box-shadow:0 0 0 calc(3*var(--u)) #fff,0 calc(2*var(--u)) calc(4*var(--u)) rgba(0,0,0,.35);animation:dotP 1s ease-in-out infinite alternate}
@@ -838,7 +838,7 @@ body[data-table=gece] #tbl{--f1:#3a4a64;--f2:#1c2534;--f3:#0a0e15}
 #rkb{position:relative;z-index:1;height:var(--rh);width:var(--rkw);touch-action:none;border-style:solid;border-color:transparent;border-width:0 var(--rkc);
  }
 #rack::before{content:'';position:absolute;left:calc(var(--capw) + 1vh);right:calc(var(--capw) + 1vh);bottom:0;height:45%;border-radius:1.4vh;box-shadow:0 1.2vh 1.8vh rgba(0,0,0,.55);z-index:0;pointer-events:none}
-#rkb,.rkp i{border-image:url(img/rk_maun.webp) 0 64 fill / 0 var(--rkc) stretch}
+#rkb,.rkp i{border-image:url(img/rk_maun.webp?h=19a8150) 0 64 fill / 0 var(--rkc) stretch}
 #rt{position:absolute;inset:0 calc(var(--rkc)*-1)}
 .t.rk{position:absolute;left:0;top:0;--w:calc(var(--tw) - 1.5px);transform-origin:0 0;cursor:grab;box-shadow:0 .25vh 0 #c9b98d,0 .5vh .5vh rgba(20,5,0,.45)}
 .t.rk.drag{cursor:grabbing;will-change:transform;box-shadow:0 1.6vh 1.8vh rgba(0,0,0,.45)}
@@ -853,7 +853,7 @@ body[data-table=gece] #tbl{--f1:#3a4a64;--f2:#1c2534;--f3:#0a0e15}
 .cap svg{width:80%;height:auto;filter:drop-shadow(0 .3vh .2vh rgba(0,0,0,.4))}
 .cap em{font-style:normal;font-size:clamp(8px,2.4vh,13px);letter-spacing:.1em;--ol:#5e0b06}
 .cap:active{transform:translateY(.4vh);box-shadow:inset 0 0 0 .25vh rgba(255,210,150,.55),inset 0 -.5vh 0 rgba(0,0,0,.18),0 .2vh 0 var(--d)}
-body[data-rack=abanoz] #rkb,.rkp i.abanoz{border-image-source:url(img/rk_abanoz.webp)}body[data-rack=ceviz] #rkb,.rkp i.ceviz{border-image-source:url(img/rk_ceviz.webp)}
+body[data-rack=abanoz] #rkb,.rkp i.abanoz{border-image-source:url(img/rk_abanoz.webp?h=308ae5d)}body[data-rack=ceviz] #rkb,.rkp i.ceviz{border-image-source:url(img/rk_ceviz.webp?h=cf43ca4)}
 body[data-rack=abanoz] .cap{--a:#5a5048;--b:#2a221d;--d:#0e0a08}
 body[data-rack=ceviz] .cap{--a:#e2924a;--b:#a65a1c;--d:#5a2c08}
 
@@ -875,7 +875,7 @@ body.lo .pv-tl i{animation:none}
 @keyframes sideG{to{box-shadow:0 0 0 .35vh #ffb3a8,0 0 2.4vh .6vh rgba(255,90,74,.9),0 .25vh 0 #c9b98d}}
 #acts:has(.btn:nth-child(4)) .btn{padding:.6vh 1vh}
 #mep .avb{margin:0 1.6vh 0 1vh}.seat.h .avb{margin:0 .8vh 0 .4vh}.hr .avb{margin:0 .8vh}
-.fr-bronz::before{background-image:url(img/frames/bronz.webp)}.fr-gumus::before{background-image:url(img/frames/gumus.webp)}.fr-altin::before{background-image:url(img/frames/altin.webp)}.fr-zumrut::before{background-image:url(img/frames/zumrut.webp)}.fr-safir::before{background-image:url(img/frames/safir.webp)}.fr-yakut::before{background-image:url(img/frames/yakut.webp)}.fr-elmas::before{background-image:url(img/frames/elmas.webp)}.fr-efsane::before{background-image:url(img/frames/efsane.webp)}
+.fr-bronz::before{background-image:url(img/frames/bronz.webp?h=f9009d6)}.fr-gumus::before{background-image:url(img/frames/gumus.webp?h=67990b9)}.fr-altin::before{background-image:url(img/frames/altin.webp?h=ec97aa5)}.fr-zumrut::before{background-image:url(img/frames/zumrut.webp?h=f7b8e8e)}.fr-safir::before{background-image:url(img/frames/safir.webp?h=cde1f91)}.fr-yakut::before{background-image:url(img/frames/yakut.webp?h=cf6dd4c)}.fr-elmas::before{background-image:url(img/frames/elmas.webp?h=d93e47b)}.fr-efsane::before{background-image:url(img/frames/efsane.webp?h=a06cafc)}
 .mvs{display:flex;align-items:center;gap:1vh;flex:none;width:min(44vw,300px)}.mvs .sv{width:max(3.4vh,15px);height:max(3.4vh,15px);color:#2c6fc4;flex:none}
 .mvs input{flex:1;accent-color:#2c8ef0;height:max(4vh,18px)}.mvs b{font-family:G,P;font-weight:900;color:var(--ink);min-width:4.2em;text-align:right;font-size:clamp(10px,2.6vh,13px)}
 .cvi{position:relative;display:grid;grid-template-columns:1fr 1fr;width:max(9vh,38px);aspect-ratio:1;border-radius:1.4vh;overflow:hidden;flex:none;background:#123 center/cover;box-shadow:0 .4vh 1vh rgba(10,40,90,.3)}
@@ -923,10 +923,10 @@ video::-webkit-media-controls,video::-webkit-media-controls-overlay-play-button,
 /* DİGOR taşlar dizilirken, OKEY 101 videonun sonunda girer */
 #intro.vid.s2 .lg-bot{animation-delay:2.5s}
 /* v3.8.2: logo gerçek parçalara ayrıldı (düz kesim yok). DİGOR+taç birlikte, OKEY 101 sonra; bitince orijinal logo */
-#llogo{background:url(img/logo_digor.webp) 0 0/100% 100% no-repeat;background-size:0 0}
+#llogo{background:url(img/logo_digor.webp?h=70ca929) 0 0/100% 100% no-repeat;background-size:0 0}
 #llogo>.lg-top,#llogo>.lg-bot{clip-path:none!important}
-#llogo>.lg-top{background-image:url(img/logo_top.webp)}
-#llogo>.lg-bot{background-image:url(img/logo_bot.webp)}
+#llogo>.lg-top{background-image:url(img/logo_top.webp?h=796d99b)}
+#llogo>.lg-bot{background-image:url(img/logo_bot.webp?h=1bd7990)}
 #llogo>.lg-crown{display:none!important}
 @keyframes lgT2{0%{opacity:0;transform:scale(.55)}55%{opacity:1;transform:scale(1.07)}80%{transform:scale(.98)}100%{opacity:1;transform:none}}
 @keyframes lgB2{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.1)}82%{transform:scale(.97)}100%{opacity:1;transform:none}}
@@ -1075,23 +1075,23 @@ body.lo .t.rk{box-shadow:inset 0 0 0 1px rgba(96,72,30,.5),0 .2vh .3vh rgba(0,0,
 .lb-note{display:flex;align-items:flex-start;gap:.8vh;padding:1vh 1.2vh;border-radius:1.2vh;background:rgba(255,215,122,.08);box-shadow:inset 0 0 0 1px rgba(255,215,122,.2);color:#d6e3f6;font-size:clamp(8px,2.1vh,11px);line-height:1.35}
 .lb-note .sv{width:2.8vh;height:2.8vh;flex:none;color:#ffd866}
 /* v4.4 mağaza: yeni ıstakalar + çerçeveler */
-body[data-rack=gul] #rkb,.rkp i.gul{border-image-source:url(img/rk_gul.webp)}
-body[data-rack=gece] #rkb,.rkp i.gece{border-image-source:url(img/rk_gece.webp)}
-body[data-rack=zumrut] #rkb,.rkp i.zumrut{border-image-source:url(img/rk_zumrut.webp)}
-body[data-rack=altin] #rkb,.rkp i.altin{border-image-source:url(img/rk_altin.webp)}
-body[data-rack=elmas] #rkb,.rkp i.elmas{border-image-source:url(img/rk_elmas.webp)}
+body[data-rack=gul] #rkb,.rkp i.gul{border-image-source:url(img/rk_gul.webp?h=5350098)}
+body[data-rack=gece] #rkb,.rkp i.gece{border-image-source:url(img/rk_gece.webp?h=773bfd8)}
+body[data-rack=zumrut] #rkb,.rkp i.zumrut{border-image-source:url(img/rk_zumrut.webp?h=8ecc480)}
+body[data-rack=altin] #rkb,.rkp i.altin{border-image-source:url(img/rk_altin.webp?h=5156b13)}
+body[data-rack=elmas] #rkb,.rkp i.elmas{border-image-source:url(img/rk_elmas.webp?h=05de1a1)}
 body[data-rack=gul] .cap{--a:#f07a9c;--b:#b8345e;--d:#6a1230}
 body[data-rack=gece] .cap{--a:#4a72d0;--b:#1c3a8a;--d:#0a1a48}
 body[data-rack=zumrut] .cap{--a:#3cc88a;--b:#127a50;--d:#053a24}
 body[data-rack=altin] .cap{--a:#ffe08a;--b:#c98f16;--d:#6e4a00}
 body[data-rack=elmas] .cap{--a:#d8f3ff;--b:#5aa6e0;--d:#1d5590}
-.fr-lale::before{background-image:url(img/frames/lale.webp)}
-.fr-nazar::before{background-image:url(img/frames/nazar.webp)}
-.fr-kilim::before{background-image:url(img/frames/kilim.webp)}
-.fr-buz::before{background-image:url(img/frames/buz.webp)}
-.fr-ates::before{background-image:url(img/frames/ates.webp)}
-.fr-gece::before{background-image:url(img/frames/gece.webp)}
-.fr-sultan::before{background-image:url(img/frames/sultan.webp)}
+.fr-lale::before{background-image:url(img/frames/lale.webp?h=2db7f38)}
+.fr-nazar::before{background-image:url(img/frames/nazar.webp?h=b2febaa)}
+.fr-kilim::before{background-image:url(img/frames/kilim.webp?h=8d8fadc)}
+.fr-buz::before{background-image:url(img/frames/buz.webp?h=e82f641)}
+.fr-ates::before{background-image:url(img/frames/ates.webp?h=3c037ff)}
+.fr-gece::before{background-image:url(img/frames/gece.webp?h=bbcad75)}
+.fr-sultan::before{background-image:url(img/frames/sultan.webp?h=2efcaf7)}
 
 .shfr{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(24vh,110px),1fr));gap:1.6vh}
 .sfc{align-items:center;text-align:center;gap:.6vh}
@@ -1105,7 +1105,7 @@ body[data-rack=elmas] .cap{--a:#d8f3ff;--b:#5aa6e0;--d:#1d5590}
 .shnote{color:var(--ink2);text-align:center;font-size:clamp(8px,2.2vh,11px)!important;margin-top:1vh}
 .rkc .cn{display:flex;align-items:center;gap:.5vh;font-family:G,P;font-weight:900;color:var(--ink)}
 /* ===== v4.4 OYNA ekranı ===== */
-#setup .su2-bg{position:absolute;inset:0;background:url(img/bg.webp) center 60%/cover no-repeat;filter:blur(3px) brightness(.55) saturate(1.1);transform:scale(1.05)}
+#setup .su2-bg{position:absolute;inset:0;background:url(img/bg.webp?h=31a5b60) center 60%/cover no-repeat;filter:blur(3px) brightness(.55) saturate(1.1);transform:scale(1.05)}
 #setup .su2-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,22,58,.55),rgba(6,22,58,.25) 40%,rgba(6,22,58,.7))}
 #setup>*{position:absolute;z-index:2}
 .su2-h{left:var(--ex);right:var(--ex);top:var(--ey);height:max(7.2vh,28px);display:flex;align-items:center;gap:1.4vh}
@@ -1463,14 +1463,14 @@ button.opb:active{transform:scale(.97)}
 #acn{width:100%;box-sizing:border-box;border-radius:1.2vh;border:1px solid rgba(0,0,0,.2);padding:1vh 1.2vh;font:inherit;resize:none;margin-bottom:.6vh}
 .cldi{display:flex;align-items:center;justify-content:center;width:max(9vh,36px);height:max(9vh,36px);margin:0 auto .4vh;border-radius:50%;font-size:max(4.8vh,20px);background:linear-gradient(#7cc4ff,#2c7fe0);box-shadow:0 .5vh 0 #1d5fb0,0 .8vh 1.6vh rgba(30,90,180,.35)}
 .cldi.g{background:linear-gradient(#ffe08a,#f59e0b);box-shadow:0 .5vh 0 #b45309,0 .8vh 1.6vh rgba(180,83,9,.35)}
-body[data-rack=kraliyet] #rkb,.rkp i.kraliyet{border-image-source:url(img/rk_kraliyet.webp)}body[data-rack=kraliyet] .cap{--a:#cfd8e3;--b:#7d8d9c;--d:#3b4c60}
-body[data-rack=osmanli] #rkb,.rkp i.osmanli{border-image-source:url(img/rk_osmanli.webp)}body[data-rack=osmanli] .cap{--a:#e8344e;--b:#9a0a20;--d:#4a0410}
-body[data-rack=sedef] #rkb,.rkp i.sedef{border-image-source:url(img/rk_sedef.webp)}body[data-rack=sedef] .cap{--a:#a07a50;--b:#5b3a22;--d:#2a170a}
-body[data-rack=ejder] #rkb,.rkp i.ejder{border-image-source:url(img/rk_ejder.webp)}body[data-rack=ejder] .cap{--a:#4a4a52;--b:#1c1c22;--d:#000}
-body[data-rack=kozmos] #rkb,.rkp i.kozmos{border-image-source:url(img/rk_kozmos.webp)}body[data-rack=kozmos] .cap{--a:#7a4cff;--b:#3a1a9a;--d:#140a3a}
-body[data-rack=mermer] #rkb,.rkp i.mermer{border-image-source:url(img/rk_mermer.webp)}body[data-rack=mermer] .cap{--a:#ffe08a;--b:#c98f16;--d:#6e4a00}
-body[data-rack=dokuma] #rkb,.rkp i.dokuma{border-image-source:url(img/rk_dokuma.webp)}body[data-rack=dokuma] .cap{--a:#c0502a;--b:#7a2a10;--d:#3c1206}
-.fr-kraltaci::before{background-image:url(img/frames/kraltaci.webp)}.fr-sovalye::before{background-image:url(img/frames/sovalye.webp)}.fr-ejder2::before{background-image:url(img/frames/ejder2.webp)}.fr-runkral::before{background-image:url(img/frames/runkral.webp)}.fr-gerdanlik::before{background-image:url(img/frames/gerdanlik.webp)}.fr-fatih::before{background-image:url(img/frames/fatih.webp)}.fr-ejder1::before{background-image:url(img/frames/ejder1.webp)}.fr-galaksi2::before{background-image:url(img/frames/galaksi2.webp)}.fr-galaksi1::before{background-image:url(img/frames/galaksi1.webp)}.fr-gunes2::before{background-image:url(img/frames/gunes2.webp)}.fr-gunes1::before{background-image:url(img/frames/gunes1.webp)}.fr-kraken2::before{background-image:url(img/frames/kraken2.webp)}.fr-kraken1::before{background-image:url(img/frames/kraken1.webp)}.fr-zaman::before{background-image:url(img/frames/zaman.webp)}.fr-gezegen::before{background-image:url(img/frames/gezegen.webp)}.fr-zumbahce::before{background-image:url(img/frames/zumbahce.webp)}.fr-mavirun::before{background-image:url(img/frames/mavirun.webp)}
+body[data-rack=kraliyet] #rkb,.rkp i.kraliyet{border-image-source:url(img/rk_kraliyet.webp?h=b38ae60)}body[data-rack=kraliyet] .cap{--a:#cfd8e3;--b:#7d8d9c;--d:#3b4c60}
+body[data-rack=osmanli] #rkb,.rkp i.osmanli{border-image-source:url(img/rk_osmanli.webp?h=5c9b989)}body[data-rack=osmanli] .cap{--a:#e8344e;--b:#9a0a20;--d:#4a0410}
+body[data-rack=sedef] #rkb,.rkp i.sedef{border-image-source:url(img/rk_sedef.webp?h=7867e8a)}body[data-rack=sedef] .cap{--a:#a07a50;--b:#5b3a22;--d:#2a170a}
+body[data-rack=ejder] #rkb,.rkp i.ejder{border-image-source:url(img/rk_ejder.webp?h=bfe32d6)}body[data-rack=ejder] .cap{--a:#4a4a52;--b:#1c1c22;--d:#000}
+body[data-rack=kozmos] #rkb,.rkp i.kozmos{border-image-source:url(img/rk_kozmos.webp?h=ad93ed4)}body[data-rack=kozmos] .cap{--a:#7a4cff;--b:#3a1a9a;--d:#140a3a}
+body[data-rack=mermer] #rkb,.rkp i.mermer{border-image-source:url(img/rk_mermer.webp?h=d1e8d54)}body[data-rack=mermer] .cap{--a:#ffe08a;--b:#c98f16;--d:#6e4a00}
+body[data-rack=dokuma] #rkb,.rkp i.dokuma{border-image-source:url(img/rk_dokuma.webp?h=f862728)}body[data-rack=dokuma] .cap{--a:#c0502a;--b:#7a2a10;--d:#3c1206}
+.fr-kraltaci::before{background-image:url(img/frames/kraltaci.webp?h=672f386)}.fr-sovalye::before{background-image:url(img/frames/sovalye.webp?h=a51f1c0)}.fr-ejder2::before{background-image:url(img/frames/ejder2.webp?h=d7db8ff)}.fr-runkral::before{background-image:url(img/frames/runkral.webp?h=6c2f9d2)}.fr-gerdanlik::before{background-image:url(img/frames/gerdanlik.webp?h=7fb38b7)}.fr-fatih::before{background-image:url(img/frames/fatih.webp?h=5c5a76f)}.fr-ejder1::before{background-image:url(img/frames/ejder1.webp?h=c5d65a5)}.fr-galaksi2::before{background-image:url(img/frames/galaksi2.webp?h=d3e3de1)}.fr-galaksi1::before{background-image:url(img/frames/galaksi1.webp?h=9e38bb9)}.fr-gunes2::before{background-image:url(img/frames/gunes2.webp?h=0555166)}.fr-gunes1::before{background-image:url(img/frames/gunes1.webp?h=1885e49)}.fr-kraken2::before{background-image:url(img/frames/kraken2.webp?h=c69df9a)}.fr-kraken1::before{background-image:url(img/frames/kraken1.webp?h=3f405fb)}.fr-zaman::before{background-image:url(img/frames/zaman.webp?h=fe453db)}.fr-gezegen::before{background-image:url(img/frames/gezegen.webp?h=721a726)}.fr-zumbahce::before{background-image:url(img/frames/zumbahce.webp?h=4f5a709)}.fr-mavirun::before{background-image:url(img/frames/mavirun.webp?h=43031e3)}
 /* VIP mağaza */
 #shT button{position:relative}#shT .newb{position:absolute;right:.6vh;top:50%;translate:0 -50%;font-style:normal;font-family:G,P;font-weight:900;font-size:clamp(7px,1.7vh,9px);padding:.2vh .7vh;border-radius:99px;background:linear-gradient(#ff6b6b,#e11d48);color:#fff;box-shadow:0 .2vh 0 #9f1239}
 .shsec{margin-bottom:2.2vh}.shsec:last-child{margin-bottom:.6vh}
@@ -1667,19 +1667,19 @@ body.noanim #ffx *{animation:none!important}
 .vb3.c-gd.on{filter:drop-shadow(0 0 calc(14*var(--u)) rgba(255,205,70,.85))}
 body.lo .vb3.c-gd .vsh::after{animation:none;display:none}
 /* VIP profil kartı (ana menü) */
-.mprof.vipa,.mprof.vipe{background:url(img/vip/bn_a.webp) center/100% 100% no-repeat;border-radius:calc(12*var(--u));box-shadow:0 calc(8*var(--u)) calc(14*var(--u)) rgba(0,20,60,.4);padding-right:calc(14*var(--u))}
-.mprof.vipe{background-image:url(img/vip/bn_e.webp)}
+.mprof.vipa,.mprof.vipe{background:url(img/vip/bn_a.webp?h=8711a9a) center/100% 100% no-repeat;border-radius:calc(12*var(--u));box-shadow:0 calc(8*var(--u)) calc(14*var(--u)) rgba(0,20,60,.4);padding-right:calc(14*var(--u))}
+.mprof.vipe{background-image:url(img/vip/bn_e.webp?h=6d3585e)}
 .mprof.vipa .avb,.mprof.vipe .avb{margin-left:calc(-14*var(--u))}
 .mprof.vipa .pi,.mprof.vipe .pi{padding-right:calc(92*var(--u))}
 .mprof.vipa .lv em,.mprof.vipe .lv em{height:calc(40*var(--u));width:calc(153*var(--u));padding:0 calc(16*var(--u)) 0 calc(42*var(--u));justify-content:center;border-radius:0;box-shadow:none;
- background:url(img/vip/lv_a.webp) center/100% 100% no-repeat;color:#ffe48a;text-shadow:0 calc(2*var(--u)) 0 #4a0810,calc(1.4*var(--u)) 0 0 #4a0810,calc(-1.4*var(--u)) 0 0 #4a0810,0 calc(-1.2*var(--u)) 0 #4a0810;white-space:nowrap}
-.mprof.vipe .lv em{background-image:url(img/vip/lv_e.webp);color:#eef8ff;text-shadow:0 calc(2*var(--u)) 0 #0a2458,calc(1.4*var(--u)) 0 0 #0a2458,calc(-1.4*var(--u)) 0 0 #0a2458,0 calc(-1.2*var(--u)) 0 #0a2458}
+ background:url(img/vip/lv_a.webp?h=258241f) center/100% 100% no-repeat;color:#ffe48a;text-shadow:0 calc(2*var(--u)) 0 #4a0810,calc(1.4*var(--u)) 0 0 #4a0810,calc(-1.4*var(--u)) 0 0 #4a0810,0 calc(-1.2*var(--u)) 0 #4a0810;white-space:nowrap}
+.mprof.vipe .lv em{background-image:url(img/vip/lv_e.webp?h=617673a);color:#eef8ff;text-shadow:0 calc(2*var(--u)) 0 #0a2458,calc(1.4*var(--u)) 0 0 #0a2458,calc(-1.4*var(--u)) 0 0 #0a2458,0 calc(-1.2*var(--u)) 0 #0a2458}
 .mprof.vipa .lv em svg,.mprof.vipe .lv em svg{display:none}
 .mprof.vipa .xp{background:#2a0a10;box-shadow:inset 0 0 0 calc(2*var(--u)) #b8892a}.mprof.vipa .xp i{background:linear-gradient(90deg,#a0102a,#ff5a3d 60%,#ffd34d)}
 .mprof.vipe .xp{background:#0a1640;box-shadow:inset 0 0 0 calc(2*var(--u)) #9fc6e6}.mprof.vipe .xp i{background:linear-gradient(90deg,#1b4fd6,#5ab8ff 65%,#e8fbff)}
 /* VIP çerçeveler (taç halkanın üstünde taşar) */
-.fr-vipa::before{inset:-48.7% -33.7% -33.95% -33.7%!important;background:url(img/frames/vipa.webp) center/100% 100% no-repeat!important;display:block!important}
-.fr-vipe::before{inset:-42.55% -33.7% -33.9% -33.7%!important;background:url(img/frames/vipe.webp) center/100% 100% no-repeat!important;display:block!important}
+.fr-vipa::before{inset:-48.7% -33.7% -33.95% -33.7%!important;background:url(img/frames/vipa.webp?h=1732838) center/100% 100% no-repeat!important;display:block!important}
+.fr-vipe::before{inset:-42.55% -33.7% -33.9% -33.7%!important;background:url(img/frames/vipe.webp?h=d7fc55d) center/100% 100% no-repeat!important;display:block!important}
 /* kanatlı VIP rozeti */
 .avb svg.vbd{position:absolute;right:-21%;bottom:-12%;width:56%;height:auto;aspect-ratio:239/169;z-index:3;display:block;pointer-events:none;overflow:visible;filter:drop-shadow(0 .25vh .25vh rgba(0,0,0,.45))}
 svg.vbd.solo{position:relative;display:block;flex:none;width:max(12vh,52px);height:auto;aspect-ratio:239/169;overflow:visible;filter:drop-shadow(0 .3vh .3vh rgba(0,0,0,.4))}
@@ -1691,8 +1691,8 @@ svg.vbd.solo.big{width:min(28vh,124px)}
 .vipn em{-webkit-text-fill-color:#fff}
 /* masaya giriş gösterisi */
 .vfx{position:fixed;left:50%;top:8vh;z-index:70;width:min(62vw,500px);aspect-ratio:1000/215;translate:-50% 0;pointer-events:none;animation:vfxIn 3.3s cubic-bezier(.2,1.2,.3,1) both}
-.vfx .vfb{position:absolute;inset:0;display:flex;align-items:center;gap:4%;padding:0 23% 0 6%;background:url(img/vip/bn_a.webp) center/100% 100% no-repeat;filter:drop-shadow(0 1vh 2vh rgba(0,0,0,.6));overflow:visible}
-.vfx.e .vfb{background-image:url(img/vip/bn_e.webp)}
+.vfx .vfb{position:absolute;inset:0;display:flex;align-items:center;gap:4%;padding:0 23% 0 6%;background:url(img/vip/bn_a.webp?h=8711a9a) center/100% 100% no-repeat;filter:drop-shadow(0 1vh 2vh rgba(0,0,0,.6));overflow:visible}
+.vfx.e .vfb{background-image:url(img/vip/bn_e.webp?h=6d3585e)}
 .vfx .vfb::after{content:'';position:absolute;inset:4% 2%;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%) no-repeat;background-size:250% 100%;background-position:150% 0;animation:vfxSh 1.4s .5s ease-in-out 2;mix-blend-mode:screen;pointer-events:none}
 .vfx .vfa .avb{--s:min(12.5vh,62px)}
 .vft{display:flex;flex-direction:column;min-width:0;line-height:1.08}
@@ -1835,7 +1835,7 @@ body.lo .whf{animation:none}
 .vfx.e .vsp{background:radial-gradient(circle,#fff 0 22%,#d8f6ff 45%,#7fd8ff 70%)!important;filter:drop-shadow(0 0 .6vh rgba(140,220,255,.9))!important}
 </style><style id="v413css">/* ===== v4.13 · masa ===== */
 /* küçük taşlar (ızgara, atık, gösterge) için önceden küçültülmüş keskin sprite */
-.meld .t,.pl .t,#gMid .t,#mep .t,.msc .t,.rkp .t,.art .t,.mtl .t{background-image:url(img/tiles_s.webp)}
+.meld .t,.pl .t,#gMid .t,#mep .t,.msc .t,.rkp .t,.art .t,.mtl .t{background-image:url(img/tiles_s.webp?h=222aa5c)}
 /* işlenebilir taş: çukurdaki sembolün üstünde, ortası delikli küçük yeşil daire (orijinal taşlardaki gibi) */
 .t.rk.isl::after{left:50.5%;top:80.4%;width:22%;background:radial-gradient(circle closest-side,#f6efd8 0 28%,#1fb862 33% 72%,#0e7a3f 77% 90%,rgba(14,122,63,0) 100%);box-shadow:0 0 .5vh rgba(30,200,110,.75),inset 0 .12vh .2vh rgba(0,0,0,.25)}
 /* sürüklerken yuva parlaması yok */
@@ -1924,7 +1924,7 @@ body.noanim #ffx *{animation:none!important}
 /* ---------- masaya geçiş ---------- */
 #trn{position:fixed;inset:0;z-index:95;overflow:hidden;pointer-events:auto;touch-action:none}
 #trn .trbg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,#2350b0,#0b1a45 72%)}
-#trn .trt{position:absolute;background-image:url(img/tiles.webp);background-position:0% 100%;transform:rotate(var(--r));box-shadow:inset 0 0 0 1px rgba(108,82,38,.4),inset 0 2px 0 #fff,0 calc(var(--w)*.04) 0 #d0bd8e,0 calc(var(--w)*.065) 0 #9c8653,0 calc(var(--w)*.12) calc(var(--w)*.16) rgba(0,0,0,.5);will-change:transform}
+#trn .trt{position:absolute;background-image:url(img/tiles.webp?h=f6c41a9);background-position:0% 100%;transform:rotate(var(--r));box-shadow:inset 0 0 0 1px rgba(108,82,38,.4),inset 0 2px 0 #fff,0 calc(var(--w)*.04) 0 #d0bd8e,0 calc(var(--w)*.065) 0 #9c8653,0 calc(var(--w)*.12) calc(var(--w)*.16) rgba(0,0,0,.5);will-change:transform}
 /* giriş taşları: logolu joker taşları, aralarda düz beyaz taş */
 #trn .trt.w{background-position:16.667% 100%}
 body.ts-h #trn .trt.w{background-position:8.333% 100%}
@@ -1992,7 +1992,7 @@ body.ts-h #trn .trt.w{background-position:8.333% 100%}
 #modal:has(#mc.chmod),#modal:has(#mc.dkm){background:rgba(3,10,30,.6)}
 .orn4{position:absolute!important;inset:0;pointer-events:none;z-index:5!important;--cn:max(9vh,34px);
  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg transform=''%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fff6c8'/%3E%3Cstop offset='.3' stop-color='%23f7c844'/%3E%3Cstop offset='.62' stop-color='%23c4880f'/%3E%3Cstop offset='.82' stop-color='%23f3cf62'/%3E%3Cstop offset='1' stop-color='%23a86a08'/%3E%3C/linearGradient%3E%3CradialGradient id='j' cx='.38' cy='.32' r='.72'%3E%3Cstop offset='0' stop-color='%23e2f4ff'/%3E%3Cstop offset='.45' stop-color='%233b8dff'/%3E%3Cstop offset='1' stop-color='%230a2a7a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg fill='url(%23g)' stroke='%235e3404' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M5 96 V28 Q5 5 28 5 H96 L88 13 H30 Q13 13 13 30 V88 Z'/%3E%3Cpath d='M88 13 C104 4 126 8 131 23 C134 34 124 43 114 38 C106 34 109 24 117 26 C113 18 100 19 97 29 C94 41 108 50 122 44 C113 56 90 54 86 38 C84 29 88 19 96 15 Z'/%3E%3Cpath d='M13 88 C4 104 8 126 23 131 C34 134 43 124 38 114 C34 106 24 109 26 117 C18 113 19 100 29 97 C41 94 50 108 44 122 C56 113 54 90 38 86 C29 84 19 88 15 96 Z'/%3E%3Cpath d='M20 20 C40 23 56 35 63 54 C67 66 59 69 52 62 C40 50 28 38 20 20 Z'/%3E%3Cpath d='M30 44 C38 50 44 58 46 69 C37 65 31 57 30 44 Z'/%3E%3Cpath d='M44 30 C50 38 58 44 69 46 C65 37 57 31 44 30 Z'/%3E%3C/g%3E%3Cpath d='M24 24 C38 30 48 40 56 54' fill='none' stroke='%23fff3b0' stroke-opacity='.7' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='9.5' fill='url(%23g)' stroke='%235e3404' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='6.3' fill='url(%23j)' stroke='%2306205e' stroke-width='.6'/%3E%3Ccircle cx='22' cy='21.4' r='2' fill='%23fff' opacity='.9'/%3E%3C/g%3E%3C/svg%3E") left top/var(--cn) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg transform='translate(140 0) scale(-1 1)'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fff6c8'/%3E%3Cstop offset='.3' stop-color='%23f7c844'/%3E%3Cstop offset='.62' stop-color='%23c4880f'/%3E%3Cstop offset='.82' stop-color='%23f3cf62'/%3E%3Cstop offset='1' stop-color='%23a86a08'/%3E%3C/linearGradient%3E%3CradialGradient id='j' cx='.38' cy='.32' r='.72'%3E%3Cstop offset='0' stop-color='%23e2f4ff'/%3E%3Cstop offset='.45' stop-color='%233b8dff'/%3E%3Cstop offset='1' stop-color='%230a2a7a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg fill='url(%23g)' stroke='%235e3404' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M5 96 V28 Q5 5 28 5 H96 L88 13 H30 Q13 13 13 30 V88 Z'/%3E%3Cpath d='M88 13 C104 4 126 8 131 23 C134 34 124 43 114 38 C106 34 109 24 117 26 C113 18 100 19 97 29 C94 41 108 50 122 44 C113 56 90 54 86 38 C84 29 88 19 96 15 Z'/%3E%3Cpath d='M13 88 C4 104 8 126 23 131 C34 134 43 124 38 114 C34 106 24 109 26 117 C18 113 19 100 29 97 C41 94 50 108 44 122 C56 113 54 90 38 86 C29 84 19 88 15 96 Z'/%3E%3Cpath d='M20 20 C40 23 56 35 63 54 C67 66 59 69 52 62 C40 50 28 38 20 20 Z'/%3E%3Cpath d='M30 44 C38 50 44 58 46 69 C37 65 31 57 30 44 Z'/%3E%3Cpath d='M44 30 C50 38 58 44 69 46 C65 37 57 31 44 30 Z'/%3E%3C/g%3E%3Cpath d='M24 24 C38 30 48 40 56 54' fill='none' stroke='%23fff3b0' stroke-opacity='.7' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='9.5' fill='url(%23g)' stroke='%235e3404' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='6.3' fill='url(%23j)' stroke='%2306205e' stroke-width='.6'/%3E%3Ccircle cx='22' cy='21.4' r='2' fill='%23fff' opacity='.9'/%3E%3C/g%3E%3C/svg%3E") right top/var(--cn) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg transform='translate(0 140) scale(1 -1)'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fff6c8'/%3E%3Cstop offset='.3' stop-color='%23f7c844'/%3E%3Cstop offset='.62' stop-color='%23c4880f'/%3E%3Cstop offset='.82' stop-color='%23f3cf62'/%3E%3Cstop offset='1' stop-color='%23a86a08'/%3E%3C/linearGradient%3E%3CradialGradient id='j' cx='.38' cy='.32' r='.72'%3E%3Cstop offset='0' stop-color='%23e2f4ff'/%3E%3Cstop offset='.45' stop-color='%233b8dff'/%3E%3Cstop offset='1' stop-color='%230a2a7a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg fill='url(%23g)' stroke='%235e3404' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M5 96 V28 Q5 5 28 5 H96 L88 13 H30 Q13 13 13 30 V88 Z'/%3E%3Cpath d='M88 13 C104 4 126 8 131 23 C134 34 124 43 114 38 C106 34 109 24 117 26 C113 18 100 19 97 29 C94 41 108 50 122 44 C113 56 90 54 86 38 C84 29 88 19 96 15 Z'/%3E%3Cpath d='M13 88 C4 104 8 126 23 131 C34 134 43 124 38 114 C34 106 24 109 26 117 C18 113 19 100 29 97 C41 94 50 108 44 122 C56 113 54 90 38 86 C29 84 19 88 15 96 Z'/%3E%3Cpath d='M20 20 C40 23 56 35 63 54 C67 66 59 69 52 62 C40 50 28 38 20 20 Z'/%3E%3Cpath d='M30 44 C38 50 44 58 46 69 C37 65 31 57 30 44 Z'/%3E%3Cpath d='M44 30 C50 38 58 44 69 46 C65 37 57 31 44 30 Z'/%3E%3C/g%3E%3Cpath d='M24 24 C38 30 48 40 56 54' fill='none' stroke='%23fff3b0' stroke-opacity='.7' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='9.5' fill='url(%23g)' stroke='%235e3404' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='6.3' fill='url(%23j)' stroke='%2306205e' stroke-width='.6'/%3E%3Ccircle cx='22' cy='21.4' r='2' fill='%23fff' opacity='.9'/%3E%3C/g%3E%3C/svg%3E") left bottom/var(--cn) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cg transform='translate(140 140) scale(-1 -1)'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fff6c8'/%3E%3Cstop offset='.3' stop-color='%23f7c844'/%3E%3Cstop offset='.62' stop-color='%23c4880f'/%3E%3Cstop offset='.82' stop-color='%23f3cf62'/%3E%3Cstop offset='1' stop-color='%23a86a08'/%3E%3C/linearGradient%3E%3CradialGradient id='j' cx='.38' cy='.32' r='.72'%3E%3Cstop offset='0' stop-color='%23e2f4ff'/%3E%3Cstop offset='.45' stop-color='%233b8dff'/%3E%3Cstop offset='1' stop-color='%230a2a7a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg fill='url(%23g)' stroke='%235e3404' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M5 96 V28 Q5 5 28 5 H96 L88 13 H30 Q13 13 13 30 V88 Z'/%3E%3Cpath d='M88 13 C104 4 126 8 131 23 C134 34 124 43 114 38 C106 34 109 24 117 26 C113 18 100 19 97 29 C94 41 108 50 122 44 C113 56 90 54 86 38 C84 29 88 19 96 15 Z'/%3E%3Cpath d='M13 88 C4 104 8 126 23 131 C34 134 43 124 38 114 C34 106 24 109 26 117 C18 113 19 100 29 97 C41 94 50 108 44 122 C56 113 54 90 38 86 C29 84 19 88 15 96 Z'/%3E%3Cpath d='M20 20 C40 23 56 35 63 54 C67 66 59 69 52 62 C40 50 28 38 20 20 Z'/%3E%3Cpath d='M30 44 C38 50 44 58 46 69 C37 65 31 57 30 44 Z'/%3E%3Cpath d='M44 30 C50 38 58 44 69 46 C65 37 57 31 44 30 Z'/%3E%3C/g%3E%3Cpath d='M24 24 C38 30 48 40 56 54' fill='none' stroke='%23fff3b0' stroke-opacity='.7' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='9.5' fill='url(%23g)' stroke='%235e3404' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='6.3' fill='url(%23j)' stroke='%2306205e' stroke-width='.6'/%3E%3Ccircle cx='22' cy='21.4' r='2' fill='%23fff' opacity='.9'/%3E%3C/g%3E%3C/svg%3E") right bottom/var(--cn) no-repeat}
-.flw{position:absolute!important;bottom:4%;width:max(13vh,48px);aspect-ratio:141/274;background:url(img/ui/flowers.webp) center/contain no-repeat;pointer-events:none;z-index:2!important;filter:drop-shadow(0 .6vh .8vh rgba(0,0,0,.35))}
+.flw{position:absolute!important;bottom:4%;width:max(13vh,48px);aspect-ratio:141/274;background:url(img/ui/flowers.webp?h=fc272f9) center/contain no-repeat;pointer-events:none;z-index:2!important;filter:drop-shadow(0 .6vh .8vh rgba(0,0,0,.35))}
 .flw.l{left:-.4vh}.flw.r{right:-.4vh;transform:scaleX(-1)}
 #mc.chmod{width:min(78vw,720px)!important;min-height:min(86vh,560px);padding:2.4vh 4vh 2.6vh!important;justify-content:center}
 /* kanatlı başlık plakası */
@@ -2057,7 +2057,7 @@ img.cpile{display:block;object-fit:contain;object-position:50% 100%;filter:drop-
 .cpc img.cpile{width:max(10vh,40px);height:max(10vh,40px)}
 #mc .trophy img.cpile{width:18vh;height:18vh}
 #cfx{position:fixed;left:0;top:0;width:0;height:0;z-index:120;pointer-events:none}
-.cfly{position:absolute;background:url(img/coin/spin.webp) 0 0/600% 100% no-repeat;animation:cspin .4s steps(6) infinite;will-change:transform;filter:drop-shadow(0 .3vh .3vh rgba(60,30,0,.45))}
+.cfly{position:absolute;background:url(img/coin/spin.webp?h=850c25c) 0 0/600% 100% no-repeat;animation:cspin .4s steps(6) infinite;will-change:transform;filter:drop-shadow(0 .3vh .3vh rgba(60,30,0,.45))}
 @keyframes cspin{to{background-position:120% 0}}
 .cpulse{animation:cpul .28s cubic-bezier(.3,1.8,.5,1)}
 @keyframes cpul{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
@@ -2111,9 +2111,9 @@ body.lo #shop .cpk .cglow{animation:none}
 @keyframes kpOut{to{opacity:0;transform:scale(.7)}}
 body.noanim #kap *{animation:none!important}
 /* ===== v4.13 · taş tasarımı: aynı taş şekli/gölgesi, yalnızca yüz görseli değişir ===== */
-body.ts-o .t,body.ts-o #trn .trt,body.ts-o :is(.meld,.pl,#gMid,#mep,.msc,.rkp,.art,.mtl) .t{background-image:url(img/tiles_o.webp)}
-body.ts-h .t,body.ts-h #trn .trt{background-image:url(img/tiles_h.webp)}
-body.ts-h :is(.meld,.pl,#gMid,#mep,.msc,.rkp,.art,.mtl) .t{background-image:url(img/tiles_hs.webp)}
+body.ts-o .t,body.ts-o #trn .trt,body.ts-o :is(.meld,.pl,#gMid,#mep,.msc,.rkp,.art,.mtl) .t{background-image:url(img/tiles_o.webp?h=0e79ccd)}
+body.ts-h .t,body.ts-h #trn .trt{background-image:url(img/tiles_h.webp?h=37ad5dd)}
+body.ts-h :is(.meld,.pl,#gMid,#mep,.msc,.rkp,.art,.mtl) .t{background-image:url(img/tiles_hs.webp?h=c9d6da3)}
 /* işlenebilir taş halkası her tasarımın sembol yerine göre */
 body.ts-o .t.rk.isl::after{left:51%;top:79.9%;width:40%;background:radial-gradient(circle,#f6efd8 0 16%,#1aa45a 18% 58%,#0e7a3f 60% 68%,#f6efd8 70% 76%,#139a52 78%);box-shadow:0 0 .6vh rgba(30,200,110,.7)}
 body.ts-h .t.rk.isl::after{left:49.7%;top:78.75%;width:17.5%;background:radial-gradient(circle closest-side,#f6efd8 0 28%,#1fb862 33% 72%,#0e7a3f 77% 90%,rgba(14,122,63,0) 100%);box-shadow:0 0 .5vh rgba(30,200,110,.75),inset 0 .12vh .2vh rgba(0,0,0,.25)}
@@ -2125,15 +2125,15 @@ body.ts-h #deck .t.bk:not(.em){background-position:8.333% 100%!important}
 .msc.tsv .t{--w:max(7.4vh,30px)}
 .tss .itg.msg2{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* önizlemeler küçük kopyalardan (büyük sprite'ı çözmek kaydırmayı yavaşlatıyordu) */
-.tsv-d .t{background-image:url(img/tiles_s.webp)!important}
-.tsv-o .t{background-image:url(img/tiles_o.webp)!important}
-.tsv-h .t{background-image:url(img/tiles_hm.webp)!important}
+.tsv-d .t{background-image:url(img/tiles_s.webp?h=222aa5c)!important}
+.tsv-o .t{background-image:url(img/tiles_o.webp?h=0e79ccd)!important}
+.tsv-h .t{background-image:url(img/tiles_hm.webp?h=ea7b78c)!important}
 /* ===== v4.13 · Oyun Salonu + At Yarışı ===== */
 /* ana menü: yeni butonlar (yazı HTML, 4 dilde) */
-.b-salon .im{background-image:url(img/menu/salon.webp)}
+.b-salon .im{background-image:url(img/menu/salon.webp?h=79dfc1c)}
 .b-salon{--ar:1229/396;--lx:64%;--bw:46;--ly:46.5%;--fs:27;--ol:#0b3a8c;--si:10% 2% 12% 2%;--sd:2.7s}
 .b-salon .dot{right:calc(10*var(--u));top:calc(4*var(--u))}
-.b-kural .im{background-image:url(img/menu/kural2.webp)}
+.b-kural .im{background-image:url(img/menu/kural2.webp?h=14c66d7)}
 .b-kural{--ar:1262/374;--lx:64.5%;--bw:44;--ly:48%;--ol:#06607f}
 /* salon fişi */
 .fi{--fc:#e53935;display:inline-block;width:1em;height:1em;border-radius:50%;flex:none;vertical-align:-.15em;
@@ -2164,7 +2164,7 @@ body.ts-h #deck .t.bk:not(.em){background-position:8.333% 100%!important}
 .sl-c .sl-art{position:absolute;inset:0;background:center/cover no-repeat;z-index:0}
 .sl-c::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 38%,rgba(4,10,30,.88));z-index:1;pointer-events:none}
 .sl-c>*:not(.sl-art){position:relative;z-index:2}
-.sl-c.at .sl-art{background-image:url(img/salon/card_at2.webp)}
+.sl-c.at .sl-art{background-image:url(img/salon/card_at2.webp?h=4017a08)}
 .sl-c.at:active{transform:scale(.97)}
 @keyframes slSpin{to{rotate:360deg}}
 body.lo .sl-c .sl-art,body.noanim .sl-c .sl-art{animation:none}
@@ -2211,12 +2211,12 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 #hrs.on{animation:hrIn .34s ease-out both}#hrs.out{opacity:0;transition:opacity .24s ease-in}@keyframes hrIn{from{opacity:0}}
 #hrs .hr-view{position:absolute;left:0;right:0;top:0;height:80vh;overflow:hidden;background:#a8dcff}
 .hr-w{position:absolute;left:0;top:0;width:6747px;height:515px;transform-origin:0 0;will-change:transform}
-.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp) no-repeat;background-size:6747px 515px}
+.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp?h=06971dd) no-repeat;background-size:6747px 515px}
 .hr-bg.a{left:0;width:2249px;background-position:0 0}.hr-bg.b{left:2249px;width:2249px;background-position:-2249px 0}.hr-bg.c{left:4498px;width:2249px;background-position:-4498px 0}
 .hr-h{position:absolute;left:0;top:0;width:199.3px;height:150px;will-change:transform}
-.hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
+.hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp?h=5387235) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
 .hr-h.idl .hr-sp{display:none}
-.hr-id{position:absolute;left:0;bottom:0;width:100%;height:112.676%;background:url(img/salon/idle.webp) no-repeat;background-size:100% 600%;background-position:0 calc(var(--r)*20%);display:none;pointer-events:none}
+.hr-id{position:absolute;left:0;bottom:0;width:100%;height:112.676%;background:url(img/salon/idle.webp?h=2b221a1) no-repeat;background-size:100% 600%;background-position:0 calc(var(--r)*20%);display:none;pointer-events:none}
 .hr-h.idl .hr-id{display:block}
 /* v4.22 başlangıç kapısı · kapılar yarış başlayınca öne açılır, önlerinde toz kabarır */
 .hr-g3{position:absolute;left:0;top:0;width:760px;height:515px;overflow:visible;pointer-events:none}
@@ -2231,7 +2231,7 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 /* koşu karelerinde toynaklar ayak çizgisine (gölgeye) basar: satır başına kaydırma */
 #hrH0 .hr-sp{top:15.5px;bottom:-15.5px}#hrH1 .hr-sp{top:16.6px;bottom:-16.6px}#hrH2 .hr-sp{top:12.4px;bottom:-12.4px}
 #hrH3 .hr-sp{top:14.1px;bottom:-14.1px}#hrH4 .hr-sp{top:19.2px;bottom:-19.2px}#hrH5 .hr-sp{top:20.9px;bottom:-20.9px}
-.hr-fn{position:absolute;left:6450px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
+.hr-fn{position:absolute;left:6450px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp?h=3275436) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
 .hr-hi{display:flex;align-items:center;gap:.5vh;padding:.4vh .9vh;border-radius:99px;background:rgba(5,15,45,.6)}
 .hr-hi small{font-size:clamp(7px,2vh,10px);color:#cfe0ff;font-weight:800;margin-right:.3vh;white-space:nowrap}
 .hr-hi i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:3.4vh;height:3.4vh;min-width:13px;min-height:13px;border-radius:50%;background:var(--c);color:#fff;font-family:G,P;font-weight:900;font-size:clamp(7px,2vh,10px);box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.7)}
@@ -2286,7 +2286,7 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 @media (max-width:720px){.hr-hi small{display:none}.hr-hi i:nth-child(n+8){display:none}}
 #hrs.race .hc-f,#hrs.race .hc-fv{display:none}
 .hc-nm{font-family:G,P;font-weight:900;font-size:clamp(8px,2.5vh,13px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.hc-h{position:absolute;left:-4%;bottom:22%;width:60%;aspect-ratio:283/240;background:url(img/salon/idle.webp) 0 calc(var(--r)*20%)/100% 600% no-repeat;filter:drop-shadow(0 .3vh .3vh rgba(0,0,0,.45));pointer-events:none}
+.hc-h{position:absolute;left:-4%;bottom:22%;width:60%;aspect-ratio:283/240;background:url(img/salon/idle.webp?h=2b221a1) 0 calc(var(--r)*20%)/100% 600% no-repeat;filter:drop-shadow(0 .3vh .3vh rgba(0,0,0,.45));pointer-events:none}
 .hc-o{align-self:flex-end;text-align:right;display:flex;flex-direction:column;line-height:1.05;position:relative;z-index:1}
 .hc-o b{font-family:G,P;font-weight:900;font-size:clamp(11px,3.8vh,19px);color:#ffe27a;text-shadow:0 .25vh 0 #4a2600}
 .hc-o small{font-size:clamp(7px,2.1vh,11px);color:#cfe0ff;font-weight:800;text-shadow:0 .2vh 0 rgba(0,0,0,.5)}
@@ -2316,11 +2316,11 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 .hc{transition:transform .15s}
 /* ===== v4.13 · Salon Mağazası eşyaları, Öğelerim, unvan ===== */
 /* ıstakalar */
-body[data-rack=hipodrom] #rkb,.rkp i.hipodrom{border-image-source:url(img/rk_hipodrom.webp)}body[data-rack=hipodrom] .cap{--a:#3aa04c;--b:#1f7a36;--d:#0f4a22}
-body[data-rack=altinnal] #rkb,.rkp i.altinnal{border-image-source:url(img/rk_altinnal.webp)}body[data-rack=altinnal] .cap{--a:#f2c14a;--b:#b07812;--d:#6a4206}
-body[data-rack=cawres] #rkb,.rkp i.cawres{border-image-source:url(img/rk_cawres.webp)}body[data-rack=cawres] .cap{--a:#4a4a52;--b:#1c1c22;--d:#000}
+body[data-rack=hipodrom] #rkb,.rkp i.hipodrom{border-image-source:url(img/rk_hipodrom.webp?h=6a6eb52)}body[data-rack=hipodrom] .cap{--a:#3aa04c;--b:#1f7a36;--d:#0f4a22}
+body[data-rack=altinnal] #rkb,.rkp i.altinnal{border-image-source:url(img/rk_altinnal.webp?h=ac75f76)}body[data-rack=altinnal] .cap{--a:#f2c14a;--b:#b07812;--d:#6a4206}
+body[data-rack=cawres] #rkb,.rkp i.cawres{border-image-source:url(img/rk_cawres.webp?h=b7f32e6)}body[data-rack=cawres] .cap{--a:#4a4a52;--b:#1c1c22;--d:#000}
 /* çerçeveler */
-.fr-nal::before{background-image:url(img/frames/nal.webp)}.fr-kupa::before{background-image:url(img/frames/kupa.webp)}.fr-cawres::before{background-image:url(img/frames/cawres.webp)}
+.fr-nal::before{background-image:url(img/frames/nal.webp?h=01faf20)}.fr-kupa::before{background-image:url(img/frames/kupa.webp?h=c81e555)}.fr-cawres::before{background-image:url(img/frames/cawres.webp?h=0b1d9e6)}
 .fr-nal{--fx:.20;--fxr:.20;--ft:.26}.fr-kupa{--fx:.22;--fxr:.22;--ft:.25}.fr-cawres{--fx:.31;--fxr:.31;--ft:.26}
 /* sohbet balonları */
 .msg.bt-nal span{background:radial-gradient(circle at 12% 30%,rgba(255,255,255,.12) 0 3px,transparent 4px),linear-gradient(#3aa04c,#1f7a36)!important;color:#fff!important;box-shadow:inset 0 0 0 .3vh #f2c14a,inset 0 0 0 .55vh #1a5a2a,0 .3vh .6vh rgba(0,40,10,.35)!important}
@@ -2338,7 +2338,7 @@ body[data-rack=cawres] #rkb,.rkp i.cawres{border-image-source:url(img/rk_cawres.
 .ttp>span:last-child{min-width:0}.ttp.big{padding:1.6vh 2vh}.ttp.big .avb{--s:max(9vh,36px)}
 /* salon kartı */
 .sl-g{grid-template-columns:1.45fr 1fr .8fr!important}
-.sl-c.shp{background:#3a0a1a}.sl-c.shp .sl-art{background-image:url(img/salon/card_shop2.webp)}.sl-c.shp:active{transform:scale(.97)}
+.sl-c.shp{background:#3a0a1a}.sl-c.shp .sl-art{background-image:url(img/salon/card_shop2.webp?h=570f0c8)}.sl-c.shp:active{transform:scale(.97)}
 /* salon mağazası */
 #slsh .win-b{gap:1.6vh}
 .slg{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(30vh,150px),1fr));gap:1.6vh}
@@ -2390,11 +2390,11 @@ body[data-rack=cawres] #rkb,.rkp i.cawres{border-image-source:url(img/rk_cawres.
 .tierh .slcd{color:#c56a00!important;text-shadow:none}
 .sl-c.shp .sl-art{background-position:50% 30%}
 /* ===== v4.13 · liste önizlemelerinde küçük görseller (hızlı kaydırma) ===== */
-.rkp i{border-image-source:url(img/th/rk_maun.webp);border-image-slice:0 32 fill}
-.rkp i.abanoz{border-image-source:url(img/th/rk_abanoz.webp)}.rkp i.altin{border-image-source:url(img/th/rk_altin.webp)}.rkp i.altinnal{border-image-source:url(img/th/rk_altinnal.webp)}.rkp i.cawres{border-image-source:url(img/th/rk_cawres.webp)}.rkp i.ceviz{border-image-source:url(img/th/rk_ceviz.webp)}.rkp i.dokuma{border-image-source:url(img/th/rk_dokuma.webp)}.rkp i.ejder{border-image-source:url(img/th/rk_ejder.webp)}.rkp i.elmas{border-image-source:url(img/th/rk_elmas.webp)}.rkp i.gece{border-image-source:url(img/th/rk_gece.webp)}.rkp i.gul{border-image-source:url(img/th/rk_gul.webp)}.rkp i.hipodrom{border-image-source:url(img/th/rk_hipodrom.webp)}.rkp i.kozmos{border-image-source:url(img/th/rk_kozmos.webp)}.rkp i.kraliyet{border-image-source:url(img/th/rk_kraliyet.webp)}.rkp i.maun{border-image-source:url(img/th/rk_maun.webp)}.rkp i.mermer{border-image-source:url(img/th/rk_mermer.webp)}.rkp i.osmanli{border-image-source:url(img/th/rk_osmanli.webp)}.rkp i.sedef{border-image-source:url(img/th/rk_sedef.webp)}.rkp i.zumrut{border-image-source:url(img/th/rk_zumrut.webp)}
-#mc .rkp i,.rkp.big i{border-image-source:url(img/rk_maun.webp);border-image-slice:0 64 fill}
-#mc .rkp i.abanoz,.rkp.big i.abanoz{border-image-source:url(img/rk_abanoz.webp)}#mc .rkp i.altin,.rkp.big i.altin{border-image-source:url(img/rk_altin.webp)}#mc .rkp i.altinnal,.rkp.big i.altinnal{border-image-source:url(img/rk_altinnal.webp)}#mc .rkp i.cawres,.rkp.big i.cawres{border-image-source:url(img/rk_cawres.webp)}#mc .rkp i.ceviz,.rkp.big i.ceviz{border-image-source:url(img/rk_ceviz.webp)}#mc .rkp i.dokuma,.rkp.big i.dokuma{border-image-source:url(img/rk_dokuma.webp)}#mc .rkp i.ejder,.rkp.big i.ejder{border-image-source:url(img/rk_ejder.webp)}#mc .rkp i.elmas,.rkp.big i.elmas{border-image-source:url(img/rk_elmas.webp)}#mc .rkp i.gece,.rkp.big i.gece{border-image-source:url(img/rk_gece.webp)}#mc .rkp i.gul,.rkp.big i.gul{border-image-source:url(img/rk_gul.webp)}#mc .rkp i.hipodrom,.rkp.big i.hipodrom{border-image-source:url(img/rk_hipodrom.webp)}#mc .rkp i.kozmos,.rkp.big i.kozmos{border-image-source:url(img/rk_kozmos.webp)}#mc .rkp i.kraliyet,.rkp.big i.kraliyet{border-image-source:url(img/rk_kraliyet.webp)}#mc .rkp i.maun,.rkp.big i.maun{border-image-source:url(img/rk_maun.webp)}#mc .rkp i.mermer,.rkp.big i.mermer{border-image-source:url(img/rk_mermer.webp)}#mc .rkp i.osmanli,.rkp.big i.osmanli{border-image-source:url(img/rk_osmanli.webp)}#mc .rkp i.sedef,.rkp.big i.sedef{border-image-source:url(img/rk_sedef.webp)}#mc .rkp i.zumrut,.rkp.big i.zumrut{border-image-source:url(img/rk_zumrut.webp)}
-:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-altin::before{background-image:url(img/th/fr_altin.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ates::before{background-image:url(img/th/fr_ates.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-bronz::before{background-image:url(img/th/fr_bronz.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-buz::before{background-image:url(img/th/fr_buz.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-cawres::before{background-image:url(img/th/fr_cawres.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-efsane::before{background-image:url(img/th/fr_efsane.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-efsanelig::before{background-image:url(img/th/fr_efsanelig.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ejder1::before{background-image:url(img/th/fr_ejder1.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ejder2::before{background-image:url(img/th/fr_ejder2.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-elmas::before{background-image:url(img/th/fr_elmas.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-fatih::before{background-image:url(img/th/fr_fatih.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-galaksi1::before{background-image:url(img/th/fr_galaksi1.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-galaksi2::before{background-image:url(img/th/fr_galaksi2.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gece::before{background-image:url(img/th/fr_gece.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gerdanlik::before{background-image:url(img/th/fr_gerdanlik.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gezegen::before{background-image:url(img/th/fr_gezegen.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gumus::before{background-image:url(img/th/fr_gumus.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gunes1::before{background-image:url(img/th/fr_gunes1.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gunes2::before{background-image:url(img/th/fr_gunes2.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kilim::before{background-image:url(img/th/fr_kilim.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraken1::before{background-image:url(img/th/fr_kraken1.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraken2::before{background-image:url(img/th/fr_kraken2.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraltaci::before{background-image:url(img/th/fr_kraltaci.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kupa::before{background-image:url(img/th/fr_kupa.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-lale::before{background-image:url(img/th/fr_lale.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-mavirun::before{background-image:url(img/th/fr_mavirun.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-nal::before{background-image:url(img/th/fr_nal.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-nazar::before{background-image:url(img/th/fr_nazar.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-runkral::before{background-image:url(img/th/fr_runkral.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-safir::before{background-image:url(img/th/fr_safir.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-sovalye::before{background-image:url(img/th/fr_sovalye.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-sultan::before{background-image:url(img/th/fr_sultan.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-vipa::before{background-image:url(img/th/fr_vipa.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-vipe::before{background-image:url(img/th/fr_vipe.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-yakut::before{background-image:url(img/th/fr_yakut.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zaman::before{background-image:url(img/th/fr_zaman.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zumbahce::before{background-image:url(img/th/fr_zumbahce.webp)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zumrut::before{background-image:url(img/th/fr_zumrut.webp)}
+.rkp i{border-image-source:url(img/th/rk_maun.webp?h=b335d77);border-image-slice:0 32 fill}
+.rkp i.abanoz{border-image-source:url(img/th/rk_abanoz.webp?h=54cc63d)}.rkp i.altin{border-image-source:url(img/th/rk_altin.webp?h=b4c0b17)}.rkp i.altinnal{border-image-source:url(img/th/rk_altinnal.webp?h=1c6783d)}.rkp i.cawres{border-image-source:url(img/th/rk_cawres.webp?h=7018b27)}.rkp i.ceviz{border-image-source:url(img/th/rk_ceviz.webp?h=dd3ab68)}.rkp i.dokuma{border-image-source:url(img/th/rk_dokuma.webp?h=52fc751)}.rkp i.ejder{border-image-source:url(img/th/rk_ejder.webp?h=a2c614a)}.rkp i.elmas{border-image-source:url(img/th/rk_elmas.webp?h=4ebe161)}.rkp i.gece{border-image-source:url(img/th/rk_gece.webp?h=b1ac0b0)}.rkp i.gul{border-image-source:url(img/th/rk_gul.webp?h=9d5caf8)}.rkp i.hipodrom{border-image-source:url(img/th/rk_hipodrom.webp?h=3336f46)}.rkp i.kozmos{border-image-source:url(img/th/rk_kozmos.webp?h=0787fa0)}.rkp i.kraliyet{border-image-source:url(img/th/rk_kraliyet.webp?h=a3715e6)}.rkp i.maun{border-image-source:url(img/th/rk_maun.webp?h=b335d77)}.rkp i.mermer{border-image-source:url(img/th/rk_mermer.webp?h=0fa0ecc)}.rkp i.osmanli{border-image-source:url(img/th/rk_osmanli.webp?h=1d5d22a)}.rkp i.sedef{border-image-source:url(img/th/rk_sedef.webp?h=9d6ebe0)}.rkp i.zumrut{border-image-source:url(img/th/rk_zumrut.webp?h=a8c1fda)}
+#mc .rkp i,.rkp.big i{border-image-source:url(img/rk_maun.webp?h=19a8150);border-image-slice:0 64 fill}
+#mc .rkp i.abanoz,.rkp.big i.abanoz{border-image-source:url(img/rk_abanoz.webp?h=308ae5d)}#mc .rkp i.altin,.rkp.big i.altin{border-image-source:url(img/rk_altin.webp?h=5156b13)}#mc .rkp i.altinnal,.rkp.big i.altinnal{border-image-source:url(img/rk_altinnal.webp?h=ac75f76)}#mc .rkp i.cawres,.rkp.big i.cawres{border-image-source:url(img/rk_cawres.webp?h=b7f32e6)}#mc .rkp i.ceviz,.rkp.big i.ceviz{border-image-source:url(img/rk_ceviz.webp?h=cf43ca4)}#mc .rkp i.dokuma,.rkp.big i.dokuma{border-image-source:url(img/rk_dokuma.webp?h=f862728)}#mc .rkp i.ejder,.rkp.big i.ejder{border-image-source:url(img/rk_ejder.webp?h=bfe32d6)}#mc .rkp i.elmas,.rkp.big i.elmas{border-image-source:url(img/rk_elmas.webp?h=05de1a1)}#mc .rkp i.gece,.rkp.big i.gece{border-image-source:url(img/rk_gece.webp?h=773bfd8)}#mc .rkp i.gul,.rkp.big i.gul{border-image-source:url(img/rk_gul.webp?h=5350098)}#mc .rkp i.hipodrom,.rkp.big i.hipodrom{border-image-source:url(img/rk_hipodrom.webp?h=6a6eb52)}#mc .rkp i.kozmos,.rkp.big i.kozmos{border-image-source:url(img/rk_kozmos.webp?h=ad93ed4)}#mc .rkp i.kraliyet,.rkp.big i.kraliyet{border-image-source:url(img/rk_kraliyet.webp?h=b38ae60)}#mc .rkp i.maun,.rkp.big i.maun{border-image-source:url(img/rk_maun.webp?h=19a8150)}#mc .rkp i.mermer,.rkp.big i.mermer{border-image-source:url(img/rk_mermer.webp?h=d1e8d54)}#mc .rkp i.osmanli,.rkp.big i.osmanli{border-image-source:url(img/rk_osmanli.webp?h=5c9b989)}#mc .rkp i.sedef,.rkp.big i.sedef{border-image-source:url(img/rk_sedef.webp?h=7867e8a)}#mc .rkp i.zumrut,.rkp.big i.zumrut{border-image-source:url(img/rk_zumrut.webp?h=8ecc480)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-altin::before{background-image:url(img/th/fr_altin.webp?h=cf98fdf)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ates::before{background-image:url(img/th/fr_ates.webp?h=1655dec)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-bronz::before{background-image:url(img/th/fr_bronz.webp?h=e543c7d)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-buz::before{background-image:url(img/th/fr_buz.webp?h=67bbb01)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-cawres::before{background-image:url(img/th/fr_cawres.webp?h=51fa4b1)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-efsane::before{background-image:url(img/th/fr_efsane.webp?h=20fbb59)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-efsanelig::before{background-image:url(img/th/fr_efsanelig.webp?h=b8f2a4c)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ejder1::before{background-image:url(img/th/fr_ejder1.webp?h=2bcdc38)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-ejder2::before{background-image:url(img/th/fr_ejder2.webp?h=7516fa9)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-elmas::before{background-image:url(img/th/fr_elmas.webp?h=92b9153)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-fatih::before{background-image:url(img/th/fr_fatih.webp?h=b259796)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-galaksi1::before{background-image:url(img/th/fr_galaksi1.webp?h=5249805)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-galaksi2::before{background-image:url(img/th/fr_galaksi2.webp?h=eb5fe03)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gece::before{background-image:url(img/th/fr_gece.webp?h=12cc994)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gerdanlik::before{background-image:url(img/th/fr_gerdanlik.webp?h=fd90db6)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gezegen::before{background-image:url(img/th/fr_gezegen.webp?h=a2a274a)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gumus::before{background-image:url(img/th/fr_gumus.webp?h=92479a5)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gunes1::before{background-image:url(img/th/fr_gunes1.webp?h=4a00e14)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-gunes2::before{background-image:url(img/th/fr_gunes2.webp?h=9209623)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kilim::before{background-image:url(img/th/fr_kilim.webp?h=910e968)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraken1::before{background-image:url(img/th/fr_kraken1.webp?h=5bd1ff9)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraken2::before{background-image:url(img/th/fr_kraken2.webp?h=9eeb6b6)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kraltaci::before{background-image:url(img/th/fr_kraltaci.webp?h=7f34e92)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-kupa::before{background-image:url(img/th/fr_kupa.webp?h=6dfe328)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-lale::before{background-image:url(img/th/fr_lale.webp?h=9304c93)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-mavirun::before{background-image:url(img/th/fr_mavirun.webp?h=29902f3)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-nal::before{background-image:url(img/th/fr_nal.webp?h=0772906)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-nazar::before{background-image:url(img/th/fr_nazar.webp?h=38af9b4)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-runkral::before{background-image:url(img/th/fr_runkral.webp?h=ef9ea1c)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-safir::before{background-image:url(img/th/fr_safir.webp?h=1a18d4a)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-sovalye::before{background-image:url(img/th/fr_sovalye.webp?h=61fca30)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-sultan::before{background-image:url(img/th/fr_sultan.webp?h=bb5178b)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-vipa::before{background-image:url(img/th/fr_vipa.webp?h=4b5c291)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-vipe::before{background-image:url(img/th/fr_vipe.webp?h=ef388d6)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-yakut::before{background-image:url(img/th/fr_yakut.webp?h=d1a995b)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zaman::before{background-image:url(img/th/fr_zaman.webp?h=36f3b8a)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zumbahce::before{background-image:url(img/th/fr_zumbahce.webp?h=bfde60d)}:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-zumrut::before{background-image:url(img/th/fr_zumrut.webp?h=29c7749)}
 /* ===== v4.13 · akıcılık + sade Salon Mağazası ===== */
 /* tam ekran pencere açıkken alttaki ana menünün sürekli animasyonları durur (görünmüyorlar, boşuna çizilmesin) */
 body.ovon #menu.on *,body.ovon #menu.on *::before,body.ovon #menu.on *::after,body.ovon #menu.on::before,body.ovon #menu.on::after{animation-play-state:paused!important}
@@ -2477,7 +2477,7 @@ body.noanim .ovl.cls,body.noanim #modal.cls{display:none!important}
 .vb3.c-gd .vsh::after{left:0!important;animation-name:vsh2!important;will-change:transform}
 .mb2::after{will-change:transform}
 /* Oyna ekranı arka planı: tam ekran bulanıklık filtresi yerine önceden bulanıklaştırılmış görsel (görünüm aynı) */
-#setup .su2-bg{background-image:url(img/bg_su.webp)!important;filter:none!important}
+#setup .su2-bg{background-image:url(img/bg_su.webp?h=ee95927)!important;filter:none!important}
 /* sohbet penceresi: arkası hareketli olduğundan her karede bulanıklık hesaplanıyordu → aynı renk, biraz daha opak, filtresiz */
 .chwin{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(238,248,255,.94)!important}
 /* rozet gölgesi ve parıltısı: filtre yerine degrade (çok daha ucuz) */
@@ -2494,7 +2494,7 @@ body.noanim .ovl.cls,body.noanim #modal.cls{display:none!important}
 @keyframes bspA{0%,100%{opacity:0}50%{opacity:1}}
 body.noanim .bdm .bsh,body.noanim .bdm .bsp{display:none}
 /* ===== v4.14 · LİG ===== */
-.b-kat.b-lig .im{background-image:url(img/menu/lig.webp)}
+.b-kat.b-lig .im{background-image:url(img/menu/lig.webp?h=57f9d4b)}
 .b-lig .dot{right:calc(8*var(--u));top:calc(2*var(--u))}
 /* lig renkleri */
 .lgc0{--c1:#ffbf8a;--c2:#7a3d14;--g:rgba(255,150,80,.42)}
@@ -2603,16 +2603,16 @@ body.noanim .bdm .bsh,body.noanim .bdm .bsp{display:none}
 .lgwarn{display:flex;align-items:center;justify-content:center;gap:.6vh;margin:.4vh 0 0;font-size:clamp(9px,2.4vh,12px);font-weight:800;color:#ff8a7a}.lgwarn .sv{width:1.2em;height:1.2em;flex:none}
 body.noanim .lgem img,body.noanim .lgglow,body.noanim .lgh.in *,body.noanim .lgr *{animation:none!important}
 /* Efsane Lig çerçevesi */
-.fr-efsanelig::before{background-image:url(img/frames/efsanelig.webp)}
+.fr-efsanelig::before{background-image:url(img/frames/efsanelig.webp?h=fe27673)}
 .fr-efsanelig{--fx:.24;--fxr:.24;--ft:.3}
 @media (max-width:700px){.lgh{flex-basis:40%}.lgseg button span{display:none}}
 .ogs.lg{background:linear-gradient(#c58cff,#5a1fb0)}
 /* ===== v4.16 · ana menü: 5 buton yeni çizim (yüksek çözünürlük), alt taban katmanı inceltildi, eşit aralıklı simetrik dizilim ===== */
-#mimg .b-esli .im{background-image:url(img/menu/esli4.webp)}
-#mimg .b-lig .im{background-image:url(img/menu/lig4.webp)}
-#mimg .b-shop .im{background-image:url(img/menu/shop4.webp)}
-#mimg .b-salon .im{background-image:url(img/menu/salon4.webp)}
-#mimg .b-kural .im{background-image:url(img/menu/kural4.webp)}
+#mimg .b-esli .im{background-image:url(img/menu/esli4.webp?h=ce0846c)}
+#mimg .b-lig .im{background-image:url(img/menu/lig4.webp?h=9e89bba)}
+#mimg .b-shop .im{background-image:url(img/menu/shop4.webp?h=5b63466)}
+#mimg .b-salon .im{background-image:url(img/menu/salon4.webp?h=5ef89ce)}
+#mimg .b-kural .im{background-image:url(img/menu/kural4.webp?h=43533e9)}
 #mimg .b-esli{--ar:1064/736;--lx:54.4%;--ly:76.4%;--bw:50;--fs:31;--ol:#0b4d1f;--si:24.4% 3% 4.5% 3%}
 #mimg .b-lig{--ar:1066/614;--lx:54.5%;--ly:73%;--bw:54;--fs:31;--ol:#3c1477;--si:8.2% 2% 5.2% 2%}
 #mimg .b-shop{--ar:1156/577;--lx:52.2%;--ly:69.8%;--bw:50;--fs:31;--ol:#0b3a7a;--si:6.1% 2% 6.1% 2%}
@@ -2718,21 +2718,21 @@ body.web .vb3.c-rd{display:none!important}
 #mc:not(.chmod):not(.dkm):not(.hend){box-shadow:0 3vh 6vh rgba(0,20,60,.5)!important}
 /* çerçeve (dokuz dilimli): köşelerde altın filigran */
 .win::before{content:'';position:absolute;inset:-1.15vh;z-index:8;pointer-events:none;background:none!important;
- border:solid transparent;border-width:var(--fw);border-image:url(img/ui/frame.webp) 190/var(--fw)/0 stretch}
+ border:solid transparent;border-width:var(--fw);border-image:url(img/ui/frame.webp?h=87a9509) 190/var(--fw)/0 stretch}
 .orn4,#mc.hend::after,#mc:not(.chmod):not(.dkm):not(.hend)::after{content:'';position:absolute;inset:0;z-index:8;pointer-events:none;background:none!important;
- border:solid transparent;border-width:calc(var(--fw)*.62);border-image:url(img/ui/frame.webp) 190/calc(var(--fw)*.62)/0 stretch;--cn:0}
+ border:solid transparent;border-width:calc(var(--fw)*.62);border-image:url(img/ui/frame.webp?h=87a9509) 190/calc(var(--fw)*.62)/0 stretch;--cn:0}
 #mc.hend,#mc:not(.chmod):not(.dkm):not(.hend){position:relative}
 /* dalga deseni: alt köşelerde yumuşak dalgalar (eski çizgi ve yıldız deseni kalktı) */
-.win>.win-b::before{background:url(img/ui/wave_l.webp) left bottom/var(--wvw) auto no-repeat,url(img/ui/wave_r.webp) right bottom/var(--wvw) auto no-repeat!important}
-#mc.chmod::after,#mc.dkm::after{background:url(img/ui/wave_l.webp) left bottom/26vh auto no-repeat,url(img/ui/wave_r.webp) right bottom/26vh auto no-repeat!important}
+.win>.win-b::before{background:url(img/ui/wave_l.webp?h=16cc93a) left bottom/var(--wvw) auto no-repeat,url(img/ui/wave_r.webp?h=f5c6496) right bottom/var(--wvw) auto no-repeat!important}
+#mc.chmod::after,#mc.dkm::after{background:url(img/ui/wave_l.webp?h=16cc93a) left bottom/26vh auto no-repeat,url(img/ui/wave_r.webp?h=f5c6496) right bottom/26vh auto no-repeat!important}
 /* kanatlı başlık levhası: levha ::after, kanatlar ::before (kanatlar levhanın arkasında, çerçevenin önünde) */
 .win-h h2,#mc .dxt,#mc.dkm>h3{--ph:max(7.6vh,29px);height:var(--ph)!important;padding:0 calc(var(--ph)*.5)!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;isolation:isolate;z-index:9}
 #mc .dxt,#mc.dkm>h3{--ph:max(7.2vh,28px);position:relative;z-index:1;margin-bottom:calc(var(--ph)*.35)}
 .win-h h2{top:.45vh!important}
 .win-h h2::before,#mc .dxt::before,#mc.dkm>h3::before{content:'';position:absolute;left:calc(var(--ph)*-.864);right:calc(var(--ph)*-.864);top:calc(var(--ph)*-.237);bottom:auto;width:auto;height:calc(var(--ph)*1.18);translate:none;aspect-ratio:auto;z-index:-1;pointer-events:none;
- background:url(img/ui/wing_l.webp) left center/auto 100% no-repeat,url(img/ui/wing_r.webp) right center/auto 100% no-repeat!important;filter:drop-shadow(0 .35vh .5vh rgba(0,0,0,.42));box-shadow:none!important;border-radius:0!important}
+ background:url(img/ui/wing_l.webp?h=30f2e66) left center/auto 100% no-repeat,url(img/ui/wing_r.webp?h=19abbd7) right center/auto 100% no-repeat!important;filter:drop-shadow(0 .35vh .5vh rgba(0,0,0,.42));box-shadow:none!important;border-radius:0!important}
 .win-h h2::after,#mc .dxt::after,#mc.dkm>h3::after{content:'';position:absolute;left:calc(var(--ph)*-.4);right:calc(var(--ph)*-.4);top:0;bottom:auto;width:auto;height:var(--ph);translate:none;aspect-ratio:auto;z-index:-1;pointer-events:none;filter:none;
- border:solid transparent;border-width:0 calc(var(--ph)*.593);border-image:url(img/ui/plate.webp) 0 140 0 140 fill/0 calc(var(--ph)*.593) 0 stretch;background:none!important;box-shadow:none!important;border-radius:0!important}
+ border:solid transparent;border-width:0 calc(var(--ph)*.593);border-image:url(img/ui/plate.webp?h=f49215a) 0 140 0 140 fill/0 calc(var(--ph)*.593) 0 stretch;background:none!important;box-shadow:none!important;border-radius:0!important}
 /* ---- maç sonu başlığı: kurdalesiz, çizgili/elmaslı sade başlık ---- */
 .he-hd{--tc:#ffd34d;--t1:#fff4c2;--t2:#ffd34d;--t3:#e0961a;height:max(12vh,46px)}
 .he-hd.hl{--tc:#8fb5ff;--t1:#f2f7ff;--t2:#b4ccff;--t3:#6f94e0}
@@ -2758,18 +2758,18 @@ body.web .vb3.c-rd{display:none!important}
 .dxn::before,#mc.chmod .dxp::before{right:100%;margin-right:.6vh}
 .dxn::after,#mc.chmod .dxp::after{left:100%;margin-left:.6vh;background:linear-gradient(90deg,#ffd34d,transparent)!important}
 /* ---- v4.19 · ana menü küçük düğmeleri: kullanıcının cam-kare düğme görselleri + kendi sembolleri ---- */
-.vb3{background:var(--tile) center/100% 100% no-repeat!important;box-shadow:0 calc(3*var(--u)) calc(7*var(--u)) rgba(0,0,0,.32)!important;border-radius:26%;--tile:url(img/menu/tile_bl.webp)}
+.vb3{background:var(--tile) center/100% 100% no-repeat!important;box-shadow:0 calc(3*var(--u)) calc(7*var(--u)) rgba(0,0,0,.32)!important;border-radius:26%;--tile:url(img/menu/tile_bl.webp?h=c29c73c)}
 .vb3::before{display:none!important}
 .vb3 .sv{display:none!important}
 .vb3::after{content:'';position:absolute;inset:0;background:var(--gi) center/var(--gs,52%) auto no-repeat;filter:drop-shadow(0 calc(2.5*var(--u)) calc(1.5*var(--u)) rgba(0,30,80,.45));pointer-events:none;z-index:1}
-.vb3.c-gr{--tile:url(img/menu/tile_gr.webp)}.vb3.c-or{--tile:url(img/menu/tile_or.webp)}.vb3.c-pu{--tile:url(img/menu/tile_pu.webp)}.vb3.c-gd{--tile:url(img/menu/tile_gd.webp)}
-.vb3[onclick^="tasks"]{--gi:url(img/menu/g_tasks.webp);--gs:40%}
-.vb3[onclick^="gift"]{--gi:url(img/menu/g_gift.webp);--gs:48%}
-.vb3[onclick^="openSett"]{--gi:url(img/menu/g_gear.webp);--gs:48%}
-.vb3[onclick^="openFriends"]{--gi:url(img/menu/g_friends.webp);--gs:56%}
-.vb3[onclick^="openChat"]{--gi:url(img/menu/g_chat.webp);--gs:52%}
-.vb3[onclick^="wheelM"]{--gi:url(img/menu/g_wheel.webp);--gs:52%}
-.vb3.c-rd{--tile:url(img/menu/exit.webp)}
+.vb3.c-gr{--tile:url(img/menu/tile_gr.webp?h=865aa70)}.vb3.c-or{--tile:url(img/menu/tile_or.webp?h=f4130be)}.vb3.c-pu{--tile:url(img/menu/tile_pu.webp?h=7520e29)}.vb3.c-gd{--tile:url(img/menu/tile_gd.webp?h=6ddbd70)}
+.vb3[onclick^="tasks"]{--gi:url(img/menu/g_tasks.webp?h=e676a06);--gs:40%}
+.vb3[onclick^="gift"]{--gi:url(img/menu/g_gift.webp?h=4e2c5f9);--gs:48%}
+.vb3[onclick^="openSett"]{--gi:url(img/menu/g_gear.webp?h=41c090e);--gs:48%}
+.vb3[onclick^="openFriends"]{--gi:url(img/menu/g_friends.webp?h=727c972);--gs:56%}
+.vb3[onclick^="openChat"]{--gi:url(img/menu/g_chat.webp?h=5e532bc);--gs:52%}
+.vb3[onclick^="wheelM"]{--gi:url(img/menu/g_wheel.webp?h=c9a3f26);--gs:52%}
+.vb3.c-rd{--tile:url(img/menu/exit.webp?h=d96f558)}
 .vb3.c-rd::after{display:none}
 .vb3.c-gd::after{background:none;content:'VIP';display:flex;align-items:center;justify-content:center;font-family:G,P,sans-serif;font-weight:900;font-size:calc(31*var(--u));letter-spacing:.02em;color:#fffbe8;text-shadow:0 calc(3*var(--u)) 0 #8a5200,0 0 calc(2*var(--u)) #8a5200;filter:none}
 .vb3.c-gd.on{filter:none}
@@ -2779,7 +2779,7 @@ body.web .vb3.c-rd{display:none!important}
 .xbtn{box-shadow:0 0 0 .3vh #fff,0 .6vh 1vh rgba(0,30,80,.35)}
 .gbtn{box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.4),inset 0 -.35vh 0 rgba(0,0,0,.12),0 .28vh 0 var(--d),0 .8vh 1.1vh rgba(0,30,80,.26)}
 /* ---- at bahis kartı: at portreleri ---- */
-.hc-h{left:3%!important;bottom:auto!important;top:17%;width:40%!important;aspect-ratio:240/252!important;background:url(img/salon/hp_all.webp) calc(var(--r)*20%) 0/600% 100% no-repeat!important;border-radius:1vh;filter:none!important;box-shadow:0 .3vh .8vh rgba(0,0,0,.5)}
+.hc-h{left:3%!important;bottom:auto!important;top:17%;width:40%!important;aspect-ratio:240/252!important;background:url(img/salon/hp_all.webp?h=b7f8e6b) calc(var(--r)*20%) 0/600% 100% no-repeat!important;border-radius:1vh;filter:none!important;box-shadow:0 .3vh .8vh rgba(0,0,0,.5)}
 /* ---- salon alt satırı köşe süslerine girmesin ---- */
 .sl-ft{padding:0 max(3.6vh,16px) max(.6vh,2px)}
 /* ---- ızgara: bir kare = bir taş ---- */
@@ -2787,9 +2787,9 @@ body.web .vb3.c-rd{display:none!important}
 /* ---- v4.20 · VIP giriş şeridi: orijinal galaksi/altın zemin, kristal köşeler kırpıldı; hafif saydam, soldan ortaya kayar, sağa çıkar ---- */
 @keyframes vfxSlide{0%{transform:translateX(-118vw);opacity:0;animation-timing-function:cubic-bezier(.16,.84,.3,1)}8%{opacity:.92}20%{transform:translateX(0);opacity:.92}78%{transform:translateX(0);opacity:.92;animation-timing-function:cubic-bezier(.55,0,.85,.35)}100%{transform:translateX(118vw);opacity:0}}
 .vfx{aspect-ratio:950/171!important;width:min(56vw,460px)!important;top:6vh!important;animation:vfxSlide 3.4s both!important}
-.vfx .vfb{background:url(img/vip/bn_a2.webp) center/100% 100% no-repeat!important;border:0!important;border-radius:calc(min(56vw,460px)*171/950/5);padding:0 21% 0 2.4%!important;gap:3%!important;
+.vfx .vfb{background:url(img/vip/bn_a2.webp?h=d236f22) center/100% 100% no-repeat!important;border:0!important;border-radius:calc(min(56vw,460px)*171/950/5);padding:0 21% 0 2.4%!important;gap:3%!important;
  box-shadow:inset 0 0 0 max(.22vh,1px) rgba(255,214,110,.75),0 .8vh 1.8vh rgba(0,0,0,.45)!important;filter:none!important;overflow:hidden!important}
-.vfx.e .vfb{background-image:url(img/vip/bn_e2.webp)!important;box-shadow:inset 0 0 0 max(.22vh,1px) rgba(170,225,255,.8),0 .8vh 1.8vh rgba(0,0,0,.45)!important}
+.vfx.e .vfb{background-image:url(img/vip/bn_e2.webp?h=ba772e1)!important;box-shadow:inset 0 0 0 max(.22vh,1px) rgba(170,225,255,.8),0 .8vh 1.8vh rgba(0,0,0,.45)!important}
 .vfx .vfb::before{display:none!important;content:none!important}
 .vfx .vfa .avb{--s:min(10.5vh,52px)!important}
 .vfx .vsp{display:none!important}
@@ -2836,13 +2836,13 @@ body.web .vb3.c-rd{display:none!important}
 .win::before,.orn4,#mc.hend::after,#mc:not(.chmod):not(.dkm):not(.hend)::after{border:0!important;border-image:none!important;
  box-shadow:inset 0 0 0 calc(var(--bw)*.1) #4a2a05,inset 0 0 calc(var(--bw)*.12) calc(var(--bw)*.22) #c48a32,inset 0 0 0 calc(var(--bw)*.36) #fbe6a6,inset 0 0 0 calc(var(--bw)*.58) #ffd876,inset 0 0 0 calc(var(--bw)*.78) #eeb954,inset 0 0 0 calc(var(--bw)*.92) #b27628,inset 0 0 0 var(--bw) #5a370c!important}
 .win::before{inset:calc(var(--bw)*-.55)!important;border-radius:calc(var(--bw)*1.5)!important;
- background:url(img/ui/orn_tl.webp) left var(--bw) top var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_tr.webp) right var(--bw) top var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_bl.webp) left var(--bw) bottom var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_br.webp) right var(--bw) bottom var(--bw)/var(--os) var(--os) no-repeat!important}
+ background:url(img/ui/orn_tl.webp?h=82bd08f) left var(--bw) top var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_tr.webp?h=94a02f7) right var(--bw) top var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_bl.webp?h=68f6a70) left var(--bw) bottom var(--bw)/var(--os) var(--os) no-repeat,url(img/ui/orn_br.webp?h=b52e804) right var(--bw) bottom var(--bw)/var(--os) var(--os) no-repeat!important}
 .win{border-radius:calc(var(--bw)*.9)!important}
 .orn4,#mc.hend::after,#mc:not(.chmod):not(.dkm):not(.hend)::after{inset:0!important;border-radius:inherit!important;
- background:url(img/ui/orn_tl.webp) left var(--bw) top var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_tr.webp) right var(--bw) top var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_bl.webp) left var(--bw) bottom var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_br.webp) right var(--bw) bottom var(--bw)/var(--os2) var(--os2) no-repeat!important}
+ background:url(img/ui/orn_tl.webp?h=82bd08f) left var(--bw) top var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_tr.webp?h=94a02f7) right var(--bw) top var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_bl.webp?h=68f6a70) left var(--bw) bottom var(--bw)/var(--os2) var(--os2) no-repeat,url(img/ui/orn_br.webp?h=b52e804) right var(--bw) bottom var(--bw)/var(--os2) var(--os2) no-repeat!important}
 /* başlık levhası: uçlar + orta şerit üst üste (ince açık çizgi/dikiş yok) */
 .win-h h2::after,#mc .dxt::after,#mc.dkm>h3::after{border:0!important;border-image:none!important;
- background:url(img/ui/plate_l.webp) left center/auto 100% no-repeat,url(img/ui/plate_r.webp) right center/auto 100% no-repeat,url(img/ui/plate_m.webp) center center/calc(100% - var(--ph)*1.288 + 6px) 100% no-repeat!important}
+ background:url(img/ui/plate_l.webp?h=44182ae) left center/auto 100% no-repeat,url(img/ui/plate_r.webp?h=689bb82) right center/auto 100% no-repeat,url(img/ui/plate_m.webp?h=7d0e554) center center/calc(100% - var(--ph)*1.288 + 6px) 100% no-repeat!important}
 /* kanatlar levhaya bitişik (arkasında) kalır; taşan uçlar için levha biraz aşağı alınır → uçlar çerçeve bandının arkasında gizlenir */
 .win-h h2{top:calc(var(--ph)*.237 - var(--bw)*.5)!important}
 /* kapat düğmesi: çerçevenin üstünde, sağ üst köşede (süsün altında kalmaz) */
@@ -2855,7 +2855,7 @@ body.web .vb3.c-rd{display:none!important}
 #chat .chm{padding-right:calc(var(--os)*.2)}
 .wsc{padding-bottom:calc(var(--os)*.42)!important;scroll-padding-bottom:calc(var(--os)*.42);-webkit-mask-image:linear-gradient(#000 calc(100% - max(3vh,12px)),rgba(0,0,0,.08));mask-image:linear-gradient(#000 calc(100% - max(3vh,12px)),rgba(0,0,0,.08))}
 /* v4.20: akşam/gece saatlerinde gün batımı manzarası */
-body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp)!important}
+body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp?h=092148e)!important}
 /* ===== v4.22 · LİG yeni görünüm (pencere sabit, hiçbir şey kaymaz) ===== */
 #lig .win-b.lgb.lz{display:flex;flex-direction:column;gap:1.2vh;overflow:hidden;padding:1.4vh 1.8vh 1.8vh}
 .lz *{box-sizing:border-box}
@@ -3097,7 +3097,7 @@ body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp)!important}
 .hb-pf{margin:.4vh auto 0;padding:.3vh 1.6vh;border-radius:99px;background:#fff3b0;color:#5a3200;font-family:G,P;font-weight:900;font-size:clamp(9px,2.2vh,12px);width:max-content}
 /* ===== v4.22 · ÖDÜLLER penceresi (sandık · çark · görevler) ===== */
 #mimg .vb3[onclick^="tasks"],#mimg #wbtn{display:none!important}
-#mimg .vb3.rwb{--gi:url(img/menu/g_gift.webp);--gs:48%}
+#mimg .vb3.rwb{--gi:url(img/menu/g_gift.webp?h=4e2c5f9);--gs:48%}
 #mimg .vb3 .dot.num{right:calc(-12*var(--u));top:calc(-12*var(--u));width:auto;min-width:calc(36*var(--u));height:calc(36*var(--u));padding:0 calc(8*var(--u));border-radius:99px;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:G,P;font-weight:900;font-size:calc(22*var(--u));line-height:1;color:#fff;box-shadow:0 0 0 calc(4*var(--u)) #fff,0 calc(3*var(--u)) calc(6*var(--u)) rgba(0,0,0,.35);box-sizing:border-box}
 /* sekmeler (başlığın yerinde) */
 .rwtabs{flex:none;align-self:center;display:flex;gap:.6vh;padding:.5vh;margin:0 0 .4vh;border-radius:99px;background:rgba(5,14,40,.6);box-shadow:inset 0 0 0 .22vh rgba(255,214,110,.45),0 .4vh 1vh rgba(0,0,0,.3);max-width:calc(100% - 22vh)}
@@ -3287,7 +3287,7 @@ body.ev .mbg,body.ev .sky{background-image:url(img/bg_sunset.webp)!important}
 .tqbn.ok{color:#a6ff7a}
 .tqbn .tqd{min-width:11vh}
 /* ===== v4.22 · OYNA ekranı: teras arka planı + 3 kemerli kart ===== */
-#setup .op-bg{background-image:url(img/oyna/bg_teras.webp)!important;background-position:center 55%!important}
+#setup .op-bg{background-image:url(img/oyna/bg_teras.webp?h=d031178)!important;background-position:center 55%!important}
 #setup .op-bg::after{background:linear-gradient(180deg,rgba(8,14,34,.45),transparent 26%,transparent 80%,rgba(8,8,18,.25))!important}
 #setup:not(.cfg) .op-grid{display:flex!important;align-items:flex-end;justify-content:center;gap:var(--opg2,12px)}
 .opk2{position:relative;flex:none;display:block;height:var(--och);aspect-ratio:393/729;padding:0;margin:0;border:0;background:none;filter:drop-shadow(0 1.2vh 1.2vh rgba(0,0,0,.55));transition:transform .15s,filter .15s;-webkit-tap-highlight-color:transparent}
@@ -6828,7 +6828,7 @@ if(typeof SVK!='undefined'){['pbgs','pbg','cbts','cbt','cbgs','cbg','codes'].for
 const CBGCSS={
  gece:`radial-gradient(1.2px 1.2px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 80px,#fff,transparent),radial-gradient(1.5px 1.5px at 150px 20px,#fff,transparent),radial-gradient(1px 1px at 60px 140px,#fff,transparent),radial-gradient(1.3px 1.3px at 130px 120px,#fff,transparent),linear-gradient(#0b1a4a,#1a1450)`,
  cini:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><g transform="translate(45 45)" opacity=".3">'+Array.from({length:8},(_,i)=>`<path transform="rotate(${i*45})" d="M0 -5 C8 -11 8 -26 0 -34 C-8 -26 -8 -11 0 -5Z" fill="#1f4fb4"/>`).join('')+'<circle r="6" fill="#c8202c"/></g><g opacity=".3"><circle r="7" fill="#1aa3a3"/><circle cx="90" r="7" fill="#1aa3a3"/><circle cy="90" r="7" fill="#1aa3a3"/><circle cx="90" cy="90" r="7" fill="#1aa3a3"/></g></svg>')}'),#f6f3ea`,
- mermer:`linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.3)),url(img/pb/mermer.webp) center/cover`,
+ mermer:`linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.3)),url(img/pb/mermer.webp?h=f5f6f78) center/cover`,
  kahve:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><g fill="none" stroke="#7a4a1a" stroke-width="2.4" opacity=".34"><path d="M20 20 L34 20 L31 44 Q27 48 23 44 Z"/><path d="M18 20 L36 20"/><ellipse cx="27" cy="50" rx="10" ry="3"/><path d="M70 74 h22 v10 q0 10 -11 10 q-11 0 -11 -10z"/><path d="M92 78 q8 0 6 7 q-2 4 -6 3"/><ellipse cx="81" cy="96" rx="15" ry="3"/><path d="M76 66 q-3 -5 0 -9 M84 66 q-3 -5 0 -9"/></g></svg>')}'),#f5ead8`,
  okey:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><g opacity=".34"><g transform="translate(18 16) rotate(-12)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#c8202c">7</text></g><g transform="translate(86 60) rotate(14)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#1f4fb4">12</text></g><g transform="translate(34 92) rotate(6)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#222">1</text></g></g></svg>')}'),#e6f1fb`,
  kilim:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><g opacity=".26"><path d="M40 6 L74 40 40 74 6 40Z" fill="#8a1420"/><path d="M40 20 L60 40 40 60 20 40Z" fill="#1c2e6a"/><path d="M40 32 L48 40 40 48 32 40Z" fill="#e8a020"/></g></svg>')}'),#f6efe2`};
@@ -10871,7 +10871,7 @@ textarea.yn-in{resize:none;height:8.6vh;line-height:1.35}
 .yn-itf.sm .avb{--s:max(3vh,12px)}
 .yn-itf.sm,.yn-itr.sm{flex:none}
 .yn-itr{flex:1;width:100%;display:flex;align-items:center;justify-content:center;min-height:0}
-.yn-itr i{width:92%;aspect-ratio:1100/243;border-style:solid;border-color:transparent;border-width:0 1.1vh;border-image:url(img/rk_maun.webp) 0 64 fill / 0 1.1vh stretch;filter:drop-shadow(0 .4vh .4vh rgba(0,0,0,.45))}
+.yn-itr i{width:92%;aspect-ratio:1100/243;border-style:solid;border-color:transparent;border-width:0 1.1vh;border-image:url(img/rk_maun.webp?h=19a8150) 0 64 fill / 0 1.1vh stretch;filter:drop-shadow(0 .4vh .4vh rgba(0,0,0,.45))}
 .yn-itr.sm{width:5.2vh}.yn-itr.sm i{width:100%;border-width:0 .5vh;border-image-width:0 .5vh}
 .yn-itn{margin:0;padding:2.6vh 0;text-align:center;font:700 clamp(8px,2.2vh,11px) P;color:#8ea8cf}
 .yn-mail .rw .ic{gap:.6vh;padding-left:.4vh}
@@ -11547,13 +11547,13 @@ body.lo .ps-pop.on{animation-duration:.9s}
 /* salon kartı: Pişti görseli */
 .sl-c.pst{background:#0a3524}
 .sl-c.pst{background:#0c4a2e}
-.sl-c.pst .sl-art{background:linear-gradient(180deg,rgba(12,74,46,0) 60%,#0c4a2e 80%),url(img/salon/card_pisti.webp) 50% 0/122% auto no-repeat;background-color:#0c4a2e;padding:0}
+.sl-c.pst .sl-art{background:linear-gradient(180deg,rgba(12,74,46,0) 60%,#0c4a2e 80%),url(img/salon/card_pisti.webp?h=93fca9a) 50% 0/122% auto no-repeat;background-color:#0c4a2e;padding:0}
 .sl-c.pst::after{opacity:.55}
 .sl-c.pst .sl-tt b.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .sl-c.pst .sl-tt small{text-shadow:0 .2vh .4vh rgba(0,0,0,.9)}
 /* Ertaş Game kart görselleri */
 .pc.im{background:#f7f2e6 center/100% 100% no-repeat;border-radius:calc(var(--h,24vh)*.045);box-shadow:0 .5vh 1vh rgba(0,0,0,.38)}
-.pc.bkc{background:url(img/pisti/arka.webp) center/100% 100% no-repeat;border-radius:calc(var(--h,24vh)*.05);box-shadow:0 .5vh 1vh rgba(0,0,0,.45)}
+.pc.bkc{background:url(img/pisti/arka.webp?h=9f9c7ec) center/100% 100% no-repeat;border-radius:calc(var(--h,24vh)*.05);box-shadow:0 .5vh 1vh rgba(0,0,0,.45)}
 .ps-pl .pc.tp{box-shadow:0 .8vh 1.6vh rgba(0,0,0,.5)}
 .ps-hc{border-radius:calc(27vh*.05)}
 .ps-hc.can:not([disabled]) .pc{box-shadow:0 0 0 .4vh #ffd76a,0 0 2.4vh rgba(255,215,106,.85),0 .5vh 1vh rgba(0,0,0,.35)}
@@ -11584,7 +11584,7 @@ body.lo .psc.on,body.noanim .psc.on{animation:none}
 .psc-ch b{font:900 clamp(9px,2.3vh,12px) G,P;color:#fff}
 .psc-ch .sv{width:1.25em;height:1.25em;color:#e8c46a;fill:rgba(232,196,106,.35);stroke-width:2}
 .psc-ch .hot{color:#3a2600;background:linear-gradient(#ffe48a,#ffb020);box-shadow:0 .2vh 0 #a06a00}.psc-ch .hot b{color:#3a2600}.psc-ch .hot .sv{color:#7a4a00;fill:#fff3c4}
-.pci{display:inline-block;width:1.1em;height:1.45em;border-radius:.2em;background:url(img/pisti/arka.webp) center/100% 100%;box-shadow:.25em -.15em 0 -.05em rgba(232,196,106,.45)}
+.pci{display:inline-block;width:1.1em;height:1.45em;border-radius:.2em;background:url(img/pisti/arka.webp?h=9f9c7ec) center/100% 100%;box-shadow:.25em -.15em 0 -.05em rgba(232,196,106,.45)}
 .psc-pt{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:max(11vh,42px);height:max(11vh,42px);border-radius:50%;
  background:radial-gradient(circle at 35% 28%,#fffbe6,#ffd76a 38%,#d39a22 70%,#8f5d0e 100%);box-shadow:inset 0 0 0 .3vh rgba(255,255,255,.55),inset 0 -.6vh 1vh rgba(120,70,0,.5),0 .4vh .9vh rgba(0,0,0,.5);color:#3a2400}
 .psc.bt .psc-pt{width:max(9.4vh,36px);height:max(9.4vh,36px)}
@@ -11612,7 +11612,7 @@ body.lo .psc.on,body.noanim .psc.on{animation:none}
 .ps-pl .pc.tp{filter:none;box-shadow:0 .8vh 1.6vh rgba(0,0,0,.5)}
 .ps-pl .ps-n{z-index:9}
 /* masa: kullanıcının masa görseli, çerçeve köşeleri bozulmadan (9 parçalı) */
-.ps-bg{background:#0b4a1c;border-style:solid;border-color:transparent;border-width:7.6vh;border-image:url(img/pisti/masa.webp) 72 fill / 7.6vh stretch}
+.ps-bg{background:#0b4a1c;border-style:solid;border-color:transparent;border-width:7.6vh;border-image:url(img/pisti/masa.webp?h=9032c9e) 72 fill / 7.6vh stretch}
 .ps-bg::before,.ps-bg::after{display:none}
 /* dağıtma öncesi kartlar gizli (uçan kopyalar gelince görünür) */
 #pst.pre #psMe .pc,#pst.pre #psBot .pc,#pst.pre #psPile .pc{visibility:hidden}

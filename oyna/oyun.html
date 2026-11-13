@@ -4541,7 +4541,7 @@ function renderFoot(){const{mine,disc}=footState(),f=FOOTC,op=S.op[0];
  if(disc&&S.t3&&S.rack.includes(S.t3))a=`<button class="btn r hot" data-a="ret">${I('undo')}YERİNE BIRAK</button>`+a;
  if(SIG.acts!==a){SIG.acts=a;$('#acts').innerHTML=a}}
 // açılış göstergesi: "SERİ AÇTI 114"
-function openFx(p,txt,num){snd('openfx');if(!P.set.anim)return;const e=$('#obn'),o=p?M.bots[p]:me();
+function openFx(p,txt,num){if(typeof window.openFxH=='function'&&window.openFxH(p,txt,num))return;snd('openfx');if(!P.set.anim)return;const e=$('#obn'),o=p?M.bots[p]:me();
  e.innerHTML=`<div class="orays"></div><b class="ot ot1">${txt}</b><span class="oav">${avBox(o)}</span><span class="onum">${num}</span>`;
  e.classList.remove('on','out');void e.offsetWidth;e.classList.add('on');clearTimeout(e._t1);clearTimeout(e._t2);
  e._t1=setTimeout(()=>e.classList.add('out'),1500);e._t2=setTimeout(()=>e.classList.remove('on','out'),1950)}
@@ -12014,8 +12014,8 @@ body[data-rack=fdds] .cap{--a:#4b95ec;--b:#1d5fbf;--d:#0b2c66}
 /* başlık görseli */
 .vf-word{position:absolute;left:50%;top:47%;translate:-50% -50%;z-index:2}
 .vtt{position:relative;display:block;aspect-ratio:var(--ar);width:min(90vw,calc(36vh * var(--ar)))}
-:is(#mc,#vfx) .vtt>i{position:absolute!important;flex:none!important;min-width:0!important;z-index:auto!important;left:0!important;right:0!important;top:0!important;inset:0!important;display:block!important;width:auto!important;height:auto!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;opacity:1;background:var(--src) center/100% 100% no-repeat!important;transform-origin:var(--ox) 62%}
-:is(#mc,#vfx) .vtt>i::before,:is(#mc,#vfx) .vtt>i::after{display:none!important}
+:is(#mc,#vfx,#obn,#ffx) .vtt>i{position:absolute!important;flex:none!important;min-width:0!important;z-index:auto!important;left:0!important;right:0!important;top:0!important;inset:0!important;display:block!important;width:auto!important;height:auto!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;opacity:1;background:var(--src) center/100% 100% no-repeat!important;transform-origin:var(--ox) 62%}
+:is(#mc,#vfx,#obn,#ffx) .vtt>i::before,:is(#mc,#vfx,#obn,#ffx) .vtt>i::after{display:none!important}
 .vtt>b.vtt-sh{display:block!important;border-radius:0!important}
 .vtt.an>i{animation:vtIn .62s cubic-bezier(.2,1.5,.35,1) both;animation-delay:calc(.16s + var(--i)*.05s)}
 #vfx.l .vtt.an>i{animation:vtInL .6s cubic-bezier(.5,0,.75,0) both;animation-delay:calc(.1s + var(--i)*.06s)}
@@ -12138,6 +12138,30 @@ body:not(.lo) #modal.on #mc:not(.hend){animation:hisMc .24s cubic-bezier(.2,1.2,
 @keyframes hisMc{from{opacity:0;transform:translateY(2vh) scale(.97)}}
 body.lo #mc.hend.hx .he-hd,body.lo #mc.hend.hx .he-r.w::after{animation:none}
 
+/* ===== el açma / bitirme başlıkları ===== */
+@font-face{font-family:PO;src:url(fonts/paytone.woff) format('woff');font-display:swap}
+#obn.hx{gap:0}
+#obn.hx .vtt.ob{width:min(84vw,calc(15vh * var(--ar)));margin-bottom:-.9vh;position:relative;z-index:2}
+#obn.hx .oav{margin:.4vh 0 -.6vh;position:relative;z-index:1}
+#obn.hx .vnum{position:relative;display:block;height:clamp(64px,24vh,150px);aspect-ratio:var(--ar);margin-top:-1.2vh;z-index:2}
+:is(#obn,#ffx) .vnum>.nl{position:absolute;inset:0;display:block}
+:is(#obn,#ffx) .vnum>.nl>i{position:absolute!important;top:0!important;height:100%!important;display:block!important;margin:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;
+ background:var(--nb) var(--bx,0) 0/1000% 100% no-repeat!important;transform-origin:50% 60%}
+.vtt.ob.an>i{animation:vtIn .46s cubic-bezier(.2,1.5,.35,1) both;animation-delay:calc(.04s + var(--i) * min(.035s, calc(.5s / var(--n,9))))}
+.vtt.ob.an .vtt-sh{animation:vtSh .9s ease-in-out .55s both}
+.vnum.an>.nl>i{animation:vnIn .5s cubic-bezier(.2,1.55,.4,1) both;animation-delay:calc(.3s + var(--i)*.08s)}
+@keyframes vnIn{0%{opacity:0;transform:translateY(-70%) scale(1.9)}55%{opacity:1;transform:translateY(6%) scale(.92)}80%{transform:translateY(-2%) scale(1.04)}100%{opacity:1;transform:none}}
+#obn.hx:not(:has(.an)) .vtt,#obn.hx:not(:has(.an)) .vnum{animation:obA .35s cubic-bezier(.2,1.5,.4,1) both}
+/* bitirme */
+#ffx .fx-tt .vtt.fz{width:min(88vw,calc(18vh * var(--ar)));margin:-2vh 0 -1.6vh}
+#ffx .fx-tt .vtt.fz.an>i{animation:vtIn .5s cubic-bezier(.2,1.5,.35,1) both;animation-delay:calc(.05s + var(--i) * min(.04s, calc(.42s / var(--n,9))))}
+#ffx.bad .fx-tt .vtt.fz.an>i{animation-name:vtInL;animation-timing-function:cubic-bezier(.5,0,.75,0)}
+#ffx .fx-tt .vtt.fz.an .vtt-sh{animation:vtSh 1s ease-in-out .7s both}
+#ffx.bad .fx-tt .vtt-sh{opacity:.55}
+#ffx:not(.ttl) .vtt>i,#ffx:not(.ttl) .vtt-sh{animation-play-state:paused!important}
+#ffx .fx-nm{font-family:PO,G,P,sans-serif;font-size:clamp(15px,5.6vh,32px);line-height:1.1;color:#fff;letter-spacing:.02em;white-space:nowrap;max-width:80vw;overflow:hidden;text-overflow:ellipsis;padding:0 .3em;
+ --ol:#0e2148;text-shadow:0 .08em 0 var(--ol),.06em 0 0 var(--ol),-.06em 0 0 var(--ol),0 .06em 0 var(--ol),0 -.06em 0 var(--ol),.045em .045em 0 var(--ol),-.045em .045em 0 var(--ol),.045em -.045em 0 var(--ol),-.045em -.045em 0 var(--ol),0 .16em .25em rgba(0,0,0,.45);position:relative;z-index:1}
+
 </style>
 <script id="j-his">
 // 4.23 — OYUN HİSSİ: galibiyet/mağlubiyet sahnesi, açılabilen taşlarda ateş, seriyi topluca taşıma, canlı sonuç ekranı
@@ -12165,9 +12189,35 @@ function sparks(cv,win){if(isLo())return;const dpr=Math.min(2,devicePixelRatio||
 const TM={"w_tr":{"r":3.1477,"c":[[19.812,16.0],[32.091,28.279],[41.283,37.47],[47.045,43.232],[59.237,55.425],[64.999,61.187],[75.151,71.339],[84.978,81.165]]},"l_tr":{"r":3.6831,"c":[[19.444,16.186],[29.537,26.278],[38.642,35.383],[46.197,42.939],[56.642,53.383],[66.663,63.405],[71.4,68.141],[79.744,76.486],[87.821,84.563]]},"w_en":{"r":3.045,"c":[[22.46,18.519],[29.201,25.261],[41.06,37.119],[52.274,48.333],[67.683,63.742],[81.246,77.305]]},"l_en":{"r":2.7727,"c":[[27.251,22.923],[40.0,35.672],[52.37,48.042],[65.119,60.791],[81.049,76.722]]},"w_es":{"r":3.2797,"c":[[20.852,17.194],[27.112,23.453],[38.121,34.462],[48.533,44.874],[62.839,59.18],[75.431,71.772],[81.69,78.031]]},"l_es":{"r":3.3023,"c":[[22.696,19.062],[33.297,29.663],[45.803,42.169],[58.309,54.675],[72.795,69.161],[82.766,79.132]]},"w_ku":{"r":3.4051,"c":[[18.973,15.449],[29.254,25.73],[41.383,37.858],[54.696,51.171],[64.976,61.452],[75.005,71.481],[81.034,77.51]]},"l_ku":{"r":2.198,"c":[[22.318,16.859],[34.429,28.97],[50.112,44.652],[62.222,56.763],[78.327,72.867]]}};
 const TK={'GALİBİYET':'w_tr','MAĞLUBİYET':'l_tr','VICTORY':'w_en','DEFEAT':'l_en','VICTORIA':'w_es','DERROTA':'l_es','SERKETIN':'w_ku','TÊKÇÛN':'l_ku'};
 function tKey(win){return TK[L_(win?'GALİBİYET':'MAĞLUBİYET')]||(win?'w_tr':'l_tr')}
-function tHTML(win,cls){const k=tKey(win),m=TM[k],src=`url(img/fx/t_${k}.webp)`,c=[[-20,-20],...m.c,[120,120]];let h='';
+function tStrip(k,cls,label){const m=TM[k],src=`url(img/fx/t_${k}.webp)`,c=[[-20,-20],...m.c,[120,120]];let h='';
  for(let i=0;i<c.length-1;i++){const a=c[i],b=c[i+1];h+=`<i style="--i:${i};--ox:${((a[0]+b[0]+a[1]+b[1])/4).toFixed(1)}%;clip-path:polygon(${a[0]}% 0,${b[0]}% 0,${b[1]}% 100%,${a[1]}% 100%)"></i>`}
- return `<span class="vtt ${cls||''}" style="--src:${src};--ar:${m.r}" role="img" aria-label="${esc(L_(win?'GALİBİYET':'MAĞLUBİYET'))}">${h}<b class="vtt-sh"></b></span>`}
+ return `<span class="vtt ${cls||''}" style="--src:${src};--ar:${m.r};--n:${c.length-1}" role="img" aria-label="${esc(label||'')}">${h}<b class="vtt-sh"></b></span>`}
+function tHTML(win,cls){return tStrip(tKey(win),cls,L_(win?'GALİBİYET':'MAĞLUBİYET'))}
+// el açma / bitirme başlıkları (dil eki ile) + altın rakamlar (arka, kontur, yüz katmanları üst üste: rakamlar tek parça gibi birleşir)
+Object.assign(TM,{"o_s_tr":{"r":2.5572,"c":[[20.46,15.767],[31.208,26.515],[43.888,39.196],[50.193,45.5],[53.701,49.008],[67.132,62.439],[78.031,73.339],[88.518,83.825]]},"o_s_en":{"r":4.7972,"c":[[14.761,12.259],[24.501,22.0],[34.266,31.765],[41.463,38.961],[43.853,41.352],[53.926,51.425],[62.196,59.695],[69.52,67.019],[79.286,76.784],[86.609,84.108]]},"o_s_es":{"r":2.5932,"c":[[17.303,12.676],[29.262,24.635],[41.433,36.805],[55.791,51.164],[62.93,58.302],[75.1,70.473],[87.059,82.432]]},"o_s_ku":{"r":2.976,"c":[[20.774,16.741],[30.785,26.753],[39.696,35.663],[42.964,38.931],[54.617,50.585],[64.629,60.596],[77.593,73.56],[83.465,79.432]]},"o_c_tr":{"r":2.4982,"c":[[21.038,16.235],[27.491,22.688],[38.168,33.364],[49.094,44.29],[52.685,47.882],[66.434,61.63],[77.59,72.787],[88.325,83.521]]},"o_c_en":{"r":4.8726,"c":[[14.167,11.705],[22.624,20.162],[26.853,24.391],[35.36,32.898],[42.445,39.982],[44.799,42.336],[54.715,52.253],[62.858,60.395],[70.068,67.605],[79.682,77.219],[86.892,84.43]]},"o_c_es":{"r":3.1314,"c":[[14.33,10.497],[25.711,21.879],[37.532,33.7],[49.424,45.591],[59.503,55.67],[66.996,63.164],[79.468,75.636],[89.372,85.54]]},"o_c_ku":{"r":3.5896,"c":[[18.274,14.931],[31.257,27.914],[40.466,37.123],[43.66,40.317],[55.054,51.711],[64.841,61.498],[77.516,74.173],[83.257,79.914]]},"o_e_tr":{"r":3.3992,"c":[[16.553,13.022],[24.989,21.459],[36.761,33.231],[45.779,42.248],[57.802,54.272],[60.745,57.215],[72.014,68.484],[81.158,77.628],[89.956,86.426]]},"o_e_en":{"r":4.3868,"c":[[17.707,14.972],[26.751,24.016],[34.76,32.025],[45.439,42.704],[53.448,50.713],[63.903,61.168],[66.518,63.782],[76.526,73.791],[84.019,81.284],[91.513,88.777]]},"o_e_es":{"r":4.8263,"c":[[9.297,6.811],[15.221,12.734],[23.987,21.5],[32.524,30.037],[41.517,39.031],[43.652,41.165],[51.824,49.337],[59.939,57.453],[63.775,61.289],[70.314,67.828],[78.029,75.543],[84.296,81.81],[93.062,90.575]]},"o_e_ku":{"r":3.6225,"c":[[18.548,15.236],[26.806,23.493],[39.287,35.974],[50.269,46.957],[52.965,49.652],[62.577,59.264],[70.835,67.522],[81.528,78.215],[86.371,83.059]]},"f_me_tr":{"r":2.9959,"c":[[21.889,17.883],[27.94,23.934],[38.005,34.0],[44.056,40.05],[56.227,52.222],[69.694,65.689],[75.745,71.74],[89.501,85.495]]},"f_me_en":{"r":4.9198,"c":[[13.154,10.715],[22.701,20.262],[32.199,29.76],[34.53,32.091],[41.46,39.021],[45.649,43.209],[55.17,52.731],[59.359,56.92],[66.376,63.937],[76.024,73.585],[83.165,80.726],[92.488,90.049]]},"f_me_es":{"r":3.4958,"c":[[12.836,9.403],[22.148,18.716],[31.177,27.744],[41.828,38.396],[52.48,49.047],[63.762,60.329],[72.633,69.201],[81.442,78.009],[90.47,87.038]]},"f_me_ku":{"r":3.7792,"c":[[15.225,12.049],[23.757,20.581],[26.542,23.366],[38.276,35.1],[46.808,43.632],[57.946,54.77],[68.428,65.253],[79.804,76.629],[90.942,87.767]]},"f_mt_tr":{"r":3.4704,"c":[[14.95,11.492],[22.761,19.303],[27.424,23.966],[38.023,34.565],[40.617,37.159],[50.483,47.025],[55.145,51.687],[62.901,59.443],[67.563,64.106],[76.942,73.484],[87.319,83.861],[91.981,88.524]]},"f_mt_en":{"r":8.2453,"c":[[7.849,6.393],[13.545,12.09],[19.212,17.757],[24.24,22.784],[25.631,24.175],[30.442,28.987],[35.44,33.985],[40.467,39.012],[44.55,43.095],[50.232,48.776],[54.493,53.038],[59.52,58.065],[60.911,59.456],[65.046,63.591],[67.545,66.09],[73.227,71.771],[75.726,74.271],[79.913,78.458],[85.67,84.214],[89.931,88.475],[95.493,94.038]]},"f_mt_es":{"r":4.7292,"c":[[8.459,5.922],[13.61,11.072],[21.172,18.634],[23.027,20.49],[29.448,26.911],[36.117,33.579],[42.825,40.287],[48.511,45.973],[52.738,50.2],[59.774,57.236],[61.63,59.092],[67.494,64.957],[73.18,70.643],[79.888,77.351],[86.596,84.059],[94.366,91.828]]},"f_mt_ku":{"r":5.194,"c":[[12.019,9.709],[17.37,15.06],[23.599,21.288],[29.855,27.545],[34.862,32.551],[40.213,37.902],[41.959,39.649],[47.18,44.869],[52.531,50.22],[54.277,51.967],[61.636,59.326],[66.987,64.677],[73.972,71.662],[80.547,78.236],[87.681,85.371],[94.667,92.356]]},"f_x_tr":{"r":2.5809,"c":[[25.408,20.758],[32.432,27.782],[44.115,39.466],[51.139,46.489],[65.267,60.617],[80.899,76.25],[87.923,83.274]]},"f_x_en":{"r":3.5189,"c":[[18.032,14.622],[23.889,20.478],[37.201,33.791],[43.057,39.647],[52.868,49.458],[66.357,62.947],[76.341,72.931],[89.375,85.965]]},"f_x_es":{"r":2.2166,"c":[[18.048,12.635],[30.561,25.147],[42.692,37.278],[57.004,51.59],[71.316,65.902],[87.893,82.479]]},"f_x_ku":{"r":3.0433,"c":[[23.425,19.482],[34.02,30.077],[47.852,43.908],[60.869,56.926],[74.996,71.053],[88.828,84.885]]}});
+const NM={"h":277,"cw":245,"d":[[245,96.0,115.4],[204,98.0,75.5],[221,99.0,88.2],[218,99.0,87.5],[239,98.0,106.4],[222,97.0,93.0],[233,96.0,100.8],[223,95.0,87.2],[232,99.0,102.0],[233,98.0,100.8]]};
+function tLang(){return{'FINISHED!':'en','¡CERRÓ!':'es','QEDAND!':'ku'}[L_('BİTİRDİ!')]||'tr'}
+function tImg(key,cls,label){const k=key+'_'+tLang();return TM[k]?tStrip(k,cls,label):''}
+function nHTML(v,cls){const s=String(Math.max(0,Math.round(+v||0))),D=[...s].map(c=>NM.d[+c]);let x=0;const xs=D.map(d=>{const r=x-d[1];x+=d[2];return r});
+ const x0=Math.min(...xs),W=Math.max(...D.map((d,i)=>xs[i]+d[0]))-x0;
+ const one=L=>`<span class="nl" style="--nb:url(img/fx/num_${L}.webp)">`+[...s].map((c,i)=>`<i style="--i:${i};left:${((xs[i]-x0)/W*100).toFixed(2)}%;width:${(NM.cw/W*100).toFixed(2)}%;--bx:${(+c/9*100).toFixed(3)}%"></i>`).join('')+'</span>';
+ return `<span class="vnum ${cls||''}" style="--ar:${(W/NM.h).toFixed(4)}" role="img" aria-label="${s}">${one('a')}${one('b')}${one('c')}</span>`}
+// görseller ilk gösterimde boş kalmasın diye önceden yüklenir (yalnız seçili dil)
+setTimeout(()=>{try{const lg=tLang(),u=['o_s','o_c','o_e','f_me','f_mt','f_x'].map(k=>`img/fx/t_${k}_${lg}.webp`).concat(['a','b','c'].map(k=>`img/fx/num_${k}.webp`),[`img/fx/t_${tKey(1)}.webp`,`img/fx/t_${tKey(0)}.webp`]);
+ u.forEach(x=>{const i=new Image();i.decoding='async';i.src=x})}catch(e){}},2500);
+// açılış göstergesi: "SERİ AÇTI" başlığı + avatar + altın puan
+const OFK={'SERİ AÇTI':'o_s','ÇİFT AÇTI':'o_c','ELDEN AÇTI':'o_e'};
+// temel openFx'in başına bağlanır (build.py): oyuncunun kendi açılışı taş atılınca gösterilir (v4.13 erteleme), o yol da buradan geçer
+window.openFxH=function(p,txt,num){const k=OFK[txt];if(!k||!TM[k+'_'+tLang()])return false;
+ snd('openfx');if(!animOn())return true;const e=$('#obn');if(!e)return true;const pl=p?M.bots[p]:me(),an=isLo()?'':' an';
+ e.innerHTML=`<div class="orays"></div>${tImg(k,'ob'+an,L_(txt))}<span class="oav">${avBox(pl)}</span>${nHTML(num,'ob'+an)}`;
+ e.classList.add('hx');e.classList.remove('on','out');void e.offsetWidth;e.classList.add('on');clearTimeout(e._t1);clearTimeout(e._t2);
+ e._t1=setTimeout(()=>e.classList.add('out'),1750);e._t2=setTimeout(()=>e.classList.remove('on','out'),2150);return true};
+// bitirme yazısı: "BİTİRDİN!" / "EŞİN BİTİRDİ!" altın, rakip bitirince adı + çelik "BİTİRDİ!"
+function finTtl(w){try{const ob=$('#obn');if(ob)ob.classList.remove('on','out');const h=$('#ffx .fx-h');if(!h)return;const es=M&&M.md&&M.md.esli,k=w==0?'f_me':es&&w==2?'f_mt':'f_x';
+ const img=tImg(k,'fz'+(isLo()?'':' an'),h.textContent);if(!img)return;h.outerHTML=(k=='f_x'?`<span class="fx-nm">${esc(nm(w))}</span>`:'')+img}catch(e){}}
+if(typeof slamFx=='function')slamFx=(o=>function(w){const r=o.apply(this,arguments);finTtl(w);return r})(slamFx);
+if(typeof finFx=='function')finFx=(o=>function(w){const r=o.apply(this,arguments);finTtl(w);return r})(finFx);
 function vfx(win,sub,cb){if(!animOn()){cb();return}
  const old=document.getElementById('vfx');if(old)old.remove();
  const e=document.createElement('div');e.id='vfx';e.className=(win?'w':'l')+(isLo()?' lo':'');

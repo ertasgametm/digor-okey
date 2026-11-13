@@ -11794,10 +11794,10 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 </script>
 <style id="m-bub">
 /* 4.23 — yeniden çizilen sohbet balonları: 9 dilimli görsel, kuyruk sağ altta; karşı taraf için _l (aynalı) dosya */
-.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb):not(.big) span{
+.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb,.bt-futtr,.bt-futarj):not(.big) span{
   position:relative;isolation:isolate;background:none!important;box-shadow:none!important;border:0!important;border-image:none!important;
   padding:.62em 1.05em!important;border-radius:0!important}
-.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb):not(.big) span::before{
+.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb,.bt-futtr,.bt-futarj):not(.big) span::before{
   content:'';position:absolute;z-index:-1;inset:calc(var(--bbw,1.7em)*-.1875);pointer-events:none;
   border:0 solid transparent;border-image-source:var(--bi);border-image-slice:64 fill;border-image-width:var(--bbw,1.7em);border-image-repeat:var(--brp,stretch)}
 .msg.bt-foto span::after{display:none!important}
@@ -11815,6 +11815,10 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .msg.bt-foto{--bi:url(img/bub/foto.webp?h=a96690b);--brp:round}
 .msg.bt-tribun{--bi:url(img/bub/tribun.webp?h=24c0b65);--brp:round}
 .msg.bt-gulb{--bi:url(img/bub/gulb.webp?h=8387513);--brp:round}
+.msg.bt-futtr{--bi:url(img/bub/futtr.webp?h=e386e70)}
+.msg.bt-futarj{--bi:url(img/bub/futarj.webp?h=0825758)}
+.msg:not(.me).bt-futtr{--bi:url(img/bub/futtr_l.webp?h=f7e2cdf)}
+.msg:not(.me).bt-futarj{--bi:url(img/bub/futarj_l.webp?h=a3aa724)}
 /* karşı tarafın balonu: aynalanmış görsel (transform yerine ayrı dosya; dilim çizgisi çıkmaz) */
 .msg:not(.me).bt-altin{--bi:url(img/bub/altin_l.webp?h=9a935b3)}
 .msg:not(.me).bt-cini{--bi:url(img/bub/cini_l.webp?h=6210b43)}
@@ -11843,8 +11847,11 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .msg.bt-foto span{color:#111!important}
 .msg.bt-tribun span{color:#fff!important;text-shadow:0 1px 1px rgba(70,0,0,.7)}
 .msg.bt-gulb span{color:#fff!important;text-shadow:0 1px 2px rgba(40,0,5,.9)}
+/* futbol balonları */
+.msg.bt-futtr span{color:#fff!important;text-shadow:0 1px 2px rgba(70,0,0,.8)}
+.msg.bt-futarj span{color:#12305f!important;text-shadow:0 1px 0 rgba(255,255,255,.6)}
 /* süslü balonların köşe süsü taşmasın diye satır arası pay */
-#chM .msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal){margin-top:.35em}
+#chM .msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-futtr,.bt-futarj){margin-top:.35em}
 
 </style>
 <script id="j-bub">
@@ -11852,6 +11859,10 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 (function(){
   try{
     ['gece','cini','mermer','kahve','okey','kilim'].forEach(k=>{CBGCSS[k]=`url(img/cbg/${k}.webp) center/cover no-repeat`});
+    CBGDARK.okey=1;CBGDARK.kahve=1;
+    const ds={kahve:'Ahşap masada çay ve okey taşları',okey:'Mavi çuhada okey taşları'};
+    CBG.forEach(x=>{if(ds[x[0]])x[3]=ds[x[0]]});
+    Object.assign(DICT,{'Ahşap masada çay ve okey taşları':['Tea and okey tiles on a wooden table','Té y fichas de okey en una mesa de madera','Çay û kevirên okeyê li ser maseya darîn'],'Mavi çuhada okey taşları':['Okey tiles on blue baize','Fichas de okey sobre paño azul','Kevirên okeyê li ser çuxeya şîn']});
     if(typeof applyCbg=='function')applyCbg();
   }catch(e){}
 })();
@@ -11883,11 +11894,17 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .rkc.vip.fut{background:linear-gradient(160deg,#f0fdf4,#d3f5df);box-shadow:inset 0 0 0 .3vh #4ade80,0 .4vh 0 #15803d}
 .rkc.vip.fut.on{box-shadow:inset 0 0 0 .4vh #ffa51f,0 .4vh 0 #d97f00}
 .vipr.fut{background:linear-gradient(#22c55e,#15803d)}
-/* futbol balonları: fotoğraf dokulu (sembol bozulmasın diye 9 dilim değil) */
-.msg.bt-futtr span{background:linear-gradient(90deg,rgba(150,0,12,.78),rgba(150,0,12,.35) 62%,rgba(150,0,12,.08)),url(img/bub/btr_bg.webp?h=3a97f19) right 35%/cover no-repeat!important;color:#fff!important;text-shadow:0 1px 2px rgba(60,0,0,.9);box-shadow:inset 0 0 0 .22vh rgba(255,255,255,.9),0 .3vh .8vh rgba(120,0,0,.35)!important}
-.msg.bt-futarj span{background:linear-gradient(90deg,rgba(12,52,120,.80),rgba(12,52,120,.40) 62%,rgba(12,52,120,.08)),url(img/bub/barj_bg.webp?h=aadef40) right 40%/cover no-repeat!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,20,60,.9);box-shadow:inset 0 0 0 .22vh rgba(255,255,255,.9),0 .3vh .8vh rgba(10,40,100,.35)!important}
 /* koyu sohbet zeminlerinde saat yazısı okunur kalsın */
 #chM.cbgd .msg small,.cbc.cbgd .msg small{text-shadow:0 1px 2px rgba(0,0,0,.95)}
+/* futbol ıstakaları */
+body[data-rack=fsl] #rkb,.rkp i.fsl{border-image-source:url(img/rk_fsl.webp?h=29f3f78)}.rkp i.fsl{border-image-source:url(img/th/rk_fsl.webp?h=32c0812)}.rkp.big i.fsl{border-image-source:url(img/rk_fsl.webp?h=29f3f78)}
+body[data-rack=fsl] .cap{--a:#ffe066;--b:#d9a40a;--d:#1a2f6e}
+body[data-rack=fsb] #rkb,.rkp i.fsb{border-image-source:url(img/rk_fsb.webp?h=4db874c)}.rkp i.fsb{border-image-source:url(img/th/rk_fsb.webp?h=f8cd9a4)}.rkp.big i.fsb{border-image-source:url(img/rk_fsb.webp?h=4db874c)}
+body[data-rack=fsb] .cap{--a:#5c5c64;--b:#232328;--d:#08080a}
+body[data-rack=famd] #rkb,.rkp i.famd{border-image-source:url(img/rk_famd.webp?h=3b6b5ce)}.rkp i.famd{border-image-source:url(img/th/rk_famd.webp?h=cb225f1)}.rkp.big i.famd{border-image-source:url(img/rk_famd.webp?h=3b6b5ce)}
+body[data-rack=famd] .cap{--a:#2fa356;--b:#147034;--d:#073a18}
+body[data-rack=fdds] #rkb,.rkp i.fdds{border-image-source:url(img/rk_fdds.webp?h=d7f98bc)}.rkp i.fdds{border-image-source:url(img/th/rk_fdds.webp?h=d0d497b)}.rkp.big i.fdds{border-image-source:url(img/rk_fdds.webp?h=d7f98bc)}
+body[data-rack=fdds] .cap{--a:#4b95ec;--b:#1d5fbf;--d:#0b2c66}
 
 </style>
 <script id="j-fut">
@@ -11915,16 +11932,23 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
   ['sttr','Ay Yıldızlı Stat',90000,'Kırmızı tribünler, bayrak ve top','fut']];
  const FCB=[['futtr','Ay Yıldız Balonu',100000,'Bayrak dokulu kırmızı balon','fut'],
   ['futarj','Arjantin Balonu',100000,'Güneşli mavi beyaz balon','fut']];
+ const FRK=[['fsl','Sarı Lacivert',400000,'Lacivert lake, altın fener motifleri'],['fsb','Siyah Beyaz',400000,'Siyah lake, forma çizgili şerit, gümüş klips'],
+  ['famd','Amed',400000,'Kırmızı ve yeşil lake, bazalt sur taşları'],['fdds','Dadaş',400000,'Mavi lake, gümüş kar taneleri']];
+ FRK.forEach(r=>{if(!RACKS.find(x=>x[0]==r[0]))RACKS.push(r);TIEROF['rk:'+r[0]]='fut'});
  FFR.forEach(f=>{if(!SHOPFR.find(x=>x[0]==f[0]))SHOPFR.push(f);TIEROF['fr:'+f[0]]='fut'});
  [[PBG,FPB,'pb'],[CBG,FCG,'cg'],[CBT,FCB,'cb']].forEach(([L,A,k])=>A.forEach(x=>{if(!L.find(y=>y[0]==x[0]))L.push(x);TIEROF[k+':'+x[0]]='fut'}));
  FCG.forEach(x=>{CBGCSS[x[0]]=`url(img/cbg/${x[0]}.webp) center/cover no-repeat`});
  ['sboga','saslan','skartal','samed','starj','sttr'].forEach(k=>CBGDARK[k]=1);
  if(!TIERS3.find(x=>x[0]=='fut'))TIERS3.splice(Math.max(TIERS3.findIndex(x=>x[0]=='asil'),TIERS3.findIndex(x=>x[0]=='luks'),0),0,['fut','⚽ FUTBOL']);
  if(typeof TIERN=='object')TIERN.fut=['Futbol','#16a34a'];
- if(typeof THL=='object'){FFR.forEach(f=>THL.fr&&!THL.fr.includes(f[0])&&THL.fr.push(f[0]));FPB.forEach(x=>THL.pb&&!THL.pb.includes(x[0])&&THL.pb.push(x[0]))}
+ if(typeof THL=='object'){FRK.forEach(r=>THL.rk&&!THL.rk.includes(r[0])&&THL.rk.push(r[0]));FFR.forEach(f=>THL.fr&&!THL.fr.includes(f[0])&&THL.fr.push(f[0]));FPB.forEach(x=>THL.pb&&!THL.pb.includes(x[0])&&THL.pb.push(x[0]))}
  // Öğelerim: futbol eşyaları "Mağaza"dan
  if(typeof ogSrc=='function')ogSrc=(o=>function(k,id){return TIEROF[k+':'+id]=='fut'?['mg','Mağaza']:o.apply(this,arguments)})(ogSrc);
  Object.assign(DICT,{
+  'Sarı Lacivert':['Yellow-Navy','Amarillo y Azul','Zer û Şîn'],'Lacivert lake, altın fener motifleri':['Navy lacquer, gold lighthouse motifs','Laca azul marino, faros dorados','Lakeya şîn, nîşanên fenera zêrîn'],
+  'Siyah Beyaz':['Black-White','Blanco y Negro','Reş û Spî'],'Siyah lake, forma çizgili şerit, gümüş klips':['Black lacquer, jersey-striped band, silver clips','Laca negra, franja a rayas, broches de plata','Lakeya reş, xeta formayê, klîpsên zîv'],
+  'Amed':['Amed','Amed','Amed'],'Kırmızı ve yeşil lake, bazalt sur taşları':['Red and green lacquer, basalt wall stones','Laca roja y verde, piedras de basalto','Lakeya sor û kesk, kevirên bazalt ên sûrê'],
+  'Dadaş':['Dadaş','Dadaş','Dadaş'],'Mavi lake, gümüş kar taneleri':['Blue lacquer, silver snowflakes','Laca azul, copos de nieve de plata','Lakeya şîn, berfikên zîv'],
   '⚽ FUTBOL':['⚽ FOOTBALL','⚽ FÚTBOL','⚽ FUTBOL'],'FUTBOL':['FOOTBALL','FÚTBOL','FUTBOL'],'Futbol':['Football','Fútbol','Futbol'],
   'Sarı Lacivert Boğa':['Yellow-Navy Bull','Toro Amarillo y Azul','Gayê Zer û Şîn'],'Boğa başlı, sarı lacivert atkılı halka':['Bull head, yellow-navy scarf ring','Cabeza de toro, bufanda amarilla y azul','Serê ga, xeleka şalika zer û şîn'],
   'Sarı Kırmızı Aslan':['Yellow-Red Lion','León Amarillo y Rojo','Şêrê Zer û Sor'],'Taçlı aslan, sarı kırmızı atkı':['Crowned lion, yellow-red scarf','León coronado, bufanda amarilla y roja','Şêrê bi tac, şalika zer û sor'],

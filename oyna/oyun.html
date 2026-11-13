@@ -6843,7 +6843,7 @@ frProfile=(o=>async function(id){const r=await o.apply(this,arguments);try{let p
 // ---- mağaza ----
 const KIND={pb:{L:PBG,own:'pbgs',eq:'pbg',nm:'Profil arka planı'},cb:{L:CBT,own:'cbts',eq:'cbt',nm:'Sohbet balonu'},cg:{L:CBG,own:'cbgs',eq:'cbg',nm:'Sohbet arka planı'}};
 const cnT=v=>`<span class="cn"><svg class="ci"><use href="#i-coin"/></svg>${fmtC(v)}</span>`;
-const vipR=t=>t&&t!='klasik'?`<i class="vipr ${t}">${t=='efs'?'VIP':t=='elit'?'ELİT':t=='luks'?'LÜKS':'ASİL'}</i>`:'';
+const vipR=t=>t&&t!='klasik'?`<i class="vipr ${t}">${t=='efs'?'VIP':t=='elit'?'ELİT':t=='luks'?'LÜKS':t=='fut'?'FUTBOL':'ASİL'}</i>`:'';
 function tierBlocks(items,tk,card,cls){return TIERS3.map(([t,lb])=>{const L=items.filter(x=>(TIEROF[tk+':'+x[0]]||'klasik')==t);if(!L.length)return'';
  const pr=[...new Set(L.map(x=>x[2]))];return`<div class="shsec ${t}"><h4 class="tierh ${t}"><span>${L_(lb)}</span>${t!='klasik'&&pr.length==1?`<em>${cnT(pr[0])}</em>`:''}</h4><div class="${cls}">${L.map(card).join('')}</div></div>`}).join('')}
 function rkCard(r){const own=P.racks.includes(r[0]),use=P.rack==r[0],t=TIEROF['rk:'+r[0]];
@@ -10412,6 +10412,7 @@ const SYM={
  rbolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
  rcloud:'<path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4.75 4.75 0 0 1-.5 9.5z"/>',
  rmega:'<path d="M3 10v4a1 1 0 0 0 1 1h3l8 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M18.5 9.5a4 4 0 0 1 0 5"/>',
+ rball:'<circle cx="12" cy="12" r="9"/><path d="M12 7.6l3.4 2.5-1.3 4h-4.2l-1.3-4z"/><path d="M12 3v4.6M15.4 10.1l4.9-1.6M14.1 14.1l3 4M9.9 14.1l-3 4M8.6 10.1L3.7 8.5"/>',
  rtool:'<path d="M14.5 6.5a4 4 0 0 0-5.4 5.1L3.5 17.2a1.6 1.6 0 0 0 2.3 2.3l5.6-5.6a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.3-.6-.6-2.3z"/>'
 };
 try{const b=document.querySelector('#i-bell');if(b&&!document.querySelector('#i-rshuf'))b.parentNode.insertAdjacentHTML('beforeend',Object.entries(SYM).map(([k,v])=>`<symbol id="i-${k}" viewBox="0 0 24 24">${v}</symbol>`).join(''))}catch(e){}
@@ -10421,7 +10422,7 @@ const RI=(n,a,b)=>`<i class="r-ri" style="--a:${a};--b:${b}">${Ic(n)}</i>`;
 const tl=(c,n)=>`<div class="t" style="background-position:${bp({c,n})}"></div>`;
 const CB={bl:['#6cc4ff','#2a6fd8'],gr:['#5ee38c','#1f9a4a'],pu:['#b48cff','#6a3fd0'],or:['#ffb86a','#e0601a'],ye:['#ffd36a','#e08a12'],rd:['#ff8a7a','#d8291b'],te:['#5eead4','#0f766e']};
 // ---------- EMOJİ YERİNE SİMGE (oyuncunun gördüğü pencerelerde, baştaki ikon emojileri) ----------
-const EM={'👑':['crown','g'],'✨':['rspark',''],'🎁':['gift',''],'🧰':['chest',''],'🎡':['wheel',''],'📋':['tasks',''],'⭐':['star',''],'🌟':['star',''],'🏷':['rtag',''],'🍵':['rtea',''],'💬':['chat',''],'💎':['rgem',''],'🎧':['rhead',''],'🔀':['rshuf',''],'🎵':['rmus',''],'⏳':['clock',''],'🎟':['rticket',''],'🏆':['trophy',''],'🪙':['coin',''],'🎉':['rspark',''],'📬':['mail',''],'🔒':['lock',''],'💰':['coin',''],'⚡':['rbolt',''],'🀄':['tile',''],'☁':['rcloud',''],'🔔':['bell',''],'⬆':['up',''],'📣':['rmega',''],'🛠':['rtool',''],'👁':['eye',''],'☕':['rtea',''],'📜':['rdoc','']};
+const EM={'👑':['crown','g'],'✨':['rspark',''],'🎁':['gift',''],'🧰':['chest',''],'🎡':['wheel',''],'📋':['tasks',''],'⭐':['star',''],'🌟':['star',''],'🏷':['rtag',''],'🍵':['rtea',''],'💬':['chat',''],'💎':['rgem',''],'🎧':['rhead',''],'🔀':['rshuf',''],'🎵':['rmus',''],'⏳':['clock',''],'🎟':['rticket',''],'🏆':['trophy',''],'🪙':['coin',''],'🎉':['rspark',''],'📬':['mail',''],'🔒':['lock',''],'💰':['coin',''],'⚡':['rbolt',''],'🀄':['tile',''],'☁':['rcloud',''],'🔔':['bell',''],'⬆':['up',''],'📣':['rmega',''],'🛠':['rtool',''],'👁':['eye',''],'☕':['rtea',''],'📜':['rdoc',''],'⚽':['rball','']};
 const EMRX=new RegExp('^(\\s*)('+Object.keys(EM).join('|')+')\\uFE0F?\\s?');
 function emoText(n){const p=n.parentElement;if(!p||p.closest('.msg,#chM,#chat,textarea,input,.kcob,.mbub,#qch'))return;const m=n.textContent.match(EMRX);if(!m)return;const k=EM[m[2]];
  if(p.tagName=='EM'&&p.parentElement&&p.parentElement.classList.contains('cvi')){p.className='r-shf';p.innerHTML=Ic(k[0]);return}
@@ -11854,6 +11855,101 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
     if(typeof applyCbg=='function')applyCbg();
   }catch(e){}
 })();
+
+</script>
+<style id="m-fut">
+/* 4.23 — FUTBOL koleksiyonu */
+.fr-fboga::before{background-image:url(img/frames/fboga.webp?h=883e93f)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-fboga::before{background-image:url(img/th/fr_fboga.webp?h=bb34621)}
+.fr-fboga{--fx:0.27;--fxr:0.2;--ft:0.36}
+.fr-faslan::before{background-image:url(img/frames/faslan.webp?h=2471197)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-faslan::before{background-image:url(img/th/fr_faslan.webp?h=71bd2fc)}
+.fr-faslan{--fx:0.24;--fxr:0.24;--ft:0.44}
+.avb.fr-faslan::before{inset:-45.55%}
+.fr-fkartal::before{background-image:url(img/frames/fkartal.webp?h=8c6870e)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-fkartal::before{background-image:url(img/th/fr_fkartal.webp?h=f25bd98)}
+.fr-fkartal{--fx:0.33;--fxr:0.31;--ft:0.35}
+.fr-famed::before{background-image:url(img/frames/famed.webp?h=09e8846)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-famed::before{background-image:url(img/th/fr_famed.webp?h=848409c)}
+.fr-famed{--fx:0.31;--fxr:0.29;--ft:0.39}
+.avb.fr-famed::before{inset:-41.51%}
+.fr-fdadas::before{background-image:url(img/frames/fdadas.webp?h=e6c23c8)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-fdadas::before{background-image:url(img/th/fr_fdadas.webp?h=389c739)}
+.fr-fdadas{--fx:0.25;--fxr:0.25;--ft:0.36}
+.fr-farj::before{background-image:url(img/frames/farj.webp?h=b093854)}
+:is(.sfp:not(.big),.ogp,.frg,.slk-p,.slsetp,.ttp,.lb-pc,.chl,.hr,.lgfl) .avb:not(.xl).fr-farj::before{background-image:url(img/th/fr_farj.webp?h=6d83f2d)}
+.fr-farj{--fx:0.28;--fxr:0.27;--ft:0.34}
+.tierh.fut{color:#15803d}
+.rkc.vip.fut{background:linear-gradient(160deg,#f0fdf4,#d3f5df);box-shadow:inset 0 0 0 .3vh #4ade80,0 .4vh 0 #15803d}
+.rkc.vip.fut.on{box-shadow:inset 0 0 0 .4vh #ffa51f,0 .4vh 0 #d97f00}
+.vipr.fut{background:linear-gradient(#22c55e,#15803d)}
+/* futbol balonları: fotoğraf dokulu (sembol bozulmasın diye 9 dilim değil) */
+.msg.bt-futtr span{background:linear-gradient(90deg,rgba(150,0,12,.78),rgba(150,0,12,.35) 62%,rgba(150,0,12,.08)),url(img/bub/btr_bg.webp?h=3a97f19) right 35%/cover no-repeat!important;color:#fff!important;text-shadow:0 1px 2px rgba(60,0,0,.9);box-shadow:inset 0 0 0 .22vh rgba(255,255,255,.9),0 .3vh .8vh rgba(120,0,0,.35)!important}
+.msg.bt-futarj span{background:linear-gradient(90deg,rgba(12,52,120,.80),rgba(12,52,120,.40) 62%,rgba(12,52,120,.08)),url(img/bub/barj_bg.webp?h=aadef40) right 40%/cover no-repeat!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,20,60,.9);box-shadow:inset 0 0 0 .22vh rgba(255,255,255,.9),0 .3vh .8vh rgba(10,40,100,.35)!important}
+/* koyu sohbet zeminlerinde saat yazısı okunur kalsın */
+#chM.cbgd .msg small,.cbc.cbgd .msg small{text-shadow:0 1px 2px rgba(0,0,0,.95)}
+
+</style>
+<script id="j-fut">
+// 4.23 — FUTBOL koleksiyonu: 6 çerçeve, 6 profil arka planı, 8 sohbet arka planı, 2 sohbet balonu (coin ile, orta fiyat)
+(function(){try{
+ const FFR=[['fboga','Sarı Lacivert Boğa',300000,'Boğa başlı, sarı lacivert atkılı halka'],
+  ['faslan','Sarı Kırmızı Aslan',300000,'Taçlı aslan, sarı kırmızı atkı'],
+  ['fkartal','Siyah Beyaz Kartal',300000,'Kanatlı kartal, siyah beyaz atkı'],
+  ['famed','Amed Kartalı',300000,'Kırmızı yeşil kartallar, surlar'],
+  ['fdadas','Dadaş Kartalı',300000,'Mavi beyaz kartal, karlı dağ ve kale'],
+  ['farj','Arjantin 10',300000,'Güneşli bayrak, 10 numara ve kupa']];
+ const FPB=[['pboga','Boğaz’da Sarı Lacivert',250000,'Boğa, stadyum ve Boğaz köprüsü','fut'],
+  ['pkartal','Kız Kulesi Kartalı',250000,'Siyah beyaz kartal ve Kız Kulesi','fut'],
+  ['pamed','Amed Surları',250000,'Kartal, surlar ve On Gözlü Köprü','fut'],
+  ['pkurt','Palandöken Kurdu',250000,'Mavi beyaz kurt, karlı dağlar ve kale','fut'],
+  ['parj','Arjantin Kaptanı',250000,'10 numara ve güneşli bayrak','fut'],
+  ['ptr','Ay Yıldızlı 10',250000,'Kırmızı forma, bayrak ve cami silueti','fut']];
+ const FCG=[['sboga','Sarı Lacivert Şerit',90000,'Lacivert zemin, sarı şeritler, boğalar','fut'],
+  ['saslan','Aslan Deseni',90000,'Bordo zemin, altın aslan başları','fut'],
+  ['skartal','Siyah Beyaz Çizgi',90000,'Çizgili zemin, kartallar','fut'],
+  ['samed','Amed Deseni',90000,'Yeşil zemin, kırmızı kartallar','fut'],
+  ['sdadas','Mavi Kartal Deseni',90000,'Beyaz zemin, mavi kartallar','fut'],
+  ['sarj','Arjantin Çizgisi',90000,'Açık mavi beyaz, güneş ve top','fut'],
+  ['starj','Gece Stadı',90000,'Işıklı stat, güneşli bayrak','fut'],
+  ['sttr','Ay Yıldızlı Stat',90000,'Kırmızı tribünler, bayrak ve top','fut']];
+ const FCB=[['futtr','Ay Yıldız Balonu',100000,'Bayrak dokulu kırmızı balon','fut'],
+  ['futarj','Arjantin Balonu',100000,'Güneşli mavi beyaz balon','fut']];
+ FFR.forEach(f=>{if(!SHOPFR.find(x=>x[0]==f[0]))SHOPFR.push(f);TIEROF['fr:'+f[0]]='fut'});
+ [[PBG,FPB,'pb'],[CBG,FCG,'cg'],[CBT,FCB,'cb']].forEach(([L,A,k])=>A.forEach(x=>{if(!L.find(y=>y[0]==x[0]))L.push(x);TIEROF[k+':'+x[0]]='fut'}));
+ FCG.forEach(x=>{CBGCSS[x[0]]=`url(img/cbg/${x[0]}.webp) center/cover no-repeat`});
+ ['sboga','saslan','skartal','samed','starj','sttr'].forEach(k=>CBGDARK[k]=1);
+ if(!TIERS3.find(x=>x[0]=='fut'))TIERS3.splice(Math.max(TIERS3.findIndex(x=>x[0]=='asil'),TIERS3.findIndex(x=>x[0]=='luks'),0),0,['fut','⚽ FUTBOL']);
+ if(typeof TIERN=='object')TIERN.fut=['Futbol','#16a34a'];
+ if(typeof THL=='object'){FFR.forEach(f=>THL.fr&&!THL.fr.includes(f[0])&&THL.fr.push(f[0]));FPB.forEach(x=>THL.pb&&!THL.pb.includes(x[0])&&THL.pb.push(x[0]))}
+ // Öğelerim: futbol eşyaları "Mağaza"dan
+ if(typeof ogSrc=='function')ogSrc=(o=>function(k,id){return TIEROF[k+':'+id]=='fut'?['mg','Mağaza']:o.apply(this,arguments)})(ogSrc);
+ Object.assign(DICT,{
+  '⚽ FUTBOL':['⚽ FOOTBALL','⚽ FÚTBOL','⚽ FUTBOL'],'FUTBOL':['FOOTBALL','FÚTBOL','FUTBOL'],'Futbol':['Football','Fútbol','Futbol'],
+  'Sarı Lacivert Boğa':['Yellow-Navy Bull','Toro Amarillo y Azul','Gayê Zer û Şîn'],'Boğa başlı, sarı lacivert atkılı halka':['Bull head, yellow-navy scarf ring','Cabeza de toro, bufanda amarilla y azul','Serê ga, xeleka şalika zer û şîn'],
+  'Sarı Kırmızı Aslan':['Yellow-Red Lion','León Amarillo y Rojo','Şêrê Zer û Sor'],'Taçlı aslan, sarı kırmızı atkı':['Crowned lion, yellow-red scarf','León coronado, bufanda amarilla y roja','Şêrê bi tac, şalika zer û sor'],
+  'Siyah Beyaz Kartal':['Black-White Eagle','Águila Blanca y Negra','Ajelê Reş û Spî'],'Kanatlı kartal, siyah beyaz atkı':['Winged eagle, black-white scarf','Águila con alas, bufanda blanca y negra','Ajelê bi bask, şalika reş û spî'],
+  'Amed Kartalı':['Amed Eagle','Águila de Amed','Ajelê Amedê'],'Kırmızı yeşil kartallar, surlar':['Red-green eagles, city walls','Águilas rojas y verdes, murallas','Ajelên sor û kesk, sûr'],
+  'Dadaş Kartalı':['Dadaş Eagle','Águila Dadaş','Ajelê Dadaş'],'Mavi beyaz kartal, karlı dağ ve kale':['Blue-white eagle, snowy peak and castle','Águila azul y blanca, montaña nevada y castillo','Ajelê şîn û spî, çiyayê berfê û kele'],
+  'Arjantin 10':['Argentina 10','Argentina 10','Arjantîn 10'],'Güneşli bayrak, 10 numara ve kupa':['Sun flag, number 10 and trophy','Bandera del sol, número 10 y copa','Ala bi roj, hejmar 10 û kupa'],
+  'Boğaz’da Sarı Lacivert':['Yellow-Navy on the Bosphorus','Amarillo y azul en el Bósforo','Zer û Şîn li Bogazê'],'Boğa, stadyum ve Boğaz köprüsü':['Bull, stadium and Bosphorus bridge','Toro, estadio y puente del Bósforo','Ga, stad û pira Bogazê'],
+  'Kız Kulesi Kartalı':['Maiden’s Tower Eagle','Águila de la Torre de la Doncella','Ajelê Birca Keçikê'],'Siyah beyaz kartal ve Kız Kulesi':['Black-white eagle and Maiden’s Tower','Águila blanca y negra y la Torre de la Doncella','Ajelê reş û spî û Birca Keçikê'],
+  'Amed Surları':['Walls of Amed','Murallas de Amed','Sûrên Amedê'],'Kartal, surlar ve On Gözlü Köprü':['Eagle, city walls and the Ten-Eyed Bridge','Águila, murallas y el Puente de Diez Ojos','Ajel, sûr û Pira Deh Çavî'],
+  'Palandöken Kurdu':['Palandöken Wolf','Lobo de Palandöken','Gurê Palandokenê'],'Mavi beyaz kurt, karlı dağlar ve kale':['Blue-white wolf, snowy mountains and castle','Lobo azul y blanco, montañas nevadas y castillo','Gurê şîn û spî, çiyayên berfê û kele'],
+  'Arjantin Kaptanı':['Argentina Captain','Capitán de Argentina','Kaptanê Arjantînê'],'10 numara ve güneşli bayrak':['Number 10 and the sun flag','Número 10 y la bandera del sol','Hejmar 10 û ala bi roj'],
+  'Ay Yıldızlı 10':['Crescent and Star 10','10 de la Media Luna','10 ya Hîv û Stêrk'],'Kırmızı forma, bayrak ve cami silueti':['Red jersey, flag and mosque skyline','Camiseta roja, bandera y mezquita','Formaya sor, ala û sîluêta mizgeftê'],
+  'Sarı Lacivert Şerit':['Yellow-Navy Stripes','Franjas Amarillas y Azules','Xetên Zer û Şîn'],'Lacivert zemin, sarı şeritler, boğalar':['Navy base, yellow stripes, bulls','Fondo azul, franjas amarillas, toros','Bingeha şîn, xetên zer, ga'],
+  'Aslan Deseni':['Lion Pattern','Patrón de Leones','Nexşê Şêr'],'Bordo zemin, altın aslan başları':['Maroon base, golden lion heads','Fondo granate, cabezas de león doradas','Bingeha mor, serên şêrên zêrîn'],
+  'Siyah Beyaz Çizgi':['Black-White Stripes','Rayas Blancas y Negras','Xetên Reş û Spî'],'Çizgili zemin, kartallar':['Striped base, eagles','Fondo a rayas, águilas','Bingeha xetxetî, ajel'],
+  'Amed Deseni':['Amed Pattern','Patrón de Amed','Nexşê Amedê'],'Yeşil zemin, kırmızı kartallar':['Green base, red eagles','Fondo verde, águilas rojas','Bingeha kesk, ajelên sor'],
+  'Mavi Kartal Deseni':['Blue Eagle Pattern','Patrón de Águilas Azules','Nexşê Ajelê Şîn'],'Beyaz zemin, mavi kartallar':['White base, blue eagles','Fondo blanco, águilas azules','Bingeha spî, ajelên şîn'],
+  'Arjantin Çizgisi':['Argentina Stripes','Rayas de Argentina','Xetên Arjantînê'],'Açık mavi beyaz, güneş ve top':['Sky blue and white, sun and ball','Celeste y blanco, sol y balón','Şînê vekirî û spî, roj û gog'],
+  'Gece Stadı':['Night Stadium','Estadio de Noche','Stada Şevê'],'Işıklı stat, güneşli bayrak':['Floodlit stadium, sun flag','Estadio iluminado, bandera del sol','Stada bi ronahî, ala bi roj'],
+  'Ay Yıldızlı Stat':['Crescent Star Stadium','Estadio de la Media Luna','Stada Hîv û Stêrkê'],'Kırmızı tribünler, bayrak ve top':['Red stands, flag and ball','Gradas rojas, bandera y balón','Tirbûnên sor, ala û gog'],
+  'Ay Yıldız Balonu':['Crescent Star Bubble','Burbuja de la Media Luna','Balona Hîv û Stêrk'],'Bayrak dokulu kırmızı balon':['Red bubble with flag texture','Burbuja roja con textura de bandera','Balona sor bi dirûva alê'],
+  'Arjantin Balonu':['Argentina Bubble','Burbuja de Argentina','Balona Arjantînê'],'Güneşli mavi beyaz balon':['Sky blue and white bubble with sun','Burbuja celeste y blanca con sol','Balona şîn û spî bi roj']});
+ if(typeof applyCbg=='function')applyCbg();
+}catch(e){console.error('fut',e)}})();
 
 </script>
 </body></html>

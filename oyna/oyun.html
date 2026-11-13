@@ -6828,7 +6828,7 @@ if(typeof SVK!='undefined'){['pbgs','pbg','cbts','cbt','cbgs','cbg','codes'].for
 const CBGCSS={
  gece:`radial-gradient(1.2px 1.2px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 80px,#fff,transparent),radial-gradient(1.5px 1.5px at 150px 20px,#fff,transparent),radial-gradient(1px 1px at 60px 140px,#fff,transparent),radial-gradient(1.3px 1.3px at 130px 120px,#fff,transparent),linear-gradient(#0b1a4a,#1a1450)`,
  cini:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><g transform="translate(45 45)" opacity=".3">'+Array.from({length:8},(_,i)=>`<path transform="rotate(${i*45})" d="M0 -5 C8 -11 8 -26 0 -34 C-8 -26 -8 -11 0 -5Z" fill="#1f4fb4"/>`).join('')+'<circle r="6" fill="#c8202c"/></g><g opacity=".3"><circle r="7" fill="#1aa3a3"/><circle cx="90" r="7" fill="#1aa3a3"/><circle cy="90" r="7" fill="#1aa3a3"/><circle cx="90" cy="90" r="7" fill="#1aa3a3"/></g></svg>')}'),#f6f3ea`,
- mermer:`linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.3)),url(img/pb/mermer.webp?h=f5f6f78) center/cover`,
+ mermer:`linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.3)),url(img/pb/mermer.webp?h=772c1f4) center/cover`,
  kahve:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><g fill="none" stroke="#7a4a1a" stroke-width="2.4" opacity=".34"><path d="M20 20 L34 20 L31 44 Q27 48 23 44 Z"/><path d="M18 20 L36 20"/><ellipse cx="27" cy="50" rx="10" ry="3"/><path d="M70 74 h22 v10 q0 10 -11 10 q-11 0 -11 -10z"/><path d="M92 78 q8 0 6 7 q-2 4 -6 3"/><ellipse cx="81" cy="96" rx="15" ry="3"/><path d="M76 66 q-3 -5 0 -9 M84 66 q-3 -5 0 -9"/></g></svg>')}'),#f5ead8`,
  okey:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><g opacity=".34"><g transform="translate(18 16) rotate(-12)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#c8202c">7</text></g><g transform="translate(86 60) rotate(14)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#1f4fb4">12</text></g><g transform="translate(34 92) rotate(6)"><rect width="26" height="36" rx="4" fill="#fff" stroke="#2a4a7a"/><text x="13" y="24" font-family="sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#222">1</text></g></g></svg>')}'),#e6f1fb`,
  kilim:`url('data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><g opacity=".26"><path d="M40 6 L74 40 40 74 6 40Z" fill="#8a1420"/><path d="M40 20 L60 40 40 60 20 40Z" fill="#1c2e6a"/><path d="M40 32 L48 40 40 48 32 40Z" fill="#e8a020"/></g></svg>')}'),#f6efe2`};
@@ -10352,7 +10352,8 @@ body.r23 .rules p b,body.r23 .rules li b{color:#fff!important}
 body.r23 .vpl i .sv{width:1em!important;height:1em!important;vertical-align:-.1em}
 body.r23 .vpl li{line-height:1.15}
 
-body.r23 #pfC .kb-l,body.r23 #pfC .kb-r,body.r23 #pfC .acct{background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.035))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)!important;color:#fff!important}
+body.r23 #pfC .kb-l:not(.pbg),body.r23 #pfC .kb-r,body.r23 #pfC .acct{background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.035))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)!important;color:#fff!important}
+body.r23 #pfC .kb-l.pbg{background-size:cover!important;background-position:center!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),0 .4vh 1.2vh rgba(0,0,0,.35)!important;color:#fff!important}
 body.r23 #pfC .kb-n,body.r23 #pfC .kb-r,body.r23 #pfC .acct b{color:#fff}
 body.r23 #pfC .kb-l small,body.r23 #pfC .kb-r small,body.r23 #pfC .acct small{color:#a9c1e6!important}
 body.r23 #pfC .kb-r b,body.r23 #pfC .kb-r strong{color:#ffd76a!important}
@@ -10387,6 +10388,9 @@ body.r23 #friends .pfc .frc,body.r23 #friends .pfc .myid{--ink:#1f4270;--ink2:#5
 /* istatistik halkası: %100 taşmasın */
 .r-ring b{font-size:clamp(10px,2.9vh,15px);letter-spacing:-.03em}
 body.r23 #profile .pfc .ogc{--ink:#1f4270;--ink2:#5a7ca3;color:#1f4270}
+/* profil arka planı seçiliyken durum kutusu her zeminde okunur kalsın */
+body.r23 #pfC .kb-l.pbg [class*=bio],body.r23 #pfC .kb-l.pbg .bio{background:rgba(8,18,42,.66)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)!important;color:#e8f1ff!important}
+body.r23 #pfC .kb-l.pbg .kb-n,body.r23 #pfC .kb-l.pbg .kb-n span{text-shadow:0 1px 3px rgba(0,0,0,.95),0 0 6px rgba(0,0,0,.55)}
 
 </style>
 <script id="j-r23b">
@@ -11784,6 +11788,71 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
  'Yerde tek kart varken aynısını atarsan <b>PİŞTİ</b>: +10. Tek Vale’nin üstüne Vale atarsan +20.':['Matching a single card on the table is a <b>PİŞTİ</b>: +10. Jack on a single Jack: +20.','Igualar una sola carta es <b>PİŞTİ</b>: +10. J sobre una sola J: +20.','Li ser karta tenê heman kartê bavêjî <b>PİŞTÎ</b>: +10. Vale li ser Vale: +20.'],
  'Puanlar: her As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kartı alan +3.':['Points: each Ace and Jack +1, 2 of clubs +2, 10 of diamonds +3, most cards +3.','Puntos: cada As y J +1, 2 de tréboles +2, 10 de diamantes +3, más cartas +3.','Puan: her As û Vale +1, 2 sinek +2, 10 karo +3, kartên herî zêde +3.'],
  'Deste bitince yerde kalan kartlar son alan oyuncuya gider. Çok puanı olan kazanır.':['When the deck runs out, the last player to take gets the rest. Most points wins.','Al acabar el mazo, las cartas restantes van al último que se llevó. Gana quien tenga más puntos.','Dema deste diqede, kartên mayî diçin yê dawî girt. Yê zêde puan qezenc dike.'],'Anladım':['Got it','Entendido','Min fêm kir'],'Rakibine karşı klasik pişti':['Classic pişti vs the computer','Pişti clásico contra la máquina','Piştiya klasîk li dijî komputerê'],'OYNA':['PLAY','JUGAR','BILÎZE'],'YENİ':['NEW','NUEVO','NÛ']});
+})();
+
+</script>
+<style id="m-bub">
+/* 4.23 — yeniden çizilen sohbet balonları: 9 dilimli görsel, kuyruk sağ altta; karşı taraf için _l (aynalı) dosya */
+.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb):not(.big) span{
+  position:relative;isolation:isolate;background:none!important;box-shadow:none!important;border:0!important;border-image:none!important;
+  padding:.62em 1.05em!important;border-radius:0!important}
+.msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-neon,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal,.bt-foto,.bt-tribun,.bt-gulb):not(.big) span::before{
+  content:'';position:absolute;z-index:-1;inset:calc(var(--bbw,1.7em)*-.1875);pointer-events:none;
+  border:0 solid transparent;border-image-source:var(--bi);border-image-slice:64 fill;border-image-width:var(--bbw,1.7em);border-image-repeat:var(--brp,stretch)}
+.msg.bt-foto span::after{display:none!important}
+.msg.big span::before{display:none}
+.msg.bt-altin{--bi:url(img/bub/altin.webp?h=4ea600a)}
+.msg.bt-cini{--bi:url(img/bub/cini.webp?h=10fe610)}
+.msg.bt-gece{--bi:url(img/bub/gece.webp?h=a23661d)}
+.msg.bt-neon{--bi:url(img/bub/neon.webp?h=11f9b71)}
+.msg.bt-ates{--bi:url(img/bub/ates.webp?h=3d0da1b)}
+.msg.bt-gul{--bi:url(img/bub/gul.webp?h=b778b10)}
+.msg.bt-zumrut{--bi:url(img/bub/zumrut.webp?h=b78abfd)}
+.msg.bt-vipa{--bi:url(img/bub/vipa.webp?h=16b7833)}
+.msg.bt-vipe{--bi:url(img/bub/vipe.webp?h=435817e)}
+.msg.bt-nal{--bi:url(img/bub/nal.webp?h=b3168b7)}
+.msg.bt-foto{--bi:url(img/bub/foto.webp?h=a96690b);--brp:round}
+.msg.bt-tribun{--bi:url(img/bub/tribun.webp?h=24c0b65);--brp:round}
+.msg.bt-gulb{--bi:url(img/bub/gulb.webp?h=8387513);--brp:round}
+/* karşı tarafın balonu: aynalanmış görsel (transform yerine ayrı dosya; dilim çizgisi çıkmaz) */
+.msg:not(.me).bt-altin{--bi:url(img/bub/altin_l.webp?h=9a935b3)}
+.msg:not(.me).bt-cini{--bi:url(img/bub/cini_l.webp?h=6210b43)}
+.msg:not(.me).bt-gece{--bi:url(img/bub/gece_l.webp?h=4c43236)}
+.msg:not(.me).bt-neon{--bi:url(img/bub/neon_l.webp?h=0b2ab25)}
+.msg:not(.me).bt-ates{--bi:url(img/bub/ates_l.webp?h=7b2864c)}
+.msg:not(.me).bt-gul{--bi:url(img/bub/gul_l.webp?h=b10ccc6)}
+.msg:not(.me).bt-zumrut{--bi:url(img/bub/zumrut_l.webp?h=c0471e0)}
+.msg:not(.me).bt-vipa{--bi:url(img/bub/vipa_l.webp?h=ba9cecf)}
+.msg:not(.me).bt-vipe{--bi:url(img/bub/vipe_l.webp?h=a3e0325)}
+.msg:not(.me).bt-nal{--bi:url(img/bub/nal_l.webp?h=1846431)}
+.msg:not(.me).bt-foto{--bi:url(img/bub/foto_l.webp?h=e6711e5)}
+.msg:not(.me).bt-tribun{--bi:url(img/bub/tribun_l.webp?h=110b517)}
+.msg:not(.me).bt-gulb{--bi:url(img/bub/gulb_l.webp?h=a63fd46)}
+/* yazı renkleri: yeni zeminlere göre */
+.msg.bt-altin span{color:#4a2c00!important;text-shadow:0 1px 0 rgba(255,240,200,.55)}
+.msg.bt-cini span{color:#123a7a!important}
+.msg.bt-gece span{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,30,.6)}
+.msg.bt-neon span{color:#c8fbff!important;text-shadow:0 0 .5em rgba(34,211,238,.85)}
+.msg.bt-ates span{color:#fff!important;text-shadow:0 1px 1px rgba(90,10,0,.75)}
+.msg.bt-gul span{color:#5a0a33!important;text-shadow:0 1px 0 rgba(255,235,242,.6)}
+.msg.bt-zumrut span{color:#effff7!important;text-shadow:0 1px 1px rgba(0,30,15,.8)}
+.msg.bt-vipa span{color:#ffe08a!important;text-shadow:0 1px 1px #000}
+.msg.bt-vipe span{color:#f2fbff!important;text-shadow:0 1px 1px rgba(10,0,40,.8)}
+.msg.bt-nal span{color:#fff!important;text-shadow:0 1px 1px rgba(0,30,5,.7)}
+.msg.bt-foto span{color:#111!important}
+.msg.bt-tribun span{color:#fff!important;text-shadow:0 1px 1px rgba(70,0,0,.7)}
+.msg.bt-gulb span{color:#fff!important;text-shadow:0 1px 2px rgba(40,0,5,.9)}
+/* süslü balonların köşe süsü taşmasın diye satır arası pay */
+#chM .msg:is(.bt-altin,.bt-cini,.bt-gece,.bt-ates,.bt-gul,.bt-zumrut,.bt-vipa,.bt-vipe,.bt-nal){margin-top:.35em}
+
+</style>
+<script id="j-bub">
+// 4.23 — sohbet arka planları gerçek dokulu görsellere geçti (img/cbg). Kimlikler aynı kaldı, eski satın almalar geçerli.
+(function(){
+  try{
+    ['gece','cini','mermer','kahve','okey','kilim'].forEach(k=>{CBGCSS[k]=`url(img/cbg/${k}.webp) center/cover no-repeat`});
+    if(typeof applyCbg=='function')applyCbg();
+  }catch(e){}
 })();
 
 </script>

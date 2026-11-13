@@ -11976,4 +11976,270 @@ body[data-rack=fdds] .cap{--a:#4b95ec;--b:#1d5fbf;--d:#0b2c66}
 }catch(e){console.error('fut',e)}})();
 
 </script>
+<style id="m-his">
+/* ===== 4.23 · OYUN HİSSİ ===== */
+
+/* ---------- galibiyet / mağlubiyet sahnesi ---------- */
+#vfx{position:fixed;inset:0;z-index:56;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#vfx>*{pointer-events:none}
+#vfx canvas{position:absolute;inset:0;width:100%;height:100%;z-index:3}
+.vf-dim{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 47%,rgba(30,16,4,.55),rgba(3,4,14,.92));animation:vfDim .35s ease both}
+#vfx.l .vf-dim{background:radial-gradient(ellipse 70% 60% at 50% 47%,rgba(18,26,44,.45),rgba(2,4,10,.9))}
+.vf-band{position:absolute;left:0;right:0;top:50%;height:30vh;translate:0 -42%;z-index:1;
+ background:linear-gradient(90deg,transparent,rgba(255,170,40,.10) 12%,rgba(255,196,80,.38) 35%,rgba(255,224,140,.55) 50%,rgba(255,196,80,.38) 65%,rgba(255,170,40,.10) 88%,transparent);
+ -webkit-mask:linear-gradient(transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(transparent,#000 22%,#000 78%,transparent);
+ transform-origin:50% 50%;animation:vfBand .55s cubic-bezier(.2,.9,.25,1) .05s both}
+.vf-band i{position:absolute;left:0;right:0;height:.35vh;background:linear-gradient(90deg,transparent,#ffe7a0 30%,#fff8de 50%,#ffe7a0 70%,transparent);box-shadow:0 0 1.4vh rgba(255,200,90,.9)}
+.vf-band i:first-child{top:20%}.vf-band i:last-child{bottom:20%}
+#vfx.l .vf-band{background:linear-gradient(90deg,transparent,rgba(90,120,170,.10) 12%,rgba(120,150,200,.28) 35%,rgba(150,175,215,.38) 50%,rgba(120,150,200,.28) 65%,rgba(90,120,170,.10) 88%,transparent)}
+#vfx.l .vf-band i{background:linear-gradient(90deg,transparent,#9fb4d6 30%,#d8e2f2 50%,#9fb4d6 70%,transparent);box-shadow:0 0 1vh rgba(140,170,220,.6)}
+.vf-rays{position:absolute;left:50%;top:47%;width:150vh;height:150vh;translate:-50% -50%;z-index:1;border-radius:50%;
+ background:repeating-conic-gradient(rgba(255,214,110,.20) 0 5deg,transparent 5deg 15deg);
+ -webkit-mask:radial-gradient(circle,#000 6%,rgba(0,0,0,.6) 25%,transparent 55%);mask:radial-gradient(circle,#000 6%,rgba(0,0,0,.6) 25%,transparent 55%);
+ animation:vfRayIn .6s ease .15s both,vfSpin 14s linear infinite}
+#vfx.l .vf-rays{display:none}
+.vf-flash{position:absolute;left:50%;top:47%;width:90vh;height:90vh;translate:-50% -50%;z-index:2;border-radius:50%;background:radial-gradient(circle,rgba(255,250,225,.95),rgba(255,210,110,.45) 25%,transparent 60%);opacity:0;animation:vfFlash .7s ease-out .42s both}
+#vfx.l .vf-flash{display:none}
+.vf-core{position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;margin-top:-2vh}
+.vf-emb{width:min(124vh,90vw);height:auto;display:block;animation:vfEmb .7s cubic-bezier(.2,1.5,.4,1) .08s both;filter:drop-shadow(0 1vh 2vh rgba(0,0,0,.55))}
+#vfx.l .vf-emb{animation:vfEmbL .8s cubic-bezier(.4,0,.2,1) .05s both;filter:drop-shadow(0 1vh 2vh rgba(0,0,0,.7)) saturate(.8)}
+.vf-word{position:absolute;left:50%;top:47%;translate:-50% -50%;font-family:G,P,sans-serif;font-weight:900;font-size:min(16vh,calc(86vw / var(--n) * 1.35));line-height:1;white-space:nowrap;letter-spacing:.01em;transform:skewX(-7deg)}
+.vf-word>span{display:block;white-space:nowrap}
+.vf-word .vf-fr{position:absolute;inset:0}
+.vf-word i{display:inline-block;font-style:normal;animation:vfL .62s cubic-bezier(.2,1.55,.35,1) both;animation-delay:calc(.16s + var(--i)*.045s)}
+.vf-bk i{color:#4a1d00;-webkit-text-stroke:.15em #3a1400;text-shadow:0 .08em 0 #2a0c00,0 .16em .3em rgba(0,0,0,.7),0 0 .6em rgba(255,140,20,.55)}
+.vf-fr i{color:transparent;-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text;
+ background-image:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.95) 50%,transparent 62%),linear-gradient(180deg,#fffbe8 0%,#ffe48a 28%,#ffc232 48%,#de8410 55%,#ffd060 76%,#fff0b8 100%);
+ background-size:320% 100%,100% 100%;background-repeat:no-repeat;background-position:160% 0,0 0;
+ animation:vfL .62s cubic-bezier(.2,1.55,.35,1) both,vfShine 1.1s ease-in-out both;animation-delay:calc(.16s + var(--i)*.045s),calc(.95s + var(--i)*.05s)}
+#vfx.l .vf-bk i{color:#121a2a;-webkit-text-stroke:.15em #0e1522;text-shadow:0 .08em 0 #070b14,0 .16em .3em rgba(0,0,0,.75)}
+#vfx.l .vf-fr i{background-image:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%),linear-gradient(180deg,#f6f9fd 0%,#cfd9e8 34%,#8797b2 50%,#5f6f8c 56%,#a9b8cf 78%,#e4eaf3 100%)}
+#vfx.l .vf-word i{animation-name:vfLL,vfShine;animation-timing-function:cubic-bezier(.5,0,.75,0),ease-in-out;animation-duration:.55s,1.4s;animation-delay:calc(.1s + var(--i)*.06s),calc(1.1s + var(--i)*.05s)}
+#vfx.l .vf-word{transform:skewX(-4deg)}
+.vf-sub{position:absolute;left:50%;top:calc(47% + min(10vh,7vw));translate:-50% 0;z-index:5;animation:vfSub .45s ease 1s both}
+.vf-sub span{display:block;padding:.6vh 4vh;font-family:G,P;font-weight:900;font-size:clamp(10px,3vh,16px);letter-spacing:.32em;color:#fff3c8;white-space:nowrap;
+ background:linear-gradient(90deg,transparent,rgba(90,40,0,.75) 18%,rgba(90,40,0,.75) 82%,transparent);text-shadow:0 .2vh .4vh rgba(0,0,0,.8)}
+#vfx.l .vf-sub span{color:#d9e3f2;background:linear-gradient(90deg,transparent,rgba(10,20,40,.8) 18%,rgba(10,20,40,.8) 82%,transparent)}
+#vfx:not(.l) .vf-core{animation:vfShk .32s linear .5s both}
+#vfx.out .vf-core{animation:vfOut .42s cubic-bezier(.5,0,.8,.4) both}
+#vfx.out .vf-dim,#vfx.out .vf-band,#vfx.out .vf-rays,#vfx.out canvas{animation:vfFade .42s ease both}
+#vfx.lo .vf-rays,#vfx.lo .vf-flash{display:none}
+#vfx.lo .vf-word i{animation-duration:.3s,.01s}
+@keyframes vfDim{from{opacity:0}}
+@keyframes vfFade{to{opacity:0}}
+@keyframes vfBand{from{transform:scaleX(0) scaleY(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes vfRayIn{from{opacity:0;scale:.6}}
+@keyframes vfSpin{to{rotate:360deg}}
+@keyframes vfFlash{0%{opacity:0;scale:.3}30%{opacity:1}100%{opacity:0;scale:1.35}}
+@keyframes vfEmb{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:none}}
+@keyframes vfEmbL{from{opacity:0;transform:translateY(-4vh) scale(.92)}to{opacity:.92;transform:none}}
+@keyframes vfL{0%{opacity:0;transform:translateY(-.5em) scale(2.4)}55%{opacity:1;transform:translateY(.05em) scale(.9)}78%{transform:scale(1.04)}100%{opacity:1;transform:none}}
+@keyframes vfLL{0%{opacity:0;transform:translateY(-1.1em) rotate(calc((var(--i) - 4) * 2deg))}75%{opacity:1;transform:translateY(.05em)}88%{transform:translateY(-.03em)}100%{opacity:1;transform:none}}
+@keyframes vfShine{from{background-position:160% 0,0 0}to{background-position:-60% 0,0 0}}
+@keyframes vfSub{from{opacity:0;transform:scaleX(.3)}}
+@keyframes vfShk{0%,100%{transform:none}20%{transform:translate(-.8vh,.5vh)}40%{transform:translate(.7vh,-.6vh)}60%{transform:translate(-.5vh,.3vh)}80%{transform:translate(.3vh,-.2vh)}}
+@keyframes vfOut{to{opacity:0;transform:translateY(-10vh) scale(.82)}}
+
+/* ---------- el açılabiliyor: taşlarda ateş ---------- */
+#rt .t.rk.fire{box-shadow:0 .25vh 0 #c9b98d,inset 0 0 0 .18vh #ffb13b,inset 0 0 1.1vh rgba(255,120,20,.55),0 0 0 .14vh #ff9a2a,0 0 1.3vh .3vh rgba(255,110,10,.85)!important;animation:fGlow .55s ease-in-out infinite alternate}
+#rt .t.rk.fire.drag{box-shadow:inset 0 0 0 .18vh #ffb13b,0 0 1.3vh .3vh rgba(255,110,10,.85),0 1.6vh 1.8vh rgba(0,0,0,.45)!important}
+#rt .t .tfl{position:absolute;left:-30%;width:160%;bottom:88%;aspect-ratio:128/88;pointer-events:none;
+ background:url(img/fx/flame.webp?h=d65fca1) 0 100%/1600% auto no-repeat;animation:fFlm .8s steps(16) infinite;animation-delay:var(--fd,0s);mix-blend-mode:screen;filter:saturate(1.3) brightness(1.08)}
+@keyframes fFlm{to{background-position:106.6667% 100%}}
+@keyframes fGlow{from{filter:brightness(1)}to{filter:brightness(1.07) saturate(1.12)}}
+@keyframes fEmb{from{opacity:.35}to{opacity:.9}}
+body.lo #rt .t.rk.fire{animation:none}
+body.lo #rt .t .tfl{animation:none;background-position:40% 100%;opacity:.85}
+body.lo 
+/* ---------- basılı tutunca grup seçimi ---------- */
+#rt .t.rk.gsel{box-shadow:0 0 0 .3vh #4cff9a,0 0 1.6vh .3vh rgba(60,255,150,.65),0 .6vh .8vh rgba(0,0,0,.4)!important;z-index:40}
+#rt .t.rk.gsel:not(.drag){translate:0 -.8vh;transition:translate .14s ease}
+
+/* ---------- sonuç ekranı: sade, canlı ---------- */
+#mc.hend.hx .he-ttl{position:relative;display:inline-block;background:none!important;-webkit-text-fill-color:initial;color:inherit!important;text-shadow:none!important;font-size:clamp(20px,7.6vh,40px)!important;letter-spacing:.04em;transform:skewX(-6deg)}
+#mc.hend.hx .he-ttl .hx-fr{position:absolute;inset:0;color:transparent;-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text;
+ background-image:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.9) 50%,transparent 60%),linear-gradient(180deg,#fffbe8,#ffe48a 30%,#ffc232 50%,#de8410 57%,#ffd060 78%,#fff0b8);
+ background-size:320% 100%,100% 100%;background-repeat:no-repeat;background-position:160% 0,0 0;animation:vfShine 1.4s ease-in-out .5s both}
+#mc.hend.hx .he-ttl .hx-bk{color:#4a1d00;-webkit-text-stroke:.14em #3a1400;text-shadow:0 .08em 0 #2a0c00,0 .14em .3em rgba(0,0,0,.6)}
+#mc.hend.hx .he-hd.hl .he-ttl .hx-fr,#mc.hend.hx .he-hd.hn .he-ttl .hx-fr{background-image:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.6) 50%,transparent 60%),linear-gradient(180deg,#f6f9fd,#cfd9e8 34%,#8797b2 50%,#5f6f8c 56%,#a9b8cf 78%,#e4eaf3)}
+#mc.hend.hx .he-hd.hl .he-ttl .hx-bk,#mc.hend.hx .he-hd.hn .he-ttl .hx-bk{color:#121a2a;-webkit-text-stroke:.14em #0e1522;text-shadow:0 .08em 0 #070b14,0 .14em .3em rgba(0,0,0,.6)}
+#mc.hend.hx .he-hd{animation:hxHd .5s cubic-bezier(.2,1.4,.4,1) both}
+body:not(.lo) #mc.hend.hx{animation:hxIn .38s cubic-bezier(.2,1.25,.4,1) both!important}
+@keyframes hxIn{from{opacity:0;transform:translateY(4vh) scale(.94)}}
+/* satırlar: kutu yok, ince ayraç; değerler düz yazı */
+#mc.hend.hx .he-rs{gap:0!important}
+#mc.hend.hx .he-r{background:none!important;box-shadow:inset 0 -1px 0 rgba(160,195,255,.14)!important;border-radius:1.2vh}
+#mc.hend.hx .he-r{position:relative}
+#mc.hend.hx .he-r.mee{box-shadow:inset .45vh 0 0 #6fb2ff,inset 0 -1px 0 rgba(160,195,255,.14)!important}
+#mc.hend.hx .he-r.mee::before,#mc.hend.hx .he-r.w::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(90deg,rgba(70,140,255,.42),rgba(70,140,255,.08) 65%,transparent)}
+#mc.hend.hx .he-r.w::before{background:linear-gradient(90deg,rgba(255,165,30,.55),rgba(255,165,30,.12) 60%,transparent)}
+#mc.hend.hx .he-r.w{position:relative;overflow:hidden;background:none!important;box-shadow:inset .45vh 0 0 #ffc94a,inset 0 -1px 0 rgba(255,214,110,.25)!important}
+#mc.hend.hx .he-r.w::after{content:'';position:absolute;top:0;bottom:0;width:30%;left:-40%;background:linear-gradient(100deg,transparent,rgba(255,240,190,.35),transparent);animation:hxSw 1.2s ease-out 1s both;pointer-events:none}
+#mc.hend.hx .he-v,#mc.hend.hx .he-t,#mc.hend.hx .he-c{background:none!important;box-shadow:none!important;height:auto;font-size:clamp(12px,3.6vh,19px);font-variant-numeric:tabular-nums}
+#mc.hend.hx .he-t{color:#ffd76a!important}
+#mc.hend.hx .he-v{color:#e8f0ff!important}
+#mc.hend.hx .he-v.neg{color:#5dffa0!important}
+#mc.hend.hx .he-h{border-bottom:1px solid rgba(160,195,255,.18);padding-bottom:.6vh;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(8px,1.9vh,10px)}
+#mc.hend.hx .he-r.hx-in{animation:hxRow .45s cubic-bezier(.2,1,.35,1) both;animation-delay:calc(.18s + var(--i)*.09s)}
+#mc.hend.hx .he-r .avb{transition:none}
+#mc.hend.hx .he-f .mrow{animation:hxRow .45s cubic-bezier(.2,1,.35,1) .6s both}
+@keyframes hxHd{from{opacity:0;transform:scale(1.25)}}
+@keyframes hxRow{from{opacity:0;transform:translateX(-5vh)}}
+@keyframes hxSw{to{left:120%}}
+body.lo #mc.hend.hx .he-hd,body.lo #mc.hend.hx .he-r.w::after,body.lo #mc.hend.hx .he-ttl .hx-fr{animation:none}
+
+/* ---------- butonlar: plastik parlama ve kalın alt kenar yerine sade, yumuşak gölgeli ---------- */
+.btn::before,.gbtn::before,.cap::before{display:none!important}
+.btn{background:linear-gradient(180deg,color-mix(in srgb,var(--a) 70%,var(--b)) 0%,var(--b) 62%,color-mix(in srgb,var(--b) 82%,var(--d)) 100%);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(0,0,0,.10),0 .5vh 1.2vh color-mix(in srgb,var(--d) 55%,transparent)!important;
+ text-shadow:0 .06em .14em color-mix(in srgb,var(--ol) 80%,transparent)!important;border-radius:1.6vh;transition:transform .12s ease,filter .12s ease,box-shadow .15s ease}
+.btn:active{transform:scale(.96)!important;filter:brightness(.94);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 .2vh .5vh color-mix(in srgb,var(--d) 50%,transparent)!important}
+.btn.y{color:#6a3300;text-shadow:0 1px 0 rgba(255,250,220,.55)!important}
+.btn.y .sv{filter:none}
+.btn .sv{filter:none}
+.btn.w{text-shadow:none!important}
+.gbtn{background:linear-gradient(180deg,color-mix(in srgb,var(--a) 70%,var(--b)),var(--b) 70%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 .5vh 1vh color-mix(in srgb,var(--d) 55%,transparent)!important}
+.gbtn .sv{filter:none}
+.gbtn:active{transform:scale(.94)!important;box-shadow:0 .2vh .4vh color-mix(in srgb,var(--d) 50%,transparent)!important}
+/* ıstaka yanı ÇİFT / SERİ */
+.cap{background:linear-gradient(180deg,color-mix(in srgb,var(--a) 75%,var(--b)),var(--b) 75%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 .6vh 1.4vh rgba(0,0,0,.35)!important}
+.cap:active{transform:scale(.97)!important;box-shadow:0 .2vh .5vh rgba(0,0,0,.35)!important}
+/* SERİ AÇ / ÇİFT AÇ hazır: nabız atan ışık halkası */
+#acts .btn.hot::after{background:none!important;box-shadow:0 0 0 .22vh rgba(255,255,255,.75),0 0 1.8vh .2vh rgba(255,215,100,.85)!important}
+/* bilgi olan ama buton olmayan yazılar: kutu yok */
+#mep .ch{background:none!important;box-shadow:none!important;padding:0 .4vh!important;gap:.6vh!important;min-width:0!important}
+#mep .ch span{opacity:.7;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.82em}
+#mep .ch b{font-variant-numeric:tabular-nums}
+#mep .ch.gd b{color:#7dffb0!important;text-shadow:0 0 .8vh rgba(80,255,150,.6)}
+#mep .ch.gd span{color:#bfffd6;opacity:1}
+#mep .ch.wide{background:none!important}
+/* sekmeler: seçili olan dolu, diğerleri sade */
+.vt button{background:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)!important;text-shadow:none!important;color:#e6efff}
+.vt button.on{background:linear-gradient(90deg,#ffd666,#ffa62b)!important;color:#5a2a00!important;box-shadow:0 .5vh 1.4vh rgba(255,150,30,.35)!important;transform:none!important}
+.vt button.on .sv{color:#7a3a00}
+.vt button.vptab{background:linear-gradient(90deg,rgba(255,214,102,.28),rgba(255,166,43,.12))!important;color:#ffe08a!important;box-shadow:inset 0 0 0 1px rgba(255,214,102,.45)!important}
+.vt button.vptab.on{background:linear-gradient(90deg,#ffe48a,#ffc22e)!important;color:#5a2a00!important}
+.vt button.on:active,.vt button.on.prs{transform:scale(.97)!important}
+/* lobi masa kartı: düz yeşil oyna */
+.lc-b{background:linear-gradient(#4fd873,#22a845)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 .6vh 1.4vh rgba(8,70,26,.45)!important;text-shadow:0 .08em .15em rgba(0,60,20,.45)!important}
+.lc-b.lk{background:linear-gradient(#a8b3c2,#7f8b9a)!important;box-shadow:0 .5vh 1.2vh rgba(0,0,0,.3)!important}
+.lc-b.wt{background:linear-gradient(#ffc56a,#e8862a)!important;box-shadow:0 .5vh 1.2vh rgba(120,60,10,.4)!important}
+/* bilgi yazıları: kutu değil, düz yazı */
+.lt-rl{gap:0!important}
+.lt-rl span{background:none!important;box-shadow:none!important;border-radius:0!important}
+.lt-rl span+span{box-shadow:inset 1px 0 0 rgba(255,255,255,.14)!important}
+.lc-in span{background:none!important;padding:0 .4vh!important}
+.lc-in span+span{box-shadow:inset 1px 0 0 rgba(255,255,255,.3)}
+.mst span{background:linear-gradient(90deg,rgba(6,18,40,.55),rgba(6,18,40,0))!important;box-shadow:none!important;border-radius:calc(8*var(--u))!important}
+/* pencereler: yumuşak açılış */
+body:not(.lo) .ovl.on .win{animation:hisWin .28s cubic-bezier(.2,1,.35,1) both}
+@keyframes hisWin{from{opacity:0;transform:translateY(2.4vh)}}
+body:not(.lo) #modal.on #mc:not(.hend){animation:hisMc .24s cubic-bezier(.2,1.2,.4,1) both!important}
+@keyframes hisMc{from{opacity:0;transform:translateY(2vh) scale(.97)}}
+
+</style>
+<script id="j-his">
+// 4.23 — OYUN HİSSİ: galibiyet/mağlubiyet sahnesi, açılabilen taşlarda ateş, seriyi topluca taşıma, canlı sonuç ekranı
+(function(){try{
+Object.assign(DICT,{'GALİBİYET':['VICTORY','VICTORIA','SERKETIN'],'MAĞLUBİYET':['DEFEAT','DERROTA','TÊKÇÛN'],'MAÇ SONUCU':['MATCH RESULT','RESULTADO','ENCAMA MAÇÊ'],
+ 'EL':['HAND','MANO','DEST'],'Istakada yer yok':['No room on the rack','No hay sitio en el atril','Li ser îstakayê cih tune']});
+const isLo=()=>document.body.classList.contains('lo');
+const animOn=()=>P&&P.set&&P.set.anim!==false;
+
+// ---------- 1) GALİBİYET / MAĞLUBİYET sahnesi ----------
+function sparks(cv,win){if(isLo())return;const dpr=Math.min(2,devicePixelRatio||1),Wd=innerWidth,Hd=innerHeight;cv.width=Wd*dpr;cv.height=Hd*dpr;
+ const c=cv.getContext('2d');c.scale(dpr,dpr);const cx=Wd/2,cy=Hd*.47,ps=[],t0=performance.now();
+ if(win){for(let i=0;i<90;i++){const a=Math.random()*Math.PI*2,v=(.35+Math.random()*.9)*Math.min(Wd,Hd)*.0105;ps.push({x:cx,y:cy,vx:Math.cos(a)*v*1.6,vy:Math.sin(a)*v-.6,l:900+Math.random()*900,r:.8+Math.random()*2.2,d:420+Math.random()*120,k:Math.random()<.25})}
+  for(let i=0;i<40;i++)ps.push({x:Math.random()*Wd,y:Hd*(.65+Math.random()*.4),vx:(Math.random()-.5)*.3,vy:-(.4+Math.random()*.9),l:2600,r:.8+Math.random()*1.6,d:200+Math.random()*1400,e:1})}
+ else for(let i=0;i<60;i++)ps.push({x:Math.random()*Wd,y:-Math.random()*Hd*.4,vx:(Math.random()-.5)*.35,vy:.5+Math.random()*1.1,l:3000,r:.8+Math.random()*1.8,d:Math.random()*900,a:1});
+ (function fr(now){const t=now-t0;if(!cv.isConnected||t>3200)return;c.clearRect(0,0,Wd,Hd);c.globalCompositeOperation=win?'lighter':'source-over';
+  for(const p of ps){const tt=t-p.d;if(tt<0)continue;const k=tt/p.l;if(k>1)continue;
+   if(win&&!p.e){p.vx*=.985;p.vy=p.vy*.985+.06;p.x+=p.vx;p.y+=p.vy}else{p.x+=p.vx+Math.sin((tt+p.d)/300)*.25;p.y+=p.vy}
+   const al=(1-k)*(win?1:.55),r=p.r*(win?1:1.2);
+   if(win){const g=c.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);g.addColorStop(0,`rgba(255,250,215,${al})`);g.addColorStop(.35,`rgba(255,196,64,${al*.85})`);g.addColorStop(1,'rgba(255,120,0,0)');c.fillStyle=g;c.beginPath();c.arc(p.x,p.y,r*3,0,7);c.fill();
+    if(p.k&&!p.e){c.strokeStyle=`rgba(255,230,150,${al*.7})`;c.lineWidth=r*.7;c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x-p.vx*4,p.y-p.vy*4);c.stroke()}}
+   else{c.fillStyle=`rgba(190,204,228,${al})`;c.beginPath();c.arc(p.x,p.y,r,0,7);c.fill()}}
+  requestAnimationFrame(fr)})(t0)}
+function vfx(win,sub,cb){if(!animOn()){cb();return}
+ const old=document.getElementById('vfx');if(old)old.remove();
+ const word=L_(win?'GALİBİYET':'MAĞLUBİYET'),ch=[...word];
+ const ls=cls=>`<span class="${cls}">${ch.map((c,i)=>`<i style="--i:${i}">${c==' '?'&nbsp;':esc(c)}</i>`).join('')}</span>`;
+ const e=document.createElement('div');e.id='vfx';e.className=(win?'w':'l')+(isLo()?' lo':'');e.style.setProperty('--n',ch.length);
+ e.innerHTML=`<div class="vf-dim"></div><div class="vf-band"><i></i><i></i></div><div class="vf-rays"></div><div class="vf-flash"></div><canvas></canvas>
+  <div class="vf-core"><img class="vf-emb" src="img/fx/${win?'win':'lose'}_emb.webp" alt=""><div class="vf-word">${ls('vf-bk')}${ls('vf-fr')}</div>${sub?`<div class="vf-sub"><span>${esc(sub)}</span></div>`:''}</div>`;
+ document.body.appendChild(e);sparks(e.querySelector('canvas'),win);vib(win?[20,40,60]:[40]);
+ let done=false;const end=()=>{if(done)return;done=true;clearTimeout(tm);e.classList.add('out');setTimeout(()=>e.remove(),460);try{cb()}catch(er){}};
+ e.addEventListener('pointerdown',end);const tm=setTimeout(end,win?2600:2400)}
+window.vfx=vfx;
+handModal=(o=>function(w,type,r,over){const a=arguments,th=this;
+ try{if(!S||S._vfx||!animOn())return o.apply(th,a);S._vfx=1;const es=M&&M.md&&M.md.esli;let win,sub;
+  if(over){win=M.win===0;sub=L_('MAÇ SONUCU')}else if(w>=0){win=es?w%2==0:w===0;sub=M.n>1?`${L_('EL')} ${M.k} / ${M.n}`:''}else return o.apply(th,a);
+  let n=0;const go=()=>{if(S&&S.ffxRun&&n++<45)return setTimeout(go,100);vfx(win,sub,()=>{HXW=win?'w':'l';o.apply(th,a)})};go()}catch(er){return o.apply(th,a)}})(handModal);
+
+// ---------- 2) canlı sonuç ekranı ----------
+let HXW='';
+function countUp(el,dur,delay){const tn=[...el.childNodes].reverse().find(n=>n.nodeType==3&&n.textContent.trim());if(!tn)return;const raw=tn.textContent.trim();const m=raw.match(/^([+\-−]?)([\d.,]+)$/);if(!m)return;const neg=m[1]=='-'||m[1]=='−',plus=m[1]=='+';
+ const dot=raw.includes('.')&&!raw.includes(','),v=parseInt(m[2].replace(/[.,]/g,''),10);if(!(v>0))return;
+ const fmt=x=>(neg?'-':plus?'+':'')+(dot||v>=1000?x.toLocaleString('tr-TR'):String(x));tn.textContent=fmt(0);
+ setTimeout(()=>{const t0=performance.now();(function f(now){const k=Math.min(1,(now-t0)/dur),e2=1-Math.pow(1-k,3);tn.textContent=fmt(Math.round(v*e2));if(k<1&&el.isConnected)requestAnimationFrame(f)})(t0)},delay)}
+function hxDeco(){const mc=$('#mc');if(!mc||!mc.classList.contains('hend')||mc.classList.contains('hx'))return;mc.classList.add('hx');
+ const hd=mc.querySelector('.he-hd'),tt=mc.querySelector('.he-ttl');
+ if(hd&&tt){let txt=tt.textContent.trim();if(HXW)txt=L_(HXW=='w'?'GALİBİYET':'MAĞLUBİYET');else if(hd.classList.contains('hw'))txt=L_('GALİBİYET');else if(hd.classList.contains('hl'))txt=L_('MAĞLUBİYET');
+  tt.innerHTML=`<span class="hx-bk">${esc(txt)}</span><span class="hx-fr">${esc(txt)}</span>`;if(HXW)hd.classList.toggle('hw',HXW=='w'),hd.classList.toggle('hl',HXW=='l')}
+ HXW='';if(!animOn()||isLo())return;
+ mc.querySelectorAll('.he-r').forEach((r,i)=>{r.style.setProperty('--i',i);r.classList.add('hx-in');r.querySelectorAll('.he-v,.he-t,.he-c').forEach(x=>countUp(x,650,260+i*90))});
+ const tm=mc.querySelector('.he-tm');if(tm)mc.querySelectorAll('.he-tt b').forEach(x=>countUp(x,700,300))}
+(function(){const md=$('#modal');if(!md)return;new MutationObserver(()=>{try{hxDeco()}catch(e){}}).observe(md,{childList:true,subtree:true,attributes:true,attributeFilter:['class']})})();
+
+// ---------- 3) el açılabiliyorsa taşlarda ateş ----------
+let FK='',FIDS=new Set();
+function fireIds(){if(!S||S.over||S.deal||S.op[0]||!S.rack)return null;
+ const key=S.rack.map(t=>t?t.id:'').join(',')+'|'+S.bar+'|'+S.pbar+'|'+(S.t3?S.t3.id:'');if(key===FK)return FIDS;FK=key;FIDS=new Set();
+ const tiles=rackT(),x=S.t3&&S.rack.includes(S.t3)?S.t3:null,st=stat();let gs=null;
+ if(st.melds.length&&st.pts>=S.bar&&(!x||st.melds.some(g=>g.includes(x))))gs=st.melds;
+ else{const oi=openInfo(tiles,x);if(oi.b.melds.length&&(oi.pts>=S.bar||oi.kafa)&&(!x||oi.b.melds.some(m=>m.includes(x))))gs=oi.b.melds}
+ if(!gs){const pr=st.prs.length>=S.pbar?st.prs:(pairCount(tiles)>=S.pbar?pairsOf(tiles,S.pbar,x):[]);if(pr.length>=S.pbar)gs=pr}
+ if(gs)gs.forEach(g=>g.forEach(t=>FIDS.add(t.id)));return FIDS}
+function fireUpd(){if(typeof RT=='undefined')return;const ids=(onTbl()&&fireIds())||new Set();let nw=0;
+ RT.forEach((el,id)=>{const on=ids.has(id);if(on){if(!el.classList.contains('fire')){el.classList.add('fire');nw++}if(!el.querySelector('.tfl'))el.insertAdjacentHTML('beforeend',`<i class="tfl" style="--fd:${(-((id*37)%16)/20).toFixed(2)}s"></i>`)}
+  else if(el.classList.contains('fire')){el.classList.remove('fire');const f=el.querySelector('.tfl');if(f)f.remove()}});
+ if(nw>=3&&!S._fireS){S._fireS=1;try{snd('open')}catch(e){}}}
+render=(o=>function(){const r=o.apply(this,arguments);try{fireUpd()}catch(e){}return r})(render);
+
+// ---------- 4) basılı tut: bitişik seriyi topluca taşı ----------
+let GLT=0,SKIPT=-1;
+const grpOf=i=>{const b=Math.floor(i/W)*W;let l=i,r=i;while(l-1>=b&&S.rack[l-1])l--;while(r+1<b+W&&S.rack[r+1])r++;const g=[];for(let k=l;k<=r;k++)g.push(k);return g};
+const gEls=d=>d.grp.map(k=>S.rack[k]&&RT.get(S.rack[k].id)).filter(Boolean);
+function gClear(d){if(!d||!d.grp)return;gEls(d).forEach(el=>{el.classList.remove('gsel');if(el!==d.el){el.classList.remove('drag');el.style.zIndex=''}})}
+addEventListener('pointerdown',()=>{clearTimeout(GLT);const d=D;if(!d||d.k!='r'||d.go||!d.el)return;const t=S.rack[d.i];if(!t||(isJ(t)&&!t.fl))return;
+ GLT=setTimeout(()=>{if(D!==d||d.go||S.busy)return;const g=grpOf(d.i);if(g.length<2)return;d.grp=g;gEls(d).forEach(el=>el.classList.add('gsel'));vib(25);try{snd('pick')}catch(e){}},360)},{passive:true});
+addEventListener('pointerup',()=>{clearTimeout(GLT);const d=D;if(d&&d.grp&&!d.go){gClear(d);SKIPT=d.i}},{capture:true,passive:true});
+moveDrag=(o=>function(){const d=D;o.apply(this,arguments);if(!d||!d.grp||!d.go||!d.el)return;
+ const lx=PX-RC.rt.left-TW/2,ly=PY-RC.rt.top-TH*.82,k=d.t0==null?1:Math.min(1,(performance.now()-d.t0)/110),e=1-Math.pow(1-k,3);
+ const sx=d.sx==null?lx:d.sx,sy=d.sy==null?ly:d.sy,x0=sx+(lx-sx)*e,y0=sy+(ly-sy)*e,sc=1+.12*e;
+ d.grp.forEach(j=>{if(j===d.i)return;const t=S.rack[j],el=t&&RT.get(t.id);if(!el)return;
+  if(!el.classList.contains('drag')){el.classList.add('drag');el.style.zIndex=49}el.style.transform=tf(x0+(j-d.i)*(TW*sc+1),y0,sc)})})(moveDrag);
+tap=(o=>function(i){if(SKIPT===i){SKIPT=-1;return}SKIPT=-1;return o.apply(this,arguments)})(tap);
+cancelDrag=(o=>function(){try{if(D&&D.grp)gClear(D)}catch(e){}return o.apply(this,arguments)})(cancelDrag);
+function layRow(row,start,tiles){const b=row*W,n=tiles.length,oth=[];for(let c=0;c<W;c++){const t=S.rack[b+c];if(t)oth.push({t,p:c})}
+ if(oth.length+n>W)return false;
+ const tryAt=s=>{let best=null;
+  {const a=Array(W).fill(null);let ok=true,dsp=0,cur=s+n;oth.filter(o=>o.p<s).forEach(o=>a[o.p]=o.t);tiles.forEach((t,k)=>a[s+k]=t);
+   for(const o of oth.filter(o=>o.p>=s)){const np=Math.max(o.p,cur);if(np>=W){ok=false;break}a[np]=o.t;dsp+=np-o.p;cur=np+1}if(ok)best={a,dsp}}
+  {const a=Array(W).fill(null);let ok=true,dsp=0,cur=s-1;oth.filter(o=>o.p>=s+n).forEach(o=>a[o.p]=o.t);tiles.forEach((t,k)=>a[s+k]=t);
+   for(const o of oth.filter(o=>o.p<s+n).sort((x,y)=>y.p-x.p)){const np=Math.min(o.p,cur);if(np<0){ok=false;break}a[np]=o.t;dsp+=o.p-np;cur=np-1}if(ok&&(!best||dsp<best.dsp))best={a,dsp}}
+  return best};
+ const cand=[];for(let s=0;s<=W-n;s++)cand.push(s);cand.sort((x,y)=>Math.abs(x-start)-Math.abs(y-start));
+ for(const s of cand){const r=tryAt(s);if(r){r.a.forEach((t,c)=>S.rack[b+c]=t);return true}}return false}
+drop=(o=>function(d,tg){if(!d||!d.grp)return o.apply(this,arguments);
+ const els=gEls(d);els.forEach(el=>{el.classList.remove('gsel','drag');el._drag=el.style.transform;el.style.zIndex=''});
+ if(!tg||tg.type!='slot'){render();return}
+ const tiles=d.grp.map(k=>S.rack[k]),pIdx=d.grp.indexOf(d.i),n=tiles.length,keep=S.rack.slice();
+ d.grp.forEach(k=>S.rack[k]=null);
+ const occ=S.rack[tg.row*W+tg.col];let start=tg.col+(occ&&tg.side?1:0)-pIdx;start=Math.max(0,Math.min(W-n,start));
+ if(!layRow(tg.row,start,tiles)){S.rack=keep;err(L_('Istakada yer yok'));render();return}
+ sel=null;FOOTC={};try{snd('drop')}catch(e){}render()})(drop);
+}catch(e){console.error('his',e)}})();
+
+</script>
 </body></html>

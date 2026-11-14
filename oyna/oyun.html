@@ -12048,11 +12048,11 @@ body[data-rack=fdds] .cap{--a:#4b95ec;--b:#1d5fbf;--d:#0b2c66}
 @keyframes vfOut{to{opacity:0;transform:translateY(-10vh) scale(.82)}}
 
 /* ---------- dizili seri/per (turuncu) ya da çiftler (yeşil): parlayan kenar + tuvalde hareketli alev ---------- */
-#rt .t.rk.fire{box-shadow:0 .25vh 0 #c9b98d,inset 0 0 0 .18vh #ffb13b,inset 0 0 1.1vh rgba(255,120,20,.5),0 0 0 .14vh #ff9a2a,0 0 1.4vh .35vh rgba(255,110,10,.85)!important;animation:fGlow .5s ease-in-out infinite alternate}
-#rt .t.rk.fire.fp{box-shadow:0 .25vh 0 #c9b98d,inset 0 0 0 .18vh #b8ff5a,inset 0 0 1.1vh rgba(110,230,40,.45),0 0 0 .14vh #8be83a,0 0 1.4vh .35vh rgba(90,220,40,.8)!important}
+#rt .t.rk.fire{box-shadow:0 .25vh 0 #c9b98d,inset 0 0 0 .14vh #ffb13b,0 0 0 .1vh #ff9a2a,0 0 .8vh .05vh rgba(255,120,20,.6)!important;animation:fGlow .7s ease-in-out infinite alternate}
+#rt .t.rk.fire.fp{box-shadow:0 .25vh 0 #c9b98d,inset 0 0 0 .14vh #b8ff5a,0 0 0 .1vh #8be83a,0 0 .8vh .05vh rgba(90,220,40,.55)!important}
 #rt .t.rk.fire.drag{box-shadow:inset 0 0 0 .18vh #ffb13b,0 0 1.3vh .3vh rgba(255,110,10,.85),0 1.6vh 1.8vh rgba(0,0,0,.45)!important}
 #rt .t .tfl{display:none}
-@keyframes fGlow{from{filter:brightness(1)}to{filter:brightness(1.08) saturate(1.15)}}
+@keyframes fGlow{from{filter:brightness(1)}to{filter:brightness(1.04)}}
 #fcv{position:absolute;left:0;width:100%;pointer-events:none;z-index:3}
 body.lo #rt .t.rk.fire{animation:none}
 /* el başı dağıtma */
@@ -12336,21 +12336,21 @@ function fSprites(){const mk=stops=>{const c=document.createElement('canvas');c.
 function fLoop(now){FRAF=0;const rk=$('#rack');if(!rk||!S||!onTbl()){FP=[];if(FCX)FCX.clearRect(0,0,FCV.width,FCV.height);return}
  if(!FSP)FSP=fSprites();
  if(!FCV||!FCV.isConnected){FCV=document.createElement('canvas');FCV.id='fcv';rk.appendChild(FCV);FCX=FCV.getContext('2d')}
- const ext=Math.round(TH*1.4);if(FCV._e!==ext){FCV._e=ext;FCV.style.top=-ext+'px';FCV.style.height=`calc(100% + ${ext}px)`}
+ const ext=Math.round(TH*.7);if(FCV._e!==ext){FCV._e=ext;FCV.style.top=-ext+'px';FCV.style.height=`calc(100% + ${ext}px)`}
  const lo=isLo(),dpr=Math.min(lo?1:2,devicePixelRatio||1),cr=FCV.getBoundingClientRect(),cw=Math.round(cr.width*dpr),ch=Math.round(cr.height*dpr);
  if(FCV.width!==cw||FCV.height!==ch){FCV.width=cw;FCV.height=ch}
  const dt=Math.min(.05,FLT?(now-FLT)/1000:.016);FLT=now;
  if(!S.deal&&!S.over)for(const g of FGR){const rs=g.ids.map(id=>{const e=RT.get(id);return e&&!e.classList.contains('drag')?e.getBoundingClientRect():null}).filter(r=>r&&r.width);
-  rs.forEach((r,i)=>{const w=r.width,h=r.height,x0=r.left-cr.left,y0=r.top-cr.top;let n=(lo?9:22)*dt;n=(n|0)+(Math.random()<n%1?1:0);
-   for(let k=0;k<n;k++)FP.push({x:x0+w*(.1+Math.random()*.8),y:y0+h*(.02+Math.random()*.07),vx:(Math.random()-.5)*w*.6,vy:-(0.6+Math.random()*.8)*h,a:0,l:.36+Math.random()*.36,s:w*(.5+Math.random()*.38),k:g.k,w});
-   if(Math.random()<(lo?1:2.2)*dt)FP.push({x:x0+w*Math.random(),y:y0,vx:(Math.random()-.5)*w,vy:-(1.1+Math.random()*.8)*h,a:0,l:.7+Math.random()*.5,s:w*.09,k:g.k,e:1,w});
-   const side=i==0?-1:i==rs.length-1?1:0;if(side&&Math.random()<(lo?3:7)*dt)FP.push({x:side<0?x0+1:x0+w-1,y:y0+h*(.08+Math.random()*.55),vx:side*w*.35,vy:-(0.35+Math.random()*.4)*h,a:0,l:.3+Math.random()*.2,s:w*(.28+Math.random()*.18),k:g.k,w})})}
- if(FP.length>(lo?160:420))FP.splice(0,FP.length-(lo?160:420));
+  rs.forEach((r,i)=>{const w=r.width,h=r.height,x0=r.left-cr.left,y0=r.top-cr.top;let n=(lo?4:8)*dt;n=(n|0)+(Math.random()<n%1?1:0);
+   for(let k=0;k<n;k++)FP.push({x:x0+w*(.15+Math.random()*.7),y:y0+h*(.03+Math.random()*.04),vx:(Math.random()-.5)*w*.3,vy:-(0.25+Math.random()*.3)*h,a:0,l:.32+Math.random()*.22,s:w*(.28+Math.random()*.16),k:g.k,w});
+   if(Math.random()<(lo?.2:.5)*dt)FP.push({x:x0+w*Math.random(),y:y0,vx:(Math.random()-.5)*w*.5,vy:-(0.5+Math.random()*.4)*h,a:0,l:.5+Math.random()*.3,s:w*.06,k:g.k,e:1,w});
+   const side=i==0?-1:i==rs.length-1?1:0;if(side&&Math.random()<(lo?.6:1.4)*dt)FP.push({x:side<0?x0+1:x0+w-1,y:y0+h*(.1+Math.random()*.4),vx:side*w*.12,vy:-(0.15+Math.random()*.2)*h,a:0,l:.25+Math.random()*.15,s:w*(.16+Math.random()*.08),k:g.k,w})})}
+ if(FP.length>(lo?60:140))FP.splice(0,FP.length-(lo?60:140));
  const c=FCX;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,cr.width,cr.height);c.globalCompositeOperation='lighter';
  for(let i=FP.length-1;i>=0;i--){const q=FP[i];q.a+=dt;const f=q.a/q.l;if(f>=1){FP.splice(i,1);continue}
-  q.vy-=q.w*(q.e?.6:2.2)*dt;q.x+=(q.vx+Math.sin((q.a+q.y)*14)*q.w*.35)*dt;q.y+=q.vy*dt;q.vx*=.92;
+  q.vy-=q.w*(q.e?.3:.9)*dt;q.x+=(q.vx+Math.sin((q.a+q.y)*14)*q.w*.15)*dt;q.y+=q.vy*dt;q.vx*=.92;
   const sp=FSP[q.k],s=q.e?q.s:q.s*Math.pow(1-f,.55),img=q.e?sp[0]:f<.28?sp[0]:f<.62?sp[1]:sp[2];
-  c.globalAlpha=q.e?(1-f)*.95:Math.min(1,(1-f)*1.5)*(f<.08?f/.08:1);c.drawImage(img,q.x-s/2,q.y-s*.85,s,s*1.45)}
+  c.globalAlpha=(q.e?(1-f)*.8:Math.min(1,(1-f)*1.4)*(f<.1?f/.1:1))*.75;c.drawImage(img,q.x-s/2,q.y-s*.85,s,s*1.45)}
  c.globalAlpha=1;c.globalCompositeOperation='source-over';
  if(FGR.length||FP.length)FRAF=requestAnimationFrame(fLoop)}
 // açma düğmeleri ve alt bilgi dizili taşlara göre (dizmeden açılmaz); dizilmemiş ama açılabilecek el için ipucu

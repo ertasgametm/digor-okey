@@ -12179,6 +12179,62 @@ body.lo #mc.hend.hx .he-hd,body.lo #mc.hend.hx .he-r.w::after{animation:none}
 #mimg .vb3 .dot,.vb3 .dot{right:calc(-3*var(--u))!important;top:calc(-3*var(--u))!important}
 #mimg .vb3 .dot.num,.vb3 .dot.num{min-width:calc(25*var(--u))!important;width:auto!important;height:calc(25*var(--u))!important;padding:0 calc(6*var(--u))!important;font-size:calc(16*var(--u))!important;right:calc(-7*var(--u))!important;top:calc(-7*var(--u))!important}
 
+/* =====================================================================
+   4.23 · buton olmayan her şey düz: başlıklar, durum etiketleri, ödül yazıları
+   (sert alt gölge / iç parlama yok; tıklanabilen butonlar aynen kalır)
+   ===================================================================== */
+/* pencere başlıkları (Menü, Çıkış, Hediye kodu, Müzik Seç…): hap düğme değil, iki yanında ince altın çizgili başlık yazısı */
+#mc h3{position:relative;background:none!important;box-shadow:none!important;border-radius:0!important;padding:.2vh 0!important;margin:0 auto .4vh!important;
+ color:#ffe7a3!important;font-size:clamp(14px,4.2vh,21px)!important;letter-spacing:.02em;text-shadow:0 .25vh 0 rgba(0,0,0,.45)!important}
+#mc h3::before,#mc h3::after{content:'';position:absolute;top:55%;width:max(5vh,18px);height:max(.35vh,1.5px);border-radius:9px;pointer-events:none}
+#mc h3::before{right:100%;margin-right:1.2vh;background:linear-gradient(270deg,#ffd34d,transparent)}
+#mc h3::after{left:100%;margin-left:1.2vh;background:linear-gradient(90deg,#ffd34d,transparent)}
+#mc.hend h3::before,#mc.hend h3::after{display:none}
+
+/* günlük sandık: gün etiketleri yazı (Alındı ✓ yeşil, Bugün altın, Yarın mavi, Kilitli gri) */
+.dzd em{background:none!important;box-shadow:none!important;padding:0!important;font-size:clamp(8px,1.8vh,11px)!important;color:rgba(214,226,255,.55)!important}
+.dzd.done em{color:#7ee68f!important}
+.dzd.now em{color:#ffd257!important}
+.dzd.next em{color:#8cc8ff!important}
+/* sandık önizlemesi: ödül aralığı ve XP yazı olarak */
+.dzc,.dzc.c,.dzc.x,.dzc.t{background:none!important;box-shadow:none!important;padding:0 .4vh!important;height:auto!important;min-height:0!important}
+.dzc.c{color:#ffe39a!important}.dzc.x{color:#cdb6ff!important}.dzc.t{color:#8cc8ff!important}
+/* açılınca kazanılan: kesilmesin (kutu taşmayı gizliyordu), hap yerine parlayan yazı */
+.dzwin{overflow:visible!important;height:auto!important;min-height:max(5.6vh,22px);padding:.3vh 0}
+.dzwin>*{overflow:visible!important}
+.dzwin .dxv{background:none!important;box-shadow:none!important;height:auto!important;min-height:0!important;padding:0!important;color:#ffd34d!important;
+ font-size:clamp(16px,5vh,26px)!important;text-shadow:0 .25vh 0 rgba(60,30,0,.6),0 0 1.6vh rgba(255,200,60,.65)}
+.dzwin em{background:none!important;box-shadow:none!important;height:auto!important;min-height:0!important;padding:0!important;color:#cdb6ff!important;font-size:clamp(11px,3vh,16px)!important;text-shadow:0 .2vh 0 rgba(0,0,0,.5)}
+.dzwin em.vb{color:#ffe08a!important}.dzwin em.vb.e{color:#a8e6ff!important}
+#mc .dzr .dxp,.dzr .dxp{width:max-content!important;max-width:96%!important;flex:none!important}
+
+/* görevler: ödüller yazı, "Devam ediyor" düğme değil durum yazısı */
+.tqc,.tqc.x,.tqc.c,.tqc.f,.tqc.v{background:none!important;box-shadow:none!important;padding:0 .3vh!important}
+.tqc.x{color:#d9c8ff!important}.tqc.c{color:#ffe39a!important}.tqc.f{color:#ffc4d2!important}.tqc.v{color:#fff0bf!important}
+.tqc.x i{box-shadow:none!important}
+#mc .tqr .btn.off.off,#mc .tqf .btn.off.off,.tqr .btn.off,.tqf .btn.off{background:none!important;box-shadow:none!important;filter:none!important;opacity:1!important;border:0!important;
+ color:rgba(214,226,255,.5)!important;text-shadow:none!important;font-weight:700!important;cursor:default}
+#mc .tqr .btn.off::before,#mc .tqr .btn.off::after,#mc .tqf .btn.off::before,#mc .tqf .btn.off::after{display:none!important}
+
+/* lig "SEN", pişti başlığı/deste sayısı/"SIRA SENDE", coin paketi şeritleri, süre saati: sert alt kenar yok */
+.lzsen{box-shadow:none!important}
+.ps-tt b{box-shadow:none!important;background:none!important;padding:0 .6vh!important;color:#ffe7a3!important;text-shadow:0 .3vh 0 rgba(0,0,0,.45)!important}
+.ps-dk em{box-shadow:0 .2vh .6vh rgba(0,0,0,.35)!important}
+.psc-tag{box-shadow:0 0 0 .1vh rgba(40,24,6,.5)!important}
+.crib,.crib.g{box-shadow:none!important}
+#shop .cpf{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)!important}
+#clk{box-shadow:0 .6vh 1.2vh rgba(0,0,0,.35)!important}
+
+/* aç/kapa anahtarı: açıkken top dışarı taşmasın (ölçüler sabit, top iki uçta da içeride) */
+.swt{--sh:max(5.4vh,22px);width:max(10vh,40px)!important;height:var(--sh)!important}
+.swt i{left:3px!important;top:3px!important;height:calc(var(--sh) - 6px)!important;width:calc(var(--sh) - 6px)!important;aspect-ratio:auto!important;transform:none!important;transition:left .22s cubic-bezier(.3,1.4,.5,1)!important}
+.swt.on i{left:calc(100% - var(--sh) + 3px)!important;transform:none!important}
+
+/* kısa ekranlarda ayar satırları sıkışsın (Ses / Gizlilik sekmeleri kaydırmasız sığsın) */
+@media (max-height:380px){#settings .srow{padding-top:.25vh!important;padding-bottom:.25vh!important}#settings .pfc.wsc{gap:.7vh!important}}
+/* ülke adları uzun dillerde (Keyaniya Yekbûyî…) kesilmesin: gerekirse biraz küçülür */
+.flags small{letter-spacing:-.02em!important;font-size:clamp(7px,1.85vh,10px)!important;text-overflow:clip!important}
+
 </style>
 <script id="j-his">
 // 4.23 — OYUN HİSSİ: galibiyet/mağlubiyet sahnesi, açılabilen taşlarda ateş, seriyi topluca taşıma, canlı sonuç ekranı

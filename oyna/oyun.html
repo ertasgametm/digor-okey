@@ -12215,6 +12215,30 @@ body.lo #mc.hend.hx .he-hd,body.lo #mc.hend.hx .he-r.w::after{animation:none}
 /* ülke adları uzun dillerde (Keyaniya Yekbûyî…) kesilmesin: gerekirse biraz küçülür */
 .flags small{letter-spacing:-.02em!important;font-size:clamp(7px,1.85vh,10px)!important;text-overflow:clip!important}
 
+/* =====================================================================
+   4.23 · KABARTMA YOK (ana menü hariç her yer): düğme, sekme, ikon, etiket, rozet, anahtar
+   degrade tek renge iner (degradenin ortası gösterilir), iç parlama / iç gölge / sert alt kenar kalkar;
+   renkler, kutular ve yazılar aynen kalır
+   ===================================================================== */
+/* A · düğmeler, sekmeler, ikon kareleri: degrade düz + yalnızca ince düz kenar çizgisi */
+:is(.btn,.gbtn,.op-back,.lb2-inv,.lb2-g,.lc-b,.sl-go,.stp button,.cap,.kqr button,
+ .ops button.on,.seg button.on,.vt button.on,.p2-seg button.on,.shsw button.on,.lzseg button.on,.lb-seg button.on,.rwtabs button.on,.rwtabs>.on,.tqs>button,.ogch,
+ .tqi,.tqsi,.r-ri,.r-shf,.bi,.sl-wi,.cldi,.op-coin i,.wzdots .on,.av2-g u):not(#menu *):is(#q#q,*){
+ background-size:100% 4000%!important;background-position:50% 50%!important;background-repeat:no-repeat!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)!important}
+.tqs>button:not(.on):not(#menu *):is(#q#q,*){box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)!important}
+/* B · etiketler, rozetler, şeritler, sayılar, ilerleme çubukları: degrade düz, kendi düz kenarı kalır */
+:is(.dzd em,.lzsen,.lzrib,.vipr,.nw,.ps-new,.crib,.cpf,.tg,.lvbar em,.tr,.tagb,.psc-tag,.ps-n,.dxv,.hr-ph,.sl-bal,.sl-st,.lvx-rib,.vpn b,.opn span,
+ #mc h3,.lvb,.psc-pt,.ps-dk em,.ps-tt b,.best i,.op-coin,.dzwin em,.lvbar .bar i,.bxp i,.msg.me>span,#clk):not(#menu *):is(#q#q,*){
+ background-size:100% 4000%!important;background-position:50% 50%!important;background-repeat:no-repeat!important}
+/* kapat (X) düğmeleri: küre yerine düz kırmızı, halkalar kalır */
+.xbtn:not(#menu *):is(#q#q,*){background-size:100% 4000%!important;background-position:50% 50%!important;background-repeat:no-repeat!important;box-shadow:0 0 0 .3vh #fff!important}
+.win-h .xbtn:not(#menu *):is(#q#q,*){box-shadow:0 0 0 .3vh var(--g1,#ffd56b),0 0 0 .55vh #c98a14!important}
+/* aç/kapa anahtarı: düz yol, düz beyaz top */
+.swt:not(#menu *):is(#q#q,*){background-image:none!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)!important}
+.swt.on:not(#menu *):is(#q#q,*){background:#2fb24a!important}
+.swt i:not(#menu *):is(#q#q,*){background:#fff!important;box-shadow:0 0 0 1px rgba(0,0,0,.08)!important}
+.hr-x:is(#q#q,*){background-size:100% 4000%!important;background-position:50% 50%!important;background-repeat:no-repeat!important;box-shadow:0 0 0 .3vh #fff!important}
+
 </style>
 <script id="j-his">
 // 4.23 — OYUN HİSSİ: galibiyet/mağlubiyet sahnesi, açılabilen taşlarda ateş, seriyi topluca taşıma, canlı sonuç ekranı

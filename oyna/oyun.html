@@ -12404,6 +12404,10 @@ let RKZ=0;
 moveDrag=(o=>function(){if(!RKZ&&D&&D.go){const rk=$('#rack');if(rk){rk.style.zIndex='12';RKZ=1}}return o.apply(this,arguments)})(moveDrag);
 ['pointerup','pointercancel'].forEach(ev=>addEventListener(ev,()=>{if(!RKZ)return;setTimeout(()=>{if(D&&D.go)return;const rk=$('#rack');if(rk)rk.style.zIndex='';RKZ=0},450)},true));
 
+// ---------- Oyun Salonu noktası: günlük fiş hazırken bir kez görünür; salona girince (fişi almasan da) o gün söner ----------
+if(typeof salOpen=='function')salOpen=(o=>function(){try{const s=salP();if(s.seen!==today()){s.seen=today();save()}const d=$('#sdot');if(d)d.style.display='none'}catch(e){}return o.apply(this,arguments)})(salOpen);
+if(typeof menuHooks=='function')menuHooks=(o=>function(){const r=o.apply(this,arguments);try{const d=$('#sdot');if(d&&salP().seen===today())d.style.display='none'}catch(e){}return r})(menuHooks);
+
 // ---------- iPhone/iPad güçlü: yanlışlıkla açılan Performans modunu bir kez geri al, otomatik geçişi kapat ----------
 try{const iOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
  if(iOS&&P&&P.set){if(!P.set.gfxIOS){P.set.gfxIOS=1;if(P.set.gfx=='l'&&P.set.gfxAuto){P.set.gfx='h';try{applySet()}catch(e){}}P.set.gfxAuto=1;save()}}}catch(e){}

@@ -12058,7 +12058,8 @@ body.lo #rt .t.rk.fire{animation:none}
 /* el başı dağıtma */
 #dlx{position:fixed;inset:0;z-index:53;pointer-events:none;overflow:hidden}
 #dlx .t.dlb{position:absolute;margin:0;background-position:16.667% 100%!important;box-shadow:inset 0 0 0 1px rgba(110,84,40,.45),inset 0 1px 0 #fff,0 2px 0 #b6a27a,0 5px 8px rgba(0,0,0,.4)}
-body.dealing #rt .t.rk:not(.dl-in){visibility:hidden}
+body.dealing #rt .t.rk:not(.dl-in):not(.dlf){visibility:hidden}
+#rt .t.dlf{pointer-events:none;will-change:transform}
 /* açılan taşlar ızgara karesine tam oturur (bir kare = bir taş) */
 .meld .t{--w:calc(var(--cw) - 1px)!important;margin:1px 0 0 1px!important}
 /* profilimdeki seviye rozeti: isim yazısının stilini almasın */
@@ -12365,7 +12366,7 @@ Object.assign(DICT,{'Önce taşlarını diz: seriler yan yana, araları boş ols
 
 // ---------- el başı: taşlar ortadaki desteden dağıtılır (botlara paket paket, ıstakana tek tek dönerek) ----------
 window.dealMs=function(){try{if(!animOn()||!S||!onTbl()||(typeof isOnl=='function'&&isOnl()))return 700;const lo=isLo();
- requestAnimationFrame(()=>{try{dealFx(lo)}catch(e){document.body.classList.remove('dealing')}});return lo?1550:2200}catch(e){return 700}};
+ requestAnimationFrame(()=>{try{dealFx(lo)}catch(e){document.body.classList.remove('dealing')}});return lo?1650:2350}catch(e){return 700}};
 function dealFx(lo){const sid=S.id,old=$('#dlx');if(old)old.remove();
  const d=document.createElement('div');d.id='dlx';document.body.appendChild(d);document.body.classList.add('dealing');
  RT.forEach(el=>{el.classList.remove('dl-in');el.getAnimations().forEach(a=>{try{a.finish()}catch(e){}})});
@@ -12376,14 +12377,27 @@ function dealFx(lo){const sid=S.id,old=$('#dlx');if(old)old.remove();
  [1,2,3].forEach((p,j)=>{const e=$(`#s${p} .avb`)||$(`#s${p}`);if(!e)return;const r=e.getBoundingClientRect(),tx=r.left+r.width/2,ty=r.top+r.height/2;
   for(let rd=0;rd<(lo?2:3);rd++)for(let k=0;k<(lo?1:2);k++){const b=back(dr.width,dcx-dr.width/2,dcy-dr.height/2),t0=60+rd*(lo?420:560)+j*120+k*45,dx=tx-dcx,dy=ty-dcy;
    b.animate([{transform:'translate(0,0) rotate(0deg) scale(1)',opacity:0},{opacity:1,offset:.08},{transform:`translate(${dx*.55}px,${dy*.55-26}px) rotate(${(j-1)*60+k*25}deg) scale(.95)`,opacity:1,offset:.55},{transform:`translate(${dx}px,${dy}px) rotate(${(j-1)*120}deg) scale(.45)`,opacity:0}],{duration:fly+80,delay:t0,easing:'cubic-bezier(.3,.6,.4,1)',fill:'both'})}});
- // ıstaka: sırayla, taşın yerine uçar ve yüzü dönerek açılır
+ // ıstaka: taşın kendisinin kopyası desteden kalkar, havada yüzünü çevirir, ıstakadaki yerine yumuşakça oturur (iniş anında gerçek taşla birebir aynı görünür)
  const mine=[];S.rack.forEach(t=>{if(t){const el=RT.get(t.id);if(el)mine.push(el)}});
- mine.forEach((el,i)=>{const r=el.getBoundingClientRect(),t0=150+i*step,b=back(r.width,r.left,r.top),dx=dcx-(r.left+r.width/2),dy=dcy-(r.top+r.height/2),sc=dr.width/Math.max(1,r.width);
-  b.animate([{transform:`translate(${dx}px,${dy}px) rotate(-25deg) scale(${sc})`,opacity:0},{opacity:1,offset:.1},{transform:`translate(${dx*.45}px,${dy*.45-r.height*.9}px) rotate(-8deg) scale(${(sc+1)/2*1.08})`,opacity:1,offset:.55},{transform:'translate(0,0) rotate(0deg) scale(1)',opacity:1}],{duration:fly,delay:t0,easing:'cubic-bezier(.35,.55,.4,1)',fill:'both'});
-  setTimeout(()=>{if(!S||S.id!==sid)return;b.remove();el.classList.add('dl-in');try{el.animate([{scale:'.06 1'},{scale:'1 1'}],{duration:150,easing:'ease-out'})}catch(e){}if(i%3==0){try{snd('lay')}catch(e){}}},t0+fly)});
- const endT=150+mine.length*step+fly+60;
+ const rt=$('#rt'),rk=$('#rack');if(rk)rk.style.zIndex='12';const BK='16.667% 100%';
+ mine.forEach((el,i)=>{const r=el.getBoundingClientRect(),t0=150+i*step,dx=dcx-(r.left+r.width/2),dy=dcy-(r.top+r.height/2),sc=dr.width/Math.max(1,r.width);
+  const fin=el.style.transform||'none',face=el.style.backgroundPosition;
+  const f=el.cloneNode(true);f.classList.remove('fire','fp','sel','drag','gsel','dl-in');f.classList.add('dlf');f.querySelectorAll('.tfl').forEach(x=>x.remove());f.style.transition='none';f.style.zIndex='30';
+  f.style.transform=`${fin} translate(${dx}px,${dy}px) scale(${sc})`;f.style.backgroundPosition=BK;f.style.opacity='0';rt.appendChild(f);
+  const lift=-r.height*.55;
+  const a=f.animate([
+   {transform:`${fin} translate(${dx}px,${dy}px) rotate(-22deg) scale(${sc})`,opacity:0},
+   {opacity:1,offset:.08},
+   {transform:`${fin} translate(${dx*.4}px,${dy*.4-r.height*.8}px) rotate(-8deg) scale(${(sc+1)/2*1.06},${(sc+1)/2*1.06})`,offset:.42},
+   {transform:`${fin} translate(${dx*.18}px,${dy*.18+lift*.6}px) rotate(-3deg) scale(.04,1.04)`,offset:.6},
+   {transform:`${fin} translate(0px,${lift}px) rotate(0deg) scale(1.04,1.04)`,offset:.82,easing:'cubic-bezier(.4,0,.6,1.4)'},
+   {transform:`${fin} translate(0px,0px) rotate(0deg) scale(1,1)`,opacity:1}],{duration:fly+120,delay:t0,easing:'cubic-bezier(.3,.6,.45,1)',fill:'both'});
+  // yüz: kenarından görünürken (en ince anda) arkadan yüze döner
+  f.animate([{backgroundPosition:BK},{backgroundPosition:BK,offset:.6},{backgroundPosition:face,offset:.601},{backgroundPosition:face}],{duration:fly+120,delay:t0,fill:'both'});
+  a.onfinish=()=>{f.remove();if(!S||S.id!==sid)return;el.classList.add('dl-in');if(i%3==0){try{snd('lay')}catch(e){}}}});
+ const endT=150+mine.length*step+fly+180;
  const ind=$('#ind .t');if(ind)try{ind.animate([{transform:'rotateY(90deg)'},{transform:'rotateY(0deg)'}],{duration:320,delay:Math.max(0,endT-320),easing:'ease-out',fill:'backwards'})}catch(e){}
- setTimeout(()=>{d.remove();document.body.classList.remove('dealing');RT.forEach(el=>el.classList.remove('dl-in'))},endT+60)}
+ setTimeout(()=>{d.remove();document.body.classList.remove('dealing');RT.forEach(el=>el.classList.remove('dl-in'));document.querySelectorAll('#rt .dlf').forEach(x=>x.remove());if(rk&&!(D&&D.go))rk.style.zIndex=''},endT+60)}
 
 // ---------- sürüklenen taş: profil, buton ve saatin üstünden geçer ----------
 let RKZ=0;

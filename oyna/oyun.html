@@ -12281,6 +12281,13 @@ body #modal #mc.lvx{background:radial-gradient(70% 55% at 50% 24%,rgba(255,206,9
 @keyframes wvBb{0%{opacity:0;transform:translateY(0) scale(.5)}15%{opacity:.75}75%{opacity:.3}100%{opacity:0;transform:translate(.8vh,-8vh) scale(1)}}
 .wvx .wr b{animation-name:wvBr}
 @keyframes wvBr{0%{opacity:0;transform:translateY(0) scale(.5)}15%{opacity:.75}75%{opacity:.3}100%{opacity:0;transform:translate(-.8vh,-8vh) scale(1)}}
+/* ışık zerreleri: zeminin tamamında */
+.wvx>u{text-decoration:none}
+.wvx .wvgb{position:absolute;inset:0;overflow:hidden}
+#chat .wvx .wvgb{display:none}
+.wvx .wvgb b{position:absolute;width:var(--s);height:var(--s);aspect-ratio:auto;border-radius:50%;background:radial-gradient(circle,rgba(225,240,255,1),rgba(150,195,255,.4) 42%,transparent 70%);opacity:0;will-change:transform,opacity;animation:wvMt var(--d) linear var(--dl) infinite}
+.wvx .wvgb b.w{background:radial-gradient(circle,rgba(255,238,195,1),rgba(255,200,110,.4) 42%,transparent 70%)}
+@keyframes wvMt{0%{opacity:0;transform:translate(0,0)}12%{opacity:var(--o)}45%{opacity:calc(var(--o)*.35)}58%{opacity:var(--o)}85%{opacity:calc(var(--o)*.5)}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
 body.lo .wvx>i,body.noanim .wvx>i{animation:none!important}
 body.lo .wvx .wg,body.noanim .wvx .wg,body.lo .wvx b,body.noanim .wvx b{display:none!important}
 @media (prefers-reduced-motion:reduce){.wvx>i{animation:none!important}.wvx .wg,.wvx b{display:none!important}}
@@ -12620,9 +12627,11 @@ function ambFr(now){AMB.raf=0;const cv=AMB.cv,h=AMB.host;if(!h||!cv||!cv.isConne
  AMB.raf=requestAnimationFrame(ambFr)}
 
 // ---------- ortak pencere zemini (lacivert + alt köşelerde dalga deseni): her pencerede aynı ve canlı ----------
-// dalgalar alt köşeye bağlı yavaşça kabarıp iner, dalga çizgilerinde arada ışık gezer, köpükten küçük kabarcıklar yükselir
+// dalgalar alt köşeye bağlı yavaşça kabarıp iner, dalga çizgilerinde arada ışık gezer, köpükten küçük kabarcıklar yükselir; tüm zeminde ışık zerreleri
 const WVH='<i class="wl"><i class="wg"></i><b></b><b></b><b></b></i><i class="wr"><i class="wg"></i><b></b><b></b><b></b></i>';
-function wvAdd(h){if(!h||!h.isConnected)return;if(!h.querySelector(':scope>.wvx')){const d=document.createElement('div');d.className='wvx';d.setAttribute('aria-hidden','true');d.innerHTML=WVH;h.insertBefore(d,h.firstChild)}h.classList.add('wv')}
+// zeminin tamamında yavaşça yükselen, arada parlayan küçük ışık zerreleri (mavi-beyaz ve sıcak altın)
+function wvMotes(n){const R=(a,b)=>a+Math.random()*(b-a);let o='<u class="wvgb">';for(let i=0;i<n;i++){const d=R(10,18);o+=`<b class="${Math.random()<.3?'w':''}" style="left:${R(2,97).toFixed(1)}%;top:${R(20,100).toFixed(1)}%;--s:${R(.5,1.25).toFixed(2)}vh;--d:${d.toFixed(1)}s;--dl:${(-R(0,d)).toFixed(1)}s;--o:${R(.35,.8).toFixed(2)};--dx:${R(-3,3).toFixed(1)}vh;--dy:${(-R(14,30)).toFixed(1)}vh"></b>`}return o+'</u>'}
+function wvAdd(h){if(!h||!h.isConnected)return;if(!h.querySelector(':scope>.wvx')){const d=document.createElement('div');d.className='wvx';d.setAttribute('aria-hidden','true');d.innerHTML=wvMotes(h.id=='mc'?12:h.classList.contains('lb-bg')?24:20)+WVH;h.insertBefore(d,h.firstChild)}h.classList.add('wv')}
 function wvScan(){document.querySelectorAll('.win:not(.wv)').forEach(wvAdd);const lb=$('#lob .lb-bg');if(lb&&!lb.classList.contains('wv'))wvAdd(lb)}
 modal=(o=>function(h,cls){const r=o.apply(this,arguments);try{wvAdd($('#mc'))}catch(e){}return r})(modal);
 wvScan();setInterval(wvScan,400);

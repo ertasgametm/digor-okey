@@ -12294,16 +12294,31 @@ body.lo .wvx .wg,body.noanim .wvx .wg,body.lo .wvx b,body.noanim .wvx b{display:
 
 /* ---------- büyük pencere başlıkları: taçlı altın çerçeve (seçilen: çerçeve 2) + Cormorant, ortada çerçeve çizgisinin üstünde ---------- */
 @font-face{font-family:TC;src:url(fonts/cormorant.woff) format('woff');font-weight:400 900;font-display:block}
-body:is(#q#q,*) .win>.win-h:not(#chat .win-h){z-index:9}
-body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2){
+body:is(#q#q,*) .win>.win-h{z-index:9}
+body:is(#q#q,*) .win .win-h h2.ot{
  --ph:min(14vh,64px);margin:0!important;right:auto!important;width:max-content!important;height:var(--ph)!important;min-width:calc(var(--ph)*2.447)!important;padding:0 calc(var(--ph)*.428)!important;box-sizing:border-box!important;
  border:0!important;border-radius:0!important;box-shadow:none!important;-webkit-text-stroke:0!important;filter:none!important;translate:none!important;animation:none!important;font-style:normal!important;text-transform:none;
  background:url(img/ui/ttl_l.webp?h=d53ce0f) left top/calc(var(--ph)*.8593) 100% no-repeat,url(img/ui/ttl_r.webp?h=4299b9f) right top/calc(var(--ph)*.8536) 100% no-repeat,url(img/ui/ttl_m.webp?h=31f4a86) center top/calc(var(--ph)*.7338) 100% no-repeat,
   url(img/ui/ttl_rl.webp?h=a73b47d) calc(var(--ph)*.8593 - .4vh) 0/calc(50% - var(--ph)*1.2262 + .8vh) 100% no-repeat,url(img/ui/ttl_rr.webp?h=b29805c) right calc(var(--ph)*.8536 - .4vh) top/calc(50% - var(--ph)*1.2205 + .8vh) 100% no-repeat!important;
  display:flex!important;align-items:center!important;justify-content:center!important;font-family:TC,L,serif!important;font-weight:700!important;font-size:var(--tfs,calc(var(--ph)*.29))!important;letter-spacing:calc(var(--ph)*.016)!important;
  color:#f6e8c6!important;-webkit-text-fill-color:#f6e8c6!important;text-shadow:0 .2vh 0 rgba(10,25,70,.75),0 .3vh .9vh rgba(0,0,0,.45)!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important}
-body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2){position:absolute!important;left:50%!important;top:calc(var(--ph)*-.5375 + var(--tsh,0px))!important;transform:translateX(-50%)!important}
-body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::before,body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::after{content:none!important;display:none!important}
+body:is(#q#q,*) .win .win-h h2.ot{position:absolute!important;left:50%!important;top:calc(var(--ph)*-.5375 + var(--tsh,0px))!important;transform:translateX(-50%)!important}
+body:is(#q#q,*) .win .win-h h2.ot::before,body:is(#q#q,*) .win .win-h h2.ot::after{content:none!important;display:none!important}
+
+/* ---------- sonuç ekranı başlığı: çerçeve 3 + Oswald; galibiyet altın çerçeve sarı yazı, mağlubiyet gümüş çerçeve gri yazı ---------- */
+@font-face{font-family:TO;src:url(fonts/oswald.woff) format('woff');font-weight:400 700;font-display:block}
+body:is(#q#q,*) #mc.hend .he-ttl.rtx{--ph:min(11.5vh,52px);display:flex!important;align-items:center;justify-content:center;width:max-content!important;max-width:none!important;height:var(--ph)!important;min-width:calc(var(--ph)*2.964)!important;
+ padding:0 calc(var(--ph)*.79)!important;box-sizing:border-box;margin:-.6vh auto -.4vh!important;position:relative;z-index:2;
+ background:url(img/ui/rt_l.webp?h=b549f57) left top/calc(var(--ph)*.7704) 100% no-repeat,url(img/ui/rt_r.webp?h=2748aef) right top/calc(var(--ph)*.7704) 100% no-repeat,url(img/ui/rt_m.webp?h=0c98feb) center top/calc(var(--ph)*1.423) 100% no-repeat,
+  url(img/ui/rt_rl.webp?h=9871884) calc(var(--ph)*.7704 - .4vh) 0/calc(50% - var(--ph)*1.4819 + .8vh) 100% no-repeat,url(img/ui/rt_rr.webp?h=0933012) right calc(var(--ph)*.7704 - .4vh) top/calc(50% - var(--ph)*1.4819 + .8vh) 100% no-repeat!important;
+ font-family:TO,G,sans-serif!important;font-weight:700!important;font-size:calc(var(--ph)*.36)!important;letter-spacing:.4vh!important;line-height:1!important;white-space:nowrap;
+ color:#f5d98a!important;-webkit-text-fill-color:#f5d98a!important;text-shadow:0 .2vh 0 rgba(10,25,70,.75),0 .3vh .9vh rgba(0,0,0,.45)!important;filter:none!important;animation:none!important;-webkit-text-stroke:0!important}
+body:is(#q#q,*) #mc.hend .he-hd.hl .he-ttl.rtx{color:#d8dde6!important;-webkit-text-fill-color:#d8dde6!important;
+ background:url(img/ui/rts_l.webp?h=00eec83) left top/calc(var(--ph)*.7704) 100% no-repeat,url(img/ui/rts_r.webp?h=a4cbfc2) right top/calc(var(--ph)*.7704) 100% no-repeat,url(img/ui/rts_m.webp?h=f9d3feb) center top/calc(var(--ph)*1.423) 100% no-repeat,
+  url(img/ui/rts_rl.webp?h=65686ff) calc(var(--ph)*.7704 - .4vh) 0/calc(50% - var(--ph)*1.4819 + .8vh) 100% no-repeat,url(img/ui/rts_rr.webp?h=fe0f4dc) right calc(var(--ph)*.7704 - .4vh) top/calc(50% - var(--ph)*1.4819 + .8vh) 100% no-repeat!important}
+body:is(#q#q,*) #mc.hend .he-hd:has(.rtx) .he-rib>i,body:is(#q#q,*) #mc.hend .he-hd:has(.rtx) .he-rib::before,body:is(#q#q,*) #mc.hend .he-hd:has(.rtx) .he-rib::after{display:none!important}
+body:is(#q#q,*) #mc.hend .he-ttl.rtx.rtin{animation:rtIn .45s cubic-bezier(.2,1.3,.4,1) both!important}
+@keyframes rtIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
 
 </style>
 <script id="j-his">
@@ -12439,7 +12454,7 @@ function countUp(el,dur,delay){const tn=[...el.childNodes].reverse().find(n=>n.n
 function hxDeco(){const mc=$('#mc');if(!mc||!mc.classList.contains('hend')||mc.classList.contains('hx'))return;mc.classList.add('hx');
  const hd=mc.querySelector('.he-hd'),tt=mc.querySelector('.he-ttl');
  if(hd&&tt){const w=HXW?HXW=='w':hd.classList.contains('hw')?true:hd.classList.contains('hl')?false:null;
-  if(w!==null){tt.innerHTML=tHTML(w,animOn()&&!isLo()?'an sm':'sm','m');tt.classList.add('hx-img')}if(HXW)hd.classList.toggle('hw',HXW=='w'),hd.classList.toggle('hl',HXW=='l')}
+  if(w!==null){tt.textContent=L_(w?'GALİBİYET':'MAĞLUBİYET');tt.classList.remove('hx-img');tt.classList.add('rtx');if(animOn()&&!isLo())tt.classList.add('rtin')}if(HXW)hd.classList.toggle('hw',HXW=='w'),hd.classList.toggle('hl',HXW=='l')}
  HXW='';if(!animOn()||isLo())return;
  mc.querySelectorAll('.he-r').forEach((r,i)=>{r.style.setProperty('--i',i);r.classList.add('hx-in');r.querySelectorAll('.he-v,.he-t,.he-c').forEach(x=>countUp(x,650,260+i*90))});
  const tm=mc.querySelector('.he-tm');if(tm)mc.querySelectorAll('.he-tt b').forEach(x=>countUp(x,700,300))}
@@ -12652,10 +12667,27 @@ wvScan();setInterval(wvScan,400);
 // ---------- büyük pencere başlığı çerçevesi: görselleri ve yazı tipini önceden yükle, başlığı sığdır ----------
 ['l','m','r','rl','rr'].forEach(k=>{const i=new Image();i.src='img/ui/ttl_'+k+'.webp'});try{document.fonts&&document.fonts.load('700 20px TC','AYARLARİŞĞÜÇÖ')}catch(e){}
 // küçük pencereler (bilgi/uyarı) eski sade mavi başlığında kalır; altın çerçeve yalnız büyük pencerelerde
-function winTtlFit(){document.querySelectorAll('.ovl.on .win .win-h h2.ot,.scr.on .win .win-h h2.ot').forEach(h=>{if(h.closest('#chat'))return;const k=h.textContent+'|'+innerWidth+'x'+innerHeight+'|'+(window.LANG||'');if(h._tk===k)return;h._tk=k;
+function winTtlFit(){document.querySelectorAll('.ovl.on .win .win-h h2.ot,.scr.on .win .win-h h2.ot').forEach(h=>{const k=h.textContent+'|'+innerWidth+'x'+innerHeight+'|'+(window.LANG||'');if(h._tk===k)return;h._tk=k;
   h.style.removeProperty('--tsh');let t=0,e=h;while(e){t+=e.offsetTop||0;e=e.offsetParent}if(t<2)h.style.setProperty('--tsh',(2-t)+'px');   // taç ekranın üstünden taşmasın
   h.style.removeProperty('--tfs');const hd=h.parentElement,w=hd.getBoundingClientRect().width;const lim=w*.62;let f=parseFloat(getComputedStyle(h).fontSize),n=0;while(h.getBoundingClientRect().width>lim&&n++<12){f*=.94;h.style.setProperty('--tfs',f+'px')}})}
 setInterval(winTtlFit,300);addEventListener('resize',()=>setTimeout(winTtlFit,80));
+
+// ---------- sonuç ekranı başlığı: çerçeve 3 (altın / mağlubiyette gümüş) + Oswald ----------
+['l','m','r','rl','rr'].forEach(k=>{for(const p of ['rt_','rts_']){const i=new Image();i.src='img/ui/'+p+k+'.webp'}});try{document.fonts&&document.fonts.load('700 20px TO','GALİBİYETMAĞLUBİYETÊÛ')}catch(e){}
+// ---------- Eşli lobi: "Davet et" yazısı her açılışta güncel dilde ----------
+// bir kez oluşturulan başlıklar da dil değişince güncellensin (Lig, Pişti)
+function onceTx(){[['#lig .win-h h2.ot','LİG'],['.ps-tt b','PİŞTİ']].forEach(([q,k])=>document.querySelectorAll(q).forEach(e=>{const t=L_(k);if(e.textContent!==t){e.textContent=t;e._tk=''}}))}
+function lobInvTx(){onceTx();const b=$('#lobInv');if(!b)return;const t=L_('Davet et');b.setAttribute('aria-label',t);const sp=b.querySelector('span');if(sp&&sp.textContent!==t)sp.textContent=t}
+try{openLobby=(o=>function(){const r=o.apply(this,arguments);try{lobInvTx();webLobFit()}catch(e){}return r})(openLobby)}catch(e){}
+try{applyLang=(o=>function(){const r=o.apply(this,arguments);try{lobInvTx()}catch(e){}return r})(applyLang)}catch(e){}
+// ---------- yalnız web (iPhone/tarayıcı): dar ekranda oyuncu kartı Davet et düğmesinin üstüne binmesin; sohbet en alta otursun ----------
+function webLobFit(){if(!document.body.classList.contains('web'))return;const me=$('#lobMe'),inv=$('#lobInv')||$('#lobG');if(!me||!inv||!$('#lob.on'))return;
+ const cur=parseFloat(me.style.marginLeft)||0,a=me.getBoundingClientRect(),b=inv.getBoundingClientRect();if(!a.width||!b.width)return;
+ const L0=a.left-cur,R0=a.right-cur,lim=b.left-8,ttl=$('#lob .su2-tag')||$('#lob .su2-t'),lft=ttl?ttl.getBoundingClientRect().right+8:8;
+ const dx=R0>lim?Math.round(Math.max(lft-L0,lim-R0)):0;if(Math.abs(dx-cur)>.5){me.style.transition='none';me.style.marginLeft=dx?dx+'px':''}}
+if(document.body.classList.contains('web')){addEventListener('resize',()=>setTimeout(webLobFit,120));setInterval(()=>{if($('#lob.on'))webLobFit()},700);
+ const chBot=()=>{const c=$('#chat.on');if(!c)return;c.querySelectorAll('#chM').forEach(l=>{if(l.scrollHeight>l.clientHeight+2&&!l._usr)l.scrollTop=l.scrollHeight})};
+ try{openChat=(o=>function(){const r=o.apply(this,arguments);[80,300,700,1400].forEach(t=>setTimeout(chBot,t));try{document.fonts&&document.fonts.ready.then(()=>setTimeout(chBot,50))}catch(e){}return r})(openChat)}catch(e){}}
 }catch(e){console.error('his',e)}})();
 
 </script>

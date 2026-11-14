@@ -12292,10 +12292,10 @@ body.lo .wvx>i,body.noanim .wvx>i{animation:none!important}
 body.lo .wvx .wg,body.noanim .wvx .wg,body.lo .wvx b,body.noanim .wvx b{display:none!important}
 @media (prefers-reduced-motion:reduce){.wvx>i{animation:none!important}.wvx .wg,.wvx b{display:none!important}}
 
-/* ---------- pencere ve küçük pencere başlıkları: taçlı altın çerçeve (seçilen: çerçeve 2) + Cormorant, ortada çerçeve çizgisinin üstünde ---------- */
+/* ---------- büyük pencere başlıkları: taçlı altın çerçeve (seçilen: çerçeve 2) + Cormorant, ortada çerçeve çizgisinin üstünde ---------- */
 @font-face{font-family:TC;src:url(fonts/cormorant.woff) format('woff');font-weight:400 900;font-display:block}
 body:is(#q#q,*) .win>.win-h:not(#chat .win-h){z-index:9}
-body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2),body:is(#q#q,*) #modal #mc>h3.mttl{
+body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2){
  --ph:min(14vh,64px);margin:0!important;right:auto!important;width:max-content!important;height:var(--ph)!important;min-width:calc(var(--ph)*2.447)!important;padding:0 calc(var(--ph)*.428)!important;box-sizing:border-box!important;
  border:0!important;border-radius:0!important;box-shadow:none!important;-webkit-text-stroke:0!important;filter:none!important;translate:none!important;animation:none!important;font-style:normal!important;text-transform:none;
  background:url(img/ui/ttl_l.webp?h=d53ce0f) left top/calc(var(--ph)*.8593) 100% no-repeat,url(img/ui/ttl_r.webp?h=4299b9f) right top/calc(var(--ph)*.8536) 100% no-repeat,url(img/ui/ttl_m.webp?h=31f4a86) center top/calc(var(--ph)*.7338) 100% no-repeat,
@@ -12303,9 +12303,7 @@ body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2),body:is(#q#q,*) #modal #mc>h3.mt
  display:flex!important;align-items:center!important;justify-content:center!important;font-family:TC,L,serif!important;font-weight:700!important;font-size:var(--tfs,calc(var(--ph)*.29))!important;letter-spacing:calc(var(--ph)*.016)!important;
  color:#f6e8c6!important;-webkit-text-fill-color:#f6e8c6!important;text-shadow:0 .2vh 0 rgba(10,25,70,.75),0 .3vh .9vh rgba(0,0,0,.45)!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important}
 body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2){position:absolute!important;left:50%!important;top:calc(var(--ph)*-.5375 + var(--tsh,0px))!important;transform:translateX(-50%)!important}
-body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::before,body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::after,body:is(#q#q,*) #modal #mc>h3.mttl::before,body:is(#q#q,*) #modal #mc>h3.mttl::after{content:none!important;display:none!important}
-/* küçük pencerelerde: aynı çerçeve daha küçük, pencerenin içinde en üstte */
-body:is(#q#q,*) #modal #mc>h3.mttl{--ph:min(12vh,54px);position:relative!important;left:auto!important;top:auto!important;transform:none!important;margin:-1.4vh auto -2.6vh!important;max-width:100%!important;z-index:2;font-size:var(--tfs,calc(var(--ph)*.29))!important;letter-spacing:calc(var(--ph)*.008)!important}
+body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::before,body:is(#q#q,*) .win .win-h h2.ot:not(#chat h2)::after{content:none!important;display:none!important}
 
 </style>
 <script id="j-his">
@@ -12651,15 +12649,9 @@ function wvScan(){document.querySelectorAll('.win:not(.wv)').forEach(wvAdd);cons
 modal=(o=>function(h,cls){const r=o.apply(this,arguments);try{wvAdd($('#mc'))}catch(e){}return r})(modal);
 wvScan();setInterval(wvScan,400);
 
-// ---------- başlık çerçevesi: görselleri ve yazı tipini önceden yükle; küçük pencerelerde ilk başlığı işaretle ve sığdır ----------
+// ---------- büyük pencere başlığı çerçevesi: görselleri ve yazı tipini önceden yükle, başlığı sığdır ----------
 ['l','m','r','rl','rr'].forEach(k=>{const i=new Image();i.src='img/ui/ttl_'+k+'.webp'});try{document.fonts&&document.fonts.load('700 20px TC','AYARLARİŞĞÜÇÖ')}catch(e){}
-function ttlFit(h,minVh){if(!h||!h.isConnected)return;h.style.removeProperty('--tfs');const vh=innerHeight/100;let f=parseFloat(getComputedStyle(h).fontSize),n=0;
- const box=h.parentElement;const max=()=>Math.max(60,(h.id=='mc'?box.clientWidth:(box.clientWidth||innerWidth))-2);
- while(h.scrollWidth>Math.min(h.clientWidth,max())+1&&f>minVh*vh&&n++<14){f*=.94;h.style.setProperty('--tfs',f+'px')}}
-function mttlMark(){const m=$('#mc');if(!m)return;if(m.matches('.hend,.lvx')){m.querySelectorAll(':scope>h3.mttl').forEach(h=>h.classList.remove('mttl'));return}
- const kids=[...m.children].filter(e=>!e.classList.contains('wvx'));let h=null;for(let i=0;i<Math.min(3,kids.length);i++){if(kids[i].tagName=='H3'){h=kids[i];break}}
- if(!h)return;h.classList.add('mttl');ttlFit(h,2.2)}
-modal=(o=>function(){const r=o.apply(this,arguments);try{mttlMark()}catch(e){}return r})(modal);
+// küçük pencereler (bilgi/uyarı) eski sade mavi başlığında kalır; altın çerçeve yalnız büyük pencerelerde
 function winTtlFit(){document.querySelectorAll('.ovl.on .win .win-h h2.ot,.scr.on .win .win-h h2.ot').forEach(h=>{if(h.closest('#chat'))return;const k=h.textContent+'|'+innerWidth+'x'+innerHeight+'|'+(window.LANG||'');if(h._tk===k)return;h._tk=k;
   h.style.removeProperty('--tsh');let t=0,e=h;while(e){t+=e.offsetTop||0;e=e.offsetParent}if(t<2)h.style.setProperty('--tsh',(2-t)+'px');   // taç ekranın üstünden taşmasın
   h.style.removeProperty('--tfs');const hd=h.parentElement,w=hd.getBoundingClientRect().width;const lim=w*.62;let f=parseFloat(getComputedStyle(h).fontSize),n=0;while(h.getBoundingClientRect().width>lim&&n++<12){f*=.94;h.style.setProperty('--tfs',f+'px')}})}

@@ -13101,6 +13101,9 @@ body:has(#modal.on) .ovl.on .wvx *,body:has(#modal.on) .ovl.on .wvx{animation-pl
 .cldi>.r-em{display:flex!important;align-items:center;justify-content:center;width:100%;height:100%;margin:0!important;vertical-align:0}
 .cldi>.r-em .sv{width:58%!important;height:58%!important;flex:none}
 .bnm>.r-em{margin:0!important;vertical-align:0}
+/* bildirim yazısı (toast) her pencerenin üstünde görünsün: mağaza vb. açıkken arkada kalıyordu */
+#toast{z-index:2147483000!important}
+body>#toast.gl{position:fixed!important;top:auto!important;bottom:calc(5vh + env(safe-area-inset-bottom,0px))!important;left:50%!important;translate:-50% 0!important;max-width:92vw;white-space:normal;text-align:center}
 
 </style>
 <script id="j-r15">
@@ -13150,6 +13153,17 @@ function flush(){tk=0;if(!ready()){tk=setTimeout(flush,300);return}
 const M0=modal,T0=toast;
 modal=window.modal=function(h,cls){if(!ready()){for(let i=QM.length-1;i>=0;i--)if(QM[i][0]===h)QM.splice(i,1);QM.push([h,cls]);if(!tk)tk=setTimeout(flush,300);return}return M0.apply(this,arguments)};
 toast=window.toast=function(){if(!ready()){QT.push([...arguments]);if(!tk)tk=setTimeout(flush,300);return}return T0.apply(this,arguments)};
+})();
+
+/* ---------- bildirim yazısı (toast) masa dışında da görünsün: eskiden yalnız masa ekranının içindeydi,
+   menü / mağaza / ayarlar açıkken hiç görünmüyordu ---------- */
+(function(){
+const T1=toast;
+toast=window.toast=function(){try{const el=document.getElementById('toast'),tw=document.getElementById('tw');
+ if(el&&tw){const tb=typeof onTbl=='function'&&onTbl();
+  if(tb){if(el.parentElement!==tw){tw.appendChild(el)}el.classList.remove('gl')}
+  else{if(el.parentElement!==document.body)document.body.appendChild(el);el.classList.add('gl')}}}catch(e){}
+ return T1.apply(this,arguments)};
 })();
 
 </script>

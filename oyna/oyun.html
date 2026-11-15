@@ -12819,10 +12819,18 @@ window.onAdReward=tag=>{if(RQ&&RQ.tag==tag)RQ.ok=1};
 window.onAdClosed=(tag,rew)=>{const q=RQ;RQ=null;radAudio(1);
  if(q&&q.tag==tag&&(q.ok||rew)){radDay().n[q.k]=radUsed(q.k)+1;save();setTimeout(()=>{try{q.cb()}catch(e){}try{refM()}catch(e){}radRef();if(typeof svFlush=='function')setTimeout(svFlush,400)},250)}
  else if(q)toast(L_('Reklam tamamlanmadı, ödül verilmedi'));radRef()};
-window.onAdError=(tag,m)=>{const q=RQ;RQ=null;radAudio(1);toast(m=='notready'?L_('Reklam hazırlanıyor, biraz sonra tekrar dene'):L_('Reklam şu an gösterilemiyor'));radRef()};
+window.onAdError=(tag,m)=>{const q=RQ;RQ=null;radAudio(1);toast((m=='notready'?L_('Reklam hazırlanıyor, biraz sonra tekrar dene'):L_('Reklam şu an gösterilemiyor'))+radWhy());radRef()};
+// teşhis: reklam neden yok? (Android köprüsünde Ads.diag() varsa kısa sebep)
+function radWhy(){try{if(!Ads.diag)return'';const d=JSON.parse(Ads.diag()||'{}');
+ if(d.test)return' · TEST';
+ if(!d.started)return' · '+L_('izin/başlatma bekleniyor');
+ if(d.loading)return' · '+L_('yükleniyor');
+ const c=String(d.err||'').split(':')[0];
+ return c===''?'':' · '+({'3':L_('şu an reklam yok (yeni birim)'),'9':L_('şu an reklam yok'),'2':L_('internet hatası'),'1':L_('geçersiz istek'),'0':L_('Google iç hatası')}[c]||L_('kod')+' '+c)}catch(e){return''}}
+window.radWhy=radWhy;
 function radShow(k,cb){if(!radOn()||RQ)return;if(!radLeft(k))return toast(L_('Bugünkü reklam hakkın bitti, yarın yenilenir'));
  let ok=false;try{ok=!!Ads.ready()}catch(e){}
- if(!ok){try{Ads.load()}catch(e){}return toast(L_('Reklam hazırlanıyor, biraz sonra tekrar dene'))}
+ if(!ok){try{Ads.load()}catch(e){}return toast(L_('Reklam hazırlanıyor, biraz sonra tekrar dene')+radWhy())}
  RQ={k,cb,tag:k+'_'+Date.now(),ok:0};snd&&snd('click');radAudio(0);
  try{Ads.show(RQ.tag)}catch(e){RQ=null;radAudio(1);toast(L_('Reklam şu an gösterilemiyor'))}}
 window.radShow=radShow;
@@ -12883,6 +12891,7 @@ Object.assign(DICT,{'Ücretsiz coin':['Free coins','Monedas gratis','Coinên bel
  'Bugünkü reklam hakkın bitti, yarın yenilenir':['No more ad rewards today; they reset tomorrow','No quedan premios por anuncio hoy; mañana se renuevan','Îro mafê reklamê nema; sibê nû dibe'],
  'Reklam gizlilik ayarları':['Ad privacy settings','Privacidad de anuncios','Mîhengên nepeniya reklamê'],'Reklam izinlerini değiştir':['Change your ad consent','Cambia tu consentimiento de anuncios','Destûra reklamê biguherîne']});
 }catch(e){console.error('rad',e)}})();
+Object.assign(DICT,{'izin/başlatma bekleniyor':['waiting for consent/start','esperando consentimiento','li benda destûrê'],'yükleniyor':['loading','cargando','tê barkirin'],'şu an reklam yok (yeni birim)':['no ads yet (new unit)','aún no hay anuncios (unidad nueva)','hîn reklam tune (yekîneya nû)'],'şu an reklam yok':['no ads right now','no hay anuncios ahora','niha reklam tune'],'internet hatası':['network error','error de red','şaşiya înternetê'],'geçersiz istek':['invalid request','solicitud no válida','daxwaza nederbasdar'],'Google iç hatası':['Google internal error','error interno de Google','şaşiya hundirîn a Google'],'kod':['code','código','kod']});
 
 </script>
 <style id="m-shp">

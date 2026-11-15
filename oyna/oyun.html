@@ -13088,6 +13088,10 @@ body.lo .vw2-ray,body.lo .vw2-l::before,body.lo .vw2-s{animation:none}
    üstte açık bir pencere varken alttaki pencerenin dalga/zerre animasyonları durur */
 .wvx>i,.wvx .wvgb b{will-change:auto!important}
 body:has(#modal.on) .ovl.on .wvx *,body:has(#modal.on) .ovl.on .wvx{animation-play-state:paused!important}
+/* bilgi pencerelerindeki yuvarlak simgeler: çizim dairenin tam ortasında (önceden sola kayıyordu) */
+.cldi>.r-em{display:flex!important;align-items:center;justify-content:center;width:100%;height:100%;margin:0!important;vertical-align:0}
+.cldi>.r-em .sv{width:58%!important;height:58%!important;flex:none}
+.bnm>.r-em{margin:0!important;vertical-align:0}
 
 </style>
 <script id="j-r15">
@@ -13121,6 +13125,22 @@ window.vipWelcome=vipWelcome=function(t,days){
  try{const h=$('#mc .vw2 .dxt');if(h&&typeof winTtlFit=='function')winTtlFit()}catch(e){}};
 const VWD={'Ayrıcalıkların hemen açıldı':['Your perks are unlocked','Tus ventajas ya están activas','Taybetiyên te vebûn'],'Elmas VIP':['Diamond VIP','VIP Diamante','VIP Elmas'],'Altın VIP':['Gold VIP','VIP Oro','VIP Zêr']};
 for(const k in VWD)if(!DICT[k])DICT[k]=VWD[k];
+})();
+
+/* ---------- açılış animasyonu sürerken hiçbir bildirim çıkmaz (güncelleme, bakım, duyuru, bulut yedeği, uyarılar):
+   oyun açılıp ana ekran gelince sırayla gösterilir ---------- */
+(function(){
+const ready=()=>{const i=document.getElementById('intro');return !(i&&i.classList.contains('on'))};
+window.appReady=ready;
+const QM=[],QT=[];let tk=0;
+function flush(){tk=0;if(!ready()){tk=setTimeout(flush,300);return}
+ // ana ekran yerleşsin diye kısa bekleme
+ setTimeout(()=>{QT.splice(0).forEach(a=>{try{T0.apply(null,a)}catch(e){}});
+  const next=()=>{if(!QM.length)return;if(document.getElementById('modal').classList.contains('on'))return setTimeout(next,600);
+   const a=QM.shift();try{M0.apply(null,a)}catch(e){}if(QM.length)setTimeout(next,600)};next()},700)}
+const M0=modal,T0=toast;
+modal=window.modal=function(h,cls){if(!ready()){for(let i=QM.length-1;i>=0;i--)if(QM[i][0]===h)QM.splice(i,1);QM.push([h,cls]);if(!tk)tk=setTimeout(flush,300);return}return M0.apply(this,arguments)};
+toast=window.toast=function(){if(!ready()){QT.push([...arguments]);if(!tk)tk=setTimeout(flush,300);return}return T0.apply(this,arguments)};
 })();
 
 </script>

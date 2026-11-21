@@ -12828,7 +12828,8 @@ function radWhy(){try{if(!Ads.diag)return'';const d=JSON.parse(Ads.diag()||'{}')
  const c=String(d.err||'').split(':')[0];
  return c===''?'':' · '+({'3':L_('şu an reklam yok (yeni birim)'),'9':L_('şu an reklam yok'),'2':L_('internet hatası'),'1':L_('geçersiz istek'),'0':L_('Google iç hatası')}[c]||L_('kod')+' '+c)}catch(e){return''}}
 window.radWhy=radWhy;
-function radShow(k,cb){if(!radOn()||RQ)return;if(!radLeft(k))return toast(L_('Bugünkü reklam hakkın bitti, yarın yenilenir'));
+try{if(!DICT['Reklam açılıyor, lütfen bekle'])DICT['Reklam açılıyor, lütfen bekle']=['Ad is opening, please wait','El anuncio se está abriendo, espera','Reklam vedibe, ji kerema xwe bisekine']}catch(e){}
+function radShow(k,cb){if(RQ&&Date.now()-(+String(RQ.tag).split('_').pop()||0)>40000){RQ=null;radAudio(1)}if(!radOn())return;if(RQ)return toast(L_('Reklam açılıyor, lütfen bekle')+radWhy());if(!radLeft(k))return toast(L_('Bugünkü reklam hakkın bitti, yarın yenilenir'));
  let ok=false;try{ok=!!Ads.ready()}catch(e){}
  if(!ok){try{Ads.load()}catch(e){}return toast(L_('Reklam hazırlanıyor, biraz sonra tekrar dene')+radWhy())}
  RQ={k,cb,tag:k+'_'+Date.now(),ok:0};snd&&snd('click');radAudio(0);

@@ -5120,10 +5120,10 @@ const fsSet=(p,o,m=true)=>fsP('set',p,JSON.stringify(o),m);
 const fsGet=p=>fsP('get',p),fsDel=p=>fsP('del',p);
 const fsQuery=(c,w,o,l)=>fsP('query',c,JSON.stringify(w||[]),o||'',l||0);
 const cidOf=u=>[ON.me,u].sort().join('_');
-const isOn=p=>p&&p.seen&&Date.now()-p.seen<150000;
+const DEFN=/^(Oyuncu|Player|Jugador|Lîstikvan)?$/,nmFix=(n,pid)=>(!n||DEFN.test(n))&&pid?'U'+pid:(n||'Oyuncu');const isOn=p=>p&&p.seen&&Date.now()-p.seen<150000;
 const agoTxt=ts=>{if(!ts)return L_('Çevrimdışı');const m=Math.round((Date.now()-ts)/60000);return m<60?L_('# dk önce').replace('#',Math.max(1,m)):m<1440?L_('# saat önce').replace('#',Math.round(m/60)):L_('# gün önce').replace('#',Math.round(m/1440))};
 // Firestore belgesini arayüzdeki arkadaş nesnesine çevir
-const pf=(uid,p)=>({pbg:p.pbg||'',show:Array.isArray(p.show)?p.show.slice(0,3):[],id:uid,name:p.name||'Oyuncu',av:p.av|0,frame:p.frame||'bronz',lv:p.lv|0||1,country:p.country||'TR',bio:p.bio||'',photo:p.photo||'',st:p.st||{},bdg:p.bdg|0,vlv:p.vlv|0,vu:p.vu|0,vt:p.vt||'',pid:p.playerId||'',seen:p.seen|0,on:isOn(p)});
+const pf=(uid,p)=>({pbg:p.pbg||'',show:Array.isArray(p.show)?p.show.slice(0,3):[],id:uid,name:nmFix(p.name,p.playerId),av:p.av|0,frame:p.frame||'bronz',lv:p.lv|0||1,country:p.country||'TR',bio:p.bio||'',photo:p.photo||'',st:p.st||{},bdg:p.bdg|0,vlv:p.vlv|0,vu:+p.vu||0,vt:p.vt||'',pid:p.playerId||'',seen:+p.seen||0,on:isOn(p)});
 // ---------- profil fotoğrafı: buluta küçük (128px) gider ----------
 function photoSmall(){if(!P.photo)return Promise.resolve('');if(/^https?:/.test(P.photo))return Promise.resolve(P.photo);if(ON.phSrc==P.photo)return Promise.resolve(ON.ph);
  return new Promise(r=>{const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),s=Math.min(im.width,im.height);g.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,128,128);ON.ph=c.toDataURL('image/jpeg',.72);ON.phSrc=P.photo;r(ON.ph)}catch(e){r('')}};im.onerror=()=>r('');im.src=P.photo})}
@@ -5150,7 +5150,7 @@ function onStart(){if(ON.ready||!onOK())return;ON.ready=true;ON.me=FS.uid();onPu
 let ONR=0;function onRefresh(){clearTimeout(ONR);ONR=setTimeout(()=>{if($('#friends').classList.contains('on'))renderFriends();if($('#chat').classList.contains('on'))renderChat();socDots()},80)}
 const lr=i=>(P.soc.lr||{})[i]||0;
 const unreadOf=i=>{const c=ON.meta[i];return c&&c.lastFrom==i&&c.lastTs>lr(i)?1:0};
-const onFriends=()=>ON.frIds.map(i=>ON.fr[i]).filter(x=>x&&!(window.blkIs&&blkIs(x.id))).sort((a,b)=>(b.on-a.on)||((ON.meta[b.id]||{}).lastTs|0)-((ON.meta[a.id]||{}).lastTs|0));
+const onFriends=()=>ON.frIds.map(i=>ON.fr[i]).filter(x=>x&&!(window.blkIs&&blkIs(x.id))).sort((a,b)=>(b.on-a.on)||((+(ON.meta[b.id]||{}).lastTs||0)-(+(ON.meta[a.id]||{}).lastTs||0)));
 // ---------- mevcut ekranların online sürümleri (aynı adlı fonksiyonlar bunlarla değişir) ----------
 frById=function(id){if(id==KAP)return KAPF();return ON.fr[id]||null};
 function socDots(){socInit();kapDaily();const r=ON.rqs.length,u=(P.soc.unread[KAP]||0)+ON.frIds.reduce((a,i)=>a+unreadOf(i),0);
@@ -5164,9 +5164,9 @@ function renderFriends(t){if(t)FTAB=t;const ok=onOK(),fr=onFriends();
  $('#frT').innerHTML=[['list','Arkadaşlarım','team',fr.length],['req','İstekler','bell',ON.rqs.length],['add','Arkadaş Ekle','add',0]].map(x=>`<button class="${FTAB==x[0]?'on':''}" onclick="renderFriends('${x[0]}')">${I(x[2])}<span>${x[1]}</span>${x[3]&&x[0]!='list'?`<i class="cnt">${x[3]}</i>`:x[0]=='list'?`<i class="cnt n">${x[3]}</i>`:''}</button>`).join('');
  let h='';
  if(FTAB=='list'){h=`<div class="frl">${frRow(KAPF())}${fr.map(frRow).join('')}</div>`+(!ok?needLink():fr.length?'':`<div class="emp sm">${I('team')}<p>Henüz arkadaşın yok</p><button class="btn b sm" onclick="renderFriends('add')">Arkadaş ekle</button></div>`)}
- if(FTAB=='req'){if(!ok)h=needLink();else{h=ON.rqs.length?`<div class="frl">${ON.rqs.map(r=>`<div class="frc"><button class="fra" onclick="frProfile('${r.from}',1)">${avBox({av:r.fromAv|0,frame:r.fromFrame||'bronz',lv:r.fromLv|0,photo:r.fromPhoto||''})}</button><span class="frn" onclick="frProfile('${r.from}',1)"><b>${esc(r.fromName||'Oyuncu')} ${flag(r.fromCountry||'TR')}</b><small>Seni arkadaş olarak eklemek istiyor</small></span>
+ if(FTAB=='req'){if(!ok)h=needLink();else{h=ON.rqs.length?`<div class="frl">${ON.rqs.map(r=>`<div class="frc"><button class="fra" onclick="frProfile('${r.from}',1)">${avBox({av:r.fromAv|0,frame:r.fromFrame||'bronz',lv:r.fromLv|0,photo:r.fromPhoto||''})}</button><span class="frn" onclick="frProfile('${r.from}',1)"><b>${esc(nmFix(r.fromName,r.fromPid))} ${flag(r.fromCountry||'TR')}</b><small>Seni arkadaş olarak eklemek istiyor</small></span>
    <button class="btn sm g" onclick="frAccept('${r.from}')">${I('check')}Kabul</button><button class="btn sm r" onclick="frDecline('${r.from}')">${I('x')}</button></div>`).join('')}</div>`:`<div class="emp">${I('bell')}<p>Bekleyen istek yok</p></div>`;
-  if(ON.sent.length)h+=`<div class="lbl">GÖNDERİLEN İSTEKLER</div><div class="frl">${ON.sent.map(r=>`<div class="frc"><span class="frn"><b>${esc(r.toName||('ID '+(r.toPid||'')))}</b><small>${L_('Yanıt bekleniyor…')}</small></span><button class="btn sm r" onclick="frCancel('${r.to}')">${I('x')}</button></div>`).join('')}</div>`}}
+  if(ON.sent.length)h+=`<div class="lbl">GÖNDERİLEN İSTEKLER</div><div class="frl">${ON.sent.map(r=>`<div class="frc"><span class="frn"><b>${esc(nmFix(r.toName,r.toPid))}</b><small>${L_('Yanıt bekleniyor…')}</small></span><button class="btn sm r" onclick="frCancel('${r.to}')">${I('x')}</button></div>`).join('')}</div>`}}
  if(FTAB=='add'){h=ok?`<div class="fadd"><div class="myid"><small>Senin oyuncu ID'n</small><button onclick="copyId()"><b>${P.id}</b>${I('copy')}</button><small>Arkadaşın bu numarayla seni ekleyebilir</small></div>
    <div class="srch"><input id="fid" inputmode="numeric" maxlength="12" placeholder="Arkadaşının ID numarası" onkeydown="if(event.key=='Enter')frSend()"><button class="btn b" onclick="frSend()">${I('add')}İstek gönder</button></div>
    <small class="hint">${L_('İstek arkadaşına anında gider. Kabul edince birbirinizin profilini görür, mesajlaşırsınız.')}</small></div>`:needLink()}
@@ -6071,7 +6071,7 @@ function banMsg(){const b=ON.ban||{};modal(`<div class="bnm">${I('lock')}</div><
  <div class="bni"><span>${L_('Sebep')}: <b>${esc(L_(RSNL[b.reason]||b.reason||'Kural ihlali'))}</b></span><span>${L_('Bitiş')}: <b>${+b.until?dtf(b.until):L_('Süresiz')}</b></span></div>
  <small class="hsn">${L_('Bir yanlışlık olduğunu düşünüyorsan')} ${LEGAL.mail}</small><div class="mrow"><button class="btn b" onclick="closeM()">${L_('Tamam')}</button></div>`)}
 function modApply(d){if(!d)return;let ch=0;
- if(d.resetName){P.name='Oyuncu';ch=1}if(d.resetPhoto){P.photo='';ch=1}if(d.resetBio){P.bio='';ch=1}
+ if(d.resetName){P.name=P.id?'U'+P.id:'Oyuncu';ch=1}if(d.resetPhoto){P.photo='';ch=1}if(d.resetBio){P.bio='';ch=1}
  if(ch){save();try{refM()}catch(e){}ON.sig='';onPublish(1)}
  fsDel('mod/'+ON.me).catch(()=>{});
  if(d.warn||ch)setTimeout(()=>modal(`<div class="bnm w">${I('info')}</div><h3>${L_('Yönetici uyarısı')}</h3><p>${esc(d.warn||L_('Profilindeki uygunsuz bilgiler sıfırlandı.'))}</p><small class="hsn">${L_('Kurallara uymaya devam etmezsen hesabın kısıtlanabilir.')}</small><div class="mrow"><button class="btn b" onclick="closeM()">${L_('Anladım')}</button></div>`),600)}
@@ -11850,10 +11850,10 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .msg.bt-foto span::after{display:none!important}
 .msg.big span::before{display:none}
 .msg.bt-altin{--bi:url(img/bub/altin.webp?h=4ea600a)}
-.msg.bt-cini{--bi:url(img/bub/cini.webp?h=10fe610)}
+.msg.bt-cini{--bi:url(img/bub/cini.webp?h=5990957)}
 .msg.bt-gece{--bi:url(img/bub/gece.webp?h=a23661d)}
 .msg.bt-neon{--bi:url(img/bub/neon.webp?h=11f9b71)}
-.msg.bt-ates{--bi:url(img/bub/ates.webp?h=3d0da1b)}
+.msg.bt-ates{--bi:url(img/bub/ates.webp?h=9d1da87)}
 .msg.bt-gul{--bi:url(img/bub/gul.webp?h=b778b10)}
 .msg.bt-zumrut{--bi:url(img/bub/zumrut.webp?h=b78abfd)}
 .msg.bt-vipa{--bi:url(img/bub/vipa.webp?h=16b7833)}
@@ -11868,10 +11868,10 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .msg:not(.me).bt-futarj{--bi:url(img/bub/futarj_l.webp?h=a3aa724)}
 /* karşı tarafın balonu: aynalanmış görsel (transform yerine ayrı dosya; dilim çizgisi çıkmaz) */
 .msg:not(.me).bt-altin{--bi:url(img/bub/altin_l.webp?h=9a935b3)}
-.msg:not(.me).bt-cini{--bi:url(img/bub/cini_l.webp?h=6210b43)}
+.msg:not(.me).bt-cini{--bi:url(img/bub/cini_l.webp?h=322cacb)}
 .msg:not(.me).bt-gece{--bi:url(img/bub/gece_l.webp?h=4c43236)}
 .msg:not(.me).bt-neon{--bi:url(img/bub/neon_l.webp?h=0b2ab25)}
-.msg:not(.me).bt-ates{--bi:url(img/bub/ates_l.webp?h=7b2864c)}
+.msg:not(.me).bt-ates{--bi:url(img/bub/ates_l.webp?h=6a3e23b)}
 .msg:not(.me).bt-gul{--bi:url(img/bub/gul_l.webp?h=b10ccc6)}
 .msg:not(.me).bt-zumrut{--bi:url(img/bub/zumrut_l.webp?h=c0471e0)}
 .msg:not(.me).bt-vipa{--bi:url(img/bub/vipa_l.webp?h=ba9cecf)}
@@ -13104,6 +13104,13 @@ body:has(#modal.on) .ovl.on .wvx *,body:has(#modal.on) .ovl.on .wvx{animation-pl
 /* bildirim yazısı (toast) her pencerenin üstünde görünsün: mağaza vb. açıkken arkada kalıyordu */
 #toast{z-index:2147483000!important}
 body>#toast.gl{position:fixed!important;top:auto!important;bottom:calc(5vh + env(safe-area-inset-bottom,0px))!important;left:50%!important;translate:-50% 0!important;max-width:92vw;white-space:normal;text-align:center}
+/* ===== 21 Kasım: alt bildirim (toast) düz 2D zemin — katmanlı buton görünümü kalktı ===== */
+#toast,#toast.e{background:rgba(11,22,52,.94)!important;color:#fff!important;border:1px solid rgba(255,206,110,.55);box-shadow:0 .6vh 1.8vh rgba(0,0,0,.35)!important;
+ border-radius:1.3vh!important;padding:.85vh 2.2vh .85vh 1.6vh!important;font-weight:800!important;letter-spacing:.01em;display:flex;align-items:center;gap:1vh;text-shadow:none}
+#toast::before{content:'';flex:none;width:.9vh;height:.9vh;min-width:6px;min-height:6px;border-radius:50%;background:#ffcf4a;box-shadow:0 0 0 .35vh rgba(255,207,74,.22)}
+#toast.e{border-color:rgba(255,120,105,.6)}
+#toast.e::before{background:#ff6b5a;box-shadow:0 0 0 .35vh rgba(255,107,90,.22)}
+#toast .r-em{margin:0 .2vh}
 
 </style>
 <script id="j-r15">
@@ -13165,6 +13172,397 @@ toast=window.toast=function(){try{const el=document.getElementById('toast'),tw=d
   else{if(el.parentElement!==document.body)document.body.appendChild(el);el.classList.add('gl')}}}catch(e){}
  return T1.apply(this,arguments)};
 })();
+
+</script>
+<style id="m-r21">
+/* ===== 21 Kasım ===== */
+/* ---------- mini oyun yükleme ekranları ---------- */
+.gld{position:fixed;inset:0;z-index:2147482000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .35s;overflow:hidden;font-family:G,P,sans-serif;color:#fff}
+.gld.on{opacity:1}.gld.out{opacity:0;pointer-events:none}
+.gl-bg{position:absolute;inset:-6%;background-size:cover;background-position:center;filter:blur(7px) saturate(1.15) brightness(.7);animation:glz 6s ease-out both}
+@keyframes glz{from{transform:scale(1.08)}to{transform:scale(1)}}
+.gld::before{content:'';position:absolute;inset:0;z-index:1}
+.gl-in{position:relative;z-index:2;width:min(78vw,720px);display:flex;flex-direction:column;align-items:center;gap:2.2vh}
+.gl-ttl{font-family:TO,G,sans-serif;font-weight:700;font-size:clamp(26px,10vh,58px);letter-spacing:.06em;line-height:1;
+ background:linear-gradient(#fff8d8 10%,#ffd24a 55%,#e8901a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 .4vh 0 rgba(70,30,0,.65)) drop-shadow(0 0 2vh rgba(255,190,60,.45));animation:glt .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes glt{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.gl-bar{position:relative;width:min(70vw,560px);height:max(1.6vh,8px);border-radius:99px;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,220,140,.35)}
+.gl-bar>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:inherit;background:linear-gradient(90deg,#ffb52e,#ffe48a);box-shadow:0 0 1.4vh rgba(255,200,80,.6);transition:width .3s ease-out}
+.gl-tip{font-weight:800;font-size:clamp(11px,3vh,16px);color:#f4f7ff;text-shadow:0 .2vh .5vh rgba(0,0,0,.6);letter-spacing:.02em}
+.gl-tip.sw{animation:gls .4s ease-out}
+@keyframes gls{from{opacity:0;transform:translateY(.8vh)}to{opacity:1;transform:none}}
+
+/* At Yarışı: alacakaranlık hipodrom, pist çizgisinde dörtnala koşan at */
+.gld.hr .gl-bg{background-image:url(img/salon/card_at2.webp?h=4017a08)}
+.gld.hr::before{background:radial-gradient(120% 90% at 50% 45%,rgba(8,14,34,.35),rgba(6,10,26,.88) 70%),linear-gradient(transparent 55%,rgba(6,10,26,.9))}
+.gl-trk{position:relative;width:min(70vw,560px);height:min(25vh,130px)}
+.gl-hz{position:absolute;bottom:-.6vh;left:calc(var(--p,0)*(100% - min(25vh,130px)*1.33));width:calc(min(25vh,130px)*1.33);height:min(25vh,130px);overflow:hidden;transition:left .3s ease-out}
+.gl-hz>i{position:absolute;left:0;top:0;width:1400%;height:600%;background:url(img/salon/horses14.webp?h=5387235) 0 0/100% 100% no-repeat;animation:glh .62s steps(14) infinite}
+@keyframes glh{to{transform:translateX(-100%)}}
+.gld.hr .gl-bar{background:linear-gradient(#6b4220,#4a2c14);box-shadow:inset 0 .25vh 0 rgba(255,255,255,.25),inset 0 -.25vh 0 rgba(255,255,255,.25),0 0 0 1px rgba(255,220,140,.35)}
+.gl-fin{position:absolute;right:-.2vh;top:-1.2vh;bottom:-1.2vh;width:1.2vh;min-width:6px;background:repeating-linear-gradient(#fff 0 .6vh,#111 .6vh 1.2vh);border-radius:.3vh;box-shadow:0 0 .8vh rgba(0,0,0,.5)}
+
+/* Pişti: yeşil çuha, yelpaze açılan kartlar */
+.gld.ps .gl-bg{background-image:url(img/pisti/masa.webp?h=9032c9e);filter:saturate(1.1) brightness(.85)}
+.gld.ps::before{background:radial-gradient(110% 90% at 50% 40%,rgba(10,60,32,.35),rgba(4,26,14,.9) 72%)}
+.gl-fan{position:relative;width:min(40vw,300px);height:min(30vh,170px)}
+.gl-fan>i{position:absolute;left:50%;bottom:0;width:min(18vh,96px);aspect-ratio:5/7;margin-left:calc(min(18vh,96px)/-2);transform-origin:50% 120%;
+ animation:glf 1.6s cubic-bezier(.3,1.2,.4,1) both;animation-delay:calc(var(--i)*.09s)}
+.gl-fan>i>b{position:absolute;inset:0;border-radius:.8vh;background:url(img/pisti/arka.webp?h=9f9c7ec) center/cover no-repeat;box-shadow:0 .6vh 1.4vh rgba(0,0,0,.5);animation:glfl 2.4s ease-in-out infinite;animation-delay:calc(.9s + var(--i)*.18s);backface-visibility:hidden}
+@keyframes glf{from{transform:rotate(0) translateY(2vh);opacity:0}to{transform:rotate(calc((var(--i) - 2)*14deg));opacity:1}}
+@keyframes glfl{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2vh)}}
+.gld.ps .gl-bar>i{background:linear-gradient(90deg,#2fbf6a,#c9f27a)}
+body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
+
+/* ---------- Elit Çini Balon (İznik çinisi, altın çerçeve) ve Ateş balonu: yeni görseller ---------- */
+.msg.bt-cini span{color:#0f2f73!important;text-shadow:none!important;font-weight:800}
+.msg.bt-ates span{color:#fff!important;text-shadow:0 1px 2px rgba(80,8,0,.8)!important}
+
+/* ---------- davet ekranları (eşini davet et / arkadaş çağır): lacivert-altın premium kutu, sabit boy ---------- */
+#mc.ivm{position:relative;width:min(92vw,640px);height:min(90vh,560px);max-height:none;display:flex;flex-direction:column;gap:1.4vh;padding:2.4vh 2.6vh 2.2vh;overflow:hidden;color:#fff;
+ background:radial-gradient(120% 80% at 50% -10%,#3360b8 0,#1a3478 45%,#0c1a44 100%);border-radius:2.6vh;
+ box-shadow:0 0 0 .35vh #f2c54a,0 0 0 .8vh rgba(255,224,140,.14),0 2.4vh 6vh rgba(0,0,0,.6)}
+#mc.ivm::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 15% 0%,rgba(255,215,110,.18),transparent 70%),radial-gradient(50% 35% at 100% 100%,rgba(90,170,255,.16),transparent 70%)}
+.ivxb{position:absolute!important;right:1.4vh;top:1.4vh;z-index:5}
+.ivh{display:flex;align-items:center;gap:1.6vh;padding-right:8vh;flex:none;position:relative}
+.ivh-i{flex:none;width:max(8vh,34px);height:max(8vh,34px);border-radius:50%;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 35% 30%,#fff3c4,#f3c043 45%,#b97a10);box-shadow:0 0 0 .3vh rgba(255,255,255,.6),0 0 2.2vh rgba(255,200,70,.55);color:#4a2a00}
+.ivh-i .sv,.ivh-i svg{width:55%;height:55%}.ivh-i .kyi{fill:none;stroke:#4a2a00;stroke-width:2.4;stroke-linecap:round}
+.ivh b{display:block;font-family:TO,G,sans-serif;font-size:clamp(17px,5.4vh,28px);letter-spacing:.02em;line-height:1.05;
+ background:linear-gradient(#fffbe8,#ffd75a 60%,#f1a72a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 .25vh 0 rgba(40,16,0,.55))}
+.ivh small{display:block;margin-top:.4vh;font-size:clamp(10px,2.6vh,14px);color:#cfe0ff;font-weight:700;line-height:1.25}
+.ivs{flex:none;display:flex;align-items:center;justify-content:space-between;gap:1vh;padding:.9vh 1.4vh;border-radius:1.4vh;background:rgba(0,0,0,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);font-weight:800;font-size:clamp(10px,2.6vh,14px);color:#dfe9ff}
+.ivs>span{display:flex;align-items:center;gap:.8vh}
+.ivs .dot{width:1.1vh;height:1.1vh;min-width:7px;min-height:7px;border-radius:50%;background:#3ee07a;box-shadow:0 0 0 .3vh rgba(62,224,122,.25),0 0 1vh #3ee07a}
+.ivcode{font-family:G,monospace;letter-spacing:.18em;color:#ffd75a;font-size:1.25em}
+.ivs .gbtn.sq{width:max(5.4vh,26px);height:max(5.4vh,26px)}
+.ivl{flex:1;min-height:0;overflow:hidden auto;display:flex;flex-direction:column;gap:1vh;padding:.4vh .4vh .6vh;margin:0 -.4vh;scrollbar-width:thin}
+.ivc{display:flex;align-items:center;gap:1.4vh;padding:1vh 1.2vh;border-radius:1.6vh;background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.04));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);flex:none;animation:ivIn .4s cubic-bezier(.2,.9,.3,1) both}
+.ivc:nth-child(2){animation-delay:.04s}.ivc:nth-child(3){animation-delay:.08s}.ivc:nth-child(4){animation-delay:.12s}.ivc:nth-child(n+5){animation-delay:.16s}
+@keyframes ivIn{from{opacity:0;transform:translateY(1vh)}to{opacity:1;transform:none}}
+.ivc.on{background:linear-gradient(90deg,rgba(62,224,122,.16),rgba(255,255,255,.04));box-shadow:inset 0 0 0 1px rgba(110,240,160,.3)}
+.ivc-a{position:relative;flex:none;padding:.6vh 0 0;background:none;border:0;cursor:pointer}
+.ivc-a .avb{--s:max(7vh,30px)}
+.ivc-a .ost{left:auto;right:-.2vh;bottom:-.2vh;box-shadow:0 0 0 .3vh #16306e}
+.ivc-t{flex:1;min-width:0;cursor:pointer}
+.ivc-t b{display:block;font-size:clamp(12px,3.2vh,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ivc-t small{display:block;font-size:clamp(9px,2.4vh,13px);color:#a9bde6;font-weight:700;margin-top:.2vh}
+.ivon{font-style:normal;color:#6ff0a0}
+.ivc .ivb{flex:none;min-width:max(15vh,72px)}
+.ivin,.ivw{flex:none;display:inline-flex;align-items:center;gap:.6vh;font-style:normal;font-weight:800;font-size:clamp(10px,2.6vh,14px);padding:.8vh 1.4vh;border-radius:99px}
+.ivin{color:#6ff0a0;background:rgba(62,224,122,.14)}.ivin .sv{width:1.1em;height:1.1em}
+.ivw{color:#ffd75a;background:rgba(255,200,70,.12)}
+.ivsp{width:1em;height:1em;border-radius:50%;border:2px solid rgba(255,215,90,.25);border-top-color:#ffd75a;animation:spin 1s linear infinite;flex:none}
+.ive{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4vh;text-align:center;color:#cfe0ff;font-weight:700}
+.ive>.sv{width:9vh;height:9vh;opacity:.5}.ive p{max-width:44ch;font-size:clamp(11px,2.8vh,15px);margin:0}
+#mc.ivm .mrow{flex:none;margin-top:0}
+
+/* ---------- gelen davet: büyük kart, dönen ışık, geri sayım çubuğu ---------- */
+#mc.ivxm{width:min(86vw,460px);padding:0;overflow:hidden;color:#fff;border-radius:2.8vh;background:radial-gradient(120% 90% at 50% 0%,#3c6bd0 0,#1a3478 50%,#0c1a44 100%);
+ box-shadow:0 0 0 .4vh #f2c54a,0 0 0 .9vh rgba(255,224,140,.15),0 0 6vh rgba(255,200,80,.35),0 2.4vh 6vh rgba(0,0,0,.6);animation:ivPop .5s cubic-bezier(.2,1.3,.35,1) both!important}
+@keyframes ivPop{from{opacity:0;transform:scale(.8) translateY(3vh)}to{opacity:1;transform:none}}
+.ivx{position:relative;display:flex;flex-direction:column;align-items:center;padding:3vh 2.6vh 2.4vh;gap:1.4vh}
+.ivx-ray{position:absolute;left:50%;top:13vh;width:58vh;height:58vh;margin:-29vh 0 0 -29vh;pointer-events:none;opacity:.55;
+ background:repeating-conic-gradient(from 0deg,rgba(255,220,120,.35) 0 7deg,transparent 7deg 22deg);-webkit-mask:radial-gradient(circle,#000 10%,transparent 62%);mask:radial-gradient(circle,#000 10%,transparent 62%);animation:spin 18s linear infinite}
+.ivx-av{position:relative;cursor:pointer;animation:ivB 2.4s ease-in-out infinite}
+.ivx-av .avb.xl{--s:min(22vh,100px);margin:1vh}
+@keyframes ivB{0%,100%{transform:translateY(0)}50%{transform:translateY(-.8vh)}}
+.ivx-t{position:relative;text-align:center}
+.ivx-t b{display:block;font-family:TO,G,sans-serif;font-size:clamp(18px,6vh,30px);line-height:1.05;background:linear-gradient(#fffbe8,#ffd75a 60%,#f1a72a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 .25vh 0 rgba(40,16,0,.55))}
+.ivx-t p{margin:.6vh 0 0;font-weight:800;font-size:clamp(11px,3vh,16px);color:#dfe9ff}
+.ivx-ch{display:flex;flex-wrap:wrap;justify-content:center;gap:.8vh;margin-top:1.2vh}
+.ivx-ch span{display:inline-flex;align-items:center;gap:.5vh;padding:.6vh 1.3vh;border-radius:99px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);font-weight:800;font-size:clamp(10px,2.5vh,13px)}
+.ivx-ch span .sv{width:1.1em;height:1.1em}.ivx-ch b{color:#ffd75a;letter-spacing:.12em}
+.ivx-tm{position:relative;width:100%;height:max(.9vh,5px);border-radius:99px;background:rgba(0,0,0,.35);overflow:hidden}
+.ivx-tm>i{position:absolute;inset:0;transform-origin:left;background:linear-gradient(90deg,#ffb52e,#ffe48a);animation:ivT var(--t) linear forwards}
+@keyframes ivT{to{transform:scaleX(0)}}
+.ivx .mrow{position:relative;width:100%;margin:0}.ivx .mrow .btn{flex:1}
+.ivx-ok{animation:ivG 1.6s ease-in-out infinite}
+@keyframes ivG{0%,100%{filter:none}50%{filter:brightness(1.15) drop-shadow(0 0 1.2vh rgba(80,255,140,.6))}}
+
+/* yeni arkadaşlık isteği kartı (üstten kayar) */
+.rqp{position:fixed;left:50%;top:calc(2vh + env(safe-area-inset-top,0px));z-index:2147482500;display:flex;align-items:center;gap:1.2vh;padding:1vh 1.2vh 1vh 1vh;border-radius:2vh;color:#fff;cursor:pointer;
+ background:linear-gradient(100deg,#21459a,#12285e);box-shadow:0 0 0 .3vh #f2c54a,0 1.4vh 3vh rgba(0,0,0,.45);transform:translate(-50%,-140%);transition:transform .45s cubic-bezier(.2,1.2,.35,1);max-width:92vw}
+.rqp.on{transform:translate(-50%,0)}
+.rqp .avb{--s:max(6.4vh,28px)}
+.rqp>span{min-width:0}.rqp small{display:block;color:#ffd75a;font-weight:800;font-size:clamp(9px,2.3vh,12px);text-transform:uppercase;letter-spacing:.06em}
+.rqp b{display:block;font-size:clamp(12px,3.2vh,16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:36vw}
+.rqp .btn{min-width:0;padding-left:1.4vh;padding-right:1.4vh}
+
+/* ---------- arkadaşlık istekleri sekmesi: gelen istekler öne çıkar, gönderilenler profil kartı ---------- */
+#frC.frq .frc.rqc{padding:1.1vh 1.3vh;border-radius:1.8vh}
+#frC.frq .frc.inc{background:linear-gradient(90deg,#fff6d8,#fff);box-shadow:0 0 0 .25vh #f2c54a,0 .6vh 1.4vh rgba(180,120,0,.18);animation:ivIn .4s both}
+#frC.frq .frc.inc .frn small{color:#a26b00;font-weight:800}
+#frC.frq .frc.snt .frn small{display:flex;align-items:center;gap:.6vh;flex-wrap:wrap}
+#frC.frq .frc.snt .ivw{padding:.2vh .9vh;font-size:.95em;color:#b37800;background:rgba(255,190,40,.16)}
+#frC.frq .frc.snt .ivsp{border-color:rgba(180,120,0,.25);border-top-color:#d69200}
+#frC.frq .frn{cursor:pointer}
+
+/* ---------- profil: fotoğraf büyütülebilir; tam ekran görüntüleyici ---------- */
+.fpr>.avb.zm{cursor:zoom-in;position:relative}
+.fpr>.avb.zm::after{content:'';position:absolute;right:6%;bottom:6%;width:28%;height:28%;border-radius:50%;z-index:4;
+ background:#1f4ea8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l5 5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center/62% no-repeat;box-shadow:0 0 0 .3vh #fff}
+.phv{position:fixed;inset:0;z-index:2147482600;display:flex;align-items:center;justify-content:center;background:rgba(2,6,20,.0);transition:background .25s;cursor:zoom-out}
+.phv.on{background:rgba(2,6,20,.88)}
+.phv-in{width:min(80vh,88vw);height:min(80vh,88vw);border-radius:2.4vh;background:center/cover no-repeat;box-shadow:0 0 0 .4vh #fff,0 2vh 6vh rgba(0,0,0,.6);transform:scale(.6);opacity:0;transition:transform .3s cubic-bezier(.2,1.2,.35,1),opacity .25s}
+.phv.on .phv-in{transform:none;opacity:1}
+.phv-x{position:absolute;right:2vh;top:calc(2vh + env(safe-area-inset-top,0px));width:max(7vh,32px);height:max(7vh,32px);border-radius:50%;border:0;color:#fff;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center}
+.phv-x .sv{width:50%;height:50%;stroke-width:3}
+
+/* masada oyuncu menüsü: Profil düğmesi */
+#gfm .gfp{display:inline-flex;align-items:center;gap:.5vh;margin-left:auto;margin-right:.8vh;padding:.5vh 1.2vh;border-radius:99px;border:0;font-weight:800;font-size:clamp(10px,2.4vh,13px);color:#fff;background:linear-gradient(#3f7be0,#2456b8);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+#gfm .gfp .sv{width:1.1em;height:1.1em}
+
+/* ---------- lig · arkadaş sıralaması: geniş satırlar, çerçeveler üst üste binmez, ilk üç madalya ---------- */
+.lgx{display:flex;flex-direction:column;gap:1vh}
+.lgfr2{display:flex;align-items:center;gap:1.4vh;min-height:max(11vh,52px);padding:.8vh 1.4vh;border-radius:1.8vh;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);cursor:pointer;flex:none}
+.lgfr2.me{background:linear-gradient(90deg,rgba(255,206,80,.22),rgba(255,206,80,.06));box-shadow:inset 0 0 0 1px rgba(255,214,110,.55);cursor:default}
+.lgrk2{flex:none;width:max(5vh,24px);height:max(5vh,24px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-size:clamp(11px,2.8vh,15px);color:#dfe9ff;background:rgba(0,0,0,.25)}
+.lgrk2.mg{background:radial-gradient(circle at 35% 30%,#fff3b0,#f4c430 50%,#b98400);color:#5a3a00;box-shadow:0 0 1.2vh rgba(255,200,60,.55)}
+.lgrk2.ms{background:radial-gradient(circle at 35% 30%,#ffffff,#c9d3e0 50%,#8392a8);color:#2c3a50}
+.lgrk2.mb{background:radial-gradient(circle at 35% 30%,#ffd9b0,#d48a4a 50%,#8e4f1e);color:#3c1c00}
+.lgav{flex:none;padding-top:1.6vh;display:flex}
+.lgav .avb{--s:max(6.6vh,30px)}
+.lgnm2{flex:1;min-width:0}
+.lgnm2 b{display:block;font-size:clamp(12px,3.2vh,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lgnm2 small{display:block;font-size:clamp(9px,2.3vh,12px);color:#a9bde6;font-weight:700;margin-top:.2vh}
+.lgsen{font-style:normal;font-size:.62em;padding:.15em .55em;border-radius:99px;background:#f2c54a;color:#4a2a00;vertical-align:middle;letter-spacing:.05em}
+.lgfe2{flex:none;display:flex;align-items:center;gap:1vh;min-width:max(22vh,96px)}
+.lgfe2 img{width:max(7vh,30px);height:max(7vh,30px);object-fit:contain;filter:drop-shadow(0 .3vh .5vh rgba(0,0,0,.4))}
+.lgfe2>span{display:flex;flex-direction:column;gap:.3vh}.lgfe2 b{font-size:clamp(10px,2.5vh,13px)}
+
+/* ---------- ikram parçacıkları ---------- */
+.gpx{position:fixed;z-index:37;pointer-events:none;display:block;will-change:transform,opacity}
+.grg{border-radius:50%;border:max(.35vh,2px) solid rgba(255,214,110,.9);box-sizing:border-box}
+.ggl{width:12px;height:12px;--c:#fff3b8;background:radial-gradient(circle,var(--c) 0 18%,transparent 20%),linear-gradient(var(--c),var(--c)) center/14% 100% no-repeat,linear-gradient(90deg,var(--c),var(--c)) center/100% 14% no-repeat;filter:drop-shadow(0 0 4px var(--c))}
+.gpt{width:10px;height:10px;border-radius:0 80% 0 80%;background:linear-gradient(135deg,#ff6b86,#d0123c 70%,#8e0a28);box-shadow:inset 1px 1px 0 rgba(255,255,255,.35)}
+.gst{border-radius:50%;background:radial-gradient(ellipse at 50% 60%,rgba(255,255,255,.75),rgba(255,255,255,0) 70%);filter:blur(2px)}
+.gst.w{background:radial-gradient(ellipse at 50% 60%,rgba(255,236,200,.8),rgba(255,236,200,0) 70%)}
+.gfw{width:4px;height:4px;border-radius:50%}
+.gds{border-radius:50%;background:#fff;box-shadow:0 0 3px rgba(255,255,255,.9)}
+.gsp{width:3px;height:9px;border-radius:2px}
+.gry{border-radius:50%;background:repeating-conic-gradient(rgba(255,215,90,.75) 0 8deg,transparent 8deg 30deg);-webkit-mask:radial-gradient(circle,#000 15%,transparent 68%);mask:radial-gradient(circle,#000 15%,transparent 68%)}
+/* düzeltmeler */
+.ivc-t,.ivh,.lgnm2,.rqp>span{text-align:left}
+.ivc-a .ost{left:-.2vh;right:auto;bottom:-.2vh}
+.lgav{margin-right:.6vh}.rqp .avb{margin-right:.4vh}.ivc-a{margin-right:.4vh}
+.fpr>.avb.zm::after{right:auto;left:6%;bottom:auto;top:8%}
+.ivx{padding-top:4.4vh}
+.ivx-av .avb.xl{--s:min(20vh,92px)}
+#mc .ivc-t,#mc .ivc-t b,#mc .ivc-t small,#mc .ivh,#mc .ivh b,#mc .ivh small{text-align:left!important;justify-content:flex-start}
+.ivc-a{margin:0 1.4vh 0 .6vh}.lgav{margin:0 1.6vh 0 .4vh}.rqp .avb{margin-right:1vh}
+.ivx{padding-top:5.6vh}
+
+</style>
+<script id="j-r21">
+/* ===== 21 Kasım ===== */
+
+/* ---------- mini oyun yükleme ekranları: görseller önceden yüklenip çözülür, oyun takılmadan açılır ---------- */
+(function(){
+const SU=['kupa','karo','sinek','maca'],RK=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const URLS={
+ hr:['img/salon/horses14.webp','img/salon/track3.webp','img/salon/hp_all.webp','img/salon/idle.webp','img/salon/finish.webp','img/salon/card_at2.webp'],
+ ps:(()=>{const a=['img/pisti/arka.webp','img/pisti/masa.webp','img/salon/card_pisti.webp'];SU.forEach(s=>RK.forEach(r=>a.push(`img/pisti/${s}_${r}.webp`)));return a})()};
+const TIPS={hr:['Atlar piste çıkıyor…','Jokeyler hazırlanıyor…','Tribünler doluyor…'],ps:['Kartlar karılıyor…','Masa hazırlanıyor…','Deste dağıtılıyor…']};
+const DONE={};
+function load(u){return new Promise(res=>{const im=new Image();im.decoding='async';let ok=0;const f=()=>{if(ok)return;ok=1;res()};
+ im.onload=()=>{(im.decode?im.decode():Promise.resolve()).then(f,f)};im.onerror=f;im.src=u;setTimeout(f,7000)})}
+function view(k){const ov=document.createElement('div');ov.id='gld';ov.className='gld '+k;
+ const card=k=='ps'?`<div class="gl-fan">${[0,1,2,3,4].map(i=>`<i style="--i:${i}"><b style="background-image:url(img/pisti/${['maca_A','kupa_K','karo_Q','sinek_J','kupa_10'][i]}.webp)"></b></i>`).join('')}</div>`:
+  `<div class="gl-trk"><div class="gl-hz"><i></i></div></div>`;
+ ov.innerHTML=`<div class="gl-bg"></div><div class="gl-in">
+  <div class="gl-ttl">${L_(k=='hr'?'AT YARIŞI':'PİŞTİ')}</div>${card}
+  <div class="gl-bar"><i></i>${k=='hr'?'<em class="gl-fin"></em>':''}</div>
+  <div class="gl-tip">${L_(TIPS[k][0])}</div></div>`;
+ document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add('on'));return ov}
+function run(k,go){
+ if(document.getElementById('gld'))return;
+ const ov=view(k),bar=ov.querySelector('.gl-bar>i'),tip=ov.querySelector('.gl-tip'),L=URLS[k];let n=0,ti=0;
+ const set=()=>{const p=Math.round(n/L.length*100);bar.style.width=p+'%';ov.style.setProperty('--p',p/100)};set();
+ const tt=setInterval(()=>{ti=(ti+1)%TIPS[k].length;tip.classList.remove('sw');void tip.offsetWidth;tip.classList.add('sw');tip.textContent=L_(TIPS[k][ti])},1100);
+ const t0=performance.now(),min=DONE[k]?650:1500;
+ try{snd&&snd('click')}catch(e){}
+ // önce en büyük görseller (at yarışı pisti/atları, pişti masası) sırayla, sonra kalanlar birlikte
+ const first=L.slice(0,k=='hr'?2:3),rest=L.slice(first.length);
+ (async()=>{for(const u of first){await load(u);n++;set()}
+  await Promise.all(rest.map(u=>load(u).then(()=>{n++;set()})));
+  const w=Math.max(0,min-(performance.now()-t0));setTimeout(()=>{DONE[k]=1;clearInterval(tt);bar.style.width='100%';
+   try{go()}catch(e){console.error(e)}
+   // oyun ekranı ilk karesini çizsin, sonra yükleme ekranı yumuşakça kalksın
+   requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>{ov.classList.add('out');setTimeout(()=>ov.remove(),420)},180)))},w)})()}
+window.gameLoad=run;
+const lock=()=>{try{return salLocked()||salP().minor}catch(e){return false}};
+try{const H0=hrOpen;hrOpen=window.hrOpen=function(){const a=arguments;if(lock())return H0.apply(this,a);run('hr',()=>H0.apply(this,a))}}catch(e){}
+try{const P0=window.pstOpen;window.pstOpen=function(){const a=arguments;if(lock())return P0.apply(this,a);run('ps',()=>P0.apply(this,a))}}catch(e){}
+const D={'AT YARIŞI':['HORSE RACE','CARRERA DE CABALLOS','PÊŞBAZIYA HESPAN'],'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTİ'],
+ 'Atlar piste çıkıyor…':['Horses are entering the track…','Los caballos salen a la pista…','Hesp dikevin pîstê…'],
+ 'Jokeyler hazırlanıyor…':['Jockeys are getting ready…','Los jinetes se preparan…','Siwar amade dibin…'],
+ 'Tribünler doluyor…':['The stands are filling up…','Las gradas se llenan…','Tribûn tije dibin…'],
+ 'Kartlar karılıyor…':['Shuffling the cards…','Barajando las cartas…','Kart tên tevlihevkirin…'],
+ 'Masa hazırlanıyor…':['Setting up the table…','Preparando la mesa…','Mase amade dibe…'],
+ 'Deste dağıtılıyor…':['Dealing the deck…','Repartiendo la baraja…','Deste tê belavkirin…']};
+for(const k in D)if(!DICT[k])DICT[k]=D[k];
+})();
+
+/* ---------- isimsiz oyunculara otomatik ad: U + ID (değiştirene kadar) ---------- */
+(function selfName(){try{if(P.id&&(!P.name||/^(Oyuncu|Player|Jugador|Lîstikvan)$/.test(P.name))){P.name='U'+P.id;save();try{if(typeof svUp=='function'&&onOK())svUp()}catch(e){}}else if(!P.id)setTimeout(selfName,4000)}catch(e){}})();
+
+/* ---------- profil: her yerden açılır, foto büyür, arkadaş değilse "Arkadaş ekle" ---------- */
+function phView(src,isImg){const v=document.createElement('div');v.className='phv';
+ v.innerHTML=`<div class="phv-in" style="background-image:${isImg?`url('${src}')`:src}"></div><button class="phv-x" aria-label="Kapat">${I('x')}</button>`;
+ v.onclick=()=>{v.classList.remove('on');setTimeout(()=>v.remove(),250)};document.body.appendChild(v);requestAnimationFrame(()=>v.classList.add('on'));try{snd('pick')}catch(e){}}
+window.phView=phView;
+function avZoom(o){if(!o)return;if(o.photo)phView(typeof phU=='function'?phU(o.photo):o.photo,1);else phView(avUrl(o.av|0),0)}
+window.avZoom=avZoom;
+window.openPlayer=function(id){if(!id||id==ON.me||id=='me'){try{show('profile')}catch(e){}return}if(typeof frProfile=='function')frProfile(id)};
+async function frAddId(id){if(!onOK())return linkAcc();try{const p=await fsGet('players/'+id);if(!p)return err(L_('Oyuncu bulunamadı'));
+ if(ON.frIds.includes(id))return toast(L_('Zaten arkadaşsınız'));if(ON.rqs.some(x=>x.from==id))return frAccept(id);if(ON.sent.some(x=>x.to==id))return toast(L_('İstek zaten gönderildi'));
+ const c=myCard();await fsSet('requests/'+ON.me+'_'+id,{from:ON.me,to:id,fromName:c.name,fromAv:c.av,fromFrame:c.frame,fromLv:c.lv,fromCountry:c.country,fromPid:c.playerId,fromPhoto:await photoSmall(),toName:p.name||'',toPid:p.playerId||'',ts:Date.now()},false);
+ snd('coin');toast(L_('Arkadaşlık isteği gönderildi'));const b=$('#mc .fadd2');if(b){b.disabled=true;b.innerHTML=I('check')+L_('İstek gönderildi')}}catch(e){err(L_('Bağlantı hatası, tekrar dene'))}}
+window.frAddId=frAddId;
+frProfile=(o=>async function(id,req){const r=await o.apply(this,arguments);try{
+ if(!$('#modal').classList.contains('on'))return r;const mc=$('#mc');mc.classList.add('fprx');
+ let f=(ON.fr||{})[id];if(!f){try{const p=await fsGet('players/'+id);if(p)f=pf(id,p)}catch(e){}}
+ const av=mc.querySelector('.fpr>.avb');if(av&&f){av.classList.add('zm');av.onclick=()=>avZoom(f);av.title=L_('Fotoğrafı büyüt')}
+ const isF=ON.frIds.includes(id),sent=ON.sent.some(x=>x.to==id);
+ if(!isF&&!req&&id!=ON.me&&id!=KAP){const row=mc.querySelector('.mrow:not(.rps)');if(row&&!row.querySelector('.fadd2'))row.insertAdjacentHTML('afterbegin',`<button class="btn g fadd2" ${sent?'disabled':''} onclick="frAddId('${id}')">${I(sent?'check':'add')}${L_(sent?'İstek gönderildi':'Arkadaş ekle')}</button>`)}
+}catch(e){}return r})(frProfile);
+
+/* masada: oyuncuya dokununca açılan menüye "Profil" */
+giftMenu=(o=>function(l){const r=o.apply(this,arguments);try{const b=M.bots[l],h=$('#gfm .gfh');if(b&&b.uid&&h&&!h.querySelector('.gfp')){
+ h.querySelector('.gfx').insertAdjacentHTML('beforebegin',`<button class="gfp" onclick="this.closest('#gfm').remove();openPlayer('${b.uid}')">${I('user')}<span>${L_('Profil')}</span></button>`);
+ const a=h.querySelector('.avb');if(a){a.style.cursor='pointer';a.onclick=()=>{$('#gfm')&&$('#gfm').remove();openPlayer(b.uid)}}}}catch(e){}return r})(giftMenu);
+
+/* ---------- davet ekranları: gösterişli ve profilli ---------- */
+const ivCard=(f,btn)=>`<div class="ivc ${f.on?'on':''}"><button class="ivc-a" onclick="openPlayer('${f.id}')">${avBox({av:f.av,frame:f.frame,lv:f.lv,photo:f.photo,vlv:f.vlv,vu:f.vu})}<i class="ost ${f.on?'on':''}"></i></button>
+ <span class="ivc-t" onclick="openPlayer('${f.id}')"><b>${esc(f.name)} ${flag(f.country)}</b><small>${f.on?`<em class="ivon">${L_('Çevrimiçi')}</em>`:agoTxt(f.seen)} · Sv ${f.lv|0}</small></span>${btn}</div>`;
+const ivHead=(ico,t,s)=>`<div class="ivh"><span class="ivh-i">${ico}</span><span><b>${L_(t)}</b><small>${L_(s)}</small></span></div>`;
+const ivEmpty=t=>`<div class="ive">${I('team')}<p>${L_(t)}</p><button class="btn b sm" onclick="closeM();openFriends('add')">${I('add')}${L_('Arkadaş ekle')}</button></div>`;
+ptPick=(o=>function(){if(typeof isBanned=='function'&&isBanned()){closeM();return banMsg()}if(!onOK())return linkAcc();if(PT.role=='guest')return;
+ const fr=onFriends(),on=fr.filter(f=>f.on).length;
+ modal(`<button class="xbtn ivxb" onclick="closeM()" aria-label="${L_('Kapat')}">${I('x')}</button>${ivHead(I('team'),'Eşini davet et','Davet ettiğin arkadaşın karşına oturur, birlikte oynarsınız.')}
+  <div class="ivs"><span><i class="dot"></i>${on} ${L_('çevrimiçi')}</span><span>${fr.length} ${L_('arkadaş')}</span></div>
+  <div class="ivl">${fr.length?fr.map(f=>ivCard(f,`<button class="btn sm ${f.on?'g':'b'} ivb" onclick="ptInvite('${f.id}')">${I('send')}${L_('Davet et')}</button>`)).join(''):ivEmpty('Henüz arkadaşın yok. Arkadaş ekleyince buradan eş olarak davet edebilirsin.')}</div>
+  <div class="mrow"><button class="btn b" onclick="closeM()">${L_('Rastgele eşleş')}</button></div>`,'ivm')})(ptPick);
+privFriends=function(){const fr=onFriends(),inRoom=new Set((OG.pl||[]).filter(Boolean).map(p=>p.uid)),called=privFriends.c=privFriends.c||{};
+ modal(`<button class="xbtn ivxb" onclick="closeM()" aria-label="${L_('Kapat')}">${I('x')}</button>${ivHead(typeof keyIco=='function'?keyIco():I('lock'),'Arkadaş çağır','Çağırdığın arkadaşına oda kodu anında gider.')}
+  <div class="ivs"><span>${L_('Oda kodu')} <b class="ivcode">${esc(OG.priv||'')}</b></span><button class="gbtn sq" onclick="privCopy()" aria-label="Kopyala">${I('copy')}</button></div>
+  <div class="ivl">${fr.length?fr.map(f=>ivCard(f,inRoom.has(f.id)?`<em class="ivin">${I('check')}${L_('Odada')}</em>`:called[f.id]?`<em class="ivw"><i class="ivsp"></i>${L_('Çağrıldı')}</em>`:`<button class="btn sm ${f.on?'g':'b'} ivb" onclick="privFriends.c['${f.id}']=1;privInvite('${f.id}',this);setTimeout(privFriends,60)">${I('send')}${L_('Çağır')}</button>`)).join(''):ivEmpty('Henüz arkadaşın yok. Kodu paylaşarak da çağırabilirsin.')}</div>
+  `,'ivm')};
+// gelen davet: büyük kart, ışık hüzmesi, geri sayım
+function invCard(d,txt,chips,acc,dec,secs){const card={name:d.name,av:d.av|0,frame:d.frame||'bronz',lv:d.lv|0,photo:d.photo||''};
+ modal(`<div class="ivx"><div class="ivx-ray"></div><div class="ivx-av" onclick="openPlayer('${esc(d.from||'')}')">${avBox(card,'xl')}</div>
+  <div class="ivx-t"><b>${esc(d.name||'')}</b><p>${L_(txt)}</p><div class="ivx-ch">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div>
+  <div class="ivx-tm"><i style="--t:${secs}s"></i></div>
+  <div class="mrow"><button class="btn r" onclick="${dec}">${I('x')}${L_('Reddet')}</button><button class="btn g ivx-ok" onclick="${acc}">${I('check')}${L_('Kabul et')}</button></div></div>`,'ivxm');
+ clearTimeout(invCard.t);invCard.t=setTimeout(()=>{const m=$('#mc.ivxm');if(m&&$('#modal').classList.contains('on'))closeM()},secs*1000)}
+onInvite=(o=>function(d){
+ if(!d||!d.from||(window.blkIs&&blkIs(d.from)))return o(d);
+ const lim=d.priv?180000:120000;if((+d.ts||0)<=INV.seen||Date.now()-(+d.ts||0)>lim)return o(d);
+ if(OG.on||(!d.priv&&PT.role=='lead'&&PT.mate))return o(d);
+ const left=Math.max(10,Math.round((lim-(Date.now()-(+d.ts||0)))/1000));
+ INV.seen=+d.ts||0;snd('coin');vib(30);
+ if(d.priv){fsDel('invites/'+ON.me).catch(()=>{});invCard(d,'seni özel odasına çağırıyor',[`${I('lock')} ${L_('Özel oda')}`,`${L_('Kod')} <b>${esc(d.code)}</b>`,L_(d.kat?'Katlamalı':'Katlamasız')],`closeM();privJoin('${esc(d.code)}')`,'closeM()',left);return}
+ INV.d=d;invCard(d,'seni eşli masaya davet ediyor',[`${I('team')} ${L_('Eşli')}`,L_(d.kat?'Katlamalı':'Katlamasız'),'101'],'ptAccept()','ptDecline()',left)})(onInvite);
+
+/* ---------- arkadaşlık istekleri: gelen ve gönderilen istekler profil kartı olarak ---------- */
+const PCACHE={};
+async function pcard(id){if(PCACHE[id])return PCACHE[id];try{const p=await fsGet('players/'+id);if(p)PCACHE[id]=pf(id,p)}catch(e){}return PCACHE[id]||null}
+renderFriends=(o=>function(){const r=o.apply(this,arguments);try{if(FTAB!='req'||!onOK())return r;
+ const c=$('#frC');c.classList.add('frq');
+ // gelen
+ c.querySelectorAll('.frc').forEach(x=>{if(x.querySelector('[onclick^="frAccept"]'))x.classList.add('rqc','inc')});
+ // gönderilen: isim yerine profil kartı
+ const lbl=[...c.querySelectorAll('.lbl')].find(e=>/GÖNDERİLEN|SENT|ENVIADAS|ŞANDÎ/.test(e.textContent));
+ if(lbl&&ON.sent.length){const box=lbl.nextElementSibling;box.className='frl rqs';
+  box.innerHTML=ON.sent.map(s=>{const f=PCACHE[s.to]||{id:s.to,name:nmFix(s.toName,s.toPid),av:0,frame:'bronz',lv:0,country:'TR'};
+   return`<div class="frc rqc snt" data-u="${s.to}"><button class="fra" onclick="openPlayer('${s.to}')">${avBox({av:f.av,frame:f.frame,lv:f.lv,photo:f.photo})}</button><span class="frn" onclick="openPlayer('${s.to}')"><b>${esc(f.name)} ${flag(f.country||'TR')}</b><small>${f.lv?'Sv '+f.lv+' · ':''}ID ${esc(s.toPid||'')} · <em class="ivw"><i class="ivsp"></i>${L_('İstek gönderildi')}</em></small></span><button class="btn sm r" onclick="frCancel('${s.to}')">${I('x')}${L_('Geri al')}</button></div>`}).join('');
+  ON.sent.forEach(s=>{if(!PCACHE[s.to])pcard(s.to).then(f=>{if(f&&FTAB=='req'&&$('#friends').classList.contains('on'))renderFriends()})})}
+}catch(e){}return r})(renderFriends);
+// yeni arkadaşlık isteği gelince küçük şık bildirim kartı
+(function(){let n0=-1;setInterval(()=>{try{if(!window.ON||!ON.rqs)return;const n=ON.rqs.length;if(n0>=0&&n>n0){const q=ON.rqs.slice().sort((a,b)=>(+b.ts||0)-(+a.ts||0))[0];if(q&&Date.now()-(+q.ts||0)<120000)rqPop(q)}n0=n}catch(e){}},1500)})();
+function rqPop(q){if(!q||document.getElementById('intro')&&document.getElementById('intro').classList.contains('on'))return;
+ const e=document.createElement('div');e.className='rqp';e.innerHTML=`${avBox({av:q.fromAv|0,frame:q.fromFrame||'bronz',lv:q.fromLv|0,photo:q.fromPhoto||''})}<span><small>${L_('Arkadaşlık isteği')}</small><b>${esc(nmFix(q.fromName,q.fromPid))}</b></span><button class="btn sm g">${I('check')}</button><button class="btn sm r rqx">${I('x')}</button>`;
+ e.querySelector('.btn.g').onclick=ev=>{ev.stopPropagation();e.remove();frAccept(q.from)};e.querySelector('.rqx').onclick=ev=>{ev.stopPropagation();e.remove()};
+ e.onclick=()=>{e.remove();openFriends('req')};document.body.appendChild(e);requestAnimationFrame(()=>e.classList.add('on'));setTimeout(()=>{e.classList.remove('on');setTimeout(()=>e.remove(),400)},7000)}
+
+/* ---------- lig: arkadaş sıralaması geniş satırlar, profil açılır ---------- */
+lgPane=(o=>function(k){if(k!='fr')return o.apply(this,arguments);
+ try{const g=lgP(),L=[];
+  L.push({me:1,id:'me',name:P.name||L_('Sen'),o:me(),L:g.L,st:g.st,lv:me().lv,on:1});
+  Object.keys(ON.fr||{}).forEach(id=>{const f=ON.fr[id],x=LGF[id];if(!f)return;const c=x?lgCur(x.lg,x.lgs):{L:0,st:0};L.push({id,name:f.name,o:{av:f.av,photo:f.photo,frame:f.frame,vlv:f.vlv,vu:f.vu},L:c.L,st:c.st,none:!x||!x.lgs,lv:f.lv,on:f.on,seen:f.seen})});
+  L.sort((a,b)=>b.L-a.L||b.st-a.st||(b.me|0)-(a.me|0));
+  if(L.length<2)return o.apply(this,arguments);
+  const MED=['','g','s','b'];
+  return`<div class="lgfl lzfl lgx">${L.slice(0,50).map((x,i)=>`<div class="lgfr2 ${x.me?'me':''} r${i+1}" onclick="${x.me?'':`openPlayer('${x.id}')`}">
+   <em class="lgrk2 ${i<3?'m'+MED[i+1]:''}">${i+1}</em><span class="lgav">${avBox(Object.assign({},x.o,{frame:x.o.frame||'bronz'}))}</span>
+   <span class="lgnm2"><b>${esc(x.name)}${x.me?` <i class="lgsen">${L_('SEN')}</i>`:''}</b><small>Sv ${x.lv|0} · ${x.me||x.on?`<em class="ivon">${L_('Çevrimiçi')}</em>`:agoTxt(x.seen)}</small></span>
+   <span class="lgfe2"><img src="${lgImg(x.L,1)}" alt=""><span><b>${x.none?'—':lgNm(x.L)}</b>${x.none?'':lgStars(x.L,x.st,'sm')}</span></span></div>`).join('')}</div>`}catch(e){return o.apply(this,arguments)}})(lgPane);
+
+/* ---------- sohbet: mesaj gönderince / girince mesajlar kaybolup gelmesin ---------- */
+(function(){let lastId=null;const seen=new Map();
+renderChat=(o=>function(){const r=o.apply(this,arguments);
+ try{const first=CHID!==lastId;if(first)seen.clear();const now=performance.now();
+  const ms=[...$('#chM').querySelectorAll('.msg')];const cnt={};
+  ms.forEach(m=>{const k=m.className.replace(/\s+/g,' ')+'|'+m.textContent;cnt[k]=(cnt[k]|0)+1;const key=k+'#'+cnt[k];
+   if(first){seen.set(key,-1e9);m.style.animation='none';return}
+   const t=seen.get(key);if(t===undefined){seen.set(key,now);return}
+   const age=now-t;if(age>450)m.style.animation='none';else m.style.animationDelay=(-age)+'ms'});
+  lastId=CHID}catch(e){}
+ return r})(renderChat)})();
+
+const D2={'Fotoğrafı büyüt':['Enlarge photo','Ampliar foto','Wêne mezin bike'],'Oyuncu bulunamadı':['Player not found','Jugador no encontrado','Lîstikvan nehat dîtin'],'Zaten arkadaşsınız':['You are already friends','Ya sois amigos','Hûn jixwe heval in'],
+ 'İstek zaten gönderildi':['Request already sent','Solicitud ya enviada','Daxwaz jixwe hat şandin'],'Arkadaşlık isteği gönderildi':['Friend request sent','Solicitud enviada','Daxwaza hevaltiyê hat şandin'],'İstek gönderildi':['Request sent','Solicitud enviada','Daxwaz hat şandin'],
+ 'Arkadaş ekle':['Add friend','Añadir amigo','Heval zêde bike'],'Profil':['Profile','Perfil','Profîl'],'çevrimiçi':['online','en línea','serhêl'],'arkadaş':['friends','amigos','heval'],
+ 'Çağırdığın arkadaşına oda kodu anında gider.':['Your friend instantly gets the room code.','Tu amigo recibe el código al instante.','Koda odeyê di cih de diçe hevalê te.'],'Kod':['Code','Código','Kod'],
+ 'seni özel odasına çağırıyor':['is calling you to a private room','te invita a su sala privada','te vedixwîne odeya taybet'],'seni eşli masaya davet ediyor':['invites you to a pairs table','te invita a una mesa por parejas','te vedixwîne maseya bi heval'],
+ 'Arkadaşlık isteği':['Friend request','Solicitud de amistad','Daxwaza hevaltiyê'],'Geri al':['Withdraw','Retirar','Vegerîne'],'SEN':['YOU','TÚ','TU'],'Çağrıldı':['Called','Llamado','Hat gazîkirin'],'Odada':['In room','En la sala','Di odeyê de']};
+for(const k in D2)if(!DICT[k])DICT[k]=D2[k];
+
+/* ---------- ikram (hediye) animasyonları: yumuşak uçuş + her hediyeye özel küçük, sade bir varış efekti ---------- */
+(function(){
+const R=(a,b)=>a+Math.random()*(b-a);
+function pt(cls,x,y,kf,o,html){const e=document.createElement('i');e.className='gpx '+cls;e.style.left=x+'px';e.style.top=y+'px';if(html)e.innerHTML=html;document.body.appendChild(e);
+ const a=e.animate(kf,Object.assign({fill:'forwards',easing:'ease-out'},o));a.onfinish=()=>e.remove();return e}
+const ring=(x,y,s,c,d)=>pt('grg',x,y,[{transform:'translate(-50%,-50%) scale(.3)',opacity:.9},{transform:'translate(-50%,-50%) scale(1)',opacity:0}],{duration:900,delay:d||0}).style.cssText+=`;width:${s}px;height:${s}px;border-color:${c}`;
+const glint=(x,y,s,d,c)=>{const e=pt('ggl',x,y,[{transform:'translate(-50%,-50%) scale(0) rotate(0)',opacity:0},{transform:'translate(-50%,-50%) scale(1) rotate(45deg)',opacity:1,offset:.4},{transform:'translate(-50%,-50%) scale(0) rotate(90deg)',opacity:0}],{duration:800,delay:d});e.style.width=e.style.height=s+'px';if(c)e.style.setProperty('--c',c)};
+const FX={
+ petals(x,y,s){for(let i=0;i<10;i++){const dx=R(-1.1,1.1)*s,sw=R(18,40)*(Math.random()<.5?-1:1),r0=R(0,360),e=pt('gpt',x+R(-.4,.4)*s,y-s*.9,
+   [{transform:`translate(-50%,-50%) rotate(${r0}deg)`,opacity:0},{opacity:1,offset:.12},{transform:`translate(calc(-50% + ${dx*.5+sw}px),calc(-50% + ${s*.8}px)) rotate(${r0+160}deg)`,offset:.55},
+    {transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${s*1.7}px)) rotate(${r0+300}deg)`,opacity:0}],{duration:R(1700,2400),delay:i*90,easing:'cubic-bezier(.3,.2,.5,1)'});e.style.width=e.style.height=Math.max(7,s*R(.14,.2))+'px'}},
+ steam(x,y,s,warm){for(let i=0;i<3;i++){const e=pt('gst'+(warm?' w':''),x+(i-1)*s*.18,y-s*.35,[{transform:'translate(-50%,0) scale(.5)',opacity:0},{opacity:.75,offset:.3},{transform:`translate(calc(-50% + ${(i-1)*8+R(-6,6)}px),-${s*.9}px) scale(1.3)`,opacity:0}],{duration:1900,delay:i*260,easing:'ease-in-out'});e.style.width=s*.16+'px';e.style.height=s*.5+'px'}},
+ fire(x,y,s){const C=['#ffd25a','#ff7aa8','#7fe3ff','#b8ff7a'];[[0,-.9,0],[-.75,-.55,320],[.75,-.6,620]].forEach(([ox,oy,d],k)=>{const cx=x+ox*s,cy=y+oy*s,c=C[k%4];
+   for(let i=0;i<14;i++){const an=i/14*Math.PI*2,r=s*R(.42,.55),e=pt('gfw',cx,cy,[{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(an)*r}px),calc(-50% + ${Math.sin(an)*r+s*.12}px)) scale(.3)`,opacity:0}],{duration:950,delay:d,easing:'cubic-bezier(.1,.7,.3,1)'});e.style.background=c;e.style.boxShadow=`0 0 6px ${c}`}
+   glint(cx,cy,s*.35,d,c)})},
+ rings(x,y,s){ring(x,y,s*1.7,'rgba(70,150,255,.9)',0);ring(x,y,s*1.7,'rgba(160,220,255,.8)',300);ring(x,y,s*1.7,'rgba(70,150,255,.6)',600)},
+ glints(x,y,s,c){for(let i=0;i<6;i++){const an=R(0,6.28),r=s*R(.35,.75);glint(x+Math.cos(an)*r,y+Math.sin(an)*r,s*R(.22,.34),i*150,c)}},
+ dust(x,y,s){for(let i=0;i<22;i++){const e=pt('gds',x+R(-.6,.6)*s,y-s*.3,[{transform:'translate(-50%,-50%)',opacity:0},{opacity:.95,offset:.15},{transform:`translate(calc(-50% + ${R(-14,14)}px),calc(-50% + ${s*R(.7,1.3)}px))`,opacity:0}],{duration:R(1200,1900),delay:R(0,500)});e.style.width=e.style.height=R(2.5,5)+'px'}},
+ sprinkles(x,y,s){const C=['#ff5d8f','#ffd23f','#3fd0ff','#8cf06b','#ffffff','#b07cff'];for(let i=0;i<18;i++){const an=R(-Math.PI*.95,-Math.PI*.05),r=s*R(.5,.9),e=pt('gsp',x,y-s*.1,
+   [{transform:`translate(-50%,-50%) rotate(${R(0,180)}deg)`,opacity:1},{transform:`translate(calc(-50% + ${Math.cos(an)*r}px),calc(-50% + ${Math.sin(an)*r}px)) rotate(${R(180,540)}deg)`,opacity:1,offset:.5},{transform:`translate(calc(-50% + ${Math.cos(an)*r*1.2}px),calc(-50% + ${Math.sin(an)*r+s*.7}px)) rotate(${R(540,720)}deg)`,opacity:0}],{duration:R(1100,1500),easing:'cubic-bezier(.2,.6,.4,1)'});e.style.background=C[i%6]}},
+ rays(x,y,s){const e=pt('gry',x,y,[{transform:'translate(-50%,-50%) scale(.4) rotate(0)',opacity:0},{transform:'translate(-50%,-50%) scale(1) rotate(40deg)',opacity:.9,offset:.35},{transform:'translate(-50%,-50%) scale(1.1) rotate(110deg)',opacity:0}],{duration:1900,easing:'ease-in-out'});e.style.width=e.style.height=s*2+'px'}
+};
+const PLAN={gul:['petals'],vgul:['petals'],cay:['steam'],kahve:['steam'],vcay:['steam',1],vkahve:['steam',1],vbaklava:['glints','#ffcf5a'],vkunefe:['steam',1],
+ vfisek:['fire'],nazar:['rings'],velmas:['glints','#bfefff'],vkupa:['rays'],vtac:['glints','#ffe27a'],vlokum:['dust'],pasta:['sprinkles'],dondurma:['glints','#ffd1e6']};
+giftFly=window.giftFly=function(f,t,k){const g=IKRAM.find(x=>x[0]==k);if(!g)return;const a=avR(f),b=avR(t);if(!a||!b)return;
+ const lo=document.body.classList.contains('lo');
+ const el=document.createElement('div');el.className='gfly gfn'+(g[4]?' v '+g[4]:'');el.innerHTML=g[3]?`<img src="${g[3]}" alt="">`:`<span>${g[1]}</span>`;document.body.appendChild(el);
+ const sz=Math.max(a.height*(g[4]?1:.85),34);el.style.width=el.style.height=sz+'px';if(!g[3])el.style.fontSize=sz*.8+'px';
+ const crown=k=='vtac',x0=a.left+a.width/2-sz/2,y0=a.top+a.height/2-sz/2,x1=b.left+b.width/2-sz/2,y1=crown?b.top-sz*.55:b.top+b.height/2-sz/2,dx=x1-x0,dy=y1-y0,arc=Math.min(120,Math.hypot(dx,dy)*.3);
+ snd('pick');
+ const fly=el.animate([{transform:`translate(${x0}px,${y0}px) scale(.3)`,opacity:0},{transform:`translate(${x0}px,${y0-sz*.15}px) scale(1)`,opacity:1,offset:.14},
+  {transform:`translate(${x0+dx*.5}px,${y0+dy*.5-arc}px) scale(1.18) rotate(${dx>0?8:-8}deg)`,offset:.55},{transform:`translate(${x1}px,${y1}px) scale(.92) rotate(0)`,opacity:1,offset:.88},{transform:`translate(${x1}px,${y1}px) scale(1)`,opacity:1}],
+  {duration:1050,easing:'cubic-bezier(.45,.05,.35,1)',fill:'forwards'});
+ fly.onfinish=()=>{snd('coin');const cx=x1+sz/2,cy=y1+sz/2;
+  // varış: hafif zıplama + yumuşak halka
+  el.animate([{transform:`translate(${x1}px,${y1}px) scale(1)`},{transform:`translate(${x1}px,${y1}px) scale(1.14,.9)`,offset:.35},{transform:`translate(${x1}px,${y1}px) scale(.96,1.05)`,offset:.7},{transform:`translate(${x1}px,${y1}px) scale(1)`}],{duration:380,fill:'forwards'});
+  if(!lo){ring(cx,cy,sz*1.5,g[4]=='e'?'rgba(150,230,255,.9)':'rgba(255,214,110,.9)');const p=PLAN[k];if(p)try{FX[p[0]](cx,cy,sz,p[1])}catch(e){}}
+  el.animate([{transform:`translate(${x1}px,${y1}px) scale(1)`,opacity:1},{transform:`translate(${x1}px,${y1-sz*.6}px) scale(.85)`,opacity:0}],{duration:700,delay:g[4]?2100:1600,fill:'forwards',easing:'ease-in'}).onfinish=()=>el.remove()};
+ const from=f?M.bots[f]:me();if(t==0&&from)toast(`${from.name} ${L_('sana ikram etti:')} ${L_(g[2])}`)};
+})();
+
+/* lobi: davet edilen / eş olan arkadaşın profil kartı tıklanınca açılır */
+renderLobby=(o=>function(){const r=o.apply(this,arguments);try{const id=PT.inv||PT.mate||(PT.role=='guest'&&PT.leader);const box=$('#lobS');if(!box||!id)return r;
+ box.querySelectorAll('.lt-s').forEach((s,i)=>{if(i==0||s.classList.contains('add'))return;const a=s.querySelector('.avb');if(a&&!a.dataset.pl){a.dataset.pl=1;a.style.cursor='pointer';a.onclick=e=>{e.stopPropagation();openPlayer(id)}}})}catch(e){}return r})(renderLobby);
 
 </script>
 </body></html>

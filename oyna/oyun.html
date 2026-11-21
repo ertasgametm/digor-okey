@@ -2214,7 +2214,7 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 .hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp?h=06971dd) no-repeat;background-size:6747px 515px}
 .hr-bg.a{left:0;width:2249px;background-position:0 0}.hr-bg.b{left:2249px;width:2249px;background-position:-2249px 0}.hr-bg.c{left:4498px;width:2249px;background-position:-4498px 0}
 .hr-h{position:absolute;left:0;top:0;width:199.3px;height:150px;will-change:transform}
-.hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp?h=5387235) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
+.hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp?h=61aa310) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
 .hr-h.idl .hr-sp{display:none}
 .hr-id{position:absolute;left:0;bottom:0;width:100%;height:112.676%;background:url(img/salon/idle.webp?h=2b221a1) no-repeat;background-size:100% 600%;background-position:0 calc(var(--r)*20%);display:none;pointer-events:none}
 .hr-h.idl .hr-id{display:block}
@@ -4698,18 +4698,18 @@ function toMenu(){if(skipped)return;skipped=true;show('menu')}
  $('#ltip').textContent=L_(TIPS[Math.random()*TIPS.length|0]);
  const LOGO=3600,DUR=9500,LOGO_AT=6.9,K=[[0,0],[.15,.12],[.35,.3],[.45,.42],[.6,.47],[.78,.8],[.9,.88],[1,1]];
  const pr=x=>{for(let i=1;i<K.length;i++)if(x<=K[i][0]){const a=K[i-1],b=K[i];return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0])}return 1};
- const lo=P.set.gfx=='l',vidOn=(P.set.ivid??1)&&!lo;let ph=0,vt=0,lvStarted=0;
+ const lo=P.set.gfx=='l',vidOn=!!(P.set.ivid??1);const VB={},VA=[];(vidOn?['giris']:[]).concat(lo?[]:['yukleme']).forEach(k=>{try{const ac=new AbortController();VA.push([k,ac]);fetch('video/'+k+'.mp4',{signal:ac.signal}).then(r=>r.ok?r.blob():null).then(b=>{if(b&&b.size>1000)VB[k]=URL.createObjectURL(b)}).catch(()=>{})}catch(e){}});const vsrc=k=>{if(VB[k])return VB[k];VA.forEach(a=>{if(a[0]==k)try{a[1].abort()}catch(e){}});return 'video/'+k+'.mp4'};let ph=0,vt=0,lvStarted=0;
  const logoIn=()=>{if(IN.classList.contains('s2'))return;const v=IN.classList.contains('vid');IN.classList.add('s2');setTimeout(()=>IN.classList.add('lgdone'),(v?2500:600)+900)};                       // DİGOR OKEY 101 logosu girer
- function loopStart(){if(lvStarted||lo)return;lvStarted=1;LV.src='video/yukleme.mp4';
+ function loopStart(){if(lvStarted||lo)return;lvStarted=1;LV.src=vsrc('yukleme');
   LV.addEventListener('playing',()=>IN.classList.add('lv'),{once:true});LV.play().catch(()=>{})}
  // yükleme çubuğu (9,5 sn) → menü
  function loadPhase(){if(ph>=2)return;ph=2;clearTimeout(vt);logoIn();loopStart();IN.classList.add('ld');
   setTimeout(()=>{IN.classList.remove('vid');try{IV.pause()}catch(e){}},1400);
   T0=performance.now();(function f(t){const x=Math.min(1,(t-T0)/DUR),v=pr(x);$('#ldf').style.transform=`scaleX(${v})`;if(x<1&&!skipped)requestAnimationFrame(f);else if(x>=1)setTimeout(toMenu,400)})(T0)}
- function vidPhase(){if(!vidOn){logoIn();return loadPhase()}ph=1;IV.src='video/giris.mp4';IV.muted=!P.set.snd;IV.volume=.8;
-  IV.addEventListener('playing',()=>IN.classList.add('vid'),{once:true});
+ function vidPhase(){if(!vidOn){logoIn();return loadPhase()}ph=1;IV.src=vsrc('giris');IV.muted=!P.set.snd;IV.volume=.8;
+  IV.addEventListener('playing',()=>{IN.classList.add('vid');clearTimeout(vt);vt=setTimeout(()=>{logoIn();loadPhase()},(((isFinite(IV.duration)&&IV.duration)||10)+4)*1000)},{once:true});
   IV.ontimeupdate=()=>{const t=IV.currentTime,d=IV.duration||10;if(t>=LOGO_AT)logoIn();if(t>=d-1.6)loopStart();if(t>=d-.25)loadPhase()};
-  IV.onended=loadPhase;IV.onerror=()=>{logoIn();loadPhase()};vt=setTimeout(()=>{logoIn();loadPhase()},16000);
+  IV.onended=loadPhase;IV.onerror=()=>{if(ph==1&&!IV.dataset.rt){IV.dataset.rt=1;const b=IV.src.startsWith('blob:');IV.src=b?'video/giris.mp4':(VB.giris||'video/giris.mp4');IV.play().catch(()=>{IV.muted=true;IV.play().catch(()=>{logoIn();loadPhase()})});return}logoIn();loadPhase()};vt=setTimeout(()=>{logoIn();loadPhase()},16000);
   IV.play().catch(()=>{IV.muted=true;IV.play().catch(()=>{logoIn();loadPhase()})})}
  setTimeout(vidPhase,LOGO);
  IN.onclick=()=>{if(ph==2&&T0&&performance.now()-T0>700)toMenu()}})();
@@ -13187,7 +13187,8 @@ toast=window.toast=function(){try{const el=document.getElementById('toast'),tw=d
  background:linear-gradient(#fff8d8 10%,#ffd24a 55%,#e8901a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 .4vh 0 rgba(70,30,0,.65)) drop-shadow(0 0 2vh rgba(255,190,60,.45));animation:glt .7s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes glt{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
 .gl-bar{position:relative;width:min(70vw,560px);height:max(1.6vh,8px);border-radius:99px;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,220,140,.35)}
-.gl-bar>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:inherit;background:linear-gradient(90deg,#ffb52e,#ffe48a);box-shadow:0 0 1.4vh rgba(255,200,80,.6);transition:width .3s ease-out}
+.gl-bar>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:inherit;background:linear-gradient(90deg,#ffb52e,#ffe48a);box-shadow:0 0 1.4vh rgba(255,200,80,.6)}
+.gl-ttl{display:none}
 .gl-tip{font-weight:800;font-size:clamp(11px,3vh,16px);color:#f4f7ff;text-shadow:0 .2vh .5vh rgba(0,0,0,.6);letter-spacing:.02em}
 .gl-tip.sw{animation:gls .4s ease-out}
 @keyframes gls{from{opacity:0;transform:translateY(.8vh)}to{opacity:1;transform:none}}
@@ -13195,9 +13196,9 @@ toast=window.toast=function(){try{const el=document.getElementById('toast'),tw=d
 /* At Yarışı: alacakaranlık hipodrom, pist çizgisinde dörtnala koşan at */
 .gld.hr .gl-bg{background-image:url(img/salon/card_at2.webp?h=4017a08)}
 .gld.hr::before{background:radial-gradient(120% 90% at 50% 45%,rgba(8,14,34,.35),rgba(6,10,26,.88) 70%),linear-gradient(transparent 55%,rgba(6,10,26,.9))}
-.gl-trk{position:relative;width:min(70vw,560px);height:min(25vh,130px)}
-.gl-hz{position:absolute;bottom:-.6vh;left:calc(var(--p,0)*(100% - min(25vh,130px)*1.33));width:calc(min(25vh,130px)*1.33);height:min(25vh,130px);overflow:hidden;transition:left .3s ease-out}
-.gl-hz>i{position:absolute;left:0;top:0;width:1400%;height:600%;background:url(img/salon/horses14.webp?h=5387235) 0 0/100% 100% no-repeat;animation:glh .62s steps(14) infinite}
+.gl-trk{position:relative;width:min(70vw,560px);height:min(16vh,84px)}
+.gl-hz{position:absolute;bottom:-.4vh;left:calc(var(--p,0)*(100% - min(16vh,84px)*1.33));width:calc(min(16vh,84px)*1.33);height:min(16vh,84px);overflow:hidden}
+.gl-hz>i{position:absolute;left:0;top:0;width:1400%;height:600%;background:url(img/salon/horses14.webp?h=61aa310) 0 0/100% 100% no-repeat;animation:glh .84s steps(14) infinite}
 @keyframes glh{to{transform:translateX(-100%)}}
 .gld.hr .gl-bar{background:linear-gradient(#6b4220,#4a2c14);box-shadow:inset 0 .25vh 0 rgba(255,255,255,.25),inset 0 -.25vh 0 rgba(255,255,255,.25),0 0 0 1px rgba(255,220,140,.35)}
 .gl-fin{position:absolute;right:-.2vh;top:-1.2vh;bottom:-1.2vh;width:1.2vh;min-width:6px;background:repeating-linear-gradient(#fff 0 .6vh,#111 .6vh 1.2vh);border-radius:.3vh;box-shadow:0 0 .8vh rgba(0,0,0,.5)}
@@ -13352,6 +13353,7 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 #mc .ivc-t,#mc .ivc-t b,#mc .ivc-t small,#mc .ivh,#mc .ivh b,#mc .ivh small{text-align:left!important;justify-content:flex-start}
 .ivc-a{margin:0 1.4vh 0 .6vh}.lgav{margin:0 1.6vh 0 .4vh}.rqp .avb{margin-right:1vh}
 .ivx{padding-top:5.6vh}
+.gl-fan{margin-bottom:5vh}
 
 </style>
 <script id="j-r21">
@@ -13371,22 +13373,24 @@ function view(k){const ov=document.createElement('div');ov.id='gld';ov.className
  const card=k=='ps'?`<div class="gl-fan">${[0,1,2,3,4].map(i=>`<i style="--i:${i}"><b style="background-image:url(img/pisti/${['maca_A','kupa_K','karo_Q','sinek_J','kupa_10'][i]}.webp)"></b></i>`).join('')}</div>`:
   `<div class="gl-trk"><div class="gl-hz"><i></i></div></div>`;
  ov.innerHTML=`<div class="gl-bg"></div><div class="gl-in">
-  <div class="gl-ttl">${L_(k=='hr'?'AT YARIŞI':'PİŞTİ')}</div>${card}
+  ${card}
   <div class="gl-bar"><i></i>${k=='hr'?'<em class="gl-fin"></em>':''}</div>
   <div class="gl-tip">${L_(TIPS[k][0])}</div></div>`;
  document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add('on'));return ov}
 function run(k,go){
  if(document.getElementById('gld'))return;
  const ov=view(k),bar=ov.querySelector('.gl-bar>i'),tip=ov.querySelector('.gl-tip'),L=URLS[k];let n=0,ti=0;
- const set=()=>{const p=Math.round(n/L.length*100);bar.style.width=p+'%';ov.style.setProperty('--p',p/100)};set();
- const tt=setInterval(()=>{ti=(ti+1)%TIPS[k].length;tip.classList.remove('sw');void tip.offsetWidth;tip.classList.add('sw');tip.textContent=L_(TIPS[k][ti])},1100);
- const t0=performance.now(),min=DONE[k]?650:1500;
+ let shown=0,raf=0;const t0=performance.now(),min=DONE[k]?2200:3200;
+ // çubuk sakin ilerler: hem yükleme hem en az süre dolunca biter
+ const set=()=>{};(function tick(){const tf=Math.min(1,(performance.now()-t0)/min),lf=n/L.length,tgt=Math.min(tf,lf);shown+=(tgt-shown)*.12;if(tgt>=1&&shown>.995)shown=1;
+  bar.style.width=(shown*100).toFixed(1)+'%';ov.style.setProperty('--p',shown.toFixed(4));if(shown<1)raf=requestAnimationFrame(tick)})();
+ const tt=setInterval(()=>{ti=(ti+1)%TIPS[k].length;tip.classList.remove('sw');void tip.offsetWidth;tip.classList.add('sw');tip.textContent=L_(TIPS[k][ti])},1900);
  try{snd&&snd('click')}catch(e){}
  // önce en büyük görseller (at yarışı pisti/atları, pişti masası) sırayla, sonra kalanlar birlikte
  const first=L.slice(0,k=='hr'?2:3),rest=L.slice(first.length);
  (async()=>{for(const u of first){await load(u);n++;set()}
   await Promise.all(rest.map(u=>load(u).then(()=>{n++;set()})));
-  const w=Math.max(0,min-(performance.now()-t0));setTimeout(()=>{DONE[k]=1;clearInterval(tt);bar.style.width='100%';
+  await new Promise(r=>{(function w(){shown>=1?r():setTimeout(w,40)})()});const w=250;setTimeout(()=>{DONE[k]=1;clearInterval(tt);cancelAnimationFrame(raf);bar.style.width='100%';
    try{go()}catch(e){console.error(e)}
    // oyun ekranı ilk karesini çizsin, sonra yükleme ekranı yumuşakça kalksın
    requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>{ov.classList.add('out');setTimeout(()=>ov.remove(),420)},180)))},w)})()}

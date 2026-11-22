@@ -7955,7 +7955,7 @@ function salWarn(){modal(`<div class="sl-wn"><span class="sl-wi"><svg class="sv"
  <li>${L_('Bu bölüm 18 yaş üstü içindir ve sadece eğlence amaçlıdır. Ara vermeyi unutma!')}</li></ul>
  <div class="mrow"><button class="btn g" onclick="salP().ok=1;save();closeM();snd('click')">${L_('Anladım')}</button></div></div>`,'dkm')}
 function salDay(btn){const s=salP();if(!salDaily())return;s.d=today();s.f=(s.f|0)+SAL_DAY;save();snd('coin');
- const to=$('#slB .sl-bal .fi');fisFly(btn.getBoundingClientRect(),to&&to.getBoundingClientRect(),8,()=>{salRender()});setTimeout(salRender,900);toast('🎟️ +'+fmtC(SAL_DAY)+' '+L_('fiş'))}
+ const to=$('#slB .sl-bal .fi')||$('#salon .slf .fi');fisFly(btn.getBoundingClientRect(),to&&to.getBoundingClientRect(),8,()=>{salRender()});setTimeout(salRender,900);toast('🎟️ +'+fmtC(SAL_DAY)+' '+L_('fiş'))}
 // ---------- kullanım şartları, coin ile fiş, yaş onayı, ara verme ----------
 function salTermsHTML(){return`<ol class="sl-tr">
  <li>${L_('<b>Salon Fişi</b> yalnızca Oyun Salonu’nda kullanılan sanal oyun puanıdır; parasal değeri yoktur.')}</li>
@@ -11660,6 +11660,7 @@ const RK=['','A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 const T=s=>L_(s);
 let PS=null;window.psMid=()=>!!(PS&&!PS.over&&(PS.hand.some(h=>h.length)||PS.d&&PS.d.length));
 const pst=()=>{P.pst=P.pst||{g:0,w:0,d:0,pis:0,best:0};return P.pst};
+window.pstStats=()=>{try{return pst()}catch(e){return{}}};
 // ---------- kart görünümü ----------
 const red=c=>c.s==1||c.s==2;
 const SUN=['maca','kupa','karo','sinek'];
@@ -13373,6 +13374,77 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .fi::after{content:'';position:absolute;inset:25%;background:url(img/logo.webp?h=ac538f1) center/contain no-repeat;filter:drop-shadow(0 .02em .02em rgba(0,0,0,.55))}
 .chip .fi::after{display:none}
 
+/* ===== Oyun Salonu: sol menü + çerçeveli oyun kartları ===== */
+#slB.s2b{display:flex;flex-direction:column}
+.s2{flex:1;min-height:0;display:flex;gap:0}
+.s2nav{flex:none;width:21%;display:flex;flex-direction:column;justify-content:space-between;padding:.4vh 1.4vh .4vh 0;margin-right:2.2vh;border-right:max(.25vh,1.5px) solid rgba(242,197,74,.45);position:relative}
+.s2nav::after{content:'';position:absolute;right:calc(max(.25vh,1.5px)/-2 - .9vh);top:13%;width:1.8vh;height:1.8vh;rotate:45deg;background:linear-gradient(135deg,#ffe9a0,#c98d1c);box-shadow:0 0 .8vh rgba(255,210,100,.6)}
+.s2n{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5vh;border:0;background:none;color:#fff;cursor:pointer;border-radius:1.6vh;padding:.4vh 0;min-height:0}
+.s2n+.s2n::before{content:'';position:absolute;left:12%;right:12%;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(160,190,255,.25),transparent)}
+.s2n.on{background:linear-gradient(#26499e,#152f74);box-shadow:inset 0 0 0 max(.3vh,2px) #f2c54a,0 0 1.6vh rgba(255,200,80,.35)}
+.s2n.on+.s2n::before{display:none}
+.s2i{position:relative;display:flex;align-items:center;justify-content:center;height:8.4vh}
+.s2l{font-weight:900;font-size:clamp(9px,2.6vh,14px);letter-spacing:.01em;text-shadow:0 .2vh .4vh rgba(0,0,0,.6);white-space:nowrap}
+.s2im{display:block;background:center/contain no-repeat}
+.s2im.gm{width:13vh;height:8.4vh;background-image:url(img/sl2/ic_games.webp?h=a1d97e2)}
+.s2im.st{width:9.6vh;height:9.6vh;margin:-.6vh 0;background-image:url(img/sl2/ic_store.webp?h=2a6587e)}
+.s2sq{position:relative;display:block;width:7.6vh;height:7.6vh;border-radius:26%;box-shadow:0 0 0 max(.2vh,1.5px) rgba(255,225,140,.7),0 .6vh 1.2vh rgba(0,0,0,.4);overflow:hidden}
+.s2sq::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.3),transparent 40%)}
+.s2sq svg{position:absolute;inset:24%;width:52%;height:52%;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.s2sq.gf{background:radial-gradient(circle at 50% 35%,#3fd17c,#138a45 70%)}
+.s2sq.gf .fi{position:absolute;left:50%;top:50%;font-size:3.9vh;margin:-1.95vh 0 0 -1.95vh}
+.s2sq.gf .fi:nth-child(1){translate:-28% 14%}.s2sq.gf .fi:nth-child(2){translate:28% 14%}.s2sq.gf .fi:nth-child(3){translate:0 -20%}
+.s2sq.sb{background:linear-gradient(150deg,#2bb6e8,#145fb8)}
+.s2sq.ru{background:linear-gradient(150deg,#a070ff,#5531b8)}
+.s2bd{position:absolute;right:-1.2vh;top:-.9vh;z-index:3;min-width:3.6vh;height:3.6vh;border-radius:99px;background:#ff3b30;color:#fff;font-style:normal;font-weight:900;font-size:clamp(9px,2.3vh,12px);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 max(.3vh,2px) #fff}
+.s2m{flex:1;min-width:0;display:flex;flex-direction:column;gap:1vh;padding-top:3.6vh}
+.s2note{flex:none;margin:0;text-align:center;font-size:clamp(8px,2.2vh,11px);font-weight:700;color:#c3d0f0}
+/* oyun kartları */
+.s2g{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:3vh;padding:0 1vh}
+.s2c{position:relative;display:flex;flex-direction:column;align-items:center;border:0;padding:0 0 2vh;border-radius:1.6vh;overflow:visible;color:#fff;cursor:pointer;min-height:0;
+ background:linear-gradient(#20419a,#11255f 70%,#0e1f52);box-shadow:inset 0 0 0 max(.3vh,2px) #e2b54a,0 0 0 max(.15vh,1px) rgba(80,50,0,.6),0 1vh 2vh rgba(0,0,0,.4)}
+.s2c:active{transform:scale(.98)}
+.s2a{flex:1;min-height:0;align-self:stretch;margin:max(.3vh,2px) max(.3vh,2px) 0;border-radius:1.4vh 1.4vh 0 0;background:center 30%/cover no-repeat;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.s2a.at{background-image:url(img/sl2/art_at.webp?h=c66010f)}.s2a.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 20%}
+.s2o{position:absolute;width:5.2vh;height:5.2vh;z-index:3;pointer-events:none;background:center/contain no-repeat}
+.s2o.tl{left:-.5vh;top:-.5vh;background-image:url(img/ui/orn_tl.webp?h=82bd08f)}.s2o.tr{right:-.5vh;top:-.5vh;background-image:url(img/ui/orn_tr.webp?h=94a02f7)}
+.s2o.bl{left:-.5vh;bottom:-.5vh;background-image:url(img/ui/orn_bl.webp?h=68f6a70)}.s2o.br{right:-.5vh;bottom:-.5vh;background-image:url(img/ui/orn_br.webp?h=b52e804)}
+.s2dv{flex:none;position:relative;width:84%;height:max(.25vh,1.5px);margin:.6vh 0 1vh;background:linear-gradient(90deg,transparent,#e2b54a 20%,#e2b54a 80%,transparent)}
+.s2dv>i{position:absolute;left:50%;top:50%;width:1.3vh;height:1.3vh;margin:-.65vh 0 0 -.65vh;rotate:45deg;background:#f2c54a;box-shadow:0 0 0 .3vh #11255f}
+.s2t{flex:none;font-family:TC,serif;font-weight:700;font-size:clamp(14px,5vh,27px);line-height:1;letter-spacing:.03em;white-space:nowrap;
+ background:linear-gradient(#fff4c8 15%,#f3c34a 60%,#c8861a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 .25vh 0 rgba(30,10,0,.6))}
+.s2p{flex:none;display:flex;align-items:center;justify-content:center;gap:.8vh;width:80%;margin-top:1.6vh;padding:1vh 0;border-radius:99px;font-style:normal;font-weight:900;font-size:clamp(12px,3.8vh,20px);letter-spacing:.05em;color:#fff3c4;
+ text-shadow:0 .25vh 0 #0d2a78;background:linear-gradient(#5a9bff,#2459d6 55%,#1a43a8);box-shadow:0 0 0 max(.3vh,2px) #f2c54a,0 0 0 max(.55vh,3px) rgba(90,55,0,.5),inset 0 .4vh .3vh rgba(255,255,255,.35),0 .6vh 1.2vh rgba(0,0,0,.35)}
+.s2p.off{color:#c9cdd8;text-shadow:0 .25vh 0 #2b2f3a;background:linear-gradient(#8c919c,#5c616c);box-shadow:0 0 0 max(.3vh,2px) #9aa0aa,inset 0 .4vh .3vh rgba(255,255,255,.25)}
+.s2p svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
+.s2new{position:absolute;left:50%;top:-1.3vh;translate:-50% 0;z-index:4;padding:.4vh 1.6vh;border-radius:.8vh;font-style:normal;font-weight:900;font-size:clamp(9px,2.4vh,13px);color:#fff;background:linear-gradient(#ff5a4a,#d42a1c);box-shadow:0 0 0 max(.2vh,1.5px) #ffd27a}
+.s2c.lk{cursor:default;background:linear-gradient(#1d2850,#121a38);box-shadow:inset 0 0 0 max(.3vh,2px) rgba(150,165,200,.35),0 1vh 2vh rgba(0,0,0,.35)}
+.s2c.lk .s2t{background:linear-gradient(#e8ecf5,#9aa3b8);-webkit-background-clip:text;background-clip:text}
+.s2c.lk .s2dv{background:linear-gradient(90deg,transparent,#7d879e 20%,#7d879e 80%,transparent)}.s2c.lk .s2dv>i{background:#9aa3b8;box-shadow:0 0 0 .3vh #182247}
+.s2lock{flex:1;min-height:0;align-self:stretch;margin:2vh 22%;background:url(img/sl2/lock.webp?h=7efe17e) center/contain no-repeat;filter:drop-shadow(0 1vh 1.4vh rgba(0,0,0,.45))}
+/* istatistik */
+.s2st{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:2vh;align-content:center;padding:0 1vh}
+.s2bx{display:flex;flex-direction:column;justify-content:center;gap:1.6vh;padding:2.4vh 2vh;border-radius:1.8vh;background:linear-gradient(#20419a,#11255f);box-shadow:inset 0 0 0 max(.25vh,1.5px) rgba(226,181,74,.7),0 1vh 2vh rgba(0,0,0,.35)}
+.s2bx h4{margin:0;display:flex;align-items:center;gap:1vh;font-family:TC,serif;font-size:clamp(11px,3.2vh,17px);color:#ffd75a;letter-spacing:.03em}
+.s2bx h4 .fi{font-size:4.4vh}
+.s2mi{width:5vh;height:5vh;border-radius:1vh;background:center/cover no-repeat;box-shadow:0 0 0 max(.2vh,1.5px) #e2b54a}
+.s2mi.at{background-image:url(img/sl2/art_at.webp?h=c66010f);background-position:center 25%}.s2mi.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 45%}
+.s2big{font-weight:900;font-size:clamp(20px,8vh,40px);color:#fff;text-shadow:0 .3vh 0 #0b2a66}
+.s2sr{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh;text-align:center}
+.s2sr span{padding:1.4vh 0;border-radius:1.2vh;background:rgba(0,0,0,.25)}
+.s2sr b{display:block;font-size:clamp(14px,5vh,26px);font-weight:900}
+.s2sr small{display:block;font-weight:800;font-size:clamp(8px,2.2vh,11px);color:#b9c8ee;margin-top:.3vh}
+/* kurallar */
+.s2ru{flex:1;min-height:0;display:flex;flex-direction:column;gap:1vh;padding:1.6vh 2.4vh;border-radius:1.8vh;background:rgba(6,16,48,.45);box-shadow:inset 0 0 0 max(.2vh,1px) rgba(226,181,74,.45)}
+.s2ru .sl-tr{flex:1;min-height:0;overflow:auto;margin:0;padding-left:2.6vh;font-size:clamp(9px,2.45vh,12.5px);line-height:1.38;color:#e6edff;text-align:left}
+.s2ru .sl-tr li{margin:.35vh 0}
+.s2rf{flex:none;display:flex;justify-content:flex-end}
+.s2pz{border:0;padding:.7vh 1.8vh;border-radius:99px;background:rgba(255,255,255,.12);color:#fff;font-weight:800;font-size:clamp(9px,2.3vh,12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.s2sr b{color:#fff!important;text-shadow:0 .3vh 0 #0b2a66;font-size:clamp(13px,4.6vh,24px)}
+.s2o{width:7.4vh;height:7.4vh}.s2o.tl{left:-.2vh;top:-.2vh}.s2o.tr{right:-.2vh;top:-.2vh}.s2o.bl{left:-.2vh;bottom:-.2vh}.s2o.br{right:-.2vh;bottom:-.2vh}
+.s2im.st{width:11.4vh;height:11.4vh;margin:-1.6vh 0 -1vh}
+.s2nav::after{top:calc((var(--ti,0) + .5)*20% - .9vh);transition:top .25s}
+
 </style>
 <script id="j-r21">
 /* ===== 21 Kasım ===== */
@@ -13596,6 +13668,40 @@ window.miniBack=function(){const q=document.querySelector('.mxq');if(q){q.remove
 (function(){const D3={'Kal':['Stay','Quedarse','Bimîne'],'Çık':['Leave','Salir','Derkeve'],'Oyun yarıda kalacak.':['The game will be left unfinished.','La partida quedará sin terminar.','Lîstik dê nîvco bimîne.'],
  'At yarışından çıkmak istiyor musun?':['Do you want to leave the horse race?','¿Quieres salir de la carrera de caballos?','Tu dixwazî ji pêşbaziya hespan derkevî?'],
  'Pişti oyunundan çıkmak istiyor musun?':['Do you want to leave Pişti?','¿Quieres salir del Pişti?','Tu dixwazî ji Piştiyê derkevî?']};for(const k in D3)if(!DICT[k])DICT[k]=D3[k]})();
+
+/* ---------- Oyun Salonu: solda menü (Oyunlar · Günlük Hediye · Mağaza · İstatistik · Kurallar), sağda çerçeveli oyun kartları ---------- */
+(function(){
+let SLT='g';
+const SV={st:'<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',ru:'<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h6"/></svg>'};
+const ORN='<i class="s2o tl"></i><i class="s2o tr"></i><i class="s2o bl"></i><i class="s2o br"></i>';
+const DIV='<i class="s2dv"><i></i></i>';
+function dayInfo(){const day=salDaily();let cs=null;try{cs=salCsState()}catch(e){}return{day,cs,bd:day||(cs&&cs.ready)}}
+window.s2Tab=function(k){SLT=k;snd&&snd('click');salRender()};
+window.s2Day=function(btn){const d=dayInfo();if(d.day)return salDay(btn);if(d.cs&&d.cs.ready)return salCsGet(btn);
+ toast(L_('Günlük fiş alındı')+' · '+L_('Yenilenir:')+' '+salCd())};
+function nav(){const d=dayInfo(),it=(k,ic,lb,act,bd)=>`<button class="s2n ${SLT==k?'on':''}" onclick="${act}"><span class="s2i">${ic}${bd?'<i class="s2bd">1</i>':''}</span><span class="s2l">${L_(lb)}</span></button>`;
+ return`<nav class="s2nav" style="--ti:${({g:0,s:3,r:4})[SLT]||0}">${it('g','<i class="s2im gm"></i>','Oyunlar',"s2Tab('g')")}
+  ${it('d','<i class="s2sq gf"><i class="fi"></i><i class="fi c1000"></i><i class="fi c100"></i></i>','Günlük Hediye',"s2Day(this)",d.bd)}
+  ${it('m','<i class="s2im st"></i>','Mağaza',"slShop('all')")}
+  ${it('s',`<i class="s2sq sb">${SV.st}</i>`,'İstatistik',"s2Tab('s')")}
+  ${it('r',`<i class="s2sq ru">${SV.ru}</i>`,'Kurallar',"s2Tab('r')")}</nav>`}
+function games(){return`<div class="s2g">
+ <button class="s2c" onclick="hrOpen()">${ORN}<i class="s2a at"></i>${DIV}<b class="s2t">${L_('AT YARIŞI')}</b><em class="s2p">${L_('OYNA')}</em></button>
+ <button class="s2c" onclick="pstOpen()">${ORN}<i class="s2new">${L_('YENİ')}</i><i class="s2a ps"></i>${DIV}<b class="s2t">${L_('PİŞTİ')}</b><em class="s2p">${L_('OYNA')}</em></button>
+ <div class="s2c lk"><i class="s2lock"></i>${DIV}<b class="s2t">${L_('YAKINDA')}</b><em class="s2p off"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${L_('KİLİTLİ')}</em></div></div>`}
+function stats(){const s=salP(),p=(window.pstStats&&pstStats())||{},c=(v,l)=>`<span><b>${v}</b><small>${L_(l)}</small></span>`;
+ return`<div class="s2st"><div class="s2bx"><h4><i class="fi"></i>${L_('Salon Fişin')}</h4><div class="s2big">${fmtC(s.f|0)}</div></div>
+  <div class="s2bx"><h4><i class="s2mi at"></i>${L_('AT YARIŞI')}</h4><div class="s2sr">${c(s.r|0,'Yarış')}${c(s.w|0,'Kazandın')}${c((s.big|0)>=1e4&&(s.big|0)<1e6?Math.round((s.big|0)/1000)+'K':fmtC(s.big|0),'En büyük')}</div></div>
+  <div class="s2bx"><h4><i class="s2mi ps"></i>${L_('PİŞTİ')}</h4><div class="s2sr">${c(p.g|0,'Oyun')}${c(p.w|0,'Galibiyet')}${c(p.pis|0,'pişti')}</div></div></div>`}
+function rules(){return`<div class="s2ru">${salTermsHTML()}<div class="s2rf"><button class="s2pz" onclick="salPause()">☕ ${L_('Salona ara ver')}</button></div></div>`}
+const NOTE=()=>`<p class="s2note">${L_('Salon Fişi sanaldır: satın alınamaz, coin’e ya da paraya çevrilemez. Gerçek para kazandırmaz · 18+')}</p>`;
+salRender=window.salRender=function(){const b=$('#slB');if(!b)return;
+ const h=`<div class="s2">${nav()}<div class="s2m">${SLT=='s'?stats():SLT=='r'?rules():games()}${NOTE()}</div></div>`;
+ if(b._h!==h){b._h=h;b.innerHTML=h;b.classList.add('s2b')}try{salBal()}catch(e){}};
+// salon her açılışta "Oyunlar" sekmesiyle başlar
+salOpen=(o=>function(){SLT='g';return o.apply(this,arguments)})(salOpen);
+const D4={'Oyunlar':['Games','Juegos','Lîstik'],'KİLİTLİ':['LOCKED','BLOQUEADO','GIRTÎ']};for(const k in D4)if(!DICT[k])DICT[k]=D4[k];
+})();
 
 </script>
 </body></html>

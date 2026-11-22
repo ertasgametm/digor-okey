@@ -11508,7 +11508,7 @@ Object.assign(DICT,{'Fotoğrafı değiştir':['Change photo','Cambiar foto','Wê
 .ps-hc.can:not([disabled]){transform:translateY(-1.2vh)}
 .ps-hc[disabled] .pc{filter:brightness(.82)}
 /* uçan kart, mesaj */
-.ps-fly{position:fixed;z-index:70;pointer-events:none;--h:27vh}
+.ps-fly{position:fixed;z-index:49;pointer-events:none;--h:27vh}
 .ps-fly .pc{width:100%;height:100%}
 .ps-pop{position:absolute;left:50%;top:37vh;translate:-50% -50%;z-index:6;pointer-events:none;opacity:0;scale:.6;font:900 clamp(24px,10vh,50px) G,P;letter-spacing:.06em;color:#ffd76a;text-shadow:0 .5vh 0 #7a4a00,0 0 3vh rgba(255,200,80,.8);display:flex;flex-direction:column;align-items:center;white-space:nowrap}
 .ps-pop small{font-size:.5em;color:#fff;text-shadow:0 .3vh 0 rgba(0,0,0,.5)}
@@ -13360,6 +13360,18 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 #mc.mxm{padding-top:3.4vh}
 #mc.mxm .mxp{margin:0 0 2.4vh;font-weight:800;font-size:clamp(13px,3.6vh,19px)}
 #mc.mxm .mxp small{display:block;margin-top:.6vh;font-size:.78em;font-weight:700;color:#ffd27a}
+
+/* salon fişi: kenarında beyaz şeritli döküm fiş, ortasında altın EG logosu */
+:where(.fi){position:relative}
+.fi{background:
+  radial-gradient(circle closest-side,rgba(255,255,255,.16),rgba(0,0,0,.2) 62%,transparent 63%),
+  radial-gradient(circle closest-side,transparent 0 63%,#ffe08a 64% 67%,#b07a12 68% 69.5%,transparent 70%),
+  radial-gradient(circle closest-side,var(--fc) 0 77%,rgba(0,0,0,.35) 78% 80%,transparent 81%),
+  radial-gradient(circle closest-side,transparent 0 96%,rgba(0,0,0,.35) 97%),
+  repeating-conic-gradient(from -15deg,#fdfdfd 0 30deg,var(--fc) 0 60deg)!important;
+ box-shadow:0 .05em .12em rgba(0,0,0,.45)!important}
+.fi::after{content:'';position:absolute;inset:25%;background:url(img/logo.webp?h=ac538f1) center/contain no-repeat;filter:drop-shadow(0 .02em .02em rgba(0,0,0,.55))}
+.chip .fi::after{display:none}
 
 </style>
 <script id="j-r21">

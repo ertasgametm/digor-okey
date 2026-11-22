@@ -2211,8 +2211,8 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 #hrs.on{animation:hrIn .34s ease-out both}#hrs.out{opacity:0;transition:opacity .24s ease-in}@keyframes hrIn{from{opacity:0}}
 #hrs .hr-view{position:absolute;left:0;right:0;top:0;height:80vh;overflow:hidden;background:#a8dcff}
 .hr-w{position:absolute;left:0;top:0;width:6747px;height:515px;transform-origin:0 0;will-change:transform}
-.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp?h=06971dd) no-repeat;background-size:6747px 515px}
-.hr-bg.a{left:0;width:2249px;background-position:0 0}.hr-bg.b{left:2249px;width:2249px;background-position:-2249px 0}.hr-bg.c{left:4498px;width:2249px;background-position:-4498px 0}
+.hr-bg{position:absolute;top:0;height:515px;background:url(img/salon/track3.webp?h=beea8ea) no-repeat;background-size:9105px 515px}
+.hr-bg.a{left:0;width:2277px;background-position:0 0}.hr-bg.b{left:2277px;width:2276px;background-position:-2277px 0}.hr-bg.c{left:4553px;width:2276px;background-position:-4553px 0}.hr-bg.d{left:6829px;width:2276px;background-position:-6829px 0}
 .hr-h{position:absolute;left:0;top:0;width:199.3px;height:150px;will-change:transform}
 .hr-sp{position:absolute;inset:0;overflow:hidden;pointer-events:none}.hr-sp s{position:absolute;left:0;top:0;width:1400%;height:100%;background:url(img/salon/horses14.webp?h=61aa310) 0 calc(var(--r)*20%)/100% 600% no-repeat;transform:translate3d(-50%,0,0);will-change:transform}
 .hr-h.idl .hr-sp{display:none}
@@ -2231,7 +2231,7 @@ body.lo .sl-sp i,body.noanim .sl-sp i{animation:none;opacity:.7}
 /* koşu karelerinde toynaklar ayak çizgisine (gölgeye) basar: satır başına kaydırma */
 #hrH0 .hr-sp{top:15.5px;bottom:-15.5px}#hrH1 .hr-sp{top:16.6px;bottom:-16.6px}#hrH2 .hr-sp{top:12.4px;bottom:-12.4px}
 #hrH3 .hr-sp{top:14.1px;bottom:-14.1px}#hrH4 .hr-sp{top:19.2px;bottom:-19.2px}#hrH5 .hr-sp{top:20.9px;bottom:-20.9px}
-.hr-fn{position:absolute;left:6450px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp?h=3275436) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
+.hr-fn{position:absolute;left:8808px;top:20px;width:297px;height:440px;background:url(img/salon/finish.webp?h=3275436) no-repeat;background-size:100% 100%;z-index:60;pointer-events:none}
 .hr-hi{display:flex;align-items:center;gap:.5vh;padding:.4vh .9vh;border-radius:99px;background:rgba(5,15,45,.6)}
 .hr-hi small{font-size:clamp(7px,2vh,10px);color:#cfe0ff;font-weight:800;margin-right:.3vh;white-space:nowrap}
 .hr-hi i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:3.4vh;height:3.4vh;min-width:13px;min-height:13px;border-radius:50%;background:var(--c);color:#fff;font-family:G,P;font-weight:900;font-size:clamp(7px,2vh,10px);box-shadow:inset 0 0 0 .2vh rgba(255,255,255,.7)}
@@ -4746,7 +4746,7 @@ function doQuit(){closeM();try{if(window.Android&&Android.exitApp){Android.exitA
 let BK=0;
 function backTrap(){if(!BK){try{history.pushState({rv:1},'');BK=1}catch(e){}}}
 addEventListener('popstate',()=>{BK=0;
- if(mOpen())closeM();else if($('.ovl.on'))$$('.ovl.on').forEach(o=>o.classList.remove('on'));
+ if(mOpen())closeM();else if(window.miniBack&&miniBack()){}else if($('.ovl.on'))$$('.ovl.on').forEach(o=>o.classList.remove('on'));
  else if(onTbl()){if(S&&!S.over)gmenu();else show('menu')}
  else if(!$('#menu').classList.contains('on')&&!$('#intro').classList.contains('on'))show('menu');
  if(!$('#menu').classList.contains('on')||mOpen())backTrap()});
@@ -7907,9 +7907,9 @@ const HR_COL=['#e53935','#8e3fd1','#2b2b2e','#f2c200','#1e63d6','#f57c00'];
 const HR_NAMES=['Kasırga','Sultan','Çawreş','Şimşek','Fırtına','Digor'],HR_STAR=2,HR_STARB=.01;
 // pist (v4.22: track3.webp 6747x515 — orta bölüm aynalanarak 1790 px uzatıldı; yarış 1600 m ≈ 16 sn) · koşu sprite (horses.webp 4x6, 283x213) · duran at (idle.webp 1x6, 283x240)
 // v4.22: başlangıç kapısı vektör çizim (her kulvar ayrı katman, kapılar yarış başlayınca öne açılır) · bitiş takı (finish.webp 297x440, pistte 4660,20)
-const HRT={W:6747,E:1790,H:515,Y0:48,Y1:470,HH:150,NOSE:.93,FOOT:209/213};
+const HRT={W:9105,E:1790,H:515,Y0:48,Y1:470,HH:150,NOSE:.93,FOOT:209/213};
 HRT.HW=HRT.HH*283/213;
-const hrLaneY=i=>396-26*i,hrStartX=i=>79.8+30.4*(i+1)+150,hrFinX=i=>6477+(hrLaneY(i)-250)*1.126;
+const hrLaneY=i=>396-26*i,hrStartX=i=>79.8+30.4*(i+1)+150,hrFinX=i=>8835+(hrLaneY(i)-250)*1.126;
 function salP(){if(!P.sal||typeof P.sal!='object')P.sal={};const s=P.sal;['f','r','w','big','x','pend','rn','ok','terms','adult','lock','minor'].forEach(k=>{if(typeof s[k]!='number')s[k]=0});
  if(typeof s.d!='string')s.d='';if(!Array.isArray(s.hist))s.hist=[];if(!s.bx||typeof s.bx!='object')s.bx={d:'',n:0};return s}
 try{if(typeof SVK!='undefined'&&!SVK.includes('sal'))SVK.push('sal')}catch(e){}
@@ -8032,8 +8032,8 @@ function hrGateEnds(){const a0=hgP(-.5),a5=hgP(5.5),b0=hgB(-.5),b5=hgB(5.5);
 function hrEnsure(){if($('#hrs'))return;let hs='';
  for(let i=0;i<6;i++)hs+=`<i class="hr-h idl" id="hrH${i}" style="--r:${i};--c:${HR_COL[i]};z-index:${40-2*i}"><b class="hr-sp"><s></s></b><b class="hr-id"></b></i>${hrGate(i)}`;
  hs+=hrGateEnds();
- document.body.insertAdjacentHTML('beforeend',`<div id="hrs" class="ovl"><div class="hr-view" id="hrV"><div class="hr-w" id="hrW"><i class="hr-bg a"></i><i class="hr-bg b"></i><i class="hr-bg c"></i>${hs}<i class="hr-fn"></i></div><i class="hr-cv" id="hrCv"></i>
-  <div class="hr-hud"><button class="hr-x" onclick="hrClose()" aria-label="${L_('Kapat')}">${I('x')}</button><span class="hr-tt"><b>${L_('AT YARIŞI')}</b><small id="hrNo"></small></span><span class="sp"></span><span class="hr-hi" id="hrHi"></span><span class="slf"><i class="fi"></i><b class="slfv">0</b></span></div>
+ document.body.insertAdjacentHTML('beforeend',`<div id="hrs" class="ovl"><div class="hr-view" id="hrV"><div class="hr-w" id="hrW"><i class="hr-bg a"></i><i class="hr-bg b"></i><i class="hr-bg c"></i><i class="hr-bg d"></i>${hs}<i class="hr-fn"></i></div><i class="hr-cv" id="hrCv"></i>
+  <div class="hr-hud"><button class="hr-x" onclick="miniAsk('hr')" aria-label="${L_('Kapat')}">${I('x')}</button><span class="hr-tt"><b>${L_('AT YARIŞI')}</b><small id="hrNo"></small></span><span class="sp"></span><span class="hr-hi" id="hrHi"></span><span class="slf"><i class="fi"></i><b class="slfv">0</b></span></div>
   <div class="hr-ph" id="hrPh"><b id="hrPhT"></b><i id="hrTm"></i></div><div class="hr-rk" id="hrRk"></div><div class="hr-ban" id="hrBan"></div></div>
   <div class="hr-pan"><div class="hr-cards" id="hrC"></div><div class="hr-ctl" id="hrCtl"></div></div></div>`);
  new MutationObserver(()=>{if(HR&&!$('#hrs').classList.contains('on'))hrLeave()}).observe($('#hrs'),{attributes:true,attributeFilter:['class']})}
@@ -8080,7 +8080,7 @@ function hrRepeat(){if(!HR||HR.ph!='bet'||!HR.last)return;const s=salP(),need=HR
  s.f-=need;HR.last.forEach((v,i)=>HR.bets[i]+=v);save();salBal();hrCards();sfx13('clink',2)}
 // yarış senaryosu: kazanan, ekrandaki gerçek şanslara göre önceden çekilir; animasyon bu sonuca göre kurulur
 function hrSim(){const w=hrPick(HR.p,[]),ord=[w];while(ord.length<6)ord.push(hrPick(HR.p,ord));
- const Tw=15.2+Math.random()*1.8,T=[];let tt=Tw;ord.forEach((h,k)=>{if(k)tt+=k==1?.04+Math.random()*.46:k==2?.15+Math.random()*.75:.4+Math.random()*1.6;T[h]=tt});
+ const Tw=21+Math.random()*2.5,T=[];let tt=Tw;ord.forEach((h,k)=>{if(k)tt+=k==1?.04+Math.random()*.46:k==2?.15+Math.random()*.75:.4+Math.random()*1.6;T[h]=tt});
  const sim=[];for(let i=0;i<6;i++){const c=i==w&&Math.random()<.6?.1+Math.random()*.35:(Math.random()-.5)*.8,b=(Math.random()-.5)*.2,ph=Math.random()*6.28,k=2+Math.floor(Math.random()*2),re=.18+Math.random()*.32;
   const n=Math.ceil(T[i]*120),F=new Float32Array(n+1);let acc=0;for(let j=1;j<=n;j++){const t=j/120,u=t/T[i],tr=Math.max(0,t-re),ramp=Math.min(1,Math.pow(tr/.85,1.5)),v=ramp*(1+c*(u-.5)+b*Math.sin(k*Math.PI*u+ph));acc+=Math.max(t<re?0:.05,v)/120;F[j]=acc}
   for(let j=1;j<=n;j++)F[j]/=acc;sim.push({T:T[i],F,n,x0:hrStartX(i),xf:hrFinX(i),vE:(hrFinX(i)-hrStartX(i))/T[i]*1.05})}
@@ -9669,7 +9669,7 @@ window.onNativeSafe=()=>{try{readSafe();if(onTbl()&&typeof layout=='function')la
 
 /* ===== v4.22 · At yarışı: mini saha haritası (Fırat'ın fikri), ekran dışında kalan atlar için kenar okları,
    SON 200 M afişi, pist kenarında mesafe tabelaları, foto finiş. Yarış 1600 m; tabelalar pistin kendi 200m/100m tabelalarıyla aynı ölçekte. */
-const HRX={D:1600,PXM:3.93,B100:6163,last:0,ban:0,ord:''};
+const HRX={D:2200,PXM:3.93,B100:8521,last:0,ban:0,ord:''};
 const hrxPr=i=>{const m=HR&&HR.sim&&HR.sim.sim[i];if(!m)return 0;return Math.max(0,Math.min(1,(HR.x[i]-m.x0)/(m.xf-m.x0)))};
 function hrxBuild(){const V=$('#hrV'),W=$('#hrW');if(!V||!W||$('#hrxMap'))return;
  const dots=HR_COL.map((c,i)=>`<g class="d" data-i="${i}"><circle class="me" r="10.5"/><circle r="7.6" fill="${c}" stroke="#fff" stroke-width="1.8"/><text y="3.4" text-anchor="middle" fill="${i==3?'#3a2a00':'#fff'}">${i+1}</text></g>`).join('');
@@ -9678,7 +9678,7 @@ function hrxBuild(){const V=$('#hrV'),W=$('#hrW');if(!V||!W||$('#hrxMap'))return
   <div class="hrx-edge" id="hrxEdge">${HR_COL.map((c,i)=>`<div class="t" data-i="${i}" style="--c:${c}"><i>◀</i><b style="color:${i==3?'#3a2a00':'#fff'}">${i+1}</b><small></small></div>`).join('')}</div>
   <div class="hrx-ban" id="hrxBan"></div>`);
  // mesafe tabelaları (uzak korkuluğun üstünde, pistin kendi 200m / 100m tabelalarıyla aynı biçim)
- let t='';[1400,1200,1000,800,600,400,300].forEach(d=>{const x=HRX.B100-(d-100)*HRX.PXM,w=d>=1000?60:52;
+ let t='';[2000,1800,1600,1400,1200,1000,800,600,400,300].forEach(d=>{const x=HRX.B100-(d-100)*HRX.PXM,w=d>=1000?60:52;
   t+=`<path d="M${(x-w/2+8).toFixed(1)} 196 V214 M${(x+w/2-8).toFixed(1)} 196 V214" stroke="#5b4630" stroke-width="3"/><rect x="${(x-w/2).toFixed(1)}" y="178" width="${w}" height="22" rx="2.5" fill="#f6e7cf" stroke="#5b4630" stroke-width="2"/><text x="${x.toFixed(1)}" y="194.5" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="14" fill="#2a2016">${d}m</text>`});
  W.insertAdjacentHTML('beforeend',`<svg class="hrx-poles" viewBox="0 0 ${HRT.W} 515" width="${HRT.W}" height="515" aria-hidden="true">${t}</svg>`);
  if(P.set.lang&&P.set.lang!='tr'&&typeof trNode=='function'){trNode($('#hrxMap'))}}
@@ -11658,7 +11658,7 @@ const Ic=n=>`<svg class="sv"><use href="#i-${n}"/></svg>`;
 const su=s=>`<svg class="su"><use href="#i-ps${s}"/></svg>`;
 const RK=['','A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 const T=s=>L_(s);
-let PS=null;
+let PS=null;window.psMid=()=>!!(PS&&!PS.over&&(PS.hand.some(h=>h.length)||PS.d&&PS.d.length));
 const pst=()=>{P.pst=P.pst||{g:0,w:0,d:0,pis:0,best:0};return P.pst};
 // ---------- kart görünümü ----------
 const red=c=>c.s==1||c.s==2;
@@ -11786,7 +11786,7 @@ function finish(){if(PS.pile.length&&PS.last>=0){PS.cap[PS.last].push(...PS.pile
   <div class="mrow"><button class="btn w" onclick="closeM();pstClose()">${T('Salona dön')}</button><button class="btn g" onclick="closeM();pstNew()">${T('Tekrar oyna')}</button></div>`,'dkm ps-m');if(res=='w')try{confetti()}catch(e){}},700)}
 // ---------- ekran ----------
 function ensure(){if($('#pst'))return;document.body.insertAdjacentHTML('beforeend',`<div id="pst" class="ovl"><div class="ps-bg"></div><div class="ps-w">
- <div class="ps-top"><button class="gbtn b sq" onclick="pstRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><span class="ps-tt"><b>${T('PİŞTİ')}</b></span><button class="xbtn" onclick="pstClose()" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
+ <div class="ps-top"><button class="gbtn b sq" onclick="pstRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><span class="ps-tt"><b>${T('PİŞTİ')}</b></span><button class="xbtn" onclick="miniAsk('ps')" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
  <div class="ps-bot" id="psBot"></div>
  <div class="ps-mid"><div class="ps-dk" id="psDk"></div><div class="ps-pl" id="psPile"></div></div><div class="psc bt" id="psScB"></div><div class="psc me" id="psScM"></div>
  <div class="ps-turn" id="psTurn"></div><div class="ps-me" id="psMe"></div><div class="ps-pop" id="psPop"></div></div></div>`);try{new MutationObserver(()=>{try{musicSync()}catch(e){}}).observe($('#pst'),{attributes:true,attributeFilter:['class']})}catch(e){}}
@@ -13568,6 +13568,17 @@ giftFly=window.giftFly=function(f,t,k){const g=IKRAM.find(x=>x[0]==k);if(!g)retu
 /* lobi: davet edilen / eş olan arkadaşın profil kartı tıklanınca açılır */
 renderLobby=(o=>function(){const r=o.apply(this,arguments);try{const id=PT.inv||PT.mate||(PT.role=='guest'&&PT.leader);const box=$('#lobS');if(!box||!id)return r;
  box.querySelectorAll('.lt-s').forEach((s,i)=>{if(i==0||s.classList.contains('add'))return;const a=s.querySelector('.avb');if(a&&!a.dataset.pl){a.dataset.pl=1;a.style.cursor='pointer';a.onclick=e=>{e.stopPropagation();openPlayer(id)}}})}catch(e){}return r})(renderLobby);
+
+/* ---------- at yarışı / pişti: çarpıya veya telefonun geri tuşuna basınca önce sorulur ---------- */
+window.miniAsk=function(k){if(mOpen&&mOpen())return;
+ const ps=k=='ps',mid=ps&&window.psMid&&psMid();
+ modal(`<h3>${L_('Çıkış')}</h3><p>${L_(ps?'Pişti oyunundan çıkmak istiyor musun?':'At yarışından çıkmak istiyor musun?')}${mid?'<br>'+L_('Oyun yarıda kalacak.'):''}</p>
+  <div class="mrow"><button class="btn w" onclick="closeM()">${L_('Vazgeç')}</button><button class="btn r" onclick="closeM();${ps?'pstClose()':'hrClose()'}">${L_('Çık')}</button></div>`,'dkm')};
+window.miniBack=function(){const ovs=[...document.querySelectorAll('.ovl.on')];const top=ovs[ovs.length-1];if(!top)return false;
+ if(top.id=='hrs'){miniAsk('hr');return true}if(top.id=='pst'){miniAsk('ps');return true}return false};
+(function(){const D3={'Kal':['Stay','Quedarse','Bimîne'],'Çık':['Leave','Salir','Derkeve'],'Oyun yarıda kalacak.':['The game will be left unfinished.','La partida quedará sin terminar.','Lîstik dê nîvco bimîne.'],
+ 'At yarışından çıkmak istiyor musun?':['Do you want to leave the horse race?','¿Quieres salir de la carrera de caballos?','Tu dixwazî ji pêşbaziya hespan derkevî?'],
+ 'Pişti oyunundan çıkmak istiyor musun?':['Do you want to leave Pişti?','¿Quieres salir del Pişti?','Tu dixwazî ji Piştiyê derkevî?']};for(const k in D3)if(!DICT[k])DICT[k]=D3[k]})();
 
 </script>
 </body></html>

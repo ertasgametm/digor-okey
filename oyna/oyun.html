@@ -13356,6 +13356,16 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .ivx{padding-top:5.6vh}
 .gl-fan{margin-bottom:5vh}
 
+/* çıkış sorusu: kutusuz, yalnız yazı ve seçenekler */
+.mxq{position:fixed;inset:0;z-index:2147481000;display:flex;align-items:center;justify-content:center;background:rgba(4,10,28,0);transition:background .2s}
+.mxq.on{background:rgba(4,10,28,.72)}
+.mxq-in{display:flex;flex-direction:column;align-items:center;gap:2.6vh;opacity:0;transform:scale(.94);transition:opacity .2s,transform .2s;padding:0 16px}
+.mxq.on .mxq-in{opacity:1;transform:none}
+.mxq p{margin:0;text-align:center;color:#fff;font-weight:800;font-size:clamp(15px,4.6vh,24px);text-shadow:0 .3vh 1vh rgba(0,0,0,.6)}
+.mxq p small{display:block;margin-top:.8vh;font-size:.7em;font-weight:700;color:#ffd27a}
+.mxq-b{display:flex;gap:1.6vh}
+.mxq-b .btn{min-width:max(24vh,120px)}
+
 </style>
 <script id="j-r21">
 /* ===== 21 Kasım ===== */
@@ -13570,11 +13580,15 @@ renderLobby=(o=>function(){const r=o.apply(this,arguments);try{const id=PT.inv||
  box.querySelectorAll('.lt-s').forEach((s,i)=>{if(i==0||s.classList.contains('add'))return;const a=s.querySelector('.avb');if(a&&!a.dataset.pl){a.dataset.pl=1;a.style.cursor='pointer';a.onclick=e=>{e.stopPropagation();openPlayer(id)}}})}catch(e){}return r})(renderLobby);
 
 /* ---------- at yarışı / pişti: çarpıya veya telefonun geri tuşuna basınca önce sorulur ---------- */
-window.miniAsk=function(k){if(mOpen&&mOpen())return;
+window.miniAsk=function(k){if(document.querySelector('.mxq'))return;
  const ps=k=='ps',mid=ps&&window.psMid&&psMid();
- modal(`<h3>${L_('Çıkış')}</h3><p>${L_(ps?'Pişti oyunundan çıkmak istiyor musun?':'At yarışından çıkmak istiyor musun?')}${mid?'<br>'+L_('Oyun yarıda kalacak.'):''}</p>
-  <div class="mrow"><button class="btn w" onclick="closeM()">${L_('Vazgeç')}</button><button class="btn r" onclick="closeM();${ps?'pstClose()':'hrClose()'}">${L_('Çık')}</button></div>`,'dkm')};
-window.miniBack=function(){const ovs=[...document.querySelectorAll('.ovl.on')];const top=ovs[ovs.length-1];if(!top)return false;
+ const e=document.createElement('div');e.className='mxq';
+ e.innerHTML=`<div class="mxq-in"><p>${L_(ps?'Pişti oyunundan çıkmak istiyor musun?':'At yarışından çıkmak istiyor musun?')}${mid?`<small>${L_('Oyun yarıda kalacak.')}</small>`:''}</p>
+  <div class="mxq-b"><button class="btn b" data-a="0">${L_('Vazgeç')}</button><button class="btn r" data-a="1">${L_('Çık')}</button></div></div>`;
+ const close=()=>{e.classList.remove('on');setTimeout(()=>e.remove(),200)};
+ e.onclick=ev=>{const b=ev.target.closest('[data-a]');if(b&&b.dataset.a=='1'){e.remove();ps?pstClose():hrClose();return}if(b||ev.target===e)close()};
+ document.body.appendChild(e);requestAnimationFrame(()=>e.classList.add('on'));try{backTrap()}catch(x){}try{snd('click')}catch(x){}};
+window.miniBack=function(){const q=document.querySelector('.mxq');if(q){q.remove();return true}const ovs=[...document.querySelectorAll('.ovl.on')];const top=ovs[ovs.length-1];if(!top)return false;
  if(top.id=='hrs'){miniAsk('hr');return true}if(top.id=='pst'){miniAsk('ps');return true}return false};
 (function(){const D3={'Kal':['Stay','Quedarse','Bimîne'],'Çık':['Leave','Salir','Derkeve'],'Oyun yarıda kalacak.':['The game will be left unfinished.','La partida quedará sin terminar.','Lîstik dê nîvco bimîne.'],
  'At yarışından çıkmak istiyor musun?':['Do you want to leave the horse race?','¿Quieres salir de la carrera de caballos?','Tu dixwazî ji pêşbaziya hespan derkevî?'],

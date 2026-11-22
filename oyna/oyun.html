@@ -13444,6 +13444,12 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .s2o{width:7.4vh;height:7.4vh}.s2o.tl{left:-.2vh;top:-.2vh}.s2o.tr{right:-.2vh;top:-.2vh}.s2o.bl{left:-.2vh;bottom:-.2vh}.s2o.br{right:-.2vh;bottom:-.2vh}
 .s2im.st{width:11.4vh;height:11.4vh;margin:-1.6vh 0 -1vh}
 .s2nav::after{top:calc((var(--ti,0) + .5)*20% - .9vh);transition:top .25s}
+.s2o.o1{left:-.2vh;top:-.2vh;background-image:url(img/ui/orn_tl.webp?h=82bd08f)}.s2o.o2{right:-.2vh;top:-.2vh;background-image:url(img/ui/orn_tr.webp?h=94a02f7)}
+.s2o.o3{left:-.2vh;bottom:-.2vh;background-image:url(img/ui/orn_bl.webp?h=68f6a70)}.s2o.o4{right:-.2vh;bottom:-.2vh;background-image:url(img/ui/orn_br.webp?h=b52e804)}
+#slsh.emb{display:none!important}
+.s2shw{flex:1;min-height:0;display:flex;flex-direction:column;border-radius:1.8vh;overflow:hidden;background:rgba(6,16,48,.45);box-shadow:inset 0 0 0 max(.2vh,1px) rgba(226,181,74,.45)}
+.s2shw>#slC{flex:1;min-height:0;overflow:auto;padding:1.2vh 1.6vh;margin:0;max-height:none;height:auto}
+.s2o{width:9vh;height:9vh}
 
 </style>
 <script id="j-r21">
@@ -13673,16 +13679,16 @@ window.miniBack=function(){const q=document.querySelector('.mxq');if(q){q.remove
 (function(){
 let SLT='g';
 const SV={st:'<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',ru:'<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6M9 12h6"/></svg>'};
-const ORN='<i class="s2o tl"></i><i class="s2o tr"></i><i class="s2o bl"></i><i class="s2o br"></i>';
+const ORN='<i class="s2o o1"></i><i class="s2o o2"></i><i class="s2o o3"></i><i class="s2o o4"></i>';
 const DIV='<i class="s2dv"><i></i></i>';
 function dayInfo(){const day=salDaily();let cs=null;try{cs=salCsState()}catch(e){}return{day,cs,bd:day||(cs&&cs.ready)}}
-window.s2Tab=function(k){SLT=k;snd&&snd('click');salRender()};
+window.s2Tab=function(k){if(k=='m')return slShop('all');SLT=k;snd&&snd('click');salRender()};
 window.s2Day=function(btn){const d=dayInfo();if(d.day)return salDay(btn);if(d.cs&&d.cs.ready)return salCsGet(btn);
  toast(L_('Günlük fiş alındı')+' · '+L_('Yenilenir:')+' '+salCd())};
 function nav(){const d=dayInfo(),it=(k,ic,lb,act,bd)=>`<button class="s2n ${SLT==k?'on':''}" onclick="${act}"><span class="s2i">${ic}${bd?'<i class="s2bd">1</i>':''}</span><span class="s2l">${L_(lb)}</span></button>`;
- return`<nav class="s2nav" style="--ti:${({g:0,s:3,r:4})[SLT]||0}">${it('g','<i class="s2im gm"></i>','Oyunlar',"s2Tab('g')")}
+ return`<nav class="s2nav" style="--ti:${({g:0,m:2,s:3,r:4})[SLT]||0}">${it('g','<i class="s2im gm"></i>','Oyunlar',"s2Tab('g')")}
   ${it('d','<i class="s2sq gf"><i class="fi"></i><i class="fi c1000"></i><i class="fi c100"></i></i>','Günlük Hediye',"s2Day(this)",d.bd)}
-  ${it('m','<i class="s2im st"></i>','Mağaza',"slShop('all')")}
+  ${it('m','<i class="s2im st"></i>','Mağaza',"s2Tab('m')")}
   ${it('s',`<i class="s2sq sb">${SV.st}</i>`,'İstatistik',"s2Tab('s')")}
   ${it('r',`<i class="s2sq ru">${SV.ru}</i>`,'Kurallar',"s2Tab('r')")}</nav>`}
 function games(){return`<div class="s2g">
@@ -13695,9 +13701,23 @@ function stats(){const s=salP(),p=(window.pstStats&&pstStats())||{},c=(v,l)=>`<s
   <div class="s2bx"><h4><i class="s2mi ps"></i>${L_('PİŞTİ')}</h4><div class="s2sr">${c(p.g|0,'Oyun')}${c(p.w|0,'Galibiyet')}${c(p.pis|0,'pişti')}</div></div></div>`}
 function rules(){return`<div class="s2ru">${salTermsHTML()}<div class="s2rf"><button class="s2pz" onclick="salPause()">☕ ${L_('Salona ara ver')}</button></div></div>`}
 const NOTE=()=>`<p class="s2note">${L_('Salon Fişi sanaldır: satın alınamaz, coin’e ya da paraya çevrilemez. Gerçek para kazandırmaz · 18+')}</p>`;
+let S2C=null;
+// mağaza içeriği (#slC) salon açıkken sağ panele taşınır; salon dışından açılınca kendi penceresine geri döner
+const shHome=()=>{const c=S2C||$('#slC'),w=$('#slsh .win-b');if(c&&w&&c.parentElement!==w)w.appendChild(c)};
 salRender=window.salRender=function(){const b=$('#slB');if(!b)return;
- const h=`<div class="s2">${nav()}<div class="s2m">${SLT=='s'?stats():SLT=='r'?rules():games()}${NOTE()}</div></div>`;
- if(b._h!==h){b._h=h;b.innerHTML=h;b.classList.add('s2b')}try{salBal()}catch(e){}};
+ const h=`<div class="s2">${nav()}<div class="s2m">${SLT=='s'?stats():SLT=='r'?rules():SLT=='m'?'<div class="s2shw" id="s2shw"></div>':games()}${NOTE()}</div></div>`;
+ if(b._h!==h){if(S2C&&b.contains(S2C))shHome();b._h=h;b.innerHTML=h;b.classList.add('s2b')}
+ if(SLT=='m'){const w=$('#s2shw');if(w&&(!S2C||S2C.parentElement!==w)){fillShop();S2C=$('#slC');if(S2C)w.appendChild(S2C)}}
+ try{salBal()}catch(e){}};
+function fillShop(){const sh=$('#slsh');if(!sh)slShopEnsure();const o=$('#slsh');if(S2C&&!document.contains(S2C))shHome();
+ o.classList.add('on','emb');try{SH0.call(window)}catch(e){console.warn(e)}o.classList.remove('on','emb')}
+const SH0=slShop;
+slShop=window.slShop=function(t){if(salLocked()||salP().minor)return SH0.apply(this,arguments);
+ const sal=$('#salon.on');
+ if(sal&&!$('#hrs.on')&&!$('#pst.on')){const c=S2C&&S2C.isConnected?S2C:null,st=c?c.scrollTop:0;
+  if(SLT!='m'){SLT='m';snd&&snd('click');salRender();const w=$('#s2shw');if(w&&w.firstElementChild)w.firstElementChild.scrollTop=0;return}
+  fillShop();if(c)c.scrollTop=st;return}
+ shHome();return SH0.apply(this,arguments)};
 // salon her açılışta "Oyunlar" sekmesiyle başlar
 salOpen=(o=>function(){SLT='g';return o.apply(this,arguments)})(salOpen);
 const D4={'Oyunlar':['Games','Juegos','Lîstik'],'KİLİTLİ':['LOCKED','BLOQUEADO','GIRTÎ']};for(const k in D4)if(!DICT[k])DICT[k]=D4[k];

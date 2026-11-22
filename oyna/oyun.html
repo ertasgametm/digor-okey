@@ -13458,6 +13458,36 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .s2shw .tierh.klasik,.s2shw .tierh.klasik span{color:#e6ecff!important}
 .s2shw .tierh::after,.s2shw .tierh::before{opacity:.5}
 .s2shw .slcd{color:#ffcf6a!important}
+/* sekme seçimi: altın çerçeve kayarak gelir */
+.s2nav{padding:.4vh 1.4vh .4vh 0}
+.s2ni{position:relative;z-index:1;flex:1;display:flex;flex-direction:column}
+.s2hl{position:absolute;left:0;right:1.4vh;top:.4vh;height:calc((100% - .8vh)/5);border-radius:1.6vh;pointer-events:none;
+ transform:translateY(calc(var(--ti,0)*100%));transition:transform .38s cubic-bezier(.3,1.25,.45,1);
+ background:linear-gradient(#26499e,#152f74);box-shadow:inset 0 0 0 max(.3vh,2px) #f2c54a,0 0 1.6vh rgba(255,200,80,.35)}
+.s2n.on{background:none!important;box-shadow:none!important}
+.s2n.on+.s2n::before{display:block}
+.s2n.on::before,.s2n.on+.s2n::before{opacity:0;transition:opacity .2s}
+.s2nav::after{top:calc(.4vh + (100% - .8vh)/5*(var(--ti,0) + .5) - .9vh);transition:top .38s cubic-bezier(.3,1.25,.45,1)}
+.s2m.s2in>*:not(.s2note){animation:s2f .28s ease-out both}
+@keyframes s2f{from{opacity:0;transform:translateX(1.4vh)}to{opacity:1;transform:none}}
+/* mağaza sağ panelde: yatay, sığan kartlar (önizleme solda, bilgi + fiyat sağda), iki sütun */
+.s2shw .slrow{display:flex!important;flex-direction:column;gap:1.4vh}
+.s2shw .slg,.s2shw .slg.two,.s2shw .slg.one{grid-template-columns:repeat(auto-fill,minmax(max(40vh,200px),1fr))!important;gap:1.4vh}
+.s2shw .slk{display:grid!important;grid-template-columns:40% 1fr;grid-template-rows:1fr auto;column-gap:1.2vh;row-gap:.6vh;padding:1.6vh 1.2vh 1.2vh;align-items:stretch}
+.s2shw .slk-p{grid-row:1 / 3;grid-column:1;min-height:max(13vh,54px)!important;height:100%}
+.s2shw .slk-t{grid-column:2;grid-row:1;min-width:0}
+.s2shw .slk-t b{font-size:clamp(10px,2.9vh,15px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s2shw .slk-t span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.s2shw .slk-r{grid-column:2;grid-row:2;margin:0;flex-wrap:wrap;gap:.6vh}
+.s2shw .slk-r .btn{padding-left:1.2vh;padding-right:1.2vh}
+.s2shw .slk.efs{display:grid!important;position:relative}
+.s2shw .slk.efs .slk-r{position:static}
+.s2shw .slk.efs .slk-p{flex:none}
+.s2shw .slk-l{font-size:clamp(7px,2vh,10px)}
+.s2shw .slk-p .sfp{height:max(11vh,46px)}
+.s2shw .slk-p .pbc{height:max(11vh,46px)}
+.s2shw .slg.one{grid-template-columns:1fr!important}
+.s2shw .slk.efs{grid-template-columns:52% 1fr}
 
 </style>
 <script id="j-r21">
@@ -13693,12 +13723,12 @@ function dayInfo(){const day=salDaily();let cs=null;try{cs=salCsState()}catch(e)
 window.s2Tab=function(k){if(k=='m')return slShop('all');SLT=k;snd&&snd('click');salRender()};
 window.s2Day=function(btn){const d=dayInfo();if(d.day)return salDay(btn);if(d.cs&&d.cs.ready)return salCsGet(btn);
  toast(L_('Günlük fiş alındı')+' · '+L_('Yenilenir:')+' '+salCd())};
-function nav(){const d=dayInfo(),it=(k,ic,lb,act,bd)=>`<button class="s2n ${SLT==k?'on':''}" onclick="${act}"><span class="s2i">${ic}${bd?'<i class="s2bd">1</i>':''}</span><span class="s2l">${L_(lb)}</span></button>`;
- return`<nav class="s2nav" style="--ti:${({g:0,m:2,s:3,r:4})[SLT]||0}">${it('g','<i class="s2im gm"></i>','Oyunlar',"s2Tab('g')")}
+function nav(){const d=dayInfo(),it=(k,ic,lb,act,bd)=>`<button class="s2n" data-k="${k}" onclick="${act}"><span class="s2i">${ic}${bd?'<i class="s2bd">1</i>':''}</span><span class="s2l">${L_(lb)}</span></button>`;
+ return`${it('g','<i class="s2im gm"></i>','Oyunlar',"s2Tab('g')")}
   ${it('d','<i class="s2sq gf"><i class="fi"></i><i class="fi c1000"></i><i class="fi c100"></i></i>','Günlük Hediye',"s2Day(this)",d.bd)}
   ${it('m','<i class="s2im st"></i>','Mağaza',"s2Tab('m')")}
   ${it('s',`<i class="s2sq sb">${SV.st}</i>`,'İstatistik',"s2Tab('s')")}
-  ${it('r',`<i class="s2sq ru">${SV.ru}</i>`,'Kurallar',"s2Tab('r')")}</nav>`}
+  ${it('r',`<i class="s2sq ru">${SV.ru}</i>`,'Kurallar',"s2Tab('r')")}`}
 function games(){return`<div class="s2g">
  <button class="s2c" onclick="hrOpen()">${ORN}<i class="s2a at"></i>${DIV}<b class="s2t">${L_('AT YARIŞI')}</b><em class="s2p">${L_('OYNA')}</em></button>
  <button class="s2c" onclick="pstOpen()">${ORN}<i class="s2new">${L_('YENİ')}</i><i class="s2a ps"></i>${DIV}<b class="s2t">${L_('PİŞTİ')}</b><em class="s2p">${L_('OYNA')}</em></button>
@@ -13713,8 +13743,13 @@ let S2C=null;
 // mağaza içeriği (#slC) salon açıkken sağ panele taşınır; salon dışından açılınca kendi penceresine geri döner
 const shHome=()=>{const c=S2C||$('#slC'),w=$('#slsh .win-b');if(c&&w&&c.parentElement!==w)w.appendChild(c)};
 salRender=window.salRender=function(){const b=$('#slB');if(!b)return;
- const h=`<div class="s2">${nav()}<div class="s2m">${SLT=='s'?stats():SLT=='r'?rules():SLT=='m'?'<div class="s2shw" id="s2shw"></div>':games()}${NOTE()}</div></div>`;
- if(b._h!==h){if(S2C&&b.contains(S2C))shHome();b._h=h;b.innerHTML=h;b.classList.add('s2b')}
+ // iskelet bir kez kurulur: menü ve altın seçim çerçevesi yerinde kalır, çerçeve seçilen sekmeye kayarak gider
+ if(!b.querySelector('.s2')){b.innerHTML='<div class="s2"><nav class="s2nav"><i class="s2hl"></i><div class="s2ni"></div></nav><div class="s2m"></div></div>';b.classList.add('s2b');b._n=b._m=''}
+ const nv=b.querySelector('.s2nav'),ni=b.querySelector('.s2ni'),pm=b.querySelector('.s2m'),n=nav();
+ if(b._n!==n){b._n=n;ni.innerHTML=n}
+ nv.style.setProperty('--ti',({g:0,d:1,m:2,s:3,r:4})[SLT]||0);ni.querySelectorAll('.s2n').forEach(e=>e.classList.toggle('on',e.dataset.k==SLT));
+ const h=`${SLT=='s'?stats():SLT=='r'?rules():SLT=='m'?'<div class="s2shw" id="s2shw"></div>':games()}${NOTE()}`;
+ if(b._m!==h){if(S2C&&pm.contains(S2C))shHome();b._m=h;pm.innerHTML=h;pm.classList.remove('s2in');void pm.offsetWidth;pm.classList.add('s2in')}
  if(SLT=='m'){const w=$('#s2shw');if(w&&(!S2C||S2C.parentElement!==w)){fillShop();S2C=$('#slC');if(S2C)w.appendChild(S2C)}}
  try{salBal()}catch(e){}};
 function fillShop(){const sh=$('#slsh');if(!sh)slShopEnsure();const o=$('#slsh');if(S2C&&!document.contains(S2C))shHome();

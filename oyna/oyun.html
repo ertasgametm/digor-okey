@@ -14524,5 +14524,11 @@ window.ivTapSnd=function(IV){try{if(!P.set.snd||window.__ivTap)return;window.__i
  document.addEventListener('pointerdown',go,true);document.addEventListener('keydown',go,true);
  const watch=setInterval(()=>{if(!IN.classList.contains('on')||IV.ended){clearInterval(watch);h.classList.remove('on');setTimeout(()=>h.remove(),500)}},500)}catch(e){}};
 
+/* sohbet açılınca en son mesaja insin (pencere gizliyken kaydırma işe yaramıyordu) */
+(function(){const bot=()=>{const l=document.querySelector('#chat.on #chM');if(l)l.scrollTop=l.scrollHeight};
+ const go=()=>{requestAnimationFrame(()=>{bot();requestAnimationFrame(bot)});[60,200,500,1000].forEach(t=>setTimeout(bot,t));try{document.fonts&&document.fonts.ready.then(bot)}catch(e){}};
+ try{openChat=(o=>function(){const r=o.apply(this,arguments);go();return r})(openChat)}catch(e){}
+ try{chOpen=(o=>function(){const r=o.apply(this,arguments);go();return r})(chOpen)}catch(e){}})();
+
 </script>
 </body></html>

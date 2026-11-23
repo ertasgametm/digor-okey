@@ -3952,7 +3952,7 @@ function musLoad(i){if(i<0)return;if(!MUS){MUS=new Audio();MUS.preload='auto';
   MUS.addEventListener('ended',()=>{if(trkSel()>=0){MUS.currentTime=0;MUS.play().catch(()=>{})}else{musLoad(trkNext());musicSync()}});
   MUS.addEventListener('error',()=>{MUSBAD[MUSI]=1;const n=trkNext();if(n>=0&&n!=MUSI){musLoad(n);musicSync()}})}
  MUSI=i;MUS.src=TRACKS[i].f;MUS.loop=false}
-function musicSync(){try{if(!P.set.mus||document.hidden||!mvol()||(typeof onTbl=='function'&&onTbl())){if(MUS)MUS.pause();return}
+function musicSync(){try{if(!P.set.mus||document.hidden||!mvol()||(typeof onTbl=='function'&&onTbl())||document.querySelector('#pen.on,#hrs.on,#pst.on,#gld')){if(MUS)MUS.pause();return}
  if(!MUS||MUSI<0||(trkSel()>=0&&MUSI!=trkSel()))musLoad(trkNext());if(!MUS)return;
  MUS.volume=Math.min(1,mvol()/100*.7);const p=MUS.play();p&&p.catch&&p.catch(()=>{})}catch(e){}}
 function setMvol(v){P.set.mvol=+v;save();if(MUS)MUS.volume=Math.min(1,v/100*.7);if(+v&&P.set.mus)musicSync();if(!+v&&MUS)MUS.pause();const l=$('#mvl');if(l)l.textContent='%'+v}
@@ -11844,7 +11844,7 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 /* ===== PENALTI ===== */
 #pen{position:fixed;inset:0;z-index:46;overflow:hidden;background:#0b1530;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
 #pen.on{display:block}
-#pen .pn-bg,#pen .pn-cr{position:absolute;inset:0;background:url(img/penalti/saha.webp?h=473e12e) 50% 60%/cover no-repeat}
+#pen .pn-bg,#pen .pn-cr{position:absolute;inset:0;background:url(img/penalti/saha.webp?h=7b3c3e4) 50% 60%/cover no-repeat}
 #pen .pn-cr{background-image:url(img/penalti/seyirci.webp?h=59652a6);transform-origin:50% 0}
 #pen .pn-cr.jmp{animation:pnJ 1.3s ease-out}
 @keyframes pnJ{0%,100%{transform:none}12%{transform:translateY(-.7vh)}24%{transform:none}36%{transform:translateY(-.55vh)}48%{transform:none}60%{transform:translateY(-.4vh)}72%{transform:none}}
@@ -11909,7 +11909,7 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .pn-es>i{font-style:normal;font-size:clamp(18px,5vh,26px);opacity:.6}
 .pn-xp{margin:1.6vh 0 0;font-weight:800;font-size:clamp(10px,2.6vh,14px);opacity:.9}
 /* yükleme ekranı */
-.gld.pn .gl-bg{background-image:url(img/penalti/saha.webp?h=473e12e);filter:blur(5px) brightness(.6) saturate(1.1)}
+.gld.pn .gl-bg{background-image:url(img/penalti/saha.webp?h=7b3c3e4);filter:blur(5px) brightness(.6) saturate(1.1)}
 .gld.pn::before{background:radial-gradient(110% 90% at 50% 45%,rgba(6,14,40,.25),rgba(4,10,30,.85) 72%)}
 .gl-pn{position:relative;width:min(70vw,560px);height:min(24vh,120px)}
 .gl-pk{position:absolute;bottom:0;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72));width:calc(min(24vh,120px)*.72);height:min(24vh,120px);overflow:hidden}
@@ -11919,8 +11919,8 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 @keyframes glPr{to{rotate:360deg}}
 .gld.pn .gl-bar>i{background:linear-gradient(90deg,#2fbf6a,#c9f27a)}
 /* salon kartı ve istatistik */
-.s2a.pn{background-image:url(img/sl2/art_pn.webp?h=a5ca5df);background-position:center 30%}
-.s2mi.pn{background-image:url(img/sl2/art_pn.webp?h=a5ca5df);background-position:center 45%}
+.s2a.pn{background-image:url(img/sl2/art_pn.webp?h=97630bc);background-position:center 12%}
+.s2mi.pn{background-image:url(img/sl2/art_pn.webp?h=97630bc);background-position:center 40%}
 
 </style>
 <script id="j-pen">
@@ -11994,7 +11994,10 @@ function startTurn(){const me=G.turn==0;G.aim=null;G.dive=null;G.kick=null;G.rip
 // atış planı: hedef (gx,gy), hız; kalecinin seçtiği nokta; sonuç
 function plan(gx,gy,pow,kg){const out=Math.abs(gx)>1.05||gy>1.03,post=!out&&(Math.abs(gx)>.97||gy>.955);
  let save=false;if(!out&&!post&&kg){let r=.4-(pow>.6?(pow-.6)*.35:0)+(pow<.4?(.4-pow)*.8:0);if(Math.abs(gx)>.78&&gy>.68)r-=.12;else if(Math.abs(gx)>.85)r-=.06;
-  const d=Math.hypot(gx-kg.gx,(gy-kg.gy)*.65);save=d<r}
+  if(kg.c){save=Math.abs(gx)<.2&&gy<.82}// ortada duran kaleci: top gövdeye gelirse tutar
+  else{// kaleci gövdeden uzandığı noktaya kadar bir hattı kapatır
+   const ax=kg.gx*.25,ay=.2,bx=kg.gx,by=kg.gy,py=gy*.65,ay2=ay*.65,by2=by*.65,vx=bx-ax,vy=by2-ay2,L=vx*vx+vy*vy||1e-6,u=cl(((gx-ax)*vx+(py-ay2)*vy)/L,0,1);
+   const dl=Math.hypot(gx-(ax+vx*u),py-(ay2+vy*u)),de=Math.hypot(gx-bx,(gy-by)*.65);save=de<r||dl<r*.72}}
  const dur=.78-pow*.36;return{gx,gy,pow,dur,res:out?'aut':post?'direk':save?'kurt':'gol',kg}}
 function shoot(){// oyuncunun şutu
  const a=G.aim,p=G.pow;const sig=.045+Math.max(0,Math.abs(p-.72)-.12)*.9;let gx=a.gx+gauss()*sig,gy=a.gy+gauss()*sig*.8+(p>.88?(p-.88)*4:0);
@@ -12009,7 +12012,7 @@ function aiShoot(){const L=G.opp.lv,sig=Math.max(.045,.085-.004*L);let gx,gy;
 /* ---------- topun uçuşu ---------- */
 function launch(){const k=G.kick,b=G.ball;b.st='fly';b.t0=G.t;b.sx=0;b.sz=SPOT;b.sy=BR;
  // kaleci kararı: oyuncu kaleciyse seçtiği nokta, değilse plan
- if(k.ai){const d=G.dive;k.kg=d?{gx:d.gx,gy:d.gy}:null;const pl=plan(k.gx,k.gy,k.pow,k.kg);k.res=pl.res}
+ if(k.ai){const d=G.dive;k.kg=d?{gx:d.gx,gy:d.gy}:{gx:0,gy:.3,c:1};const pl=plan(k.gx,k.gy,k.pow,k.kg);k.res=pl.res}
  b.tx=k.gx*GW;b.ty=gY(k.gy);b.cur=R(-.25,.25)*(1-k.pow*.5);b.arc=.15+.25*(1-k.pow)+Math.max(0,b.ty-1.4)*.15;b.dur=k.dur;
  sx('kick');crowdSwell(1.45,.9);keeperGo()}
 function ballAt(b,t){const u=Math.min(1,t);const X=b.sx+(b.tx-b.sx)*u+b.cur*Math.sin(Math.PI*u),Z=b.sz*(1-u),Y=b.sy+(b.ty-b.sy)*u+b.arc*4*u*(1-u);return[X,Z,Y]}
@@ -12128,7 +12131,7 @@ function drawBall(){const b=G.ball,Z=b.Z,rr=PS(Z,BR);if(Z>=D-1)return;
  const im=BALL();if(im.complete&&im.naturalWidth){c.save();c.translate(x,y);c.rotate(b.rot);c.drawImage(im,-rr,-rr,rr*2,rr*2);c.restore()}else{c.fillStyle='#fff';c.beginPath();c.arc(x,y,rr,0,7);c.fill()}}
 // şutçu: kare 0..18, konum dünya koordinatında; çapa noktası karedeki (232,352) = topun yanındaki zemin
 const KA=[232,352];
-function kickerState(){const k=G.kick;if(G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||!k){const f=Math.floor(G.t*3)%3;return{f:[0,1,2,1][Math.floor(G.t*2.4)%4],X:-1.05,Z:12.35}}
+function kickerState(){const k=G.kick;if(G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||!k){const f=Math.floor(G.t*3)%3;return{f:0,X:-1.05,Z:12.35}}
  const t=G.t;// koşu 0..0.9 (kare 3..10), vuruş 0.9..1.08 (11..12), takip
  if(t<.9){const u=t/.9;return{f:3+Math.min(7,Math.floor(u*8)),X:-1.05+(1.05-.0)*ease(u)*1,Z:12.35-1.25*ease(u)}}
  const ts=t-.9;// geri salınım 11-12, top t=1.0'da çıkarken temas karesi 13, sonra takip
@@ -12173,7 +12176,7 @@ function tap(e){if(!G||G.over)return;const r=cv.getBoundingClientRect(),x=(e.tou
  const inG=Math.abs(g.gx)<1.35&&g.gy>-.25&&g.gy<1.45;
  if(G.ph=='aim'){if(!inG)return;G.aim={gx:cl(g.gx,-1.2,1.2),gy:cl(g.gy,0,1.3)};G.ph='pow';G.pow=0;G.pdir=1;try{snd('click')}catch(x){}hud();return}
  if(G.ph=='pow'){if(inG&&Math.abs(G.pow)<.02){G.aim={gx:cl(g.gx,-1.2,1.2),gy:cl(g.gy,0,1.3)};return}shoot();return}
- if((G.ph=='keep'||(G.ph=='run'&&G.turn==1&&G.ball.st=='spot'))&&inG){G.dive={gx:cl(g.gx,-1.1,1.1),gy:cl(g.gy,0,1)};try{snd('click')}catch(x){}hud()}}
+ if(G.ph=='keep'||(G.ph=='run'&&G.turn==1&&G.ball.st=='spot')){G.dive={gx:cl(g.gx,-1.1,1.1),gy:cl(g.gy,0,1)};try{snd('click')}catch(x){}hud()}}
 
 /* ---------- ekran ---------- */
 function ensure(){if(document.getElementById('pen'))return;const Ic=n=>`<svg class="sv"><use href="#i-${n}"/></svg>`;
@@ -12212,6 +12215,8 @@ const DP={'PENALTI':['PENALTY','PENALTI','PENALTÎ'],'Penaltı nasıl oynanır?'
  'Penaltı oyunundan çıkmak istiyor musun?':['Do you want to leave the penalty game?','¿Quieres salir del juego de penaltis?','Tu dixwazî ji lîstika penaltiyê derkevî?'],'Maç':['Matches','Partidos','Maç'],'Gol':['Goals','Goles','Gol'],'Kurtarış':['Saves','Paradas','Rizgarkirin'],'PENALTI ':['PENALTY ','PENALTI ','PENALTÎ '],'Stat ışıkları yanıyor…':['Stadium lights are on…','Se encienden los focos…','Roniyên stadyûmê vêdikevin…'],'Oyuncular ısınıyor…':['Players are warming up…','Los jugadores calientan…','Lîstikvan germ dibin…'],'Kaleci yerini alıyor…':['The keeper takes position…','El portero se coloca…','Dergevan cihê xwe digire…']};
 for(const k in DP)if(!DICT[k])DICT[k]=DP[k];
 })();
+
+;(function(){let last=null;setInterval(()=>{const on=!!document.querySelector('#pen.on,#hrs.on,#pst.on,#gld');if(on!==last){last=on;try{musicSync()}catch(e){}}},400)})();
 
 </script>
 <style id="m-bub">

@@ -11952,7 +11952,7 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .gl-pk{position:absolute;bottom:0;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72));width:calc(min(24vh,120px)*.72);height:min(24vh,120px);overflow:hidden}
 .gl-pk>i{position:absolute;left:0;top:0;width:800%;height:100%;background:url(img/penalti/kosu.webp?h=f868c63) 0 0/100% 100% no-repeat;animation:glPk .7s steps(8) infinite}
 @keyframes glPk{to{transform:translateX(-100%)}}
-.gl-pb2{position:absolute;bottom:.4vh;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72) + min(24vh,120px)*.62);width:min(4.6vh,22px);height:min(4.6vh,22px);background:url(img/penalti/top.webp?h=19948cc) center/contain no-repeat;animation:glPr .5s linear infinite}
+.gl-pb2{position:absolute;bottom:.4vh;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72) + min(24vh,120px)*.62);width:min(4.6vh,22px);height:min(4.6vh,22px);background:url(img/penalti/top.webp?h=fc29e59) center/contain no-repeat;animation:glPr .5s linear infinite}
 @keyframes glPr{to{rotate:360deg}}
 .gld.pn .gl-bar>i{background:linear-gradient(90deg,#2fbf6a,#c9f27a)}
 /* salon kartı ve istatistik */
@@ -11992,6 +11992,36 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .pt-l{width:max(10.5vh,44px);height:max(11.5vh,48px)}
 .pt-kit{width:88%}
 .pt-h{margin-top:.6vh}
+/* lig */
+#mc.pl-m{width:min(84vw,600px)!important;max-width:none!important;padding:2vh 2.6vh 2vh!important}
+#mc.pl-m h3{margin:0 0 1vh}
+.pl-hd{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.6vh 2vh;margin-bottom:1vh;font-weight:800;font-size:clamp(9px,2.3vh,12px);color:#bcd0ff}
+.pl-nx{display:flex;align-items:center;gap:.6vh;color:#fff}
+.pl-nx i{display:flex;width:max(3vh,14px);height:max(3.4vh,16px)}
+.pl-nx small{opacity:.75;font-weight:700}
+.pl-t{position:relative;z-index:1;width:100%;border-collapse:separate;border-spacing:0 .4vh;font-size:clamp(9px,2.5vh,13px);font-weight:800}
+.pl-t th{font-size:clamp(8px,2vh,11px);color:#bcd0ff;font-weight:800;padding:0 .6vh;text-align:center}
+.pl-t td{padding:.45vh .6vh;text-align:center;background:rgba(255,255,255,.07)}
+.pl-t td:first-child{border-radius:1vh 0 0 1vh;width:3.6vh;color:#ffd75a}
+.pl-t td:last-child{border-radius:0 1vh 1vh 0}
+.pl-t .lt{text-align:left;width:42%}
+.pl-t .pl-nmc{display:flex;align-items:center;gap:1vh;min-width:0;max-width:30vw}
+.pl-t .pl-nmc i{flex:none;display:flex;width:max(3.2vh,14px);height:max(3.7vh,16px)}
+.pl-t .pl-nmc span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-t .pl-nmc .pn-crs,.pl-nx .pn-crs,.pn-ec .pn-crs{width:100%;height:100%}
+.pl-t tr.me td{background:rgba(255,215,90,.2);color:#fff}
+.pl-t tr.me td:first-child{box-shadow:inset .4vh 0 0 #ffd75a}
+.pl-t b{color:#ffd75a}
+.pl-pr{position:relative;z-index:1;margin:1vh 0 0;text-align:center;font-weight:700;font-size:clamp(9px,2.2vh,12px);opacity:.9}
+.pn-ec{display:flex;width:max(5vh,22px);height:max(5.8vh,25px);margin-bottom:.4vh}
+.pt-lk{font-weight:700;text-transform:none;letter-spacing:0;opacity:.8}
+.pl-sz{text-align:center;position:relative;z-index:1}
+.pl-sz h3{margin:0 0 1vh;font-family:TO,G,sans-serif;font-size:clamp(20px,6.4vh,34px);letter-spacing:.04em;color:#ffd75a}
+.pl-sp{margin:0 0 1.4vh;font-weight:700;font-size:clamp(10px,2.6vh,14px)}
+.pl-rw{display:flex;justify-content:center;gap:3vh}
+.pl-rw span{display:flex;flex-direction:column;align-items:center;gap:.3vh;padding:1.2vh 3vh;border-radius:1.6vh;background:rgba(255,215,90,.14);box-shadow:inset 0 0 0 .25vh rgba(255,215,90,.6)}
+.pl-rw b{font-family:TO,G,sans-serif;font-size:clamp(18px,5.4vh,30px);color:#ffd75a}
+.pl-rw small{font-weight:800;opacity:.85}
 
 </style>
 <script id="j-pen">
@@ -12064,6 +12094,7 @@ function crowdSwell(k,dur){try{if(!AMBN)return;const t=AC.currentTime,v=SN.amb[1
    Atlas karesi: [x,y,g,y]; çapa noktaları atlas pikselinde. 149 atlas pikseli = 1 m */
 const KA_={hazir:[0,0,202,238],l1:[206,0,133,233],l2:[343,0,217,242],l3:[564,0,292,215],l4:[860,0,242,132],l5:[1106,0,212,125],r1:[0,246,148,227],r2:[152,246,171,227],r3:[327,246,286,199],r4:[617,246,221,154],r5:[842,246,214,124]};
 const KPM=149;
+const KHB={l4:[206,88],r4:[186,108]};// kare 4: topu kavrayan eldivenler
 const KAN={hazir:{f:[101,234],ch:[101,92]},l1:{f:[70,230]},r1:{f:[74,225]},l2:{f:[118,236]},r2:{f:[86,222]},l3:{h:[274,38]},r3:{h:[269,37]},l4:{h:[236,128]},r4:{h:[215,150]},l5:{h:[206,121]},r5:{h:[208,120]}};
 const GKA=k=>img('gk'+k,`img/penalti/kaleci_${k}.webp`);
 const GKC={yesil:'g',turuncu:'o',gri:'k'};
@@ -12074,8 +12105,9 @@ function gkShadow(X,Y,w){const a=cl(.32-Y*.12,.06,.32),x=PX(X,KZ),y=PY(KZ,0);c.f
 // çapadan başka bir noktanın ekran konumu (tutulan top için)
 function gkPt(fr,an,pt,X,Y,rot,mir){const sc=PS(KZ,1)/KPM;let dx=(pt[0]-an[0])*sc*(mir?-1:1),dy=(pt[1]-an[1])*sc;const co=Math.cos(rot||0),si=Math.sin(rot||0);return[PX(X,KZ)+dx*co-dy*si,PY(KZ,Y)+dx*si+dy*co]}
 /* ---------- oyun durumu ---------- */
-function newGame(){const s=pnS(),o=oppAt(s.lv),my=Object.assign({},myT());
- G={my,kitK:my.k,gkK:GKC[o[2]]||'g',opp:{name:o[0],kit:o[1],gk:o[2],lv:s.lv},sh:[[],[]],turn:0,ph:'intro',t:0,over:0,aim:null,pow:0,pdir:1,dive:null,
+function newGame(){const s=pnS(),L=lgS(),fx=lgFix()||{k:TK.find(k=>k!=myT().k),home:1,r:-1},ok=fx.k,o=[TM[ok][0],ok,TM[ok][4]],my=Object.assign({},myT());
+ const lv=Math.max(0,Math.round((RT[ok]-.66)*60))+Math.min(4,L.n-1);
+ G={my,lgR:fx.r,home:fx.home,kitK:my.k,gkK:GKC[o[2]]||'g',opp:{name:o[0],kit:o[1],gk:o[2],lv},sh:[[],[]],turn:0,ph:'intro',t:0,over:0,aim:null,pow:0,pdir:1,dive:null,
   kick:null,ball:{X:0,Z:SPOT,Y:BR,vx:0,vz:0,vy:0,rot:0,st:'spot'},keeper:{mode:'idle'},ripple:null,msg:'',pt:0,crowd:0}}
 const kicks=p=>G.sh[p].length,goals=p=>G.sh[p].filter(x=>x).length;
 function decided(){const a=kicks(0),b=kicks(1),ga=goals(0),gb=goals(1);
@@ -12113,7 +12145,7 @@ function launch(){const k=G.kick,b=G.ball;b.st='fly';b.t0=G.t;b.sx=0;b.sz=SPOT;b
  b.tx=k.gx*GW;b.ty=gY(k.gy);b.cur=R(-.25,.25)*(1-k.pow*.5);b.arc=.15+.25*(1-k.pow)+Math.max(0,b.ty-1.4)*.15;b.dur=k.dur;
  sx('kick');crowdSwell(1.45,.9);keeperGo()}
 function ballAt(b,t){const u=Math.min(1,t);const X=b.sx+(b.tx-b.sx)*u+b.cur*Math.sin(Math.PI*u),Z=b.sz*(1-u),Y=b.sy+(b.ty-b.sy)*u+b.arc*4*u*(1-u);return[X,Z,Y]}
-function stepBall(dt){const b=G.ball,k=G.kick;if(b.st=='fly'){const u=(G.t-b.t0)/b.dur;const p=ballAt(b,u);b.X=p[0];b.Z=p[1];b.Y=p[2];b.rot+=dt*18*(k?k.pow+.4:1);
+function stepBall(dt){const b=G.ball,k=G.kick;if(b.st=='fly'){const u=(G.t-b.t0)/b.dur;const p=ballAt(b,u);b.X=p[0];b.Z=p[1];b.Y=p[2];b.rot+=dt*(9+16*(k?k.pow:.5))*(b.cur<0?-1:1);
   // kaleci hizası: kurtarışta top kalecinin elinde döner
   if(k.res=='kurt'&&b.Z<=KZ+.05){b.st='held';b.Z=KZ;resolve();return}
   if(u>=1){// kale düzlemi
@@ -12153,7 +12185,7 @@ function drawKeeper(){const kp=G.keeper,k=G.gkK||'g',t=G.t;kp.hs=null;kp.ballIn=
  const t1=kp.t0+.19,u=cl((t-t1)/Math.max(.08,kp.arr-t1),0,1),e=ease(u);
  const rT=cl((1.2-kp.Y)*.3,-.28,.42);let hX=s*1.05+(kp.X-s*1.05)*e,hY=1.45+(kp.Y-1.45)*e,rot=rT*e;
  const f=cl((t-kp.arr-.06)/.34,0,1);
- if(f>=1){const fr=P_+(G.res=='kurt'?'4':'5');kp.ballIn=G.res=='kurt';gkShadow(kp.land-s*.9,0,1.1);gkDraw(k,fr,KAN[fr].h,kp.land,0,0,mir);return}
+ if(f>=1){const fr=P_+(G.res=='kurt'?'4':'5');gkShadow(kp.land-s*.9,0,1.1);gkDraw(k,fr,KAN[fr].h,kp.land,0,0,mir);if(G.res=='kurt')kp.hs=gkPt(fr,KAN[fr].h,KHB[fr],kp.land,0,0,mir);return}
  if(f>0){const g=eio(f);hX=kp.X+(kp.land-kp.X)*g;hY=kp.Y+(.3-kp.Y)*g;rot=rT+(.35-rT)*g}
  const R_=mir?-rot:rot;gkShadow(hX-s*.9,Math.max(0,hY-.6),1);gkDraw(k,P_+'3',KAN[P_+'3'].h,hX,hY,R_,mir);kp.hs=[PX(hX,KZ),PY(KZ,hY)]}
 /* ---------- sonuç ---------- */
@@ -12167,14 +12199,19 @@ function resolve(){const k=G.kick,me=G.turn==0,r=k.res;G.res=r;const goal=r=='go
  hud();G.ph='res';G.resT=G.t;setTimeout(()=>{if(G&&G.ph=='res'&&!G.over)nextTurn()},2300)}
 function crowd(){const e=document.querySelector('#pen .pn-cr');if(!e)return;e.classList.remove('jmp');void e.offsetWidth;e.classList.add('jmp')}
 function msg(t,cls){const e=document.getElementById('pnMsg');if(!e)return;e.className='pn-msg '+cls;e.innerHTML=`<b>${t}</b>`;void e.offsetWidth;e.classList.add('on');clearTimeout(msg.t);msg.t=setTimeout(()=>e.classList.remove('on'),1600)}
-function finish(r){G.over=1;G.ph='end';hud();crowdLoop(false);const s=pnS();s.g++;if(r=='w'){s.w++;s.lv++;s.seri++;s.best=Math.max(s.best|0,s.seri)}else s.seri=0;save();
+function finish(r){G.over=1;G.ph='end';hud();crowdLoop(false);const s=pnS();s.g++;if(r=='w'){s.w++;s.lv++;s.seri++;s.best=Math.max(s.best|0,s.seri)}else s.seri=0;
+ const sz=lgRecord(goals(0),goals(1));save();
  const xp=r=='w'?30:10;try{addXP(xp,'penalti')}catch(e){}sx('whistle3');
- const nx=oppAt(s.lv)[0],dots=p=>G.sh[p].map(x=>`<i class="${x?'g':'m'}"></i>`).join('');
- setTimeout(()=>{modal(`<div class="pn-end ${r}"><h3>${T(r=='w'?'KAZANDIN!':'KAYBETTİN')}</h3>
-  <div class="pn-es"><span><small>${esc(tmName(G.my))}</small><b>${goals(0)}</b><em>${dots(0)}</em></span><i>–</i><span><small>${esc(G.opp.name)}</small><b>${goals(1)}</b><em>${dots(1)}</em></span></div>
-  <p class="pn-xp">+${xp} XP · ${T(r=='w'?'Sıradaki rakip':'Rakip')}: <b>${esc(r=='w'?nx:G.opp.name)}</b></p></div>
-  <div class="mrow"><button class="btn w" onclick="closeM();penClose()">${T('Salona dön')}</button><button class="btn g" onclick="closeM();penNew()">${T('Tekrar oyna')}</button></div>`,'dkm pn-m');if(r=='w')try{confetti()}catch(e){}},900)}
-
+ const L=lgS(),f=sz?null:lgFix(),dots=p=>G.sh[p].map(x=>`<i class="${x?'g':'m'}"></i>`).join('');
+ setTimeout(()=>{if(sz)window.__pnSz=sz;modal(`<div class="pn-end ${r}"><h3>${T(r=='w'?'KAZANDIN!':'KAYBETTİN')}</h3>
+  <div class="pn-es"><span><i class="pn-ec">${myCrest(G.my)}</i><small>${esc(tmName(G.my))}</small><b>${goals(0)}</b><em>${dots(0)}</em></span><i>–</i><span><i class="pn-ec">${tmCrest(G.opp.kit)}</i><small>${esc(G.opp.name)}</small><b>${goals(1)}</b><em>${dots(1)}</em></span></div>
+  <p class="pn-xp">+${xp} XP${sz?'':` · ${T('Lig')}: <b>${lgPos(L)}.</b> ${T('sıra')}, <b>${L.t[L.k].p}</b> ${T('puan')}${f?` · ${T('Sıradaki maç')}: <b>${TM[f.k][0]}</b>`:''}`}</p></div>
+  <div class="mrow"><button class="btn w" onclick="closeM();penClose()">${T('Salona dön')}</button>${sz?'':`<button class="btn b" onclick="penLig()">${T('Lig tablosu')}</button>`}<button class="btn g" onclick="closeM();${sz?'penSz()':'penNew()'}">${T(sz?'Sezon sonu':'Sonraki maç')}</button></div>`,'dkm pn-m');if(r=='w')try{confetti()}catch(e){}},900)}
+window.penSz=function(){const z=window.__pnSz;if(!z){penNew();return}window.__pnSz=null;const L={k:z.k};
+ modal(`<div class="pl-sz ${z.champ?'w':''}"><h3>${T(z.champ?'ŞAMPİYON!':'Sezon bitti')}</h3>
+ <p class="pl-sp">${z.champ?`${T('Sezon')} ${z.n} · <b>${esc(tmName(myT()))}</b>`:`${T('Sezonu')} <b>${z.pos}.</b> ${T('sırada bitirdin')} · ${T('Şampiyon')}: <b>${esc(z.tb[0].nm)}</b>`}</p>
+ ${z.champ?`<div class="pl-rw"><span><b>+1.000</b><small>coin</small></span><span><b>+1.000</b><small>${T('salon fişi')}</small></span></div>`:lgTableHTML(L,z.tb.slice(0,4))}</div>
+ <div class="mrow"><button class="btn w" onclick="closeM();penClose()">${T('Salona dön')}</button><button class="btn g" onclick="closeM();penNew()">${T('Yeni sezon')}</button></div>`,'dkm pn-m pl-szm');if(z.champ)try{confetti();snd('fin')}catch(e){}};
 /* ---------- HUD ---------- */
 function hud(){if(!G||!document.getElementById('pnSb'))return;const me=G.turn==0;
  const dots=p=>{const L=G.sh[p],n=Math.max(5,L.length+(G.turn==p&&!G.over&&G.ph!='res'?1:0));let o='';for(let i=Math.max(0,n-5);i<n;i++){const v=L[i];o+=`<i class="${v===1?'g':v===0?'m':i==L.length&&G.turn==p&&!G.over?'c':''}"></i>`}return o};
@@ -12221,10 +12258,17 @@ function frontPosts(){const pX=(x,z)=>PX(x,z),pY=(z,y)=>PY(z,y);
  const post=(x0,y0,x1,y1)=>{c.lineCap='round';c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=w+2;c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);c.stroke();
   c.strokeStyle='#f4f6fa';c.lineWidth=w;c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);c.stroke();c.strokeStyle='rgba(150,160,180,.7)';c.lineWidth=w*.35;c.beginPath();c.moveTo(x0+(y0==y1?0:w*.22),y0+(y0==y1?w*.22:0));c.lineTo(x1+(y0==y1?0:w*.22),y1+(y0==y1?w*.22:0));c.stroke()};
  post(l,b,l,t);post(r,b,r,t);post(l,t,r,t)}
-function drawBall(){const b=G.ball,Z=b.Z,rr=PS(Z,BR);if(Z>=D-1)return;
- if(b.st=='held'){const kp=G.keeper;if(kp.ballIn||!kp.hs)return;const im=BALL();if(im.complete&&im.naturalWidth){c.save();c.translate(kp.hs[0],kp.hs[1]);c.rotate(b.rot);c.drawImage(im,-rr,-rr,rr*2,rr*2);c.restore()}return}const x=PX(b.X,Z),y=PY(Z,b.Y),gy=PY(Z,0);
+// top kaleye yaklaştıkça perspektifte fazla küçülmesin (oyun görünümü): kalede ~1.45 kat
+const bR=Z=>PS(Z,BR)*(1+.45*cl(1-Z/SPOT,0,1.15));
+function ballImg(x,y,rr,rot){const im=BALL();if(!im.complete||!im.naturalWidth){c.fillStyle='#fff';c.beginPath();c.arc(x,y,rr,0,7);c.fill();return}
+ c.save();c.translate(x,y);c.rotate(rot);c.drawImage(im,-rr,-rr,rr*2,rr*2);c.restore();
+ // ışık sabit kalsın: top dönse de parlaklık sol üstte, gölge sağ altta
+ const g=c.createRadialGradient(x-rr*.38,y-rr*.42,rr*.05,x,y,rr*1.02);g.addColorStop(0,'rgba(255,255,255,.32)');g.addColorStop(.45,'rgba(255,255,255,0)');g.addColorStop(.8,'rgba(0,0,0,.08)');g.addColorStop(1,'rgba(0,0,0,.32)');
+ c.fillStyle=g;c.beginPath();c.arc(x,y,rr,0,7);c.fill()}
+function drawBall(){const b=G.ball,Z=b.Z,rr=bR(Z);if(Z>=D-1)return;
+ if(b.st=='held'){const kp=G.keeper;if(!kp.hs)return;ballImg(kp.hs[0],kp.hs[1],rr,b.rot*.15);return}const x=PX(b.X,Z),y=PY(Z,b.Y),gy=PY(Z,0);
  c.fillStyle=`rgba(0,0,0,${cl(.38-b.Y*.08,.1,.38)})`;c.beginPath();c.ellipse(PX(b.X+.12*b.Y,Z),gy,rr*(1+b.Y*.15),rr*.35,0,0,7);c.fill();
- const im=BALL();if(im.complete&&im.naturalWidth){c.save();c.translate(x,y);c.rotate(b.rot);c.drawImage(im,-rr,-rr,rr*2,rr*2);c.restore()}else{c.fillStyle='#fff';c.beginPath();c.arc(x,y,rr,0,7);c.fill()}}
+ ballImg(x,y,rr,b.rot)}
 // şutçu: kare 0..18, konum dünya koordinatında; çapa noktası karedeki (232,352) = topun yanındaki zemin
 const KA=[232,352];
 function kickerState(){const k=G.kick;if(G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||!k){const f=Math.floor(G.t*3)%3;return{f:0,X:-1.05,Z:12.35}}
@@ -12286,19 +12330,56 @@ function tap(e){if(!G||G.over)return;const r=cv.getBoundingClientRect(),x=(e.tou
 /* ---------- ekran ---------- */
 function ensure(){if(document.getElementById('pen'))return;const Ic=n=>`<svg class="sv"><use href="#i-${n}"/></svg>`;
  document.body.insertAdjacentHTML('beforeend',`<div id="pen" class="ovl"><div class="pn-bg"></div><div class="pn-cr"></div><canvas id="pnC"></canvas>
- <div class="pn-top"><span class="pn-lb"><button class="gbtn b sq" onclick="penRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><button class="gbtn b sq pn-tb" onclick="penTeam()" aria-label="${T('Takımını kur')}"><svg viewBox="0 0 24 24"><path d="M8.2 3 4 5.2 2 10l3.2 1.4.9-1.6V21h11.8V9.8l.9 1.6L22 10l-2-4.8L15.8 3c-.5 1.6-2 2.6-3.8 2.6S8.7 4.6 8.2 3z" fill="currentColor"/></svg></button></span><div class="pn-sb" id="pnSb"></div><button class="xbtn" onclick="miniAsk('pn')" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
+ <div class="pn-top"><span class="pn-lb"><button class="gbtn b sq" onclick="penRules()" aria-label="${T('Nasıl oynanır?')}">${Ic('q')}</button><button class="gbtn b sq pn-tb" onclick="penTeam()" aria-label="${T('Takımını kur')}"><svg viewBox="0 0 24 24"><path d="M8.2 3 4 5.2 2 10l3.2 1.4.9-1.6V21h11.8V9.8l.9 1.6L22 10l-2-4.8L15.8 3c-.5 1.6-2 2.6-3.8 2.6S8.7 4.6 8.2 3z" fill="currentColor"/></svg></button><button class="gbtn b sq pn-tb" onclick="penLig()" aria-label="${T('Lig')}"><svg viewBox="0 0 24 24"><path d="M6 3h12v2h3v3a4.5 4.5 0 0 1-4.3 4.5A6 6 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1a6 6 0 0 1-3.7-3.4A4.5 4.5 0 0 1 3 8V5h3zm0 4H5v1a2.5 2.5 0 0 0 1.4 2.2A6 6 0 0 1 6 9zm12 0v2a6 6 0 0 1-.4 1.2A2.5 2.5 0 0 0 19 8V7z" fill="currentColor"/></svg></button></span><div class="pn-sb" id="pnSb"></div><button class="xbtn" onclick="miniAsk('pn')" aria-label="${T('Kapat')}">${Ic('x')}</button></div>
  <div class="pn-hint" id="pnHint"></div><div class="pn-pow" id="pnPow"><span>${T('GÜÇ')}</span><div class="pn-pb"><i class="z"></i><em id="pnPowI"></em></div></div>
  <div class="pn-msg" id="pnMsg"></div></div>`);
  cv=document.getElementById('pnC');c=cv.getContext('2d');
  cv.addEventListener('pointerdown',e=>{e.preventDefault();tap(e)});
  addEventListener('resize',()=>{layout();hud()})}
-function preload(){FOTO();const m=myT();SH(m.k);GKA(m.k=='fb'||m.k=='gs'?'g':'y');BALL();try{const o=oppAt(pnS().lv);SH(o[1]);GKA(GKC[o[2]]||'g')}catch(e){}}
+function preload(){FOTO();const m=myT();SH(m.k);GKA(m.k=='fb'||m.k=='gs'?'g':'y');BALL();try{const f=lgFix();if(f){SH(f.k);GKA(GKC[TM[f.k][4]]||'g')}}catch(e){}}
 window.penNew=function(){newGame();G.ph='intro';hud();crowdLoop(true);setTimeout(()=>{if(!G)return;sx('whistle');G.turn=0;startTurn()},700);if(!raf)raf=requestAnimationFrame(frame)};
 function open(){ensure();preload();sPre();ovl('pen');layout();if(!G||G.over)penNew();else{hud();crowdLoop(true)}last=0;if(!raf)raf=requestAnimationFrame(frame)}
 window.penOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}
  if(window.gameLoad)gameLoad('pn',open);else open()};
 window.penClose=function(){ovl('pen',false);crowdLoop(false);if(G&&!G.over&&G.sh[0].length+G.sh[1].length>0){/* yarıda bırakılan maç sayılmaz */}G=null;try{if($('#salon')&&typeof salRender=='function')salRender()}catch(e){}};
 window.penMid=()=>!!(G&&!G.over&&(G.sh[0].length||G.sh[1].length));
+
+/* ---------- LİG: 7 takım, çift devreli, galibiyet 3 puan ---------- */
+const RT={fb:.76,gs:.77,bk:.74,es:.68,tur:.71,amd:.69,ts:.73};
+let RND=null;function lgRounds(){if(RND)return RND;const a=TK.concat(['_']),n=a.length,R1=[];let arr=a.slice();
+ for(let r=0;r<n-1;r++){const pr=[];for(let i=0;i<n/2;i++){let h=arr[i],w=arr[n-1-i];if((r+i)%2){const x=h;h=w;w=x}pr.push([h,w])}R1.push(pr);arr=[arr[0],arr[n-1]].concat(arr.slice(1,n-1))}
+ return RND=R1.concat(R1.map(pr=>pr.map(([h,w])=>[w,h])))}
+const LGN=()=>lgRounds().length;
+const lgStarted=L=>!!L&&Object.values(L.t||{}).some(x=>x.o>0);
+function lgS(){const s=pnS();let L=s.lg;const mk=myT().k;
+ if(!L)L=s.lg={n:1,k:mk,r:0,t:{},sz:0};
+ if(L.k!=mk&&!lgStarted(L)){L.k=mk;L.t={};L.r=0}
+ TK.forEach(k=>{L.t[k]=L.t[k]||{o:0,g:0,m:0,a:0,y:0,p:0}});return L}
+const lgName=(k,L)=>k==(L||lgS()).k?tmName(myT()):TM[k][0];
+function lgAdd(L,k,gf,ga){const t=L.t[k];t.o++;t.a+=gf;t.y+=ga;if(gf>ga){t.g++;t.p+=3}else t.m++}
+function simPen(h,w){const p1=RT[h]||.7,p2=RT[w]||.7;let a=0,b=0;for(let i=0;i<5;i++){if(Math.random()<p1)a++;if(Math.random()<p2)b++}
+ let n=0;while(a==b&&n<30){if(Math.random()<p1)a++;if(Math.random()<p2)b++;n++}if(a==b)a++;return[a,b]}
+function simRound(L,r,skip){lgRounds()[r].forEach(([h,w])=>{if(h=='_'||w=='_'||(skip&&(h==L.k||w==L.k)))return;const[a,b]=simPen(h,w);lgAdd(L,h,a,b);lgAdd(L,w,b,a)})}
+// oyuncunun maçı olmayan (bay) haftaları otomatik oynat
+function lgAdvance(L){while(L.r<LGN()){const m=lgRounds()[L.r].find(p=>p.includes(L.k));if(m&&!m.includes('_'))return;simRound(L,L.r,0);L.r++}}
+function lgFix(){const L=lgS();lgAdvance(L);if(L.r>=LGN())return null;const m=lgRounds()[L.r].find(p=>p.includes(L.k)),home=m[0]==L.k,o=home?m[1]:m[0];return{k:o,home,r:L.r}}
+function lgTable(L){L=L||lgS();return TK.slice().sort((x,y)=>{const a=L.t[x],b=L.t[y];return b.p-a.p||(b.a-b.y)-(a.a-a.y)||b.a-a.a||(x==L.k?-1:y==L.k?1:0)})}
+const lgPos=L=>lgTable(L).indexOf(L.k)+1;
+const lgMine=k=>lgRounds().filter(pr=>pr.some(p=>p.includes(k)&&!p.includes('_'))).length;
+const lgWeek=L=>{let w=0;for(let r=0;r<Math.min(L.r,LGN());r++)if(lgRounds()[r].some(p=>p.includes(L.k)&&!p.includes('_')))w++;return w};
+// oyuncunun maçı bitti: sonucu yaz, haftanın diğer maçlarını oynat, sezon bittiyse ödülü ver
+function lgRecord(ga,gb){const L=lgS();if(!G||G.lgR!==L.r)return null;lgAdd(L,L.k,ga,gb);lgAdd(L,G.opp.kit,gb,ga);simRound(L,L.r,1);L.r++;lgAdvance(L);
+ if(L.r>=LGN())return lgEnd(L);return null}
+function lgEnd(L){const tb=lgTable(L),pos=tb.indexOf(L.k)+1,champ=pos==1,res={n:L.n,pos,champ,k:L.k,tb:tb.map(k=>({k,nm:lgName(k,L),t:Object.assign({},L.t[k])}))};
+ if(champ){try{addCoins(1000)}catch(e){P.coins=(P.coins|0)+1000}try{const sp=salP();sp.f=(sp.f|0)+1000;salBal()}catch(e){}L.sz=(L.sz|0)+1}
+ pnS().lg={n:L.n+1,k:myT().k,r:0,t:{},sz:L.sz|0};return res}
+const tmCrestFor=(k,L)=>k==L.k?myCrest(myT()):tmCrest(k);
+function lgTableHTML(L,rows){return`<table class="pl-t"><thead><tr><th>#</th><th class="lt">${T('Takım')}</th><th>${T('O')}</th><th>${T('G')}</th><th>${T('M')}</th><th>${T('AV')}</th><th>${T('P')}</th></tr></thead><tbody>${rows.map((r,i)=>{const t=r.t,d=t.a-t.y;
+ return`<tr class="${r.k==L.k?'me':''}"><td>${i+1}</td><td class="lt"><div class="pl-nmc"><i>${tmCrestFor(r.k,L)}</i><span>${esc(r.nm)}</span></div></td><td>${t.o}</td><td>${t.g}</td><td>${t.m}</td><td>${(d>0?'+':'')+d}</td><td><b>${t.p}</b></td></tr>`}).join('')}</tbody></table>`}
+window.penLig=function(){const L=lgS();lgAdvance(L);const f=lgFix(),rows=lgTable(L).map(k=>({k,nm:lgName(k,L),t:L.t[k]})),tot=lgMine(L.k);
+ modal(`<button class="xbtn ivxb" onclick="closeM()" aria-label="${T('Kapat')}"><svg class="sv"><use href="#i-x"/></svg></button><h3>${T('Lig')}</h3>
+ <div class="pl-hd"><span>${T('Sezon')} ${L.n}</span><span>${T('Maç')} ${Math.min(lgWeek(L)+1,tot)}/${tot}</span>${f?`<span class="pl-nx">${T('Sıradaki maç')}: <i>${tmCrest(f.k)}</i><b>${TM[f.k][0]}</b><small>${T(f.home?'İç saha':'Deplasman')}</small></span>`:''}</div>
+ ${lgTableHTML(L,rows)}<p class="pl-pr">${T('Sezonu lider bitirene')}: <b>1.000</b> coin + <b>1.000</b> ${T('salon fişi')}</p>`,'dkm pl-m')};
 /* ---------- takımını kur: ad, forma, logo ---------- */
 let PT_=null;
 function ptDraw(){const m=document.getElementById('ptPv');if(!m||!PT_)return;const t=PT_;
@@ -12306,7 +12387,7 @@ function ptDraw(){const m=document.getElementById('ptPv');if(!m||!PT_)return;con
  m.querySelector('.pt-cr').innerHTML=myCrest(t);m.querySelector('.pt-nm').textContent=tmName({n:(document.getElementById('ptN')||{}).value||''});
  document.querySelectorAll('#mc .pt-k').forEach(b=>b.classList.toggle('on',b.dataset.k==t.k));
  document.querySelectorAll('#mc .pt-l').forEach(b=>{const l=+b.dataset.l;b.classList.toggle('on',l==t.l);b.innerHTML=myCrest({k:t.k,l})})}
-window.ptK=k=>{if(!PT_||!TM[k])return;PT_.k=k;SH(k);try{snd('click')}catch(e){}ptDraw()};
+window.ptK=k=>{if(!PT_||!TM[k])return;if(k!=PT_.k&&lgStarted(lgS())){try{toast(T('Forma sezon sonunda değiştirilebilir'))}catch(e){}return}PT_.k=k;SH(k);try{snd('click')}catch(e){}ptDraw()};
 window.ptL=l=>{if(!PT_)return;PT_.l=l;try{snd('click')}catch(e){}ptDraw()};
 window.ptSave=function(){if(!PT_)return;const s=pnS(),i=document.getElementById('ptN'),n=(typeof clean=='function'?clean:(x=>x))(((i&&i.value)||'').replace(/[<>]/g,'').trim()).slice(0,14);
  s.tm={n,k:PT_.k,l:PT_.l|0};save();closeM();PT_=null;preload();
@@ -12316,7 +12397,7 @@ window.penTeam=function(){const t=myT();PT_={k:t.k,l:t.l|0};TK.forEach(k=>SH(k))
  modal(`<button class="xbtn ivxb" onclick="closeM()" aria-label="${T('Kapat')}"><svg class="sv"><use href="#i-x"/></svg></button><h3>${T('Takımını kur')}</h3>
  <div class="pt-w"><div class="pt-pv" id="ptPv"><i class="pt-kit"></i><span class="pt-tg"><span class="pt-cr"></span><b class="pt-nm"></b></span></div>
  <div class="pt-f"><label class="pt-in"><span>${T('Takım adı')}</span><input id="ptN" maxlength="14" autocomplete="off" spellcheck="false" placeholder="${esc(P.name||T('Takımım'))}" value="${esc(t.n||'')}" oninput="ptDraw()"></label>
- <span class="pt-h">${T('Forma')}</span><div class="pt-ks">${TK.map(k=>`<button class="pt-k" data-k="${k}" style="--a:${TM[k][1]};--b:${TM[k][2]}" onclick="ptK('${k}')"><i></i></button>`).join('')}</div>
+ <span class="pt-h">${T('Forma')}${lgStarted(lgS())?` <small class="pt-lk">· ${T('sezon sonunda değişir')}</small>`:''}</span><div class="pt-ks">${TK.map(k=>`<button class="pt-k" data-k="${k}" style="--a:${TM[k][1]};--b:${TM[k][2]}" onclick="ptK('${k}')"><i></i></button>`).join('')}</div>
  <span class="pt-h">${T('Logo')}</span><div class="pt-ls">${PLG.map((x,l)=>`<button class="pt-l" data-l="${l}" onclick="ptL(${l})"></button>`).join('')}</div></div></div>
  <div class="mrow"><button class="btn g" onclick="ptSave()">${T('Kaydet')}</button></div>`,'dkm pt-m');ptDraw()};
 window.ptDraw=ptDraw;
@@ -12325,9 +12406,16 @@ window.penRules=function(){modal(`<h3>${T('Penaltı nasıl oynanır?')}</h3><ul 
  <li>${T('<b>Şut atarken:</b> önce kalede nişan alacağın yere dokun, sonra güç çubuğu <b>yeşil</b> bölgedeyken ekrana dokun.')}</li>
  <li>${T('Çok güçlü vurursan top havalanır, zayıf vurursan kaleci kolay kurtarır. Köşeler zor kurtarılır ama dışarı gitme riski vardır.')}</li>
  <li>${T('<b>Kalecilik yaparken:</b> rakip topa vurmadan önce kalede atlayacağın yere dokun.')}</li>
- <li>${T('Her galibiyette sıradaki rakip biraz daha güçlüdür. Kazanırsan +30 XP, kaybedersen +10 XP.')}</li></ul>
+ <li>${T('<b>Lig:</b> 7 takım, her takım birbiriyle 2 maç yapar. Galibiyet 3 puan. Sezonu lider bitirirsen 1.000 coin + 1.000 salon fişi kazanırsın.')}</li><li>${T('Kazanırsan +30 XP, kaybedersen +10 XP.')}</li></ul>
  <div class="mrow"><button class="btn g" onclick="closeM()">${T('Anladım')}</button></div>`,'dkm')};
-const DP={'Takımını kur':['Build your team','Crea tu equipo','Tîma xwe ava bike'],'Takım adı':['Team name','Nombre del equipo','Navê tîmê'],'Forma':['Kit','Equipación','Kiras'],'Logo':['Badge','Escudo','Nîşan'],'Kaydet':['Save','Guardar','Tomar bike'],
+const DP={'Lig':['League','Liga','Lîg'],'Lig tablosu':['Table','Clasificación','Tabloya lîgê'],'Sezon':['Season','Temporada','Demsal'],'Sıradaki maç':['Next match','Próximo partido','Maça din'],
+ 'İç saha':['Home','Local','Mal'],'Deplasman':['Away','Visitante','Derve'],'Sonraki maç':['Next match','Siguiente partido','Maça din'],'ŞAMPİYON!':['CHAMPIONS!','¡CAMPEONES!','ŞAMPIYON!'],'Sezon bitti':['Season over','Temporada terminada','Demsal qediya'],
+ 'Yeni sezon':['New season','Nueva temporada','Demsala nû'],'Şampiyon':['Champion','Campeón','Şampiyon'],'Takım':['Team','Equipo','Tîm'],'O':['P','PJ','L'],'G':['W','G','B'],'M':['L','P','W'],'AV':['GD','DG','CF'],'P':['Pts','Pts','Xal'],
+ 'Forma sezon sonunda değiştirilebilir':['Kit can be changed at the end of the season','La equipación se puede cambiar al final de la temporada','Kiras dawiya demsalê tê guhertin'],'sezon sonunda değişir':['changes at season end','cambia al final de la temporada','dawiya demsalê diguhere'],
+ 'Sezonu lider bitirene':['Finish the season top','Termina la temporada primero','Demsalê yekem biqedîne'],'salon fişi':['lounge chips','fichas del salón','fîşên salonê'],'sıra':['place','puesto','rêz'],'puan':['pts','pts','xal'],
+ 'Sezon sonu':['Season end','Fin de temporada','Dawiya demsalê'],'Sezonu':['You finished the season','Terminaste la temporada','Te demsal'],'sırada bitirdin':['','',' de qedand'],
+ '<b>Lig:</b> 7 takım, her takım birbiriyle 2 maç yapar. Galibiyet 3 puan. Sezonu lider bitirirsen 1.000 coin + 1.000 salon fişi kazanırsın.':['<b>League:</b> 7 teams, everyone plays each other twice. A win is 3 points. Finish top to win 1,000 coins + 1,000 lounge chips.','<b>Liga:</b> 7 equipos, todos juegan dos veces entre sí. Victoria: 3 puntos. Termina primero y gana 1.000 monedas + 1.000 fichas del salón.','<b>Lîg:</b> 7 tîm, her tîm du caran bi hev re dilîze. Serketin 3 xal e. Ger yekem biqedînî 1.000 coin + 1.000 fîşên salonê qezenc dikî.'],
+ 'Kazanırsan +30 XP, kaybedersen +10 XP.':['Win: +30 XP, lose: +10 XP.','Ganar: +30 XP, perder: +10 XP.','Serketin: +30 XP, têkçûn: +10 XP.'],'Takımını kur':['Build your team','Crea tu equipo','Tîma xwe ava bike'],'Takım adı':['Team name','Nombre del equipo','Navê tîmê'],'Forma':['Kit','Equipación','Kiras'],'Logo':['Badge','Escudo','Nîşan'],'Kaydet':['Save','Guardar','Tomar bike'],
  'Takımın kaydedildi':['Team saved','Equipo guardado','Tîm hat tomarkirin'],'Yeni maçta geçerli olacak':['Applies from the next match','Se aplica desde el próximo partido','Ji maça din ve derbasdar e'],'Takımım':['My team','Mi equipo','Tîma min'],'PENALTI':['PENALTY','PENALTI','PENALTÎ'],'Penaltı nasıl oynanır?':['How to play Penalty?','¿Cómo se juegan los penaltis?','Penaltî çawa tê lîstin?'],
  'Şut sırası sende':['Your shot','Te toca tirar','Dora te ye ku biavêjî'],'Kalede nişan alacağın yere dokun':['Tap where you want to aim','Toca donde quieres apuntar','Li cihê ku dixwazî lê bixî bitikîne'],
  'Gücü ayarla':['Set the power','Ajusta la potencia','Hêzê eyar bike'],'Çubuk yeşildeyken dokun':['Tap while the bar is green','Toca cuando la barra esté verde','Dema ku çîp kesk e bitikîne'],

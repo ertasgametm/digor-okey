@@ -11913,7 +11913,7 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 .gld.pn::before{background:radial-gradient(110% 90% at 50% 45%,rgba(6,14,40,.25),rgba(4,10,30,.85) 72%)}
 .gl-pn{position:relative;width:min(70vw,560px);height:min(24vh,120px)}
 .gl-pk{position:absolute;bottom:0;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72));width:calc(min(24vh,120px)*.72);height:min(24vh,120px);overflow:hidden}
-.gl-pk>i{position:absolute;left:0;top:0;width:800%;height:100%;background:url(img/penalti/kosu.webp?h=b4f831c) 0 0/100% 100% no-repeat;animation:glPk .7s steps(8) infinite}
+.gl-pk>i{position:absolute;left:0;top:0;width:800%;height:100%;background:url(img/penalti/kosu.webp?h=f868c63) 0 0/100% 100% no-repeat;animation:glPk .7s steps(8) infinite}
 @keyframes glPk{to{transform:translateX(-100%)}}
 .gl-pb2{position:absolute;bottom:.4vh;left:calc(var(--p,0)*(100% - min(24vh,120px)*.72) + min(24vh,120px)*.62);width:min(4.6vh,22px);height:min(4.6vh,22px);background:url(img/penalti/top.webp?h=19948cc) center/contain no-repeat;animation:glPr .5s linear infinite}
 @keyframes glPr{to{rotate:360deg}}
@@ -12131,7 +12131,8 @@ const KA=[232,352];
 function kickerState(){const k=G.kick;if(G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||!k){const f=Math.floor(G.t*3)%3;return{f:[0,1,2,1][Math.floor(G.t*2.4)%4],X:-1.05,Z:12.35}}
  const t=G.t;// koşu 0..0.9 (kare 3..10), vuruş 0.9..1.08 (11..12), takip
  if(t<.9){const u=t/.9;return{f:3+Math.min(7,Math.floor(u*8)),X:-1.05+(1.05-.0)*ease(u)*1,Z:12.35-1.25*ease(u)}}
- const ts=t-.9;const seq=[11,12,13,14,15,16,17,18],f=seq[Math.min(seq.length-1,Math.floor(ts/.085))];return{f,X:0,Z:11.1}}
+ const ts=t-.9;// geri salınım 11-12, top t=1.0'da çıkarken temas karesi 13, sonra takip
+ const seq=[13,13,14,15,16,17,18],f=ts<.05?11:ts<.1?12:seq[Math.min(seq.length-1,Math.floor((ts-.1)/.085))];return{f,X:0,Z:11.1}}
 function drawKicker(){const s=kickerState(),im=SH(G.kitK);if(!im.complete||!im.naturalWidth)return;const sc=PS(s.Z,1.8/343)/PKS;
  const x=PX(s.X,s.Z)-KA[0]*PKS*sc,y=PY(s.Z,0)-KA[1]*PKS*sc;const fx=(s.f%10)*FW,fy=Math.floor(s.f/10)*FH;
  c.fillStyle='rgba(0,0,0,.22)';c.beginPath();c.ellipse(PX(s.X,s.Z)-60*sc,PY(s.Z,0)+4*sc,70*sc,14*sc,0,0,7);c.fill();

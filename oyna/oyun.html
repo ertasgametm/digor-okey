@@ -11919,8 +11919,8 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 @keyframes glPr{to{rotate:360deg}}
 .gld.pn .gl-bar>i{background:linear-gradient(90deg,#2fbf6a,#c9f27a)}
 /* salon kartı ve istatistik */
-.s2a.pn{background-image:url(img/sl2/art_pn.webp?h=97630bc);background-position:center 12%}
-.s2mi.pn{background-image:url(img/sl2/art_pn.webp?h=97630bc);background-position:center 40%}
+.s2a.pn{background-image:url(img/sl2/art_pn.webp?h=43627f5);background-position:center 20%}
+.s2mi.pn{background-image:url(img/sl2/art_pn.webp?h=43627f5);background-position:center 40%}
 
 </style>
 <script id="j-pen">
@@ -13036,7 +13036,7 @@ drop=(o=>function(d,tg){if(!d||!d.grp)return o.apply(this,arguments);
 (function(){const c=$('#chat');if(!c)return;const b=c.querySelector('.chbg');if(b)b.className='sky dim';const g=c.querySelector('.chgr');if(g)g.remove()})();
 
 // ---------- canlı arka plan: resmin kendisi aynı kalır, üstünde hafif hareketler (deniz parıltısı, çay buharı, fener ışığı; oyna ekranında nehir, güneş, çiçek yaprakları) ----------
-const AMB={cv:null,cx:null,host:null,raf:0,lt:0,P:[],gt:0,bt:0,pt:0,kind:'',chk:0,mk:{},spr:null};
+const AMB={hs:new Map(),cv:null,cx:null,host:null,raf:0,lt:0,P:[],gt:0,bt:0,pt:0,kind:'',chk:0,mk:{},spr:null};
 // su maskesi: parıltı yalnızca resimde gerçekten su olan piksele düşer (tekne, fener, iskele, korkuluk üstüne değil)
 function ambMask(src){if(AMB.mk[src])return AMB.mk[src];const o={d:null,w:0,h:0};AMB.mk[src]=o;const im=new Image();im.onload=()=>{try{const w=320,h=Math.round(320*im.naturalHeight/im.naturalWidth),cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d');x.drawImage(im,0,0,w,h);o.d=x.getImageData(0,0,w,h).data;o.w=w;o.h=h}catch(e){o.err=1}};im.onerror=()=>{o.err=1};im.src=src;return o}
 // maske okunamazsa (ör. dosyadan açılan sayfada) bilinen tekne/fener/iskele bölgelerinden kaçın
@@ -13065,7 +13065,7 @@ function ambFr(now){AMB.raf=0;const cv=AMB.cv,h=AMB.host;if(!h||!cv||!cv.isConne
  const r=h.getBoundingClientRect(),W=r.width,H=r.height,dpr=1;if(W<10){AMB.raf=requestAnimationFrame(ambFr);return}
  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
  const c=AMB.cx,m=ambMap(W,H),ev=document.body.classList.contains('ev'),t=now/1000,P=AMB.P;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);
- if(AMB.kind=='ter'&&window.ambScene){try{window.ambScene(c,m,t,dt,ev,W,H)}catch(e){}AMB.raf=requestAnimationFrame(ambFr);return}
+ if(AMB.kind=='ter'&&window.ambScene){const hk=((h.closest('.scr,.ovl')||{}).id||'x')+'/'+AMB.kind,st=AMB.hs.get(hk)||{t:0};AMB.hs.set(hk,st);st.t+=dt;try{window.ambScene(c,m,st.t,dt,ev,W,H,st)}catch(e){}AMB.raf=requestAnimationFrame(ambFr);return}
  if(AMB.kind=='ter'){
   // deniz parıltıları (akşam güneşin yansımasında daha yoğun)
   const mk=ambMask(ev?'img/bg_sunset.webp':'img/bg.webp');let n=(ev?9:7)*dt*12;while(n>0){if(Math.random()<n){const sun=ev&&Math.random()<.4,u=sun?R(.14,.27):R(.05,.95),v=sun?R(.24,.33):R(.375,.545);if(ambWater(mk,u,v,ev))P.push({k:'g',u,v,a:0,l:R(.7,1.6),w:R(.003,.0075)})}n--}
@@ -13788,7 +13788,7 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
  background:linear-gradient(#20419a,#11255f 70%,#0e1f52);box-shadow:inset 0 0 0 max(.3vh,2px) #e2b54a,0 0 0 max(.15vh,1px) rgba(80,50,0,.6),0 1vh 2vh rgba(0,0,0,.4)}
 .s2c:active{transform:scale(.98)}
 .s2a{flex:1;min-height:0;align-self:stretch;margin:max(.3vh,2px) max(.3vh,2px) 0;border-radius:1.4vh 1.4vh 0 0;background:center 30%/cover no-repeat;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
-.s2a.at{background-image:url(img/sl2/art_at.webp?h=c66010f)}.s2a.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 20%}
+.s2a.at{background-image:url(img/sl2/art_at.webp?h=23859cb);background-position:center 20%}.s2a.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 20%}
 .s2o{position:absolute;width:5.2vh;height:5.2vh;z-index:3;pointer-events:none;background:center/contain no-repeat}
 .s2o.tl{left:-.5vh;top:-.5vh;background-image:url(img/ui/orn_tl.webp?h=82bd08f)}.s2o.tr{right:-.5vh;top:-.5vh;background-image:url(img/ui/orn_tr.webp?h=94a02f7)}
 .s2o.bl{left:-.5vh;bottom:-.5vh;background-image:url(img/ui/orn_bl.webp?h=68f6a70)}.s2o.br{right:-.5vh;bottom:-.5vh;background-image:url(img/ui/orn_br.webp?h=b52e804)}
@@ -13811,7 +13811,7 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .s2bx h4{margin:0;display:flex;align-items:center;gap:1vh;font-family:TC,serif;font-size:clamp(11px,3.2vh,17px);color:#ffd75a;letter-spacing:.03em}
 .s2bx h4 .fi{font-size:4.4vh}
 .s2mi{width:5vh;height:5vh;border-radius:1vh;background:center/cover no-repeat;box-shadow:0 0 0 max(.2vh,1.5px) #e2b54a}
-.s2mi.at{background-image:url(img/sl2/art_at.webp?h=c66010f);background-position:center 25%}.s2mi.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 45%}
+.s2mi.at{background-image:url(img/sl2/art_at.webp?h=23859cb);background-position:center 25%}.s2mi.ps{background-image:url(img/sl2/art_ps.webp?h=c73662b);background-position:center 45%}
 .s2big{font-weight:900;font-size:clamp(20px,8vh,40px);color:#fff;text-shadow:0 .3vh 0 #0b2a66}
 .s2sr{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh;text-align:center}
 .s2sr span{padding:1.4vh 0;border-radius:1.2vh;background:rgba(0,0,0,.25)}
@@ -14253,7 +14253,10 @@ let FF=null;function fireflies(t,dt){if(!FF){FF=[];const Z=[[0,.12,.42,.78],[.88
   const bl=Math.max(0,Math.sin(t*f.f*1.8+f.ph)),a=.95*Math.pow(bl,2.2);if(a<.02)continue;const x=M.x(f.u),y=M.y(f.v),r=f.r*M.s;
   blob(S_FF,x,y,r*2.4,a*.55,'lighter');blob(S_DOT,x,y,r*.5,a,'lighter')}}
 
-window.ambScene=function(ctx,map,t,dt,ev){c=ctx;M=map;EV=!!ev;if(lastEv!==EV){lastEv=EV;P=[];WIN=null}
+window.ambScene=function(ctx,map,t,dt,ev,W,H,st){c=ctx;M=map;EV=!!ev;
+ // her arka planın kendi parçacıkları ve ateş böcekleri var; sayfa değişince ışıklar zıplamaz, kaldığı yerden sürer
+ if(st){if(!st.P){st.P=[];st.FF=null;st.ev=EV}if(st.ev!==EV){st.ev=EV;st.P=[];st.FF=null;WIN=null}P=st.P;FF=st.FF}
+ else if(lastEv!==EV){lastEv=EV;P=[];WIN=null}
  if(!EV)dapple(t);else{townLights(t);lighthouse(t)}
  glints(dt);steam(dt);if(!EV){leaves(dt);petals(dt);motes(dt)}
  for(let i=P.length-1;i>=0;i--){const q=P[i];q.a+=dt;const f=q.a/q.l;if(f>=1){P.splice(i,1);continue}
@@ -14262,7 +14265,7 @@ window.ambScene=function(ctx,map,t,dt,ev){c=ctx;M=map;EV=!!ev;if(lastEv!==EV){la
   else if(q.k=='pt')drawPetal(q,f,t,dt);
   else if(q.k=='mo'){q.u+=(q.vx+Math.sin(q.a*.8+q.ph)*.002)*dt;q.v+=q.vy*dt;blob(S_WARM,M.x(q.u),M.y(q.v),q.r*M.s*2.2,Math.sin(Math.PI*f)*.55*(.6+.4*Math.sin(q.a*3+q.ph)),'lighter')}}
  if(P.length>320)P.splice(0,P.length-320);
- lanterns(t);if(EV)fireflies(t,dt)};
+ lanterns(t);if(EV)fireflies(t,dt);if(st){st.P=P;st.FF=FF}};
 })();
 
 /* ---------- pencere zemini: eski ışık topları kalır; üstte yavaşça akan kuzey ışıkları ve birkaç yavaş parlayan yıldız ---------- */

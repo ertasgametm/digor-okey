@@ -8000,34 +8000,71 @@ let HR=null,HRRAF=0;
 // ön kapı + direk + üst kiriş (z 41−2j) atın önünde · arka kapı + bölme boruları (z 39−2j) atın arkasında · yakın duvar (z 50) hepsinin önünde
 const HG={L:192},hgP=s=>[hrStartX(0)+8+30.4*s,396-26*s],hgB=s=>{const p=hgP(s);return[p[0]-HG.L,p[1]]},hgF=a=>a[0].toFixed(1)+','+a[1].toFixed(1),hgU=(a,h)=>[a[0],a[1]-h];
 const hgSvg=(z,inner,cls)=>`<svg class="hr-g3 ${cls||''}" style="z-index:${z}" viewBox="0 0 760 515" width="760" height="515" aria-hidden="true">${inner}</svg>`;
-const hgTube=(p,q,w)=>`<path d="M${hgF(p)} L${hgF(q)}" stroke="#26304a" stroke-width="${w+3}" stroke-linecap="round"/><path d="M${hgF(p)} L${hgF(q)}" stroke="#f4f7fb" stroke-width="${w}" stroke-linecap="round"/>`;
-const hgPost=(a,h,w)=>{w=w||9;return`<rect x="${(a[0]-w/2).toFixed(1)}" y="${(a[1]-h).toFixed(1)}" width="${w}" height="${h}" rx="2" fill="url(#hgM)" stroke="#26304a" stroke-width="1.6"/>`};
-const hgBand=(a,b,h0,h1)=>`<path d="M${hgF(hgU(a,h0))} L${hgF(hgU(b,h0))} L${hgF(hgU(b,h1))} L${hgF(hgU(a,h1))}Z" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/>`;
-const hgDoor=(cls,p,col)=>`<g transform="translate(${hgF(p)})"><g class="${cls}"><rect x="0" y="-104" width="1" height="84" fill="${col}" stroke="#141c30" stroke-width="1.8" vector-effect="non-scaling-stroke"/><rect x="0" y="-104" width="1" height="16" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2" vector-effect="non-scaling-stroke"/><path d="M.22 -86 V-24 M.44 -86 V-24 M.66 -86 V-24 M.88 -86 V-24 M0 -52 H1" stroke="rgba(255,255,255,.88)" stroke-width="2.2" vector-effect="non-scaling-stroke"/></g></g>`;
+const hgN2=(p,q)=>{let dx=q[0]-p[0],dy=q[1]-p[1],L=Math.hypot(dx,dy)||1,nx=dy/L,ny=-dx/L;if(ny>0||(Math.abs(ny)<.2&&nx>0)){nx=-nx;ny=-ny}return[nx,ny]};
+const hgO=(p,n,k)=>[p[0]+n[0]*k,p[1]+n[1]*k];
+/* boru: koyu dış hat + metal gövde + üstte parlak şerit + altta gölge (ışık sol üstten) */
+const hgTube=(p,q,w)=>{const n=hgN2(p,q),L=(a,b,c,sw,o)=>`<path d="M${hgF(a)} L${hgF(b)}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round"${o?` opacity="${o}"`:''}/>`;
+ return L(p,q,'#1a2133',w+3)+L(p,q,'#8d99ad',w+.4)+L(hgO(p,n,-w*.22),hgO(q,n,-w*.22),'#56627a',w*.38,.8)+L(hgO(p,n,w*.2),hgO(q,n,w*.2),'#f7faff',w*.42)};
+/* direk: silindir gölgesi, parlak kenar, üst başlık ve cıvatalar */
+const hgPost=(a,h,w)=>{w=w||9;const x=a[0]-w/2,y=a[1]-h;let s=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w}" height="${h}" rx="2" fill="url(#hgM)" stroke="#1a2133" stroke-width="1.6"/>`+
+ `<rect x="${(x+w*.18).toFixed(1)}" y="${(y+3).toFixed(1)}" width="${(w*.2).toFixed(1)}" height="${h-6}" rx="1" fill="#fff" opacity=".85"/>`+
+ `<rect x="${(x+w*.7).toFixed(1)}" y="${(y+2).toFixed(1)}" width="${(w*.22).toFixed(1)}" height="${h-4}" fill="#3b465c" opacity=".35"/>`+
+ `<rect x="${(x-1.5).toFixed(1)}" y="${(y-4).toFixed(1)}" width="${w+3}" height="6" rx="2" fill="url(#hgM)" stroke="#1a2133" stroke-width="1.4"/>`;
+ for(const t of [.22,.55,.86])s+=`<circle cx="${a[0].toFixed(1)}" cy="${(y+h*t).toFixed(1)}" r="${(w*.16).toFixed(1)}" fill="#6c778b" stroke="#1a2133" stroke-width=".7"/>`;return s};
+/* kiriş: fırçalanmış lacivert metal, üst parlak kenar, alt gölge, perçinler */
+const hgBand=(a,b,h0,h1)=>{const A0=hgU(a,h0),B0=hgU(b,h0),A1=hgU(a,h1),B1=hgU(b,h1),P=`M${hgF(A0)} L${hgF(B0)} L${hgF(B1)} L${hgF(A1)}Z`;
+ let s=`<path d="${P}" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/><path d="${P}" fill="url(#hgT)" opacity=".7"/>`+
+ `<path d="M${hgF(hgU(a,h1-1.5))} L${hgF(hgU(b,h1-1.5))}" stroke="#9fb6ff" stroke-width="1.6" opacity=".8"/><path d="M${hgF(hgU(a,h0+2))} L${hgF(hgU(b,h0+2))}" stroke="#0a1230" stroke-width="2.4" opacity=".55"/>`;
+ for(const t of [.12,.88]){const p=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];s+=`<circle cx="${p[0].toFixed(1)}" cy="${(p[1]-(h0+h1)/2).toFixed(1)}" r="2.1" fill="#c9d3e6" stroke="#0d1430" stroke-width=".8"/>`}return s};
+/* kapı: renkli dolgulu panel (yukarıdan aşağı gölge), metal çubuklar, üstte lacivert şerit */
+const hgDoor=(cls,p,col)=>`<g transform="translate(${hgF(p)})"><g class="${cls}"><rect x="0" y="-104" width="1" height="84" fill="${col}" stroke="#141c30" stroke-width="1.8" vector-effect="non-scaling-stroke"/><rect x="0" y="-104" width="1" height="84" fill="url(#hgP)"/><rect x="0" y="-104" width="1" height="16" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2" vector-effect="non-scaling-stroke"/><path d="M.22 -86 V-24 M.44 -86 V-24 M.66 -86 V-24 M.88 -86 V-24 M0 -52 H1" stroke="#26304a" stroke-width="3.6" vector-effect="non-scaling-stroke"/><path d="M.22 -86 V-24 M.44 -86 V-24 M.66 -86 V-24 M.88 -86 V-24 M0 -52 H1" stroke="#eef3fb" stroke-width="1.9" vector-effect="non-scaling-stroke"/></g></g>`;
 function hrGate(j){const a=hgP(j-.5),b=hgP(j+.5),c=hgP(j),ba=hgB(j-.5),bb=hgB(j+.5),col=HR_COL[j];
- let bk=`<path d="M${hgF(hgU(ba,20))} L${hgF(hgU(bb,20))} L${hgF(hgU(bb,104))} L${hgF(hgU(ba,104))}Z" fill="${col}" fill-opacity=".55" stroke="#141c30" stroke-width="1.4"/>`;
- for(let k=1;k<4;k++){const t=k/4,p=[ba[0]+(bb[0]-ba[0])*t,ba[1]+(bb[1]-ba[1])*t];bk+=`<path d="M${hgF(hgU(p,24))} L${hgF(hgU(p,100))}" stroke="rgba(255,255,255,.7)" stroke-width="2"/>`}
- if(j<5){const dv=hgB(j+.5),dp=hgP(j+.5);bk+=hgTube(hgU(dv,62),hgU(dp,62),3.5)+hgTube(hgU(dv,118),hgU(dp,118),3.5)+`<path d="M${hgF(hgU(dv,20))} L${hgF(hgU(dp,20))} L${hgF(hgU(dp,40))} L${hgF(hgU(dv,40))}Z" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2"/>`}
+ const BP=`M${hgF(hgU(ba,20))} L${hgF(hgU(bb,20))} L${hgF(hgU(bb,104))} L${hgF(hgU(ba,104))}Z`;
+ let bk=`<path d="${BP}" fill="${col}" fill-opacity=".62" stroke="#141c30" stroke-width="1.4"/><path d="${BP}" fill="url(#hgS)"/>`;
+ for(let k=1;k<4;k++){const t=k/4,p=[ba[0]+(bb[0]-ba[0])*t,ba[1]+(bb[1]-ba[1])*t];bk+=`<path d="M${hgF(hgU(p,24))} L${hgF(hgU(p,100))}" stroke="#26304a" stroke-width="3.4" opacity=".6"/><path d="M${hgF(hgU(p,24))} L${hgF(hgU(p,100))}" stroke="rgba(255,255,255,.78)" stroke-width="1.8"/>`}
+ if(j<5){const dv=hgB(j+.5),dp=hgP(j+.5),DP=`M${hgF(hgU(dv,20))} L${hgF(hgU(dp,20))} L${hgF(hgU(dp,40))} L${hgF(hgU(dv,40))}Z`;bk+=hgTube(hgU(dv,62),hgU(dp,62),3.5)+hgTube(hgU(dv,118),hgU(dp,118),3.5)+`<path d="${DP}" fill="url(#hgN)" stroke="#141c30" stroke-width="1.2"/><path d="${DP}" fill="url(#hgT)" opacity=".45"/>`}
  const H=150,C=30,tx=c[0],ty=c[1]-H-C/2;
  let fr=hgDoor('dl',a,col)+hgDoor('dr',b,col)+hgPost(ba,180,7)+hgPost(a,180,9)+hgBand(a,b,H,H+C)+hgTube(hgU(a,H+C),hgU(b,H+C),4)+hgTube(hgU(a,H),hgU(b,H),3)+
-  `<rect x="${(tx-12).toFixed(1)}" y="${(ty-11).toFixed(1)}" width="24" height="22" rx="4.5" fill="${col}" stroke="#fff" stroke-width="2.2"/><text x="${tx.toFixed(1)}" y="${(ty+6.5).toFixed(1)}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="18" fill="${j==3?'#3a2a00':'#fff'}">${j+1}</text>`;
+  `<rect x="${(tx-12).toFixed(1)}" y="${(ty-10).toFixed(1)}" width="24" height="22" rx="4.5" fill="#000" opacity=".35"/><rect x="${(tx-12).toFixed(1)}" y="${(ty-11).toFixed(1)}" width="24" height="22" rx="4.5" fill="${col}" stroke="#fff" stroke-width="2.2"/><rect x="${(tx-10).toFixed(1)}" y="${(ty-9).toFixed(1)}" width="20" height="8" rx="3" fill="#fff" opacity=".28"/><text x="${tx.toFixed(1)}" y="${(ty+6.5).toFixed(1)}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="18" fill="${j==3?'#3a2a00':'#fff'}">${j+1}</text>`;
  if(j==5)fr+=hgPost(hgP(5.5),180,9);
  return hgSvg(39-2*j,bk)+hgSvg(41-2*j,fr)}
 function hrGateEnds(){const a0=hgP(-.5),a5=hgP(5.5),b0=hgB(-.5),b5=hgB(5.5);
- const defs=`<defs><linearGradient id="hgM" x1="0" x2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#d6deea"/><stop offset="1" stop-color="#8e9bb0"/></linearGradient><linearGradient id="hgN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f56c8"/><stop offset="1" stop-color="#16307e"/></linearGradient><linearGradient id="hgG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".55" stop-color="#ffc634"/><stop offset="1" stop-color="#d98a12"/></linearGradient><radialGradient id="hgD" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ead2a6" stop-opacity=".95"/><stop offset=".6" stop-color="#d8b47c" stop-opacity=".5"/><stop offset="1" stop-color="#c9a066" stop-opacity="0"/></radialGradient></defs>`;
- // zemin: gölge + başlangıç çizgisi
- let h=hgSvg(2,defs+`<path d="M${hgF([b0[0]-8,b0[1]+8])} L${hgF([a0[0]+26,a0[1]+8])} L${hgF([a5[0]+26,a5[1]+8])} L${hgF([b5[0]-8,b5[1]+8])}Z" fill="rgba(60,34,8,.2)"/><path d="M${hgF([a0[0]+16,a0[1]+3])} L${hgF([a5[0]+16,a5[1]+3])}" stroke="rgba(255,255,255,.92)" stroke-width="5" stroke-linecap="round"/>`);
+ const defs=`<defs><linearGradient id="hgM" x1="0" x2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset=".35" stop-color="#ffffff"/><stop offset=".7" stop-color="#b9c4d4"/><stop offset="1" stop-color="#6f7c92"/></linearGradient>`+
+  `<linearGradient id="hgN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d67da"/><stop offset=".45" stop-color="#2346ad"/><stop offset="1" stop-color="#13286c"/></linearGradient>`+
+  `<linearGradient id="hgG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c4"/><stop offset=".5" stop-color="#ffd04a"/><stop offset=".52" stop-color="#f0a820"/><stop offset="1" stop-color="#c97a0c"/></linearGradient>`+
+  `<linearGradient id="hgP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".32"/><stop offset=".3" stop-color="#fff" stop-opacity=".06"/><stop offset=".7" stop-color="#000" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".38"/></linearGradient>`+
+  `<linearGradient id="hgS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>`+
+  `<linearGradient id="hgW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a414e"/><stop offset=".5" stop-color="#1c2029"/><stop offset="1" stop-color="#0b0d12"/></linearGradient>`+
+  `<radialGradient id="hgH" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#c3ccd8"/><stop offset="1" stop-color="#5b6576"/></radialGradient>`+
+  `<pattern id="hgT" patternUnits="userSpaceOnUse" width="64" height="64"><image href="data:image/png;base64,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" width="64" height="64"/></pattern>`+
+  `<filter id="hgBl" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>`+
+  `<radialGradient id="hgD" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ead2a6" stop-opacity=".95"/><stop offset=".6" stop-color="#d8b47c" stop-opacity=".5"/><stop offset="1" stop-color="#c9a066" stop-opacity="0"/></radialGradient></defs>`;
+ // zemin: yumuşak gölge + başlangıç çizgisi
+ let h=hgSvg(2,defs+`<path d="M${hgF([b0[0]-8,b0[1]+10])} L${hgF([a0[0]+30,a0[1]+10])} L${hgF([a5[0]+30,a5[1]+10])} L${hgF([b5[0]-8,b5[1]+10])}Z" fill="rgba(50,28,6,.32)" filter="url(#hgBl)"/><path d="M${hgF([a0[0]+16,a0[1]+3])} L${hgF([a5[0]+16,a5[1]+3])}" stroke="rgba(255,255,255,.92)" stroke-width="5" stroke-linecap="round"/>`);
  // çıkış tozu (yarış başlayınca kapıların önünde kabarır)
  let d='';for(let i=0;i<6;i++){const x=hgP(i)[0],y=hrLaneY(i);d+=`<g class="pf" style="animation-delay:${(.28+i*.03).toFixed(2)}s">`;for(let k=0;k<3;k++)d+=`<ellipse cx="${(x-14-k*34).toFixed(1)}" cy="${(y-6-k*5).toFixed(1)}" rx="${26+k*12}" ry="${11+k*5}" fill="url(#hgD)" opacity="${(.95-k*.22).toFixed(2)}"/>`;d+='</g>'}
  h+=hgSvg(3,d,'hr-dust');
  // en arka: uzak yan duvar + arka üst borular
  h+=hgSvg(28,`<path d="M${hgF(b5)} L${hgF(a5)}" stroke="#26304a" stroke-width="5"/>`+hgTube(hgU(b5,178),hgU(a5,178),5)+hgTube(hgU(b5,112),hgU(a5,112),3.5)+hgPost(b5,178,7)+hgPost(a5,178,9)+hgTube(hgU(b0,180),hgU(b5,180),4)+hgTube(hgU(b0,150),hgU(b5,150),2.6));
- // en ön: yakın yan duvar (parmaklık; atlar aralarından görünür), DİGOR tabelası, tekerlekler
- const x0=b0[0],x1=a0[0],gy=a0[1];let nw=`<rect x="${x0.toFixed(1)}" y="${gy-30}" width="${(x1-x0).toFixed(1)}" height="22" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/>`;
- for(let x=x0+14;x<x1-6;x+=15)nw+=`<path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#26304a" stroke-width="4.2"/><path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#eef2f7" stroke-width="2.4"/>`;
- nw+=hgTube([x0,gy-90],[x1,gy-90],3.2)+hgTube([x0,gy-150],[x1,gy-150],4)+`<rect x="${(x0-2).toFixed(1)}" y="${gy-182}" width="${(x1-x0+4).toFixed(1)}" height="32" rx="3" fill="url(#hgN)" stroke="#141c30" stroke-width="1.8"/><rect x="${(x0+3).toFixed(1)}" y="${gy-178}" width="${(x1-x0-6).toFixed(1)}" height="24" rx="2" fill="none" stroke="#f2c264" stroke-width="1.4"/><text x="${((x0+x1)/2).toFixed(1)}" y="${gy-159}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="17" letter-spacing="1.5" fill="url(#hgG)" stroke="#5a3200" stroke-width=".6">DİGOR OKEY 101</text>`;
+ // en ön: yakın yan duvar (parmaklık; atlar aralarından görünür), ERTAŞ GAME tabelası, tekerlekler
+ const x0=b0[0],x1=a0[0],gy=a0[1],W=x1-x0;let nw=`<rect x="${x0.toFixed(1)}" y="${gy-30}" width="${W.toFixed(1)}" height="22" fill="url(#hgN)" stroke="#141c30" stroke-width="1.6"/><rect x="${x0.toFixed(1)}" y="${gy-30}" width="${W.toFixed(1)}" height="22" fill="url(#hgT)" opacity=".7"/><path d="M${x0.toFixed(1)} ${gy-28.5} H${x1.toFixed(1)}" stroke="#9fb6ff" stroke-width="1.4" opacity=".75"/>`;
+ for(let x=x0+14;x<x1-6;x+=15)nw+=`<path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#1a2133" stroke-width="4.4"/><path d="M${x.toFixed(1)} ${gy-30} V${gy-150}" stroke="#a9b4c6" stroke-width="2.8"/><path d="M${(x-.7).toFixed(1)} ${gy-31} V${gy-149}" stroke="#fff" stroke-width="1.1"/>`;
+ nw+=hgTube([x0,gy-90],[x1,gy-90],3.2)+hgTube([x0,gy-150],[x1,gy-150],4);
+ // tabela: metal çerçeve, fırçalanmış lacivert yüzey, EG logosu + ERTAŞ GAME
+ const sy=gy-188,sh=38,cx=(x0+x1)/2,lw=30,tw=W-lw-30,tx0=x0+lw+18;
+ nw+=`<rect x="${(x0-3).toFixed(1)}" y="${sy+2}" width="${(W+6).toFixed(1)}" height="${sh}" rx="4" fill="#000" opacity=".35"/>`+
+  `<rect x="${(x0-3).toFixed(1)}" y="${sy}" width="${(W+6).toFixed(1)}" height="${sh}" rx="4" fill="url(#hgM)" stroke="#141c30" stroke-width="1.8"/>`+
+  `<rect x="${(x0+1.5).toFixed(1)}" y="${sy+4}" width="${(W-3).toFixed(1)}" height="${sh-8}" rx="2.5" fill="url(#hgN)" stroke="#0d1430" stroke-width="1.2"/>`+
+  `<rect x="${(x0+1.5).toFixed(1)}" y="${sy+4}" width="${(W-3).toFixed(1)}" height="${sh-8}" rx="2.5" fill="url(#hgT)" opacity=".7"/>`+
+  `<rect x="${(x0+3).toFixed(1)}" y="${sy+5.5}" width="${(W-6).toFixed(1)}" height="${(sh-8)*.42}" rx="2" fill="#fff" opacity=".1"/>`+
+  `<rect x="${(x0+4.5).toFixed(1)}" y="${sy+7}" width="${(W-9).toFixed(1)}" height="${sh-14}" rx="2" fill="none" stroke="#f2c264" stroke-width="1.1" opacity=".9"/>`+
+  `<image href="img/salon/eg_sm.webp" x="${(x0+10).toFixed(1)}" y="${sy+5}" width="${lw-2}" height="${sh-10}" preserveAspectRatio="xMidYMid meet"/>`+
+  `<text x="${(tx0+tw/2).toFixed(1)}" y="${sy+sh/2+7.6}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="20" letter-spacing="2" fill="#120a00" opacity=".55" textLength="${tw.toFixed(1)}" lengthAdjust="spacingAndGlyphs">ERTAŞ GAME</text>`+
+  `<text x="${(tx0+tw/2).toFixed(1)}" y="${sy+sh/2+6.4}" text-anchor="middle" font-family="G,P,sans-serif" font-weight="900" font-size="20" letter-spacing="2" fill="url(#hgG)" stroke="#5a3200" stroke-width=".7" paint-order="stroke" textLength="${tw.toFixed(1)}" lengthAdjust="spacingAndGlyphs">ERTAŞ GAME</text>`;
+ for(const x of [x0+4,x1-4])nw+=`<circle cx="${x.toFixed(1)}" cy="${sy+sh/2}" r="2" fill="#dfe6f2" stroke="#2b3448" stroke-width=".7"/>`;
  nw+=hgPost([x0,gy],184,9)+hgPost([x1,gy],184,10);
- for(const x of [x0+16,x1-14])nw+=`<circle cx="${x.toFixed(1)}" cy="${gy+2}" r="13" fill="#20252e" stroke="#0d1016" stroke-width="2"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="6" fill="#c9d2dd" stroke="#6b7686"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="2" fill="#4b5566"/>`;
+ // tekerlek: lastik, jant, göbek
+ for(const x of [x0+16,x1-14])nw+=`<ellipse cx="${x.toFixed(1)}" cy="${gy+14}" rx="16" ry="4" fill="#000" opacity=".28"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="13" fill="url(#hgW)" stroke="#07090d" stroke-width="2"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="11" fill="none" stroke="#454c5a" stroke-width="1.2" stroke-dasharray="2 2.2"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="6.4" fill="url(#hgH)" stroke="#4b5566" stroke-width="1"/><circle cx="${x.toFixed(1)}" cy="${gy+2}" r="2" fill="#3b4454"/>`;
  return h+hgSvg(50,nw)}
 function hrEnsure(){if($('#hrs'))return;let hs='';
  for(let i=0;i<6;i++)hs+=`<i class="hr-h idl" id="hrH${i}" style="--r:${i};--c:${HR_COL[i]};z-index:${40-2*i}"><b class="hr-sp"><s></s></b><b class="hr-id"></b></i>${hrGate(i)}`;
@@ -12142,6 +12179,15 @@ function drawKicker(){const s=kickerState(),im=SH(G.kitK);if(!im.complete||!im.n
  // vuruştan sonra kaleciyi ve topu kapatmasın: yavaşça saydamlaşır
  const fade=G.kick&&G.ph!='aim'&&G.ph!='keep'?cl((G.t-1.05-G.kick.dur)/.4,0,1):0;c.globalAlpha=1-fade*.55;
  c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(im,fx,fy,FW,FH,x,y,FW*sc,FH*sc);c.globalAlpha=1}
+/* kale solunda saha kenarı fotoğrafçısı: bekler → şut anında çeker (flaş) → makinesine bakar → yeni atışta bekler */
+const FOTO=()=>img('foto','img/penalti/foto.webp'),FCW=182,FCH=352,FX=-6.4,FZ=-.6;
+function fotoF(){const k=G.kick;if(!k||G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||G.ph=='intro')return 0;return G.t<.55?0:G.t<1.95?1:2}
+function drawFoto(){const im=FOTO();if(!im.complete||!im.naturalWidth)return;const f=fotoF(),sc=PS(FZ,1.32)/340,x=PX(FX,FZ),y=PY(FZ,0);
+ c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(x,y-2*sc,74*sc,12*sc,0,0,7);c.fill();
+ c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(im,f*FCW,0,FCW,FCH,x-FCW*sc/2,y-(FCH-2)*sc,FCW*sc,FCH*sc);
+ if(f==1&&G.t>=.98&&G.t<1.16){const a=1-(G.t-.98)/.18,lx=x+(124-FCW/2)*sc,ly=y-(FCH-2-76)*sc,r=60*sc*(1+(1-a)*.6);
+  const g=c.createRadialGradient(lx,ly,0,lx,ly,r);g.addColorStop(0,`rgba(255,255,255,${a})`);g.addColorStop(.25,`rgba(255,255,240,${a*.7})`);g.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle=g;c.beginPath();c.arc(lx,ly,r,0,7);c.fill()}}
 function drawAim(){if(!G.aim&&G.ph!='aim')return;const a=G.aim;if(!a)return;const x=PX(a.gx*GW,0),y=PY(0,gY(a.gy)),r=PS(0,.32)*(1+.06*Math.sin(G.t*6));
  c.save();c.strokeStyle='rgba(255,220,90,.95)';c.lineWidth=Math.max(2,r*.12);c.beginPath();c.arc(x,y,r,0,7);c.stroke();c.lineWidth=Math.max(1.5,r*.07);
  for(let i=0;i<4;i++){const an=i*Math.PI/2+G.t*.8;c.beginPath();c.moveTo(x+Math.cos(an)*r*.55,y+Math.sin(an)*r*.55);c.lineTo(x+Math.cos(an)*r*1.25,y+Math.sin(an)*r*1.25);c.stroke()}
@@ -12160,7 +12206,7 @@ function frame(now){raf=0;if(!G||!cv||!document.getElementById('pen')||!document
  if(G.ph=='run'&&G.t>=1.0&&G.ball.st=='spot')launch();
  stepBall(dt);stepKeeper();
  c.setTransform(DPR,0,0,DPR,0,0);c.clearRect(0,0,W,H);
- drawGoal(false);
+ drawFoto();drawGoal(false);
  const b=G.ball,behind=b.Z<KZ-.05;
  drawKeepZones();
  if(behind)drawBall();
@@ -12187,7 +12233,7 @@ function ensure(){if(document.getElementById('pen'))return;const Ic=n=>`<svg cla
  cv=document.getElementById('pnC');c=cv.getContext('2d');
  cv.addEventListener('pointerdown',e=>{e.preventDefault();tap(e)});
  addEventListener('resize',()=>{layout();hud()})}
-function preload(){SH('r');GKA('y');BALL();try{const o=OPP[pnS().lv%OPP.length];SH(o[1]);GKA(GKC[o[2]]||'g')}catch(e){}}
+function preload(){FOTO();SH('r');GKA('y');BALL();try{const o=OPP[pnS().lv%OPP.length];SH(o[1]);GKA(GKC[o[2]]||'g')}catch(e){}}
 window.penNew=function(){newGame();G.ph='intro';hud();crowdLoop(true);setTimeout(()=>{if(!G)return;sx('whistle');G.turn=0;startTurn()},700);if(!raf)raf=requestAnimationFrame(frame)};
 function open(){ensure();preload();sPre();ovl('pen');layout();if(!G||G.over)penNew();else{hud();crowdLoop(true)}last=0;if(!raf)raf=requestAnimationFrame(frame)}
 window.penOpen=function(){try{if(typeof salLocked=='function'&&(salLocked()||salP().minor)){salOpen();return}}catch(e){}

@@ -11882,7 +11882,7 @@ Object.assign(DICT,{'PİŞTİ':['PİŞTİ','PİŞTİ','PİŞTÎ'],'PİŞTİ!':['
 #pen{position:fixed;inset:0;z-index:46;overflow:hidden;background:#0b1530;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
 #pen.on{display:block}
 #pen .pn-bg,#pen .pn-cr{position:absolute;inset:0;background:url(img/penalti/saha.webp?h=7b3c3e4) 50% 60%/cover no-repeat}
-#pen .pn-cr{background-image:url(img/penalti/seyirci.webp?h=59652a6);transform-origin:50% 0}
+#pen .pn-cr{background-image:url(img/penalti/seyirci.webp?h=0bc9bd8);transform-origin:50% 0}
 #pen .pn-cr.jmp{animation:pnJ 1.3s ease-out}
 @keyframes pnJ{0%,100%{transform:none}12%{transform:translateY(-.7vh)}24%{transform:none}36%{transform:translateY(-.55vh)}48%{transform:none}60%{transform:translateY(-.4vh)}72%{transform:none}}
 #pnC{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -12180,9 +12180,9 @@ function drawKicker(){const s=kickerState(),im=SH(G.kitK);if(!im.complete||!im.n
  const fade=G.kick&&G.ph!='aim'&&G.ph!='keep'?cl((G.t-1.05-G.kick.dur)/.4,0,1):0;c.globalAlpha=1-fade*.55;
  c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(im,fx,fy,FW,FH,x,y,FW*sc,FH*sc);c.globalAlpha=1}
 /* kale solunda saha kenarı fotoğrafçısı: bekler → şut anında çeker (flaş) → makinesine bakar → yeni atışta bekler */
-const FOTO=()=>img('foto','img/penalti/foto.webp'),FCW=182,FCH=352,FX=-6.4,FZ=-.6;
+const FOTO=()=>img('foto','img/penalti/foto.webp'),FCW=182,FCH=352,FX=-7.1,FZ=-.6;
 function fotoF(){const k=G.kick;if(!k||G.ph=='aim'||G.ph=='pow'||G.ph=='keep'||G.ph=='intro')return 0;return G.t<.55?0:G.t<1.95?1:2}
-function drawFoto(){const im=FOTO();if(!im.complete||!im.naturalWidth)return;const f=fotoF(),sc=PS(FZ,1.32)/340,x=PX(FX,FZ),y=PY(FZ,0);
+function drawFoto(){const im=FOTO();if(!im.complete||!im.naturalWidth)return;const f=fotoF(),sc=PS(FZ,1.78)/340,x=PX(FX,FZ),y=PY(FZ,0);
  c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(x,y-2*sc,74*sc,12*sc,0,0,7);c.fill();
  c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(im,f*FCW,0,FCW,FCH,x-FCW*sc/2,y-(FCH-2)*sc,FCW*sc,FCH*sc);
  if(f==1&&G.t>=.98&&G.t<1.16){const a=1-(G.t-.98)/.18,lx=x+(124-FCW/2)*sc,ly=y-(FCH-2-76)*sc,r=60*sc*(1+(1-a)*.6);

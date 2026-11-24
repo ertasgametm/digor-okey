@@ -12125,7 +12125,7 @@ function plan(gx,gy,pow,kg){const out=Math.abs(gx)>1.05||gy>1.03,post=!out&&(Mat
  let save=false;if(!out&&!post&&kg){let r=.4-(pow>.6?(pow-.6)*.35:0)+(pow<.4?(.4-pow)*.8:0);if(Math.abs(gx)>.78&&gy>.68)r-=.12;else if(Math.abs(gx)>.85)r-=.06;
   if(kg.c){save=Math.abs(gx)<.2&&gy<.82}// ortada duran kaleci: top gövdeye gelirse tutar
   else{// kaleci gövdeden uzandığı noktaya kadar bir hattı kapatır
-   const ax=kg.gx*.25,ay=.2,bx=kg.gx,by=kg.gy,py=gy*.65,ay2=ay*.65,by2=by*.65,vx=bx-ax,vy=by2-ay2,L=vx*vx+vy*vy||1e-6,u=cl(((gx-ax)*vx+(py-ay2)*vy)/L,0,1);
+   const ax=kg.gx*(Math.abs(kg.gx)>.45?.55:.25),ay=.2,bx=kg.gx,by=kg.gy,py=gy*.65,ay2=ay*.65,by2=by*.65,vx=bx-ax,vy=by2-ay2,L=vx*vx+vy*vy||1e-6,u=cl(((gx-ax)*vx+(py-ay2)*vy)/L,0,1);
    const dl=Math.hypot(gx-(ax+vx*u),py-(ay2+vy*u)),de=Math.hypot(gx-bx,(gy-by)*.65);save=de<r||dl<r*.72}}
  const dur=.78-pow*.36;return{gx,gy,pow,dur,res:out?'aut':post?'direk':save?'kurt':'gol',kg}}
 function shoot(){// oyuncunun şutu
@@ -12165,7 +12165,7 @@ function stepBall(dt){const b=G.ball,k=G.kick;if(b.st=='fly'){const u=(G.t-b.t0)
 function keeperGo(){const k=G.kick,kp=G.keeper,tgt=k.kg,b=G.ball;const rd=k.ai?.05:.09,arr=G.t+b.dur*.97;
  if(!tgt){G.keeper={mode:'center',hi:0,t0:G.t+rd,arr};return}
  // kurtarışsa eller topa, kaçırırsa seçtiği noktaya (aynı taraftaysa topun hemen yanına)
- let hx=tgt.gx,hy=tgt.gy;if(k.res=='kurt'){hx=k.gx;hy=k.gy}else if(k.res=='gol'&&Math.sign(tgt.gx)==Math.sign(k.gx)&&Math.abs(tgt.gx)>.3){hx=k.gx-Math.sign(k.gx)*.3;hy=cl(k.gy*.85,0,1)}
+ let hx=tgt.gx,hy=tgt.gy;if(k.res=='kurt'){hx=k.gx;hy=k.gy;if(!tgt.c&&Math.abs(tgt.gx)>=.3)hx=Math.sign(tgt.gx)*Math.max(Math.abs(k.gx),.32)}else if(k.res=='gol'&&Math.sign(tgt.gx)==Math.sign(k.gx)&&Math.abs(tgt.gx)>.3){hx=k.gx-Math.sign(k.gx)*.3;hy=cl(k.gy*.85,0,1)}
  if(Math.abs(hx)<.3){G.keeper={mode:'center',hi:hy>.55?1:0,t0:G.t+rd,arr};return}
  const s=Math.sign(hx),X=cl(hx,-1.2,1.2)*GW,Y=gY(cl(hy,0,1.05));
  G.keeper={mode:'dive',s,X,Y,t0:G.t+rd,arr,land:cl(X*.9,-GW*1.02,GW*1.02)}}
@@ -12204,10 +12204,10 @@ function finish(r){G.over=1;G.ph='end';hud();crowdLoop(false);const s=pnS();s.g+
  const sz=lgRecord(goals(0),goals(1));save();
  const xp=r=='w'?30:10;try{addXP(xp,'penalti')}catch(e){}sx('whistle3');
  const L=lgS(),f=sz?null:lgFix(),dots=p=>G.sh[p].map(x=>`<i class="${x?'g':'m'}"></i>`).join('');
- setTimeout(()=>{if(sz)window.__pnSz=sz;modal(`<div class="pn-end ${r}"><h3>${T(r=='w'?'KAZANDIN!':'KAYBETTİN')}</h3>
+ setTimeout(()=>{if(sz)window.__pnSz=sz;G.endM=1;modal(`<div class="pn-end ${r}"><h3>${T(r=='w'?'KAZANDIN!':'KAYBETTİN')}</h3>
   <div class="pn-es"><span><i class="pn-ec">${myCrest(G.my)}</i><small>${esc(tmName(G.my))}</small><b>${goals(0)}</b><em>${dots(0)}</em></span><i>–</i><span><i class="pn-ec">${tmCrest(G.opp.kit)}</i><small>${esc(G.opp.name)}</small><b>${goals(1)}</b><em>${dots(1)}</em></span></div>
   <p class="pn-xp">+${xp} XP${sz?'':` · ${T('Lig')}: <b>${lgPos(L)}.</b> ${T('sıra')}, <b>${L.t[L.k].p}</b> ${T('puan')}${f?` · ${T('Sıradaki maç')}: <b>${TM[f.k][0]}</b>`:''}`}</p></div>
-  <div class="mrow"><button class="btn w" onclick="closeM();penClose()">${T('Salona dön')}</button>${sz?'':`<button class="btn b" onclick="penLig()">${T('Lig tablosu')}</button>`}<button class="btn g" onclick="closeM();${sz?'penSz()':'penNew()'}">${T(sz?'Sezon sonu':'Sonraki maç')}</button></div>`,'dkm pn-m');if(r=='w')try{confetti()}catch(e){}},900)}
+  <div class="mrow"><button class="btn w" onclick="closeM();penClose()">${T('Salona dön')}</button>${sz?'':`<button class="btn b" onclick="penLig()">${T('Lig tablosu')}</button>`}<button class="btn g" onclick="closeM();${sz?'penSz()':'penNew()'}">${T(sz?'Sezon sonu':'Sonraki maç')}</button></div>`,'dkm pn-m');try{G.endH=[$('#mc').innerHTML,'dkm pn-m']}catch(e){}if(r=='w')try{confetti()}catch(e){}},900)}
 window.penSz=function(){const z=window.__pnSz;if(!z){penNew();return}window.__pnSz=null;const L={k:z.k};
  modal(`<div class="pl-sz ${z.champ?'w':''}"><h3>${T(z.champ?'ŞAMPİYON!':'Sezon bitti')}</h3>
  <p class="pl-sp">${z.champ?`${T('Sezon')} ${z.n} · <b>${esc(tmName(myT()))}</b>`:`${T('Sezonu')} <b>${z.pos}.</b> ${T('sırada bitirdin')} · ${T('Şampiyon')}: <b>${esc(z.tb[0].nm)}</b>`}</p>
@@ -12324,7 +12324,7 @@ function frame(now){raf=0;if(!G||!cv||!document.getElementById('pen')||!document
  if(!behind&&b.Z>=10)drawBall()}
 
 /* ---------- dokunma ---------- */
-function tap(e){if(!G||G.over)return;const r=cv.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;const g=toGoal(x,y);
+function tap(e){if(G&&G.over&&G.endH&&!document.getElementById('modal').classList.contains('on')){modal(G.endH[0],G.endH[1]);return}if(!G||G.over)return;const r=cv.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;const g=toGoal(x,y);
  const inG=Math.abs(g.gx)<1.35&&g.gy>-.25&&g.gy<1.45;
  if(G.ph=='aim'){if(!inG)return;G.aim={gx:cl(g.gx,-1.2,1.2),gy:cl(g.gy,0,1.3)};G.ph='pow';G.pow=0;G.pdir=1;try{snd('click')}catch(x){}hud();return}
  if(G.ph=='pow'){if(inG&&Math.abs(G.pow)<.02){G.aim={gx:cl(g.gx,-1.2,1.2),gy:cl(g.gy,0,1.3)};return}shoot();return}
@@ -12379,8 +12379,10 @@ function lgEnd(L){const tb=lgTable(L),pos=tb.indexOf(L.k)+1,champ=pos==1,res={n:
 const tmCrestFor=(k,L)=>k==L.k?myCrest(myT()):tmCrest(k);
 function lgTableHTML(L,rows){return`<table class="pl-t"><thead><tr><th>#</th><th class="lt">${T('Takım')}</th><th>${T('O')}</th><th>${T('G')}</th><th>${T('M')}</th><th>${T('AV')}</th><th>${T('P')}</th></tr></thead><tbody>${rows.map((r,i)=>{const t=r.t,d=t.a-t.y;
  return`<tr class="${r.k==L.k?'me':''}"><td>${i+1}</td><td class="lt"><div class="pl-nmc"><i>${tmCrestFor(r.k,L)}</i><span>${esc(r.nm)}</span></div></td><td>${t.o}</td><td>${t.g}</td><td>${t.m}</td><td>${(d>0?'+':'')+d}</td><td><b>${t.p}</b></td></tr>`}).join('')}</tbody></table>`}
+// 24 Kasım: maç bittikten sonra lig tablosu kapatılınca maç sonu penceresine geri dön (eskiden boş sahada takılı kalıyordu)
+window.penLigX=function(){closeM();if(G&&G.over&&G.endH&&document.getElementById('pen').classList.contains('on'))setTimeout(()=>{if(G&&G.over)modal(G.endH[0],G.endH[1])},60)};
 window.penLig=function(){const L=lgS();lgAdvance(L);const f=lgFix(),rows=lgTable(L).map(k=>({k,nm:lgName(k,L),t:L.t[k]})),tot=lgMine(L.k);
- modal(`<button class="xbtn ivxb" onclick="closeM()" aria-label="${T('Kapat')}"><svg class="sv"><use href="#i-x"/></svg></button><h3>${T('Lig')}</h3>
+ modal(`<button class="xbtn ivxb" onclick="penLigX()" aria-label="${T('Kapat')}"><svg class="sv"><use href="#i-x"/></svg></button><h3>${T('Lig')}</h3>
  <div class="pl-hd"><span>${T('Sezon')} ${L.n}</span><span>${T('Maç')} ${Math.min(lgWeek(L)+1,tot)}/${tot}</span>${f?`<span class="pl-nx">${T('Sıradaki maç')}: <i>${tmCrest(f.k)}</i><b>${TM[f.k][0]}</b><small>${T(f.home?'İç saha':'Deplasman')}</small></span>`:''}</div>
  ${lgTableHTML(L,rows)}<p class="pl-pr">${T('Sezonu lider bitirene')}: <b>1.000</b> coin + <b>1.000</b> ${T('salon fişi')}</p>`,'dkm pl-m')};
 /* ---------- takımını kur: ad, forma, logo ---------- */
@@ -14381,8 +14383,10 @@ const D4={'Oyunlar':['Games','Juegos','Lîstik'],'KİLİTLİ':['LOCKED','BLOQUEA
 <style id="m-r22">
 /* ===== 22 Kasım: pencere zemininde kuzey ışıkları ===== */
 .wvx>.wau{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.wau>.wauc{position:absolute;left:0;top:0;width:100%;height:68%;opacity:.55;mix-blend-mode:screen;
- -webkit-mask:linear-gradient(#000 55%,transparent);mask:linear-gradient(#000 55%,transparent)}
+/* 24 Kasım: Android WebView'da karışım modu + maske, her karede yeniden çizilen tuvalle birlikte sol sekme listesinin
+   arada kaybolup gelmesine (titreme) yol açıyordu; ikisi kaldırıldı, alttaki solma tuvalin içinde çiziliyor */
+.wau>.wauc{position:absolute;left:0;top:0;width:100%;height:68%;opacity:.5}
+.win-b>.vt{position:relative;z-index:1}
 @keyframes wauIn{from{opacity:0}}
 .wau>.wst{position:absolute;inset:0}
 .wau>.wst>b{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle,#fff,rgba(200,220,255,.5) 40%,transparent 70%);opacity:.35;animation:wauSt var(--d) ease-in-out var(--dl) infinite alternate}
@@ -14512,7 +14516,7 @@ function fr(now){raf=0;if(!host||!cv||!cv.isConnected)return;raf=requestAnimatio
    it=str*(.35+.65*Math.pow(.5+.5*Math.sin(u*9+t*.22+ph),2))*(.5+.5*Math.sin(u*2.3-t*.06+ph)),h=AH*(.3+.18*Math.sin(u*5+t*.14+ph));
    const y0=Math.max(0,Math.floor(yc-h)),y1=Math.min(AH-1,Math.ceil(yc+h*.25));
    for(let y=y0;y<=y1;y++){const k=(y-(yc-h))/(h*1.25);const p=k<.8?k/.8:(1-k)/.2;if(p<=0)continue;const v=p*p*it*.85,i=(y*AW+x)*3;AC[i]+=col[0]*v;AC[i+1]+=col[1]*v;AC[i+2]+=col[2]*v}}}
- for(let j=0,i=0;j<AW*AH;j++,i+=3){const r=AC[i],g=AC[i+1],b=AC[i+2],m=Math.max(r,g,b),o=j*4;if(m<1){d[o+3]=0;continue}const a=Math.min(255,m);d[o]=r*255/m;d[o+1]=g*255/m;d[o+2]=b*255/m;d[o+3]=a}
+ for(let j=0,i=0;j<AW*AH;j++,i+=3){const r=AC[i],g=AC[i+1],b=AC[i+2],m=Math.max(r,g,b),o=j*4;if(m<1){d[o+3]=0;continue}const yf=(j/AW|0)/AH,a=Math.min(255,m)*(yf<.55?1:Math.max(0,1-(yf-.55)/.45));d[o]=r*255/m;d[o+1]=g*255/m;d[o+2]=b*255/m;d[o+3]=a}
  cx.putImageData(img,0,0)}
 })();
 

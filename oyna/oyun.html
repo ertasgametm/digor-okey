@@ -4147,7 +4147,7 @@ function bestOpen(tiles,x){const r=x?solveWith(tiles,x):solve(tiles);let ms=r.me
 const CN=['Kırmızı','Siyah','Mavi','Sarı'];
 const tName=t=>isJ(t)?'Okey':CN[t.c]+' '+t.n;
 // v4.20: bilgisayara karşı oyunda, sen ıstakada taş sürüklerken rakipler bir sonraki adımı bekler (sürükleme hiç takılmasın)
-const sleep=ms=>new Promise(r=>{const go=()=>{if(typeof D!='undefined'&&D&&D.go&&!(typeof isOnl=='function'&&isOnl()))setTimeout(go,60);else r()};setTimeout(go,ms)});
+const sleep=ms=>new Promise(r=>{const go=()=>{if(typeof D!='undefined'&&D&&D.go&&performance.now()-(D.t0||performance.now())<600&&!(typeof isOnl=='function'&&isOnl()))setTimeout(go,60);else r()};setTimeout(go,ms)});
 const stale=id=>!S||S.id!==id||S.over;
 const BOTN=[['Ali',3],['Mehmet',5],['Burak',10],['Kerem',8],['Emre',0],['Rojhat',8],['Baran',10],['Ayşe',1],['Zeynep',2],['Elif',7],['Selin',6],['Derya',4],['Nazlı',9],['Dilan',2],['Berfin',9],['Serhat',15],['Murat',15]];
 const spdMs=()=>({h:420,n:850,s:1400})[P.set.spd]||850;
@@ -14468,6 +14468,8 @@ canvas.amb{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
 body[data-rack=abanoz] #rkb{background-image:url(img/rk_abanoz.webp?h=308ae5d)}body[data-rack=altin] #rkb{background-image:url(img/rk_altin.webp?h=5156b13)}body[data-rack=altinnal] #rkb{background-image:url(img/rk_altinnal.webp?h=ac75f76)}body[data-rack=cawres] #rkb{background-image:url(img/rk_cawres.webp?h=b7f32e6)}body[data-rack=ceviz] #rkb{background-image:url(img/rk_ceviz.webp?h=cf43ca4)}body[data-rack=dokuma] #rkb{background-image:url(img/rk_dokuma.webp?h=f862728)}body[data-rack=ejder] #rkb{background-image:url(img/rk_ejder.webp?h=bfe32d6)}body[data-rack=elmas] #rkb{background-image:url(img/rk_elmas.webp?h=05de1a1)}body[data-rack=famd] #rkb{background-image:url(img/rk_famd.webp?h=cce1d6f)}body[data-rack=fdds] #rkb{background-image:url(img/rk_fdds.webp?h=2ac8d48)}body[data-rack=fsb] #rkb{background-image:url(img/rk_fsb.webp?h=e57b7e9)}body[data-rack=fsl] #rkb{background-image:url(img/rk_fsl.webp?h=02a4228)}body[data-rack=gece] #rkb{background-image:url(img/rk_gece.webp?h=773bfd8)}body[data-rack=gul] #rkb{background-image:url(img/rk_gul.webp?h=5350098)}body[data-rack=hipodrom] #rkb{background-image:url(img/rk_hipodrom.webp?h=6a6eb52)}body[data-rack=kozmos] #rkb{background-image:url(img/rk_kozmos.webp?h=ad93ed4)}body[data-rack=kraliyet] #rkb{background-image:url(img/rk_kraliyet.webp?h=78111e9)}body[data-rack=maun] #rkb{background-image:url(img/rk_maun.webp?h=19a8150)}body[data-rack=mermer] #rkb{background-image:url(img/rk_mermer.webp?h=bc6226e)}body[data-rack=osmanli] #rkb{background-image:url(img/rk_osmanli.webp?h=5c9b989)}body[data-rack=sedef] #rkb{background-image:url(img/rk_sedef.webp?h=7867e8a)}body[data-rack=zumrut] #rkb{background-image:url(img/rk_zumrut.webp?h=8ecc480)}
 #fpsm{position:fixed;left:calc(env(safe-area-inset-left,0px) + 6px);bottom:6px;z-index:2147483000;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:700 11px/1.3 G,P,monospace;pointer-events:none}
 #fpsm.g{color:#7dffa0}#fpsm.y{color:#ffe07a}#fpsm.r{color:#ff8a7a}
+/* 24 Kasım: sürüklenen taş SERİ/ÇİFT düğmelerinin altından geçiyordu (ıstaka katmanı düğmelerin altında kalıyordu) */
+#rack:has(.t.drag) #rkb{z-index:3}
 
 </style>
 <script id="j-r22">

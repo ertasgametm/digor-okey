@@ -14466,6 +14466,8 @@ canvas.amb{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
 /* 24 Kasım: ıstaka border-image dilimlerinin birleştiği yerde (sağda/solda) ince açık çizgi görünüyordu; aynı görsel alta da serilir, ek yeri kapanır */
 #rkb{background-origin:border-box;background-clip:border-box;background-repeat:no-repeat;background-size:100% 100%}
 body[data-rack=abanoz] #rkb{background-image:url(img/rk_abanoz.webp?h=308ae5d)}body[data-rack=altin] #rkb{background-image:url(img/rk_altin.webp?h=5156b13)}body[data-rack=altinnal] #rkb{background-image:url(img/rk_altinnal.webp?h=ac75f76)}body[data-rack=cawres] #rkb{background-image:url(img/rk_cawres.webp?h=b7f32e6)}body[data-rack=ceviz] #rkb{background-image:url(img/rk_ceviz.webp?h=cf43ca4)}body[data-rack=dokuma] #rkb{background-image:url(img/rk_dokuma.webp?h=f862728)}body[data-rack=ejder] #rkb{background-image:url(img/rk_ejder.webp?h=bfe32d6)}body[data-rack=elmas] #rkb{background-image:url(img/rk_elmas.webp?h=05de1a1)}body[data-rack=famd] #rkb{background-image:url(img/rk_famd.webp?h=cce1d6f)}body[data-rack=fdds] #rkb{background-image:url(img/rk_fdds.webp?h=2ac8d48)}body[data-rack=fsb] #rkb{background-image:url(img/rk_fsb.webp?h=e57b7e9)}body[data-rack=fsl] #rkb{background-image:url(img/rk_fsl.webp?h=02a4228)}body[data-rack=gece] #rkb{background-image:url(img/rk_gece.webp?h=773bfd8)}body[data-rack=gul] #rkb{background-image:url(img/rk_gul.webp?h=5350098)}body[data-rack=hipodrom] #rkb{background-image:url(img/rk_hipodrom.webp?h=6a6eb52)}body[data-rack=kozmos] #rkb{background-image:url(img/rk_kozmos.webp?h=ad93ed4)}body[data-rack=kraliyet] #rkb{background-image:url(img/rk_kraliyet.webp?h=78111e9)}body[data-rack=maun] #rkb{background-image:url(img/rk_maun.webp?h=19a8150)}body[data-rack=mermer] #rkb{background-image:url(img/rk_mermer.webp?h=bc6226e)}body[data-rack=osmanli] #rkb{background-image:url(img/rk_osmanli.webp?h=5c9b989)}body[data-rack=sedef] #rkb{background-image:url(img/rk_sedef.webp?h=7867e8a)}body[data-rack=zumrut] #rkb{background-image:url(img/rk_zumrut.webp?h=8ecc480)}
+#fpsm{position:fixed;left:calc(env(safe-area-inset-left,0px) + 6px);bottom:6px;z-index:2147483000;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font:700 11px/1.3 G,P,monospace;pointer-events:none}
+#fpsm.g{color:#7dffa0}#fpsm.y{color:#ffe07a}#fpsm.r{color:#ff8a7a}
 
 </style>
 <script id="j-r22">
@@ -14600,6 +14602,29 @@ window.ivTapSnd=function(IV){try{if(!P.set.snd||window.__ivTap)return;window.__i
  const go=()=>{requestAnimationFrame(()=>{bot();requestAnimationFrame(bot)});[60,200,500,1000].forEach(t=>setTimeout(bot,t));try{document.fonts&&document.fonts.ready.then(bot)}catch(e){}};
  try{openChat=(o=>function(){const r=o.apply(this,arguments);go();return r})(openChat)}catch(e){}
  try{chOpen=(o=>function(){const r=o.apply(this,arguments);go();return r})(chOpen)}catch(e){}})();
+
+/* ---------- 24 Kasım: Oyun Salonu oyunları Performans modunda takılıyordu ----------
+   Oyunların kendi çizimi iki modda birebir aynı; fark yalnız arka planda (pencere zemini, menü) çalışan hafif animasyonlar.
+   Yüksek modda takılmadığı bildirildi: mini oyun açıkken oyun Yüksek moddaki gibi çalışır, çıkınca kullanıcının seçimi geri gelir.
+   Ayarlar → Ekran → "FPS göstergesi": oyunda saniyedeki kare sayısı ve en uzun kare süresi (teşhis için). */
+(function(){
+let off=0;
+function chk(){const g=document.querySelector('#pen.on,#hrs.on,#pst.on'),b=document.body;
+ if(g&&b.classList.contains('lo')){b.classList.remove('lo');off=1}
+ else if(!g&&off){off=0;try{if(P.set.gfx=='l')b.classList.add('lo')}catch(e){}}
+ fpsSync()}
+setInterval(chk,300);
+// FPS göstergesi
+let fe=null,fr=0,fn=0,fw=0,fl=0,ft=0;
+function fpsLoop(now){fr=0;if(!P.set.fps){if(fe)fe.remove();fe=null;return}fr=requestAnimationFrame(fpsLoop);
+ if(fl){const d=now-fl;fn++;if(d>fw)fw=d}fl=now;if(!ft)ft=now;
+ if(now-ft>=1000){if(!fe){fe=document.createElement('div');fe.id='fpsm';document.body.appendChild(fe)}
+  const f=Math.round(fn*1000/(now-ft));fe.textContent=f+' fps · '+Math.round(fw)+' ms';fe.className=f>=50&&fw<40?'g':f>=35?'y':'r';fn=0;fw=0;ft=now}}
+function fpsSync(){try{if(P.set.fps&&!fr){fl=0;ft=0;fr=requestAnimationFrame(fpsLoop)}if(!P.set.fps&&fe){fe.remove();fe=null}}catch(e){}}
+window.fpsSync=fpsSync;
+renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='ekr'){const on=!!P.set.fps;document.getElementById('stC').insertAdjacentHTML('beforeend',`<div class="srow"><span><b>${L_('FPS göstergesi')}</b><small>${L_('Ekranın köşesinde saniyedeki kare sayısını gösterir')}</small></span><button class="swt ${on?'on':''}" onclick="P.set.fps=${on?0:1};save();fpsSync();renderSettings()"><i></i></button></div>`)}}catch(e){}return r})(renderSettings);
+try{Object.assign(DICT,{'FPS göstergesi':['FPS meter','Medidor de FPS','Pîvana FPS'],'Ekranın köşesinde saniyedeki kare sayısını gösterir':['Shows frames per second in the corner','Muestra los fotogramas por segundo en la esquina','Hejmara wêneyan di çirkeyê de li quncikê nîşan dide']})}catch(e){}
+})();
 
 </script>
 <script id="j-kap2">

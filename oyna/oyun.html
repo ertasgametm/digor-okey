@@ -14525,6 +14525,14 @@ body[data-rack=abanoz] #rkb{background-image:url(img/rk_abanoz.webp?h=308ae5d)}b
 @keyframes wauB{from{opacity:.6}to{opacity:.9}}
 body:has(#modal.on) .ovl.on .wau2,body:has(#modal.on) .ovl.on .wau2>span{animation-play-state:paused}
 #qch .qe:has(.qvt){grid-template-columns:repeat(8,1fr) .8fr}#qch .qvt{color:#1f5fc4}#qch .qvt svg{width:1.3em;height:1.3em;display:block;margin:auto}#qch .qvt.off{color:#8a97ad}
+/* hareketli emojiler */
+#qch .qe:has(.qle){grid-template-columns:repeat(9,1fr)}
+#qch .qle{display:flex;align-items:center;justify-content:center;padding:.3vh}
+#qch .qle i{display:block;width:6.2vh;height:6.2vh;max-width:34px;max-height:34px;font-style:normal;font-size:clamp(18px,5vh,26px);line-height:1}
+#mbub.lemo{background:none;box-shadow:none;padding:0}#mbub.lemo::after{display:none}
+#mbub.lemo .lem{display:block;width:16vh;height:16vh;max-width:90px;max-height:90px;filter:drop-shadow(0 .8vh 1.2vh rgba(0,0,0,.35))}
+.bub.lemo{background:none;box-shadow:none;padding:0;animation-duration:2.9s!important}.bub.lemo::after{display:none}
+.bub.lemo .lem{display:block;width:13vh;height:13vh;max-width:72px;max-height:72px;filter:drop-shadow(0 .8vh 1.2vh rgba(0,0,0,.35))}
 
 </style>
 <script id="j-r22">
@@ -14747,6 +14755,35 @@ qchat=(o=>function(){const r=o.apply(this,arguments);try{const e=document.getEle
 window.qvIc=()=>P.set.qv===0?'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
 try{Object.assign(DICT,{'Sesli mesajlar':['Voice messages','Mensajes de voz','Peyamên dengî']})}catch(e){}
 })();
+
+/* ---------- 24 Kasım: hareketli 3D emojiler (Google Noto Animated Emoji, CC BY 4.0) ----------
+   Hazır mesaj panelindeki emojiler hareketli; basınca avatarın yanında büyük hareketli emoji oynar.
+   Botların ve online rakiplerin emojileri de hareketli. Performans modunda panelde durağan. */
+(function(){
+const QE=['🤣','🥹','😁','😉','🥰','😘','🤪','😌','😎','🤨','😏','😭','🤬','🥺','😤','😱','😬'];
+const CP=e=>[...e].map(c=>c.codePointAt(0).toString(16)).filter(h=>h!='fe0f').join('_');
+const HAS=new Set(QE.map(CP));
+let LP=null;const lot=()=>LP||(LP=new Promise((r,j)=>{if(window.lottie)return r(window.lottie);const s=document.createElement('script');s.src='js/lottie_light.min.js';s.onload=()=>r(window.lottie);s.onerror=j;document.head.appendChild(s)}));
+const JC={};const data=c=>JC[c]||(JC[c]=fetch('img/emo/'+c+'.json').then(r=>r.json()));
+async function play(el,e,loop,still){const c=CP(e);if(!HAS.has(c))return false;try{const[L,d]=await Promise.all([lot(),data(c)]);if(el._a){try{el._a.destroy()}catch(x){}}
+ el._a=L.loadAnimation({container:el,renderer:'svg',loop:!!loop,autoplay:!still,animationData:JSON.parse(JSON.stringify(d)),rendererSettings:{preserveAspectRatio:'xMidYMid meet'}});
+ if(still)el._a.goToAndStop(Math.floor(el._a.totalFrames*.35),true);return true}catch(x){return false}}
+window.emoPlay=play;
+const isQE=t=>QE.includes(t);
+// panel: yeni emoji listesi, hareketli düğmeler
+qchat=(o=>function(){const was=document.getElementById('qch');const open=was&&was.classList.contains('on');const r=o.apply(this,arguments);
+ try{const e=document.getElementById('qch');if(!e||!e.classList.contains('on')||open)return r;const qe=e.querySelector('.qe');const spk=qe.querySelector('.qvt');
+  qe.innerHTML=QE.map((x,i)=>`<button class="qle" data-e="${x}" onclick="qsay('${x}')" aria-label="${x}"><i></i></button>`).join('');if(spk)qe.appendChild(spk);
+  const lo=document.body.classList.contains('lo');qe.querySelectorAll('.qle').forEach(b=>play(b.querySelector('i'),b.dataset.e,!lo,lo).then(ok=>{if(!ok)b.querySelector('i').textContent=b.dataset.e}))}catch(x){}return r})(qchat);
+// panel kapanınca animasyonları bırak
+setInterval(()=>{const e=document.getElementById('qch');if(e&&!e.classList.contains('on'))e.querySelectorAll('.qle i').forEach(i=>{if(i._a){try{i._a.destroy()}catch(x){}i._a=null}})},1500);
+// büyük hareketli emoji: kendi balonun ve diğer koltuklar
+function big(el,t,dur){if(!el||!isQE(t))return;el.classList.add('lemo');el.textContent='';const i=document.createElement('i');i.className='lem';el.appendChild(i);
+ play(i,t,true,false).then(ok=>{if(!ok){el.classList.remove('lemo');el.textContent=t}});clearTimeout(el._lt);el._lt=setTimeout(()=>{if(i._a){try{i._a.destroy()}catch(x){}}el.classList.remove('lemo')},dur)}
+qsay=(o=>function(t){const r=o.apply(this,arguments);try{big(document.getElementById('mbub'),t,3300)}catch(x){}return r})(qsay);
+bubble=(o=>function(p,txt){const r=o.apply(this,arguments);try{if(isQE(txt))big(document.getElementById('b'+p),txt,2900)}catch(x){}return r})(bubble);
+})();
+renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='hak'){const h=document.querySelector('#stC .ab2-h>div');if(h&&!h.querySelector('.lic'))h.insertAdjacentHTML('beforeend','<small class="lic">Animated emoji: Google Noto Emoji · CC BY 4.0</small>')}}catch(e){}return r})(renderSettings);
 
 </script>
 <script id="j-kap2">

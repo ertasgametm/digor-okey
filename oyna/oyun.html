@@ -14810,6 +14810,18 @@ bubble=(o=>function(p,txt){const r=o.apply(this,arguments);try{if(isQE(txt))big(
 })();
 renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='hak'){const h=document.querySelector('#stC .ab2-h>div');if(h&&!h.querySelector('.lic'))h.insertAdjacentHTML('beforeend','<small class="lic">3D emoji: Microsoft Fluent Emoji · MIT</small>')}}catch(e){}return r})(renderSettings);
 
+/* ---------- 25 Kasım: "Seri açtım / Çift açtım" sesleri ----------
+   Kadın karakterler ve cinsiyeti Kadın olan oyuncular kadın sesiyle, diğerleri (erkek/belirtmeyen) erkek sesiyle. */
+(function(){
+const FN=new Set(['Ayşe','Zeynep','Elif','Selin','Derya','Nazlı','Dilan','Berfin']);
+function fem(p){try{if(p==0)return P.gender=='k';const b=M&&M.bots&&M.bots[p];if(!b)return false;if(b.gender)return b.gender=='k';if(typeof b.av=='number'&&AVS[b.av]&&AVS[b.av].fem)return true;return FN.has(String(b.name||'').trim())}catch(e){return false}}
+let last=null,sid=null;const C={};
+function say(p,k){try{if(!P.set.snd||P.set.qv===0)return;const u='sfx/qv/a/'+(fem(p)?'f':'m')+'_'+k+'.mp3';let a=C[u];if(!a)a=C[u]=new Audio(u);else{a.pause();a.currentTime=0}
+ a.volume=Math.min(1,[0,.5,.8,1][P.set.vol]||.8);try{a.preservesPitch=false}catch(e){}a.playbackRate=[1,.95,1.04,.98][p]||1;const r=a.play();if(r&&r.catch)r.catch(()=>{})}catch(e){}}
+setInterval(()=>{try{if(!S||!S.op){last=null;return}if(S.id!==sid){sid=S.id;last=S.op.slice();return}
+ for(let p=0;p<4;p++){const o=last&&last[p]||0,n=S.op[p]||0;if(!o&&n)say(p,n==2?1:0)}last=S.op.slice()}catch(e){}},150);
+})();
+
 </script>
 <script id="j-kap2">
 /* ===== Kaptan Digor 2: günlük sohbet, tavsiye, temel bilgi ve hesaplar (internetsiz) =====

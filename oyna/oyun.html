@@ -14524,6 +14524,7 @@ body[data-rack=abanoz] #rkb{background-image:url(img/rk_abanoz.webp?h=308ae5d)}b
 @keyframes wauF{to{transform:translateX(-50%)}}
 @keyframes wauB{from{opacity:.6}to{opacity:.9}}
 body:has(#modal.on) .ovl.on .wau2,body:has(#modal.on) .ovl.on .wau2>span{animation-play-state:paused}
+#qch .qe:has(.qvt){grid-template-columns:repeat(8,1fr) .8fr}#qch .qvt{color:#1f5fc4}#qch .qvt svg{width:1.3em;height:1.3em;display:block;margin:auto}#qch .qvt.off{color:#8a97ad}
 
 </style>
 <script id="j-r22">
@@ -14722,6 +14723,30 @@ try{Object.assign(DICT,{'+15 sn: işlemek için ek süre':['+15 s: extra time to
    (bir kez uygulanır; oyuncu sonra Ayarlar → Görünüm'den istediğini seçer ve o seçim kalır) */
 (function(){try{if(!P||!P.set||P.set.gfxDef24)return;const web=document.body.classList.contains('web')||/[?&]web=1/.test(location.search);
  P.set.gfx=web?'h':'l';P.set.gfxAuto=1;P.set.gfxDef24=1;save();applySet()}catch(e){}})();
+
+/* ---------- 24 Kasım: masadaki hazır mesajlar sesli ----------
+   Senin, botların ve online rakiplerin hazır mesajları seslendirilir (Türkçe, İngilizce, İspanyolca; Kürtçede Türkçe ses).
+   Her koltuğun sesi hafif farklı perdede. Ses efektleri kapalıysa ya da hazır mesaj panelindeki hoparlör kapalıysa çalmaz. */
+(function(){
+const QK=['Seri lütfen','Satranç oynuyoruz herhalde','Uyudun mu?','Herkese başarılar','Çok iyi oynadın!','Okey nerede?','Bugün şansım yok','Hadi hadi!','Tebrikler!','Bir dahakine','Taş at artık','Helal olsun','Sabret 😏','Sen de 😁','Sana da!','Hadi bakalım'];
+const IDX={};QK.forEach((k,i)=>IDX[k]=i);IDX['Taş at artık 😤']=10;
+const lg=()=>{const l=(P.set&&P.set.lang)||'tr';return l=='en'||l=='es'?l:'tr'};
+const RATE=[1,.93,1.06,.97];let last=0;const C={};
+function qvPlay(i,seat){try{if(i==null||!P.set.snd||P.set.qv===0)return;const now=performance.now();if(now-last<350)return;last=now;
+ const u='sfx/qv/'+lg()+'/'+i+'.mp3';let a=C[u];if(!a){a=C[u]=new Audio(u);a.preload='auto'}else{try{a.pause();a.currentTime=0}catch(e){}}
+ a.volume=Math.min(1,([0,.5,.8,1][P.set.vol]||.8));try{a.preservesPitch=false;a.mozPreservesPitch=false;a.webkitPreservesPitch=false}catch(e){}a.playbackRate=RATE[seat|0]||1;
+ const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+window.qvPlay=qvPlay;
+// kendi mesajın
+qsay=(o=>function(t){const r=o.apply(this,arguments);qvPlay(IDX[t],0);return r})(qsay);
+// botların / online rakiplerin balonları: yazı hangi hazır mesajsa onun sesi
+const rev=()=>{const m={};for(const k in IDX){m[L_(k)]=IDX[k];m[k]=IDX[k]}return m};let RV=null,RVL='';
+bubble=(o=>function(p,txt){const r=o.apply(this,arguments);try{const l=(P.set&&P.set.lang)||'tr';if(!RV||RVL!=l){RV=rev();RVL=l}const i=RV[txt];if(i!=null&&p)qvPlay(i,p)}catch(e){}return r})(bubble);
+// hazır mesaj paneline hoparlör düğmesi
+qchat=(o=>function(){const r=o.apply(this,arguments);try{const e=document.getElementById('qch');if(e&&e.classList.contains('on')&&!e.querySelector('.qvt')){const on=P.set.qv!==0;e.querySelector('.qe').insertAdjacentHTML('beforeend',`<button class="qvt ${on?'':'off'}" aria-label="${L_('Sesli mesajlar')}" onclick="event.stopPropagation();P.set.qv=P.set.qv===0?1:0;save();this.classList.toggle('off',P.set.qv===0);this.innerHTML=qvIc()">${qvIc()}</button>`)}}catch(e){}return r})(qchat);
+window.qvIc=()=>P.set.qv===0?'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+try{Object.assign(DICT,{'Sesli mesajlar':['Voice messages','Mensajes de voz','Peyamên dengî']})}catch(e){}
+})();
 
 </script>
 <script id="j-kap2">
@@ -14928,6 +14953,63 @@ A('plate_q',['34 hangi ilin plakası?','Which province is plate 34?'],['zzqplaka
 NEW.slice(-2).forEach(e=>{comp(e);KB.push(e);KBI[e.id]=e;(e.q||[]).forEach(q=>{const k=KT(q);if(k&&!KQMAP[k])KQMAP[k]=e.id})});
 // kChip ile seçilen hazır soru doğrudan özel cevaba gitsin (KQMAP'ten önce kExtra çalışır)
 kSpecial=(o=>function(raw){try{const r=kExtra(raw);if(r)return r}catch(e){console.error(e)}return o.apply(this,arguments)})(kSpecial);
+})();
+
+</script>
+<script id="j-webfs">
+/* ---------- 24 Kasım: web sürümü Android'le AYNI sunucuya (Firebase) bağlanır ----------
+   Android'deki FsBridge'in (window.FS) birebir web karşılığı: aynı veri yolları, aynı geri dönüşler (fsCb / fsEv).
+   Google ile giriş web'de açılır pencereyle yapılır; sonuç Android'deki gibi onAccountLinked(json) ile gelir.
+   Yalnız web sürümünde (oyun.html?web=1) ve WEBFB ayarı doluyken çalışır; Android uygulamasını etkilemez. */
+(function(){
+const WEBFB=null; // ← Firebase Console → Proje ayarları → Web uygulaması yapılandırması buraya yazılacak
+const isWeb=document.body.classList.contains('web')||/[?&]web=1/.test(location.search);
+if(!isWeb||!WEBFB||window.FS)return;
+const V='10.14.1',U=n=>`https://www.gstatic.com/firebasejs/${V}/firebase-${n}.js`;
+let A=null,F=null,auth=null,db=null,user=null,ready=null;const subs={};
+function boot(){if(ready)return ready;ready=(async()=>{const app=await import(U('app'));A=await import(U('auth'));F=await import(U('firestore'));
+ const ap=app.initializeApp(WEBFB);auth=A.getAuth(ap);db=F.initializeFirestore(ap,{localCache:F.persistentLocalCache?F.persistentLocalCache():undefined});
+ try{await A.setPersistence(auth,A.browserLocalPersistence)}catch(e){}
+ await new Promise(r=>{const off=A.onAuthStateChanged(auth,u=>{user=u;off();r()})});
+ A.onAuthStateChanged(auth,u=>{user=u});
+ try{await A.getRedirectResult(auth).then(r=>{if(r&&r.user)linked(r.user)})}catch(e){}
+})();return ready}
+const cb=(id,ok,d)=>{try{window.fsCb(id,ok,d)}catch(e){}};
+const ev=(lid,d,er)=>{try{window.fsEv(lid,d,er)}catch(e){}};
+const conv=v=>{if(v==null)return v;if(v&&typeof v.toMillis=='function')return v.toMillis();if(Array.isArray(v))return v.map(conv);if(typeof v=='object'){const o={};for(const k in v)o[k]=conv(v[k]);return o}return v};
+const doc1=d=>d&&d.exists()?Object.assign(conv(d.data()),{_id:d.id}):null;
+const list=s=>s.docs.filter(d=>d.exists()).map(d=>Object.assign(conv(d.data()),{_id:d.id}));
+function qry(coll,where,order,limit){const c=[];let w=[];try{w=where?JSON.parse(where):[]}catch(e){}
+ for(const x of w){const[f,op,v]=x;if(['==','array-contains','in','>','<'].includes(op))c.push(F.where(f,op,op=='in'&&!Array.isArray(v)?[v]:v))}
+ if(order){const d=order[0]=='-';c.push(F.orderBy(d?order.slice(1):order,d?'desc':'asc'))}
+ if(limit>0)c.push(F.limit(limit));return F.query(F.collection(db,coll),...c)}
+const run=(id,fn)=>{boot().then(fn).catch(e=>cb(id,false,String(e&&e.message||e)))};
+window.FS={
+ uid:()=>user?user.uid:'',email:()=>user&&user.email||'',proj:()=>WEBFB.projectId||'',
+ photo:()=>user?(user.photoURL||((user.providerData||[]).find(p=>p.photoURL)||{}).photoURL||''):'',
+ deleteAuth:id=>run(id,async()=>{if(!user)return cb(id,true,null);try{await A.deleteUser(user);cb(id,true,null)}catch(e){cb(id,false,e&&e.code=='auth/requires-recent-login'?'recent':String(e.message))}}),
+ share:t=>{try{if(navigator.share)navigator.share({text:t}).catch(()=>{});else navigator.clipboard.writeText(t)}catch(e){}},
+ openUrl:u=>{if(/^https:\/\//.test(u))try{window.open(u,'_blank','noopener')}catch(e){}},
+ set:(id,p,j,m)=>run(id,async()=>{const o=JSON.parse(j);await F.setDoc(F.doc(db,p),o,m?{merge:true}:{});cb(id,true,null)}),
+ get:(id,p)=>run(id,async()=>cb(id,true,doc1(await F.getDoc(F.doc(db,p))))),
+ del:(id,p)=>run(id,async()=>{await F.deleteDoc(F.doc(db,p));cb(id,true,null)}),
+ query:(id,c,w,o,l)=>run(id,async()=>cb(id,true,list(await F.getDocs(qry(c,w,o,l))))),
+ count:(id,c,w)=>run(id,async()=>{const s=await F.getCountFromServer(qry(c,w,'',0));cb(id,true,s.data().count)}),
+ listenDoc:(lid,p)=>{FS.unlisten(lid);boot().then(()=>{subs[lid]=F.onSnapshot(F.doc(db,p),s=>ev(lid,doc1(s)),e=>ev(lid,null,String(e.message)))}).catch(e=>ev(lid,null,String(e)))},
+ listenQuery:(lid,c,w,o,l)=>{FS.unlisten(lid);boot().then(()=>{subs[lid]=F.onSnapshot(qry(c,w,o,l),s=>ev(lid,list(s)),e=>ev(lid,[],String(e.message)))}).catch(e=>ev(lid,[],String(e)))},
+ unlisten:lid=>{const u=subs[lid];if(u){try{u()}catch(e){}delete subs[lid]}}
+};
+function linked(u){try{window.onAccountLinked(JSON.stringify({uid:u.uid,email:u.email||'',name:u.displayName||'',photo:u.photoURL||''}))}catch(e){}}
+// Google ile giriş / çıkış (Android'deki Android.googleSignIn / googleSignOut yerine)
+window.webSignIn=async function(){try{await boot();const pr=new A.GoogleAuthProvider();pr.setCustomParameters({prompt:'select_account'});
+ try{const r=await A.signInWithPopup(auth,pr);linked(r.user)}
+ catch(e){if(/popup-blocked|operation-not-supported|web-storage/.test(e&&e.code||''))await A.signInWithRedirect(auth,pr);else if(!/popup-closed|cancelled-popup/.test(e&&e.code||''))window.onAccountLinked(JSON.stringify({error:String(e.code||e.message)}))}}
+ catch(e){try{window.onAccountLinked(JSON.stringify({error:String(e)}))}catch(x){}}};
+window.webSignOut=()=>{boot().then(()=>A.signOut(auth)).catch(()=>{})};
+try{linkAcc=(o=>function(){if(window.webSignIn)return webSignIn();return o.apply(this,arguments)})(linkAcc)}catch(e){}
+try{unlinkAcc=(o=>function(){try{webSignOut()}catch(e){}return o.apply(this,arguments)})(unlinkAcc)}catch(e){}
+// oturum açıksa (daha önce bağlanmışsa) online'ı başlat
+boot().then(()=>{if(user&&P.acc&&P.acc.uid===user.uid){try{onStart();onPublish(1)}catch(e){}}else if(user&&!P.acc)linked(user)}).catch(()=>{});
 })();
 
 </script>

@@ -13427,8 +13427,10 @@ function radWhy(){try{if(!Ads.diag)return'';const d=JSON.parse(Ads.diag()||'{}')
  if(d.test)return' · TEST';
  if(!d.started)return' · '+L_('izin/başlatma bekleniyor');
  if(d.loading)return' · '+L_('yükleniyor');
- const c=String(d.err||'').split(':')[0];
- return c===''?'':' · '+({'3':L_('şu an reklam yok (yeni birim)'),'9':L_('şu an reklam yok'),'2':L_('internet hatası'),'1':L_('geçersiz istek'),'0':L_('Google iç hatası')}[c]||L_('kod')+' '+c)}catch(e){return''}}
+ const er=String(d.err||''),c=er.split(':')[0],m=er.slice(c.length+1).split(' <')[0].trim().slice(0,60);
+ if(c==='')return'';
+ // teşhis için Google'ın kendi mesajı da gösterilir (ör. "Account not approved yet", "Publisher data not found", "No fill")
+ return' · '+({'3':L_('şu an reklam yok'),'9':L_('şu an reklam yok'),'2':L_('internet hatası'),'1':L_('geçersiz istek'),'0':L_('Google iç hatası'),'consent':L_('izin penceresi')}[c]||L_('kod')+' '+c)+(c!=='consent'?' ['+c+']':'')+(m?' — '+m:'')}catch(e){return''}}
 window.radWhy=radWhy;
 try{if(!DICT['Reklam açılıyor, lütfen bekle'])DICT['Reklam açılıyor, lütfen bekle']=['Ad is opening, please wait','El anuncio se está abriendo, espera','Reklam vedibe, ji kerema xwe bisekine']}catch(e){}
 function radShow(k,cb){if(RQ&&Date.now()-(+String(RQ.tag).split('_').pop()||0)>40000){RQ=null;radAudio(1)}if(!radOn())return;if(RQ)return toast(L_('Reklam açılıyor, lütfen bekle')+radWhy());if(!radLeft(k))return toast(L_('Bugünkü reklam hakkın bitti, yarın yenilenir'));
@@ -13494,7 +13496,7 @@ Object.assign(DICT,{'Ücretsiz coin':['Free coins','Monedas gratis','Coinên bel
  'Bugünkü reklam hakkın bitti, yarın yenilenir':['No more ad rewards today; they reset tomorrow','No quedan premios por anuncio hoy; mañana se renuevan','Îro mafê reklamê nema; sibê nû dibe'],
  'Reklam gizlilik ayarları':['Ad privacy settings','Privacidad de anuncios','Mîhengên nepeniya reklamê'],'Reklam izinlerini değiştir':['Change your ad consent','Cambia tu consentimiento de anuncios','Destûra reklamê biguherîne']});
 }catch(e){console.error('rad',e)}})();
-Object.assign(DICT,{'izin/başlatma bekleniyor':['waiting for consent/start','esperando consentimiento','li benda destûrê'],'yükleniyor':['loading','cargando','tê barkirin'],'şu an reklam yok (yeni birim)':['no ads yet (new unit)','aún no hay anuncios (unidad nueva)','hîn reklam tune (yekîneya nû)'],'şu an reklam yok':['no ads right now','no hay anuncios ahora','niha reklam tune'],'internet hatası':['network error','error de red','şaşiya înternetê'],'geçersiz istek':['invalid request','solicitud no válida','daxwaza nederbasdar'],'Google iç hatası':['Google internal error','error interno de Google','şaşiya hundirîn a Google'],'kod':['code','código','kod']});
+Object.assign(DICT,{'izin/başlatma bekleniyor':['waiting for consent/start','esperando consentimiento','li benda destûrê'],'yükleniyor':['loading','cargando','tê barkirin'],'şu an reklam yok (yeni birim)':['no ads yet (new unit)','aún no hay anuncios (unidad nueva)','hîn reklam tune (yekîneya nû)'],'şu an reklam yok':['no ads right now','no hay anuncios ahora','niha reklam tune'],'internet hatası':['network error','error de red','şaşiya înternetê'],'geçersiz istek':['invalid request','solicitud no válida','daxwaza nederbasdar'],'Google iç hatası':['Google internal error','error interno de Google','şaşiya hundirîn a Google'],'kod':['code','código','kod'],'izin penceresi':['consent form','formulario de consentimiento','forma destûrê']});
 
 </script>
 <style id="m-shp">

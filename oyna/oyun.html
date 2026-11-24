@@ -14533,6 +14533,10 @@ body:has(#modal.on) .ovl.on .wau2,body:has(#modal.on) .ovl.on .wau2>span{animati
 #mbub.lemo .lem{display:block;width:16vh;height:16vh;max-width:90px;max-height:90px;filter:drop-shadow(0 .8vh 1.2vh rgba(0,0,0,.35))}
 .bub.lemo{background:none;box-shadow:none;padding:0;animation-duration:2.9s!important}.bub.lemo::after{display:none}
 .bub.lemo .lem{display:block;width:13vh;height:13vh;max-width:72px;max-height:72px;filter:drop-shadow(0 .8vh 1.2vh rgba(0,0,0,.35))}
+/* 25 Kasım: 16 hazır mesaj kaydırmasız sığsın: 3 sütun, uzun söz tam satır */
+#qch .qp{grid-template-columns:1fr 1.3fr 1fr!important;grid-auto-flow:row dense;max-height:none}
+#qch .qp button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:clamp(8px,2.35vh,12px);padding:.9vh 1vh;letter-spacing:-.01em}
+#qch .qp button.qlong{grid-column:1/-1}
 
 </style>
 <script id="j-r22">
@@ -14736,12 +14740,16 @@ try{Object.assign(DICT,{'+15 sn: işlemek için ek süre':['+15 s: extra time to
    Senin, botların ve online rakiplerin hazır mesajları seslendirilir (Türkçe, İngilizce, İspanyolca; Kürtçede Türkçe ses).
    Her koltuğun sesi hafif farklı perdede. Ses efektleri kapalıysa ya da hazır mesaj panelindeki hoparlör kapalıysa çalmaz. */
 (function(){
-const QK=['Seri lütfen','Satranç oynuyoruz herhalde','Uyudun mu?','Herkese başarılar','Çok iyi oynadın!','Okey nerede?','Bugün şansım yok','Hadi hadi!','Tebrikler!','Bir dahakine','Taş at artık','Helal olsun','Sabret 😏','Sen de 😁','Sana da!','Hadi bakalım'];
+const QK=['Seri lütfen','Satranç oynuyoruz herhalde','Uyudun mu?','Herkese başarılar','Çok iyi oynadın!','Okey nerede?','Bugün şansım yok','Hadi hadi!','Tebrikler!','Bir dahakine','Taş at artık','Helal olsun','Sabret 😏','Sen de 😁','Sana da!','Hadi bakalım','İyi oyunlar!','Benim okeyi beklediğim gibi keşke sen de beni bekleseydin','Çawreşamın','Az kalmıştı ya!'];
+// 25 Kasım: yeni hazır mesajlar (yalnız Türkçe ses; diğer dillerde de Türkçe ses çalar)
+try{['İyi oyunlar!','Az kalmıştı ya!','Benim okeyi beklediğim gibi keşke sen de beni bekleseydin','Çawreşamın'].forEach(x=>{if(!QPH.includes(x))QPH.push(x)});
+ Object.assign(DICT,{'İyi oyunlar!':['Have a good game!','¡Buen juego!','Lîstikên baş!'],'Az kalmıştı ya!':['So close!','¡Casi!','Hindik mabû!'],
+ 'Benim okeyi beklediğim gibi keşke sen de beni bekleseydin':['I wish you waited for me the way I wait for the okey','Ojalá me esperaras como yo espero el okey','Xwezî te jî wek ku ez li benda okey im li benda min bimaya'],'Çawreşamın':['Çawreşamın','Çawreşamın','Çawreşamın']})}catch(e){}
 const IDX={};QK.forEach((k,i)=>IDX[k]=i);IDX['Taş at artık 😤']=10;
 const lg=()=>{const l=(P.set&&P.set.lang)||'tr';return l=='en'||l=='es'?l:'tr'};
 const RATE=[1,.93,1.06,.97];let last=0;const C={};
 function qvPlay(i,seat){try{if(i==null||!P.set.snd||P.set.qv===0)return;const now=performance.now();if(now-last<350)return;last=now;
- const u='sfx/qv/'+lg()+'/'+i+'.mp3';let a=C[u];if(!a){a=C[u]=new Audio(u);a.preload='auto'}else{try{a.pause();a.currentTime=0}catch(e){}}
+ const u='sfx/qv/'+(i>=16?'tr':lg())+'/'+i+'.mp3';let a=C[u];if(!a){a=C[u]=new Audio(u);a.preload='auto'}else{try{a.pause();a.currentTime=0}catch(e){}}
  a.volume=Math.min(1,([0,.5,.8,1][P.set.vol]||.8));try{a.preservesPitch=false;a.mozPreservesPitch=false;a.webkitPreservesPitch=false}catch(e){}a.playbackRate=RATE[seat|0]||1;
  const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 window.qvPlay=qvPlay;
@@ -14773,7 +14781,7 @@ const isQE=t=>QE.includes(t);
 // panel: yeni emoji listesi, hareketli düğmeler
 qchat=(o=>function(){const was=document.getElementById('qch');const open=was&&was.classList.contains('on');const r=o.apply(this,arguments);
  try{const e=document.getElementById('qch');if(!e||!e.classList.contains('on')||open)return r;const qe=e.querySelector('.qe');const spk=qe.querySelector('.qvt');
-  qe.innerHTML=QE.map((x,i)=>`<button class="qle" data-e="${x}" onclick="qsay('${x}')" aria-label="${x}"><i></i></button>`).join('');if(spk)qe.appendChild(spk);
+  qe.innerHTML=QE.map((x,i)=>`<button class="qle" data-e="${x}" onclick="qsay('${x}')" aria-label="${x}"><i></i></button>`).join('');if(spk)qe.appendChild(spk);e.querySelectorAll('.qp button').forEach(b=>{if(b.textContent.length>32)b.classList.add('qlong')});
   const lo=document.body.classList.contains('lo');qe.querySelectorAll('.qle').forEach(b=>play(b.querySelector('i'),b.dataset.e,!lo,lo).then(ok=>{if(!ok)b.querySelector('i').textContent=b.dataset.e}))}catch(x){}return r})(qchat);
 // panel kapanınca animasyonları bırak
 setInterval(()=>{const e=document.getElementById('qch');if(e&&!e.classList.contains('on'))e.querySelectorAll('.qle i').forEach(i=>{if(i._a){try{i._a.destroy()}catch(x){}i._a=null}})},1500);

@@ -14718,6 +14718,11 @@ try{ckRing=(o=>function(t,l){return o.call(this,Math.max(t,l),l)})(ckRing)}catch
 try{Object.assign(DICT,{'+15 sn: işlemek için ek süre':['+15 s: extra time to lay off tiles','+15 s: tiempo extra para colocar fichas','+15 çirke: dema zêde ji bo xebitandina keviran']})}catch(e){}
 })();
 
+/* ---------- 24 Kasım: varsayılan grafik: Android uygulamasında Performans, web'de Yüksek ----------
+   (bir kez uygulanır; oyuncu sonra Ayarlar → Görünüm'den istediğini seçer ve o seçim kalır) */
+(function(){try{if(!P||!P.set||P.set.gfxDef24)return;const web=document.body.classList.contains('web')||/[?&]web=1/.test(location.search);
+ P.set.gfx=web?'h':'l';P.set.gfxAuto=1;P.set.gfxDef24=1;save();applySet()}catch(e){}})();
+
 </script>
 <script id="j-kap2">
 /* ===== Kaptan Digor 2: günlük sohbet, tavsiye, temel bilgi ve hesaplar (internetsiz) =====

@@ -12471,8 +12471,8 @@ window.penRules=function(){modal(`<h3>${T('Penaltı nasıl oynanır?')}</h3><ul 
  <li>${T('Rakip takımla sırayla 5’er penaltı atarsınız. Çok gol atan kazanır; eşitlikte seri penaltıya geçilir.')}</li>
  <li>${T('<b>Şut atarken:</b> önce kalede nişan alacağın yere dokun, sonra güç çubuğu <b>yeşil</b> bölgedeyken ekrana dokun.')}</li>
  <li>${T('Çok güçlü vurursan top havalanır, zayıf vurursan kaleci kolay kurtarır. Köşeler zor kurtarılır ama dışarı gitme riski vardır.')}</li>
- <li>${T('<b>Kalecilik yaparken:</b> rakip topa vurmadan önce kalede atlayacağın yere dokun.')}</li>
- <li>${T('<b>Lig:</b> 7 takım, her takım birbiriyle 2 maç yapar. Galibiyet 3 puan. Sezonu lider bitirirsen 1.000 coin + 1.000 salon fişi kazanırsın.')}</li><li>${T('Kazanırsan +30 XP, kaybedersen +10 XP.')}</li></ul>
+ <li>${T('<b>Kalecilik yaparken:</b> rakip topa vurmadan önce kalede atlayacağın yere dokun. Bir yana atlarsan ortası boş kalır.')}</li>
+ <li>${T('<b>Lig:</b> 7 takım, her takım birbiriyle 2 maç yapar. Galibiyet 3 puan. Sezonu lider bitirirsen 1.000 coin + 1.000 salon fişi kazanırsın.')}</li><li>${T('Maç önü ekranında fikstürü ve sıradaki maçı görürsün. “Takımını kur” ile takım adını, formanı ve logonu seçersin; forma sezon bitince değiştirilebilir.')}</li><li>${T('Kazanırsan +30 XP, kaybedersen +10 XP.')}</li></ul>
  <div class="mrow"><button class="btn g" onclick="closeM()">${T('Anladım')}</button></div>`,'dkm')};
 const DP={'Lig':['League','Liga','Lîg'],'Lig tablosu':['Table','Clasificación','Tabloya lîgê'],'Sezon':['Season','Temporada','Demsal'],'Sıradaki maç':['Next match','Próximo partido','Maça din'],
  'İç saha':['Home','Local','Mal'],'Deplasman':['Away','Visitante','Derve'],'Sonraki maç':['Next match','Siguiente partido','Maça din'],'ŞAMPİYON!':['CHAMPIONS!','¡CAMPEONES!','ŞAMPIYON!'],'Sezon bitti':['Season over','Temporada terminada','Demsal qediya'],
@@ -14161,6 +14161,11 @@ body.lo .gl-hz>i,body.lo .gl-fan>i>b{animation:none}
 .s2st .s2sr b{font-size:clamp(12px,4vh,21px)!important}
 .s2st .s2bx h4{font-size:clamp(10px,2.8vh,15px)}
 
+/* 24 Kasım: Kurallar alt sekmeleri */
+.s2ru .s2rt{display:flex;gap:1vh;flex:none}
+.s2ru .s2rt button{flex:1;height:6.4vh;min-height:24px;border:0;border-radius:99px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#dfe8ff;font-family:G,P;font-weight:900;font-size:clamp(8px,2.4vh,12px);letter-spacing:.03em}
+.s2ru .s2rt button.on{background:linear-gradient(90deg,#ffd666,#ffa62b);color:#5a2a00;box-shadow:none}
+
 </style>
 <script id="j-r21">
 /* ===== 21 Kasım ===== */
@@ -14411,7 +14416,44 @@ function stats(){const s=salP(),p=(window.pstStats&&pstStats())||{},q=(window.pe
   <div class="s2bx"><h4><i class="s2mi at"></i>${L_('AT YARIŞI')}</h4><div class="s2sr">${c(s.r|0,'Yarış')}${c(s.w|0,'Kazandın')}${c((s.big|0)>=1e4&&(s.big|0)<1e6?Math.round((s.big|0)/1000)+'K':fmtC(s.big|0),'En büyük')}</div></div>
   <div class="s2bx"><h4><i class="s2mi ps"></i>${L_('PİŞTİ')}</h4><div class="s2sr">${c(p.g|0,'Oyun')}${c(p.w|0,'Galibiyet')}${c(p.pis|0,'pişti')}</div></div>
   <div class="s2bx"><h4><i class="s2mi pn"></i>${L_('PENALTI')}</h4><div class="s2sr">${c(q.g|0,'Maç')}${c(q.w|0,'Galibiyet')}${c(q.gol|0,'Gol')}</div></div></div>`}
-function rules(){return`<div class="s2ru">${salTermsHTML()}<div class="s2rf"><button class="s2pz" onclick="salPause()">☕ ${L_('Salona ara ver')}</button></div></div>`}
+// 24 Kasım: Kurallar sekmesi oyunlara ayrıldı (Salon · At Yarışı · Pişti · Penaltı); pencere sabit, kaydırma yok
+let RUT='s';window.s2Ru=k=>{RUT=k;try{snd('click')}catch(e){}salRender()};
+const RLI=a=>`<ol class="sl-tr">${a.map(x=>`<li>${L_(x)}</li>`).join('')}</ol>`;
+const RU={
+ h:()=>RLI(['Her yarıştan önce 15 saniyelik tahmin süresi vardır: fiş miktarını seç, atın kartına dokun.',
+  'Atlar: 1 Kasırga, 2 Sultan, 3 Çawreş, 4 Şimşek, 5 Fırtına, 6 Digor. Kartta oran, kazanma şansı ve son 10 yarıştaki galibiyetler yazar; en yüksek şanslı at FAVORİ’dir.',
+  'Bildiğin atın oranı kadar fiş kazanırsın (ör. 1.000 fiş × x4,2 = 4.200).',
+  'Sonuç ekrandaki şanslara göre rastgele belirlenir. Bir yarışa en fazla 50.000 fiş yatırılır.',
+  'At Yarışı Salon Fişi ile oynanır; fiş satın alınamaz, coin’e ya da paraya çevrilemez.']),
+ p:()=>RLI(['Bilgisayara karşı, 52 kartla oynanır. Fiş gerekmez.',
+  'Herkese 4 kart dağıtılır, ortaya 4 kart açılır. Sırayla birer kart atılır.',
+  'Attığın kart yerdeki en üst kartla aynıysa ya da <b>Vale</b> ise yerdeki bütün kartları alırsın.',
+  'Yerde tek kart varken aynısını atarsan <b>PİŞTİ</b>: +10. Tek Vale’nin üstüne Vale atarsan +20.',
+  'Puanlar: her As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kartı alan +3.',
+  'Deste bitince yerde kalan kartlar son alan oyuncuya gider. Çok puanı olan kazanır.',
+  'Kazanırsan +30 XP, berabere +15 XP, kaybedersen +10 XP.']),
+ n:()=>RLI(['Bilgisayara karşı lig maçları oynanır. Fiş gerekmez.',
+  'Rakip takımla sırayla 5’er penaltı atarsınız. Çok gol atan kazanır; eşitlikte seri penaltıya geçilir.',
+  '<b>Şut atarken:</b> önce kalede nişan alacağın yere dokun, sonra güç çubuğu <b>yeşil</b> bölgedeyken ekrana dokun.',
+  '<b>Kalecilik yaparken:</b> rakip topa vurmadan önce kalede atlayacağın yere dokun. Bir yana atlarsan ortası boş kalır.',
+  '<b>Lig:</b> 7 takım, her takım birbiriyle 2 maç yapar. Galibiyet 3 puan. Sezonu lider bitirirsen 1.000 coin + 1.000 salon fişi kazanırsın.',
+  'Maç önü ekranında fikstürü ve sıradaki maçı görürsün. “Takımını kur” ile takım adını, formanı ve logonu seçersin; forma sezon bitince değiştirilebilir.',
+  'Kazanırsan +30 XP, kaybedersen +10 XP.'])};
+function rules(){const tb=[['s','Salon'],['h','AT YARIŞI'],['p','PİŞTİ'],['n','PENALTI']];
+ return`<div class="s2ru"><div class="s2rt">${tb.map(t=>`<button class="${RUT==t[0]?'on':''}" onclick="s2Ru('${t[0]}')">${L_(t[1])}</button>`).join('')}</div>
+ ${RUT=='s'?salTermsHTML():RU[RUT]()}<div class="s2rf"><button class="s2pz" onclick="salPause()">☕ ${L_('Salona ara ver')}</button></div></div>`}
+try{Object.assign(DICT,{
+ 'Salon':['Lounge','Salón','Salon'],
+ 'Her yarıştan önce 15 saniyelik tahmin süresi vardır: fiş miktarını seç, atın kartına dokun.':['Before each race you have 15 seconds to pick: choose a chip amount and tap a horse card.','Antes de cada carrera tienes 15 segundos: elige la cantidad de fichas y toca la carta de un caballo.','Berî her pêşbaziyê 15 çirke hene: mîqdara fîşan hilbijêre û li karta hespekî bide.'],
+ 'Atlar: 1 Kasırga, 2 Sultan, 3 Çawreş, 4 Şimşek, 5 Fırtına, 6 Digor. Kartta oran, kazanma şansı ve son 10 yarıştaki galibiyetler yazar; en yüksek şanslı at FAVORİ’dir.':['Horses: 1 Kasırga, 2 Sultan, 3 Çawreş, 4 Şimşek, 5 Fırtına, 6 Digor. Cards show odds, win chance and wins in the last 10 races; the highest chance is the FAVOURITE.','Caballos: 1 Kasırga, 2 Sultan, 3 Çawreş, 4 Şimşek, 5 Fırtına, 6 Digor. Las cartas muestran cuota, probabilidad y victorias en las últimas 10 carreras; el más probable es el FAVORITO.','Hesp: 1 Kasırga, 2 Sultan, 3 Çawreş, 4 Şimşek, 5 Fırtına, 6 Digor. Li ser kartan rêje, şans û serkeftinên 10 pêşbaziyên dawî hene; yê herî bi şans FAVORÎ ye.'],
+ 'Bildiğin atın oranı kadar fiş kazanırsın (ör. 1.000 fiş × x4,2 = 4.200).':['A correct pick pays its odds (e.g. 1,000 chips × x4.2 = 4,200).','Si aciertas cobras según la cuota (p. ej. 1.000 fichas × x4,2 = 4.200).','Heke rast bibînî li gorî rêjeyê qezenc dikî (mînak 1.000 fîş × x4,2 = 4.200).'],
+ 'Sonuç ekrandaki şanslara göre rastgele belirlenir. Bir yarışa en fazla 50.000 fiş yatırılır.':['The result is random, based on the chances shown. Max 50,000 chips per race.','El resultado es aleatorio según las probabilidades mostradas. Máx. 50.000 fichas por carrera.','Encam li gorî şansên li ser ekranê bi tesadufî ye. Herî zêde 50.000 fîş di pêşbaziyekê de.'],
+ 'At Yarışı Salon Fişi ile oynanır; fiş satın alınamaz, coin’e ya da paraya çevrilemez.':['Horse racing uses Lounge Chips; chips can’t be bought or turned into coins or money.','La carrera usa Fichas del Salón; no se compran ni se cambian por monedas o dinero.','Pêşbaziya hespan bi Fîşên Salonê tê lîstin; fîş nayên kirîn û nabin coin an pere.'],
+ 'Bilgisayara karşı, 52 kartla oynanır. Fiş gerekmez.':['Played against the computer with 52 cards. No chips needed.','Se juega contra el ordenador con 52 cartas. No necesitas fichas.','Li dijî komputerê bi 52 kartan tê lîstin. Fîş ne hewce ye.'],
+ 'Kazanırsan +30 XP, berabere +15 XP, kaybedersen +10 XP.':['Win +30 XP, draw +15 XP, loss +10 XP.','Victoria +30 XP, empate +15 XP, derrota +10 XP.','Serkeftin +30 XP, wekhev +15 XP, têkçûn +10 XP.'],
+ 'Bilgisayara karşı lig maçları oynanır. Fiş gerekmez.':['League matches against the computer. No chips needed.','Partidos de liga contra el ordenador. No necesitas fichas.','Maçên lîgê li dijî komputerê. Fîş ne hewce ye.'],
+ '<b>Kalecilik yaparken:</b> rakip topa vurmadan önce kalede atlayacağın yere dokun. Bir yana atlarsan ortası boş kalır.':['<b>Keeping:</b> before the rival kicks, tap where you want to dive. If you dive to a side, the middle is left open.','<b>De portero:</b> antes del disparo, toca hacia dónde saltar. Si saltas a un lado, el centro queda libre.','<b>Dema dergevaniyê:</b> berî ku hevrik lê bixe, li cihê ku tu yê lê biavêjî bide. Heke tu biavêjî aliyekî, navîn vala dimîne.'],
+ 'Maç önü ekranında fikstürü ve sıradaki maçı görürsün. “Takımını kur” ile takım adını, formanı ve logonu seçersin; forma sezon bitince değiştirilebilir.':['The pre-match screen shows the fixtures and your next match. Use “Build your team” to choose your team name, kit and badge; the kit can be changed when the season ends.','La pantalla previa muestra el calendario y tu próximo partido. Con “Arma tu equipo” eliges nombre, equipación y escudo; la equipación se cambia al terminar la temporada.','Ekrana berî maçê bername û maça din nîşan dide. Bi “Tîma xwe ava bike” nav, cil û nîşana tîmê hilbijêre; cil di dawiya demsalê de tê guhertin.']})}catch(e){}
 const NOTE=()=>`<p class="s2note">${L_('Salon Fişi sanaldır: satın alınamaz, coin’e ya da paraya çevrilemez. Gerçek para kazandırmaz · 18+')}</p>`;
 let S2C=null;
 // mağaza içeriği (#slC) salon açıkken sağ panele taşınır; salon dışından açılınca kendi penceresine geri döner
@@ -14628,6 +14670,31 @@ renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='ekr'
 try{Object.assign(DICT,{'FPS göstergesi':['FPS meter','Medidor de FPS','Pîvana FPS'],'Ekranın köşesinde saniyedeki kare sayısını gösterir':['Shows frames per second in the corner','Muestra los fotogramas por segundo en la esquina','Hejmara wêneyan di çirkeyê de li quncikê nîşan dide']})}catch(e){}
 })();
 
+/* ---------- 24 Kasım: 101 Kuralları'na Oyun Salonu · Pişti ve Penaltı bölümleri (4 dil) ---------- */
+(function(){
+const R2={tr:`<section><h4>Oyun Salonu · Pişti</h4><p>Bilgisayara karşı 52 kartla oynanır, fiş gerekmez. Herkese 4 kart dağıtılır, ortaya 4 kart açılır. Attığın kart yerdeki en üst kartla aynıysa ya da <b>Vale</b> ise yerdekileri alırsın. Yerde tek kart varken aynısını atarsan <b>PİŞTİ</b>: +10, tek Vale’ye Vale +20. Puanlar: her As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kartı alan +3. Deste bitince yerde kalanlar son alana gider. Kazanırsan +30 XP, berabere +15, kaybedersen +10.</p></section><section><h4>Oyun Salonu · Penaltı</h4><p>Bilgisayara karşı lig maçları, fiş gerekmez. Sırayla 5’er penaltı atılır, eşitlikte seri penaltı. <b>Şut:</b> kalede nişan alacağın yere dokun, güç çubuğu yeşildeyken tekrar dokun. <b>Kalecilik:</b> rakip vurmadan önce atlayacağın yere dokun; bir yana atlarsan orta boş kalır. <b>Lig:</b> 7 takım, her takımla 2 maç, galibiyet 3 puan; sezonu lider bitirene 1.000 coin + 1.000 salon fişi. Maç önü ekranında fikstür ve sıradaki maç görünür; “Takımını kur” ile ad, forma ve logo seçilir. Kazanırsan +30 XP, kaybedersen +10.</p></section>`,
+ en:`<section><h4>Game Room · Pişti</h4><p>Played against the computer with 52 cards, no chips needed. Everyone gets 4 cards and 4 go face up in the middle. If your card matches the top card or is a <b>Jack</b>, you take the pile. Matching a lone card is a <b>PİŞTİ</b>: +10, Jack on a lone Jack +20. Points: each Ace and Jack +1, 2 of clubs +2, 10 of diamonds +3, most cards +3. When the deck ends, the last taker gets the rest. Win +30 XP, draw +15, loss +10.</p></section><section><h4>Game Room · Penalty</h4><p>League matches against the computer, no chips needed. 5 penalties each, then sudden death if level. <b>Shooting:</b> tap where to aim, then tap again when the power bar is green. <b>Keeping:</b> tap where to dive before the kick; diving to a side leaves the middle open. <b>League:</b> 7 teams, 2 matches against each, a win is 3 points; finish top for 1,000 coins + 1,000 lounge chips. The pre-match screen shows the fixtures and your next match; “Build your team” sets name, kit and badge. Win +30 XP, loss +10.</p></section>`,
+ es:`<section><h4>Salón · Pişti</h4><p>Contra el ordenador con 52 cartas, sin fichas. Cada uno recibe 4 cartas y se ponen 4 boca arriba en el centro. Si tu carta coincide con la de arriba o es una <b>Sota</b>, te llevas el montón. Igualar una carta sola es <b>PİŞTİ</b>: +10, Sota sobre Sota sola +20. Puntos: cada As y Sota +1, 2 de tréboles +2, 10 de diamantes +3, más cartas +3. Victoria +30 XP, empate +15, derrota +10.</p></section><section><h4>Salón · Penaltis</h4><p>Partidos de liga contra el ordenador, sin fichas. 5 penaltis cada uno y muerte súbita si hay empate. <b>Disparo:</b> toca dónde apuntar y vuelve a tocar con la barra en verde. <b>Portero:</b> toca hacia dónde saltar antes del disparo; si saltas a un lado, el centro queda libre. <b>Liga:</b> 7 equipos, 2 partidos contra cada uno, victoria 3 puntos; el campeón gana 1.000 monedas + 1.000 fichas del salón. Victoria +30 XP, derrota +10.</p></section>`,
+ ku:`<section><h4>Salon · Piştî</h4><p>Li dijî komputerê bi 52 kartan, fîş ne hewce ye. Her kes 4 kartan digire, 4 kart di navîn de vekirî ne. Heke karta te wek ya jorîn be an <b>Vale</b> be, tu hemûyan digirî. Li ser karteke tenê heman kart <b>PİŞTÎ</b> ye: +10, Vale li ser Valeyekê +20. Pûan: her As û Vale +1, 2 sinek +2, 10 karo +3, yê herî zêde kart +3. Serkeftin +30 XP, wekhev +15, têkçûn +10.</p></section><section><h4>Salon · Penaltî</h4><p>Maçên lîgê li dijî komputerê, fîş ne hewce ye. Her alî 5 penaltî, wekhev be penaltiyên rêzê. <b>Şût:</b> li cihê nîşanê bide, dema barê hêzê kesk e dîsa bide. <b>Dergevanî:</b> berî lêdanê li cihê ku tu yê biavêjî bide; heke aliyekî biavêjî navîn vala dimîne. <b>Lîg:</b> 7 tîm, 2 maç bi her yekê re, serkeftin 3 pûan; yê yekem 1.000 coin + 1.000 fîşê salonê distîne. Serkeftin +30 XP, têkçûn +10.</p></section>`};
+const add=(h,x)=>{const i=h.lastIndexOf('</div>');return i<0?h+x:h.slice(0,i)+x+h.slice(i)};
+const mark={tr:'Oyun Salonu · Pişti',en:'Game Room · Pişti',es:'Salón · Pişti',ku:'Salon · Piştî'};
+try{['en','es','ku'].forEach(l=>{if(typeof RULESL=='object'&&RULESL[l]&&!RULESL[l].includes(mark[l]))RULESL[l]=add(RULESL[l],R2[l])});
+ const rb=document.getElementById('rulesBody');if(rb){if(rb.__o!=null&&!rb.__o.includes(mark.tr))rb.__o=add(rb.__o,R2.tr);const lg=(P.set&&P.set.lang)||'tr';if(!rb.innerHTML.includes(mark[lg]||mark.tr))rb.innerHTML=add(rb.innerHTML,R2[lg]||R2.tr)}}catch(e){}
+})();
+
+/* ---------- 24 Kasım: el açınca taş işlemek için ek süre ----------
+   Son saniyelerde el açınca işlenecek taşlar elde kalıp taş otomatik atılıyordu: kendi sıranda elini açtığın an
+   sürenin en az 15 sn'ye çıkar (bilgisayara karşı oyunda; çevrimiçi masada süre sunucuyla eş kalır). */
+(function(){
+const BONUS=15000;
+setInterval(()=>{try{if(!S||S.over||!onTbl())return;
+ if(!S.op||!S.op[0]){S._opB=0;return}
+ if(S._opB||S.turn!==0||(typeof isOnl=='function'&&isOnl()))return;
+ S._opB=1;const now=performance.now();if((S.tEnd||0)-now<BONUS){S.tEnd=now+BONUS;S.warned=0;try{toast(L_('+15 sn: işlemek için ek süre'))}catch(e){}}}catch(e){}},150);
+try{ckRing=(o=>function(t,l){return o.call(this,Math.max(t,l),l)})(ckRing)}catch(e){}
+try{Object.assign(DICT,{'+15 sn: işlemek için ek süre':['+15 s: extra time to lay off tiles','+15 s: tiempo extra para colocar fichas','+15 çirke: dema zêde ji bo xebitandina keviran']})}catch(e){}
+})();
+
 </script>
 <script id="j-kap2">
 /* ===== Kaptan Digor 2: günlük sohbet, tavsiye, temel bilgi ve hesaplar (internetsiz) =====
@@ -14740,7 +14807,7 @@ A('kanka',['—','—'],['kanka','kanki','kardesim','abi','abla','birader','reis
  [['Buyur kanka ⚓ Ne lazım?','Yes buddy ⚓ What do you need?'],['Söyle dostum, dinliyorum 👂','Go on friend, I’m listening 👂']],{f:['help','tip','joke']});
 
 A('pen_how',['Penaltı nasıl oynanır?','How do I play Penalty?'],['penalti nasil','penalti oyunu','penalti ligi','penaltida','takimimi','forma degistir','penalty game','penalty league'],
- [['Penaltı ⚽ (Oyun Salonu → Penaltı)\n• Şut sırası sende: kalede nişan alacağın yere dokun, güç çubuğu yeşildeyken tekrar dokun.\n• Kalecilikte: rakip vurmadan önce atlayacağın yere dokun; dokunmazsan kaleci ortada durur.\n• Sol üstteki forma düğmesinden takım adını, formanı ve logonu seç.\n• Ligde 7 takım var, her takımla 2 maç; galibiyet 3 puan. Sezonu lider bitirene 1.000 coin + 1.000 salon fişi! Lig tablosu kupa düğmesinde.','Penalty ⚽ (Game Lounge → Penalty)\n• Your shot: tap where to aim in the goal, then tap again when the power bar is green.\n• Keeping: tap where to dive before the rival kicks; if you don’t, the keeper stays in the middle.\n• Use the kit button (top left) to set your team name, kit and badge.\n• 7 teams, 2 matches against each; a win is 3 points. Finish top for 1,000 coins + 1,000 lounge chips! The table is under the trophy button.']],{f:['game_idea','pisti_how']});
+ [['Penaltı ⚽ (Oyun Salonu → Penaltı)\n• Şut sırası sende: kalede nişan alacağın yere dokun, güç çubuğu yeşildeyken tekrar dokun.\n• Kalecilikte: rakip vurmadan önce atlayacağın yere dokun; dokunmazsan kaleci ortada durur, bir yana atlarsan orta boş kalır.\n• Maç önü ekranında fikstürü ve sıradaki maçı görürsün; “Takımını kur” ile takım adını, formanı ve logonu seç.\n• Ligde 7 takım var, her takımla 2 maç; galibiyet 3 puan. Sezonu lider bitirene 1.000 coin + 1.000 salon fişi! Lig tablosu maç önü ekranında.','Penalty ⚽ (Game Lounge → Penalty)\n• Your shot: tap where to aim in the goal, then tap again when the power bar is green.\n• Keeping: tap where to dive before the rival kicks; if you don’t, the keeper stays in the middle, and diving to a side leaves the middle open.\n• The pre-match screen shows the fixtures and your next match; use “Build your team” to set your team name, kit and badge.\n• 7 teams, 2 matches against each; a win is 3 points. Finish top for 1,000 coins + 1,000 lounge chips! The table is on the pre-match screen.']],{f:['game_idea','pisti_how']});
 A('pisti_how',['Pişti nasıl oynanır?','How do I play Pişti?'],['pisti nasil','pisti kurallari','pistide','pisti puan','how to play pisti'],
  [['Pişti 🃏 (Oyun Salonu → Pişti)\n• Herkese 4 kart dağıtılır, ortaya 4 kart açılır.\n• Attığın kart yerdeki en üst kartla aynıysa ya da Vale ise yerdekileri alırsın.\n• Yerde tek kart varken aynısını atarsan PİŞTİ: +10; Vale’ye Vale +20.\n• Puanlar: her As ve Vale +1, sinek 2 +2, karo 10 +3, en çok kartı alan +3.','Pişti 🃏 (Game Lounge → Pişti)\n• Everyone gets 4 cards, 4 go face up in the middle.\n• If your card matches the top card or is a Jack, you take the pile.\n• Match a single card on the pile for a PİŞTİ: +10; Jack on a lone Jack +20.\n• Points: each Ace and Jack +1, 2 of clubs +2, 10 of diamonds +3, most cards +3.']],{f:['game_idea','pen_how']});
 // ---------------- temel bilgi ----------------

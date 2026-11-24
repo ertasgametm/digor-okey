@@ -14537,6 +14537,26 @@ body:has(#modal.on) .ovl.on .wau2,body:has(#modal.on) .ovl.on .wau2>span{animati
 #qch .qp{grid-template-columns:1fr 1.3fr 1fr!important;grid-auto-flow:row dense;max-height:none}
 #qch .qp button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:clamp(8px,2.35vh,12px);padding:.9vh 1vh;letter-spacing:-.01em}
 #qch .qp button.qlong{grid-column:1/-1}
+/* Fluent 3D emoji animasyonları */
+#qch .qle img,.lem img{width:100%;height:100%;display:block;pointer-events:none}
+#qch .qle img{animation:emBr 2.6s ease-in-out infinite}
+#qch .qle:nth-child(3n) img{animation-delay:-.9s}#qch .qle:nth-child(3n+1) img{animation-delay:-1.7s}
+#qch .qle:active img{animation:emPop .35s ease}
+@keyframes emBr{50%{transform:scale(1.07)}}
+@keyframes emPop{40%{transform:scale(1.3) translateY(-8%)}}
+.lem img{transform-origin:50% 60%;animation:emIn .45s cubic-bezier(.2,1.6,.4,1) both,var(--ma) 2.4s .45s both}
+.lem img.m-lgh{--ma:emLgh}.lem img.m-shk{--ma:emShk}.lem img.m-bop{--ma:emBop}.lem img.m-tilt{--ma:emTilt}.lem img.m-beat{--ma:emBeat}.lem img.m-wob{--ma:emWob}.lem img.m-brz{--ma:emBrz}.lem img.m-rage{--ma:emRage}.lem img.m-jolt{--ma:emJolt}
+.lem img.m-lgh{animation-name:emIn,emLgh}.lem img.m-shk{animation-name:emIn,emShk}.lem img.m-bop{animation-name:emIn,emBop}.lem img.m-tilt{animation-name:emIn,emTilt}.lem img.m-beat{animation-name:emIn,emBeat}.lem img.m-wob{animation-name:emIn,emWob}.lem img.m-brz{animation-name:emIn,emBrz}.lem img.m-rage{animation-name:emIn,emRage}.lem img.m-jolt{animation-name:emIn,emJolt}
+@keyframes emIn{from{transform:scale(0) rotate(-20deg);opacity:0}}
+@keyframes emLgh{0%,100%{transform:rotate(0)}10%,30%,50%,70%{transform:rotate(-14deg) translateY(-4%)}20%,40%,60%,80%{transform:rotate(14deg)}}
+@keyframes emShk{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5%)}20%,40%,60%,80%{transform:translateX(5%)}}
+@keyframes emBop{0%,100%{transform:translateY(0)}20%,60%{transform:translateY(-14%) scale(1.06)}40%,80%{transform:translateY(0) scale(.97,1.03)}}
+@keyframes emTilt{0%,100%{transform:rotate(0)}25%,65%{transform:rotate(-12deg) scale(1.05)}}
+@keyframes emBeat{0%,100%{transform:scale(1)}12%,36%,60%{transform:scale(1.18)}24%,48%,72%{transform:scale(.96)}}
+@keyframes emWob{0%,100%{transform:rotate(0)}15%{transform:rotate(-18deg) scale(1.08)}35%{transform:rotate(16deg)}55%{transform:rotate(-10deg) scale(1.05)}75%{transform:rotate(8deg)}}
+@keyframes emBrz{0%,100%{transform:scale(1)}50%{transform:scale(1.08) translateY(-4%)}}
+@keyframes emRage{0%,100%{transform:translate(0);filter:none}10%,30%,50%,70%{transform:translate(-4%,2%) scale(1.06);filter:drop-shadow(0 0 1.4vh rgba(255,40,20,.9))}20%,40%,60%,80%{transform:translate(4%,-2%) scale(1.06)}}
+@keyframes emJolt{0%{transform:scale(1)}8%{transform:scale(1.3) translateY(-10%)}20%,40%,60%{transform:translateX(-3%) scale(1.1)}30%,50%{transform:translateX(3%) scale(1.1)}100%{transform:scale(1)}}
 
 </style>
 <script id="j-r22">
@@ -14764,18 +14784,16 @@ window.qvIc=()=>P.set.qv===0?'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8
 try{Object.assign(DICT,{'Sesli mesajlar':['Voice messages','Mensajes de voz','Peyamên dengî']})}catch(e){}
 })();
 
-/* ---------- 24 Kasım: hareketli 3D emojiler (Google Noto Animated Emoji, CC BY 4.0) ----------
+/* ---------- 24 Kasım: hareketli 3D emojiler (25 Kasım: Microsoft Fluent Emoji 3D, MIT) ----------
    Hazır mesaj panelindeki emojiler hareketli; basınca avatarın yanında büyük hareketli emoji oynar.
    Botların ve online rakiplerin emojileri de hareketli. Performans modunda panelde durağan. */
 (function(){
 const QE=['🤣','🥹','😁','😉','🥰','😘','🤪','😌','😎','🤨','😏','😭','🤬','🥺','😤','😱','😬'];
 const CP=e=>[...e].map(c=>c.codePointAt(0).toString(16)).filter(h=>h!='fe0f').join('_');
 const HAS=new Set(QE.map(CP));
-let LP=null;const lot=()=>LP||(LP=new Promise((r,j)=>{if(window.lottie)return r(window.lottie);const s=document.createElement('script');s.src='js/lottie_light.min.js';s.onload=()=>r(window.lottie);s.onerror=j;document.head.appendChild(s)}));
-const JC={};const data=c=>JC[c]||(JC[c]=fetch('img/emo/'+c+'.json').then(r=>r.json()));
-async function play(el,e,loop,still){const c=CP(e);if(!HAS.has(c))return false;try{const[L,d]=await Promise.all([lot(),data(c)]);if(el._a){try{el._a.destroy()}catch(x){}}
- el._a=L.loadAnimation({container:el,renderer:'svg',loop:!!loop,autoplay:!still,animationData:JSON.parse(JSON.stringify(d)),rendererSettings:{preserveAspectRatio:'xMidYMid meet'}});
- if(still)el._a.goToAndStop(Math.floor(el._a.totalFrames*.35),true);return true}catch(x){return false}}
+// 25 Kasım: Microsoft Fluent Emoji 3D (MIT) + duyguya göre CSS animasyonu (Performans modunda da hafif)
+const MOOD={'1f923':'lgh','1f602':'lgh','1f979':'shk','1f601':'bop','1f609':'tilt','1f970':'beat','1f618':'beat','1f92a':'wob','1f60c':'brz','1f60e':'bop','1f928':'tilt','1f60f':'tilt','1f62d':'shk','1f92c':'rage','1f97a':'brz','1f624':'rage','1f631':'jolt','1f62c':'shk'};
+async function play(el,e,loop,still){const c=CP(e);if(!HAS.has(c))return false;el.innerHTML=`<img src="img/emo3d/${c}.webp" alt="" draggable="false" class="m-${MOOD[c]||'bop'}">`;return true}
 window.emoPlay=play;
 const isQE=t=>QE.includes(t);
 // panel: yeni emoji listesi, hareketli düğmeler
@@ -14784,14 +14802,13 @@ qchat=(o=>function(){const was=document.getElementById('qch');const open=was&&wa
   qe.innerHTML=QE.map((x,i)=>`<button class="qle" data-e="${x}" onclick="qsay('${x}')" aria-label="${x}"><i></i></button>`).join('');if(spk)qe.appendChild(spk);e.querySelectorAll('.qp button').forEach(b=>{if(b.textContent.length>32)b.classList.add('qlong')});
   const lo=document.body.classList.contains('lo');qe.querySelectorAll('.qle').forEach(b=>play(b.querySelector('i'),b.dataset.e,!lo,lo).then(ok=>{if(!ok)b.querySelector('i').textContent=b.dataset.e}))}catch(x){}return r})(qchat);
 // panel kapanınca animasyonları bırak
-setInterval(()=>{const e=document.getElementById('qch');if(e&&!e.classList.contains('on'))e.querySelectorAll('.qle i').forEach(i=>{if(i._a){try{i._a.destroy()}catch(x){}i._a=null}})},1500);
 // büyük hareketli emoji: kendi balonun ve diğer koltuklar
 function big(el,t,dur){if(!el||!isQE(t))return;el.classList.add('lemo');el.textContent='';const i=document.createElement('i');i.className='lem';el.appendChild(i);
  play(i,t,true,false).then(ok=>{if(!ok){el.classList.remove('lemo');el.textContent=t}});clearTimeout(el._lt);el._lt=setTimeout(()=>{if(i._a){try{i._a.destroy()}catch(x){}}el.classList.remove('lemo')},dur)}
 qsay=(o=>function(t){const r=o.apply(this,arguments);try{big(document.getElementById('mbub'),t,3300)}catch(x){}return r})(qsay);
 bubble=(o=>function(p,txt){const r=o.apply(this,arguments);try{if(isQE(txt))big(document.getElementById('b'+p),txt,2900)}catch(x){}return r})(bubble);
 })();
-renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='hak'){const h=document.querySelector('#stC .ab2-h>div');if(h&&!h.querySelector('.lic'))h.insertAdjacentHTML('beforeend','<small class="lic">Animated emoji: Google Noto Emoji · CC BY 4.0</small>')}}catch(e){}return r})(renderSettings);
+renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='hak'){const h=document.querySelector('#stC .ab2-h>div');if(h&&!h.querySelector('.lic'))h.insertAdjacentHTML('beforeend','<small class="lic">3D emoji: Microsoft Fluent Emoji · MIT</small>')}}catch(e){}return r})(renderSettings);
 
 </script>
 <script id="j-kap2">

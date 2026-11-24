@@ -14962,7 +14962,7 @@ kSpecial=(o=>function(raw){try{const r=kExtra(raw);if(r)return r}catch(e){consol
    Google ile giriş web'de açılır pencereyle yapılır; sonuç Android'deki gibi onAccountLinked(json) ile gelir.
    Yalnız web sürümünde (oyun.html?web=1) ve WEBFB ayarı doluyken çalışır; Android uygulamasını etkilemez. */
 (function(){
-const WEBFB=null; // ← Firebase Console → Proje ayarları → Web uygulaması yapılandırması buraya yazılacak
+const WEBFB={apiKey:"AIzaSyD5mdIXd-3jV1FVUSaefkSKb7EocnJUSe4",authDomain:"digor-okey-101.firebaseapp.com",projectId:"digor-okey-101",storageBucket:"digor-okey-101.firebasestorage.app",messagingSenderId:"189093659916",appId:"1:189093659916:web:352ab5e50e61d532b97529"};
 const isWeb=document.body.classList.contains('web')||/[?&]web=1/.test(location.search);
 if(!isWeb||!WEBFB||window.FS)return;
 const V='10.14.1',U=n=>`https://www.gstatic.com/firebasejs/${V}/firebase-${n}.js`;

@@ -41,13 +41,23 @@ html,body{margin:0;width:100%;height:100%;background:#0b1a45;overflow:hidden;tou
 // telefonu yan çevirince oyun düz görünür. Dokunmalar tarayıcı tarafından çevrilmiş çerçeveye doğru iletilir.
 const f=document.getElementById('g'),sa=document.getElementById('sa');
 let flip=0;try{flip=+localStorage.getItem('dg_flip')||0}catch(e){}
-function fit(){const W=innerWidth,H=innerHeight,c=getComputedStyle(sa),t=parseFloat(c.paddingTop)||0,r=parseFloat(c.paddingRight)||0,b=parseFloat(c.paddingBottom)||0,l=parseFloat(c.paddingLeft)||0;
+// iPhone (ana ekran) döndürmeden sonra innerWidth/innerHeight bir süre eski/yarım değer verebiliyor:
+// en güvenilir ölçü alınır ve döndürmeden sonra birkaç kez yeniden yerleştirilir.
+function vp(){const vv=window.visualViewport,de=document.documentElement;let W=Math.round(vv?vv.width*(vv.scale||1):0)||de.clientWidth||innerWidth,H=Math.round(vv?vv.height*(vv.scale||1):0)||de.clientHeight||innerHeight;
+ W=Math.max(W,de.clientWidth||0,innerWidth||0);H=Math.max(H,de.clientHeight||0,innerHeight||0);
+ // yatay tutuluyorken yükseklik ekranın kısa kenarından çok küçük kalmışsa (eski değer) kısa kenarı kullan
+ if(navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches)try{const sw=screen.width,sh=screen.height,lo=Math.min(sw,sh),hi=Math.max(sw,sh);if(W>H&&H<lo*.8)H=lo;if(W>H&&W<hi*.8)W=hi}catch(e){}
+ return[W,H]}
+function refit(){fit();[80,250,600,1200].forEach(t=>setTimeout(fit,t))}
+function fit(){const[W,H]=vp(),c=getComputedStyle(sa),t=parseFloat(c.paddingTop)||0,r=parseFloat(c.paddingRight)||0,b=parseFloat(c.paddingBottom)||0,l=parseFloat(c.paddingLeft)||0;
  if(W>=H){f.style.width=(W-l-r)+'px';f.style.height=H+'px';f.style.transform=`translate(${l}px,0px)`}
  else{const cw=H-t-b,ch=W;f.style.width=cw+'px';f.style.height=ch+'px';
   f.style.transform=flip?`translate(0px,${H-b}px) rotate(-90deg)`:`translate(${W}px,${t}px) rotate(90deg)`}}
-addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,120));
-try{screen.orientation&&screen.orientation.addEventListener('change',()=>setTimeout(fit,120))}catch(e){}
-fit();setTimeout(fit,300);
+addEventListener('resize',refit);addEventListener('orientationchange',refit);addEventListener('pageshow',refit);addEventListener('focus',refit);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refit()});
+try{window.visualViewport&&visualViewport.addEventListener('resize',refit)}catch(e){}
+try{screen.orientation&&screen.orientation.addEventListener('change',refit)}catch(e){}
+refit();
 addEventListener('message',e=>{if(e.data&&e.data.dg=='flip'){flip=flip?0:1;try{localStorage.setItem('dg_flip',flip)}catch(x){}fit()}});
 // Android/Chrome: ilk dokunuşta tam ekran + yatay kilit dener (iPhone desteklemez; çevrilmiş çerçeve devreye girer)
 let tried=0;function tryLock(){if(tried)return;tried=1;try{const d=document.documentElement;if(document.fullscreenEnabled&&!document.fullscreenElement&&!navigator.standalone)d.requestFullscreen().then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{})}catch(e){}}

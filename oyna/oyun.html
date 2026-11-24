@@ -13327,7 +13327,8 @@ function ambWater(o,u,v,ev){if(!o.d){if(!o.err)return false;return !AMBX.some(b=
 function ambSpr(){if(AMB.spr)return AMB.spr;const c=document.createElement('canvas');c.width=96;c.height=24;const x=c.getContext('2d');x.translate(48,12);x.scale(4,1);const g=x.createRadialGradient(0,0,0,0,0,12);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.35,'rgba(255,255,255,.55)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.beginPath();x.arc(0,0,12,0,7);x.fill();AMB.spr=c;return c}
 window.AMB=AMB;const SCN={ter:{iw:2576,ih:1158,px:.5,py:.6},opa:{iw:1672,ih:941,px:.5,py:.55}};
 function ambHost(){const ov=[...document.querySelectorAll('.ovl.on')].filter(o=>getComputedStyle(o).display!='none');
- for(let i=ov.length-1;i>=0;i--){const k=ov[i].querySelector(':scope>.sky');if(k)return[k,'ter'];if(ov[i].querySelector('.win,.ps-w,.hr-view,#pnC'))return[null,'']}
+ // 24 Kasım: pencere açıkken arkadaki manzara canlandırılmaz (Android'de Yüksek grafikte pencerenin kaybolup gelmesine yol açıyordu)
+ for(let i=ov.length-1;i>=0;i--){const k=ov[i].querySelector(':scope>.sky');if(k)return[null,''];if(ov[i].querySelector('.win,.ps-w,.hr-view,#pnC'))return[null,'']}
  if($('#modal.on')&&!$('#menu.on'))return[null,''];
  const sc=$('.scr.on');if(!sc)return[null,''];if(sc.id=='menu'){const m=sc.querySelector('.mbg');return[m,'ter']}
  if(sc.id=='setup'){const m=sc.querySelector('.op-bg');return[m,'opa']}const k=sc.querySelector(':scope>.sky');return k?[k,'ter']:[null,'']}
@@ -14512,6 +14513,10 @@ body[data-rack=abanoz] #rkb{background-image:url(img/rk_abanoz.webp?h=308ae5d)}b
 #fpsm.g{color:#7dffa0}#fpsm.y{color:#ffe07a}#fpsm.r{color:#ff8a7a}
 /* 24 Kasım: sürüklenen taş SERİ/ÇİFT düğmelerinin altından geçiyordu (ıstaka katmanı düğmelerin altında kalıyordu) */
 #rack:has(.t.drag) #rkb{z-index:3}
+/* 24 Kasım: Yüksek grafikte pencere zemini katmanları GPU belleğini zorlayıp sol menüyü/zemini kaybettiriyordu:
+   kalıcı katman ipuçları (will-change) kaldırıldı, kuzey ışığı tuvali kapalı */
+.wvx>i,.wvx b,.wau>.wst>b{will-change:auto!important}
+.wau>.wauc{display:none!important}
 
 </style>
 <script id="j-r22">
@@ -14615,7 +14620,8 @@ const AW=128,AH=56,AC=new Float32Array(AW*AH*3);let cv=null,cx=null,img=null,hos
 const STARS=(()=>{const R=(a,b)=>a+Math.random()*(b-a);let o='';for(let i=0;i<9;i++){const d=R(9,16);o+=`<b style="left:${R(4,96).toFixed(1)}%;top:${R(4,46).toFixed(1)}%;--s:${R(.35,.7).toFixed(2)}vh;--d:${d.toFixed(1)}s;--dl:${(-R(0,d)).toFixed(1)}s"></b>`}return o})();
 function ensure(w){if(w.querySelector(':scope>.wau'))return;const d=document.createElement('div');d.className='wau';d.innerHTML=`<i class="wst">${STARS}</i>`;w.insertBefore(d,w.firstChild)}
 function scan(){const L=[...document.querySelectorAll('.ovl.on .win.wv>.wvx,.scr.on .win.wv>.wvx,.scr.on .lb-bg.wv>.wvx')];L.forEach(ensure);
- const lo=document.body.classList.contains('lo')||document.body.classList.contains('noanim')||document.hidden||!!document.querySelector('#pen.on,#pst.on,#hrs.on');
+ // 24 Kasım: Android WebView'da Yüksek grafikte bu her karede yeniden çizilen tuval GPU bellek baskısıyla pencerelerin (sol menü, zemin) arada kaybolup gelmesine yol açıyordu; kapatıldı
+ const lo=true;
  const vis=lo?null:L.filter(w=>{const r=w.getBoundingClientRect();return r.width>40&&r.height>40&&w.offsetParent!==null}).pop()||null;
  if(vis!==host){host=vis;if(cv&&cv.parentNode)cv.remove();if(host){if(!cv){cv=document.createElement('canvas');cv.width=AW;cv.height=AH;cv.className='wauc';cx=cv.getContext('2d');img=cx.createImageData(AW,AH)}host.querySelector(':scope>.wau').appendChild(cv);if(!raf)raf=requestAnimationFrame(fr)}}}
 setInterval(scan,500);

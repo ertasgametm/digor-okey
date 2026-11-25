@@ -14814,12 +14814,11 @@ renderSettings=(o=>function(){const r=o.apply(this,arguments);try{if(STAB=='hak'
    Kadın karakterler ve cinsiyeti Kadın olan oyuncular kadın sesiyle, diğerleri (erkek/belirtmeyen) erkek sesiyle. */
 (function(){
 const FN=new Set(['Ayşe','Zeynep','Elif','Asiye','Gamze','Selin','Derya','Nazlı','Dilan','Berfin']);
-function fem(p){try{if(p==0)return P.gender=='k';const b=M&&M.bots&&M.bots[p];if(!b)return false;if(b.gender)return b.gender=='k';if(typeof b.av=='number'&&AVS[b.av]&&AVS[b.av].fem)return true;return FN.has(String(b.name||'').trim())}catch(e){return false}}
+const FA=new Set([1,2,4,6,7,9]);function fem(p){try{if(p==0)return P.gender=='k';const b=M&&M.bots&&M.bots[p];if(!b)return false;if(b.gender)return b.gender=='k';if(FN.has(String(b.name||'').trim()))return true;if(!b.photo&&typeof b.av=='number')return FA.has(b.av);return false}catch(e){return false}}
 let last=null,sid=null;const C={};
 function say(p,k){try{if(!P.set.snd||P.set.qv===0)return;const u='sfx/qv/a/'+(fem(p)?'f':'m')+'_'+k+'.mp3';let a=C[u];if(!a)a=C[u]=new Audio(u);else{a.pause();a.currentTime=0}
  a.volume=Math.min(1,[0,.5,.8,1][P.set.vol]||.8);try{a.preservesPitch=false}catch(e){}a.playbackRate=[1,.95,1.04,.98][p]||1;const r=a.play();if(r&&r.catch)r.catch(()=>{})}catch(e){}}
-setInterval(()=>{try{if(!S||!S.op){last=null;return}if(S.id!==sid){sid=S.id;last=S.op.slice();return}
- for(let p=0;p<4;p++){const o=last&&last[p]||0,n=S.op[p]||0;if(!o&&n)say(p,n==2?1:0)}last=S.op.slice()}catch(e){}},150);
+try{openFx=(o=>function(p,l){try{if(/AÇTI/.test(String(l)))say(p,/ÇİFT/.test(String(l))?1:0)}catch(e){}return o.apply(this,arguments)})(openFx)}catch(e){}
 })();
 
 </script>
